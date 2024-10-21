@@ -1,12 +1,12 @@
 ---
-title: "Elements of applied statistics -- lab exercises"
+title: "Elements of Applied Statistics -- Lab Exercises"
 subtitle: "Teaching material"
 ---
 
 ## Introduction
 
-This website contains a collection of material for introductory statistics 
-courses with **R**. The aim is to provide insight in fundamental principles and 
+This website contains a collection of lab-exercises for an introductory statistics 
+course with **R**. The aim is to provide insight in fundamental principles and 
 a broad overview and enable students to select and understand particular books 
 and online material to dig in deeper in the diverse and fascinating field of statistics.
 
