@@ -1,5 +1,5 @@
 ---
-title: "Fit nonlinear model to plankton growth data"
+title: "x10-Fit nonlinear model to plankton growth data"
 date: '2024-01-24'
 date-format: "YYYY-MM-DD"
 format:

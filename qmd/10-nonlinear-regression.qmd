@@ -1,5 +1,5 @@
 ---
-title: "Nonlinear Regression"
+title: "10-Nonlinear Regression"
 author: "Thomas Petzoldt"
 date: '2024-01-24'
 date-format: "YYYY-MM-DD"

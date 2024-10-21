@@ -1,0 +1,255 @@
+---
+title: '14-Extreme Value Estimation with Package FAmle'
+date: "2024-10-21"
+format:
+  html:
+    toc: true
+    number-sections: true
+    embed-resources: true
+  pdf:
+    toc: false
+    number-sections: true
+    papersize: a4
+---
+
+## Introduction
+
+Here, it is described how to fit distributions to a given hydrollogical data set. 
+Our intention here is to provide an example how easy and powerful distribution fitting can be done in R. More information can be found in
+Rice(2003), Hogg(2004), Coles (2001) and in the help file of package FAmle (Aucoin, 2001). For the
+given example, a data set from the US Geological Survey (USGS, http://waterdata.usgs.gov/nwis will
+be employed. The dataset consists of annual maximum daily **peakflows** (ft3/s) that were observed at a
+hydrometric station located at River James (Columbia). First the packages and the data set is loaded, then it is tested for potential trends and autocorrelation
+
+```{r echo=FALSE, include=FALSE}
+## load packages silently
+library("FAmle")
+library("FAdist")
+library("MASS")
+library("zoo")
+library("readr")
+library("dplyr")
+library("lubridate")
+```
+
+```{r}
+## load required packages
+library("FAmle")
+library("FAdist")
+library("MASS")
+library("zoo")
+library("readr")
+library("dplyr")
+library("lubridate")
+```
+
+
+```{r}
+#| label: fig-james
+#| fig-cap: "Time series (left) and auto-correlation plot (right) the daily flow (in ft3/s data set. The red smoothed line corresponds to a lowess fit."
+
+## St James River, Columbia
+jamesriver <- read_csv("jamesriver.csv", col_types = c("D", "n"))
+
+flow <- jamesriver$flow
+
+par(mfrow=c(1, 2))
+plot(jamesriver$date, jamesriver$flow, type="b", cex=0.4, pch=19, cex.axis=0.75, xlab="Year", ylab="Flow",
+main="James River")
+lines(lowess(jamesriver), col="red")
+acf(jamesriver$flow, main="")
+
+```
+
+
+## Empirical Quantiles
+
+```{r}
+#| label: fig-james-hist
+#| fig-cap: "Histogram and empirical density of peak discharge."
+hist(flow, probability=TRUE, xlab="flow (ft^3/s)")
+rug(flow)
+lines(density(flow))
+```
+
+If the data series is long enough, one may be tempted to use empirical quantiles, i.e. model and
+parameter free extrapolation from the data. We use this value as a baseline for the comparison with the
+model derived quantiles:
+
+```{r}
+quantile(p=c(0.95, 0.99), flow)
+```
+
+
+
+
+## Lognormal Distribution with 2 Parameters
+
+The Lognormal distribution is often regarded as a plausible model for this type of data. However, other
+distributions such as Weibull, Lognormal with three parameters, and Johnson distributions may provide
+better fitting results. We will try some of them.
+The parameters of the distribution are estimated using maximum likelihood by the mle function con
+tained in package "FAmle", except for the Johnson distribution wich needs a different procedure.
+Parameters of the fitting can be obtained as follows. It is important to pay attention to goodness-of-fit
+parameters (log likelihood and AIC) which provide us information about how good the model explains
+the corresponding data set.
+
+
+
+```{r}
+fitLn2 <- mle(x=flow, dist="lnorm", start=c(0.1, 0.1))
+fitLn2
+```
+
+
+```{r}
+#| label: fig-mle-ln2
+#| fig-cap: "Plot of the mle object corresponding to the fitting James River data using a Lognormal distribution"
+
+## automatic diagnostic plots
+plot(x=fitLn2, ci=TRUE, alpha=0.05)
+
+## which probability has a flow >= 3000
+##  --> two functions to provide the same result:
+
+### standard R function
+plnorm(3000, meanlog=fitLn2$par.hat[1], sdlog=fitLn2$par.hat[2])
+
+### function from the FAmle package
+distr(x=3000, dist="lnorm", param=c(fitLn2$par.hat[1], fitLn2$par.hat[2]), type="p")
+
+## same for quantile (flow >= 95% quantile)
+qlnorm(p=0.95, meanlog=fitLn2$par.hat[1], sdlog=fitLn2$par.hat[2])
+distr(x=0.95, dist="lnorm", param=c(fitLn2$par.hat[1], fitLn2$par.hat[2]), type="q")
+
+## empirical quantile
+quantile(p=0.95, flow)
+```
+
+
+The function mle() provides also some goodness-of-fit statistics. This function creates a special
+kind of object which can be used inside of the standard R functions, e.g., plot(). A function called
+plot.mle may be used to generate a series of four diagnosis plots (@fig-mle-ln2) for the mle object.
+Diagnostic plots for the model fitted to the dataset. The dashed red lines correspond to the lower and
+upper confidence bounds (definded by alpha) of the approximated 95% confidence intervals derived
+using the observed Fisher’s information matrix in conjunction with the so-called delta method.
+
+Once the function is fitted to a distribution, these parameters can be used to calculate different quan-
+tiles. In this way we can find, for example, the value of the flow which has a probability lower than 5%
+or which is the probability of a flooding event of a certain flow.
+
+
+
+
+Now repeat for the 99% quantile
+ 
+...
+
+And extreme floods: 1% quantile
+
+...
+
+The probability of a peakflow of 3000 ft3/s is obtained by either function "plnorm" or "distr" like
+follows:
+
+```{r}
+plnorm(3000, meanlog=fitLn2$par.hat[1], sdlog=fitLn2$par.hat[2], lower.tail=TRUE)
+
+distr(x=3000, dist="lnorm", param=fitLn2$par.hat, type="p")
+```
+
+## Lognormal Distribution with 3 Parameters
+
+Let’s repeat the procedure for a Lognormal distribution of three parameters. In this case the package
+FAdist is required. Results are presented in @fig-mle-ln3.
+
+
+```{r}
+#| label: fig-mle-ln3
+#| fig-cap: "Plot of the mle object corresponding to the fitting James River data using a LN3 distribution"
+
+## Fit a lognormal distribution with three parameters
+fitLn3 <- mle(x=flow, dist="lnorm3", start=c(0.5, 0.5, 0.5))
+fitLn3
+
+## diagnostic plots
+hist(flow, probability=TRUE)
+rug(flow)
+lines(density(flow))
+funLn3 <- function(flow) distr(x=flow, model=fitLn3, type="d")
+curve(funLn3, add=TRUE, col="red")
+
+plot(x=fitLn3, ci=TRUE, alpha=0.05)
+
+## theroretical and empirical quantiles
+qlnorm3(p=0.95, shape=fitLn3$par.hat[1], scale=fitLn3$par.hat[2], thres=fitLn3$par.hat[3])
+distr(x=0.95, dist="lnorm3", param=c(fitLn3$par.hat[1], fitLn3$par.hat[2], fitLn3$par.hat[3]), type="q")
+quantile(p=0.95, flow)
+
+## Fit Weibull distribution to the data
+hist(flow, probability=TRUE)
+fitW <- mle(x=flow, dist="weibull", start=c(0.1, 0.1))
+fitW
+
+## diagnostics
+funW <- function(flow) distr(x=flow, model=fitW, type="d")
+curve(funW, add=TRUE, col="blue")
+
+plot(x=fitW, ci=TRUE, alpha=0.05)
+
+## quantiles
+qweibull(p=0.99, shape=fitW$par.hat[1], scale=fitW$par.hat[2])
+distr(x=0.99, dist="weibull", param=c(fitW$par.hat[1], fitW$par.hat[2]), type="q")
+quantile(p=0.99, flow)
+
+## Which distribution is the best according to the AIC?
+fitLn2$aic
+fitLn3$aic
+fitW$aic
+```
+
+
+## Exercise: Extreme values of the Elbe river
+
+Now load the Elbe River data from the beginning of the course and note that we need annual maximum values.
+
+
+```{r, eval = FALSE}
+elbe <- read_csv("https://raw.githubusercontent.com/tpetzoldt/datasets/main/data/elbe.csv", , col_types = c("D", "n"))
+
+
+## annual maximum discharge
+elbe_annual <-
+  mutate(elbe, year = year(date)) |>
+  group_by(year) |>
+  summarize(discharge = max(discharge))
+
+plot(discharge ~ year, data = elbe_annual)
+
+## check for trend and autocorrelation between years
+MannKendall(elbe_annual$discharge)
+acf(elbe_annual$discharge)
+
+
+fitLn3 <- mle(x=elbe_annual$discharge, dist="lnorm3", start=c(1, 5, 100))
+fitLn3
+
+flow <- elbe_annual$discharge
+
+hist(flow, probability=TRUE, breaks = 10)
+
+rug(flow)
+lines(density(flow))
+
+xnew <- seq(min(flow), max(flow), length = 100)
+funLn3 <- function(flow) distr(x=flow, model=fitLn3, type="d")
+lines(xnew, funLn3(xnew), col="red")
+```
+
+
+
+**Important:** The method described so far assumes stationarity of conditions, 
+i.e. absence of meteorological and hydrological trends. Discuss, how climate 
+warming already influences validity of the described method, and which methods
+need to be applied instead.
+

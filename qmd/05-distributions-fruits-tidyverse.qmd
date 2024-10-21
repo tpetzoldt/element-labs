@@ -1,5 +1,5 @@
 ---
-title: "Distribution and confidence intervals of Clementine fruits"
+title: "05-Distribution and Confidence Intervals of Clementines"
 author: "Thomas Petzoldt"
 date: '2023-11-14'
 date-format: "YYYY-MM-DD"

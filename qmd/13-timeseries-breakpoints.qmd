@@ -1,0 +1,71 @@
+---
+title: "13-Identification of Breakpoints in Time Series"
+author: "Thomas Petzoldt"
+date: "2023-11-08"
+format:
+  html:
+    toc: true
+    number-sections: true
+    embed-resources: true
+  pdf:
+    toc: false
+    number-sections: true
+    papersize: a4
+---
+
+## Text needs to be written
+
+
+The example is adapted from the help pages of R package "strucchange", 
+see Zeileis, A. et al. (2002), Journal of Statistical Software, 7(2), https://www.jstatsoft.org/v07/i02/
+
+```{r}
+library(strucchange)
+data("Nile")
+plot(Nile)
+
+## OLS-CUMSUM test for structural breaks in the time series
+## are there periods with different discharge?
+ocus <- efp(Nile ~ 1, type = "OLS-CUSUM")
+plot(ocus)
+sctest(ocus)
+
+## identify time of structural break (with respect to mean value)
+bp.nile <- breakpoints(Nile ~ 1)
+summary(bp.nile)
+
+## the BIC also chooses one breakpoint
+plot(bp.nile)
+
+## fit null hypothesis model and model with 1 breakpoint
+fm0 <- lm(Nile ~ 1)
+fm1 <- lm(Nile ~ breakfactor(bp.nile,  breaks = 1))
+plot(Nile)
+lines(ts(fitted(fm0),  start = 1871),  col = 3)
+lines(ts(fitted(fm1),  start = 1871),  col = 4)
+lines(bp.nile)
+
+## confidence interval
+ci.nile <- confint(bp.nile)
+ci.nile
+lines(ci.nile)
+
+## mark breakoint using a simpler (and less fancy) method
+plot(Nile)
+dat <- data.frame(time = time(Nile), Q = as.vector(Nile))
+abline(v=dat$time[bp.nile$breakpoints],  col="green")
+
+## ANOVA test whether the two models are significantly different
+anova(fm0, fm1)
+
+## alternative: AIC-based model comparison. 
+## The model with lower AIC is better
+AIC(fm0,fm1)
+
+## some tests for quality and assumptions of the fitted model
+acf(residuals(fm0))
+acf(residuals(fm1))
+qqnorm(residuals(fm0))
+qqnorm(residuals(fm1))
+```
+

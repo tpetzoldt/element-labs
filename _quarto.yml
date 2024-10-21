@@ -19,6 +19,8 @@ website:
           - qmd/05-distributions-fruits-tidyverse.qmd
           - qmd/10-nonlinear-regression.qmd
           - qmd/12-timeseries-trends.qmd
+          - qmd/13-timeseries-breakpoints.qmd
+          - qmd/14-flood-risk.qmd
       - section: Projects
         contents:
           - qmd/02-discharge-elbe-project.qmd

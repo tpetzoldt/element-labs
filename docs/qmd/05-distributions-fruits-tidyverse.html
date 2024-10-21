@@ -9,7 +9,7 @@
 <meta name="author" content="Thomas Petzoldt">
 <meta name="dcterms.date" content="2023-11-14">
 
-<title>Distribution and confidence intervals of Clementine fruits – Elements of Data Analysis and Statistics - Lab Exercises</title>
+<title>05-Distribution and Confidence Intervals of Clementines – Elements of Data Analysis and Statistics - Lab Exercises</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -4892,7 +4892,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../qmd/01-pivot-tables-with-libreoffice.html">Labs</a></li><li class="breadcrumb-item"><a href="../qmd/05-distributions-fruits-tidyverse.html">Distribution and confidence intervals of Clementine fruits</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../qmd/01-pivot-tables-with-libreoffice.html">Labs</a></li><li class="breadcrumb-item"><a href="../qmd/05-distributions-fruits-tidyverse.html">05-Distribution and Confidence Intervals of Clementines</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -4929,31 +4929,43 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../qmd/01-pivot-tables-with-libreoffice.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Discharge of River Elbe: Data Management with LibreOffice</span></a>
+ <span class="menu-text">01-Discharge of River Elbe: Data Management with LibreOffice</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../qmd/02-discharge-elbe.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Discharge of River Elbe: Date and Time Computation, Data Management and Plotting</span></a>
+ <span class="menu-text">02-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../qmd/05-distributions-fruits-tidyverse.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Distribution and confidence intervals of Clementine fruits</span></a>
+ <span class="menu-text">05-Distribution and Confidence Intervals of Clementines</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../qmd/10-nonlinear-regression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Nonlinear Regression</span></a>
+ <span class="menu-text">10-Nonlinear Regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../qmd/12-timeseries-trends.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">An introductory time series example</span></a>
+ <span class="menu-text">12-An introductory time series example</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/13-timeseries-breakpoints.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">13-Identification of Breakpoints in Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/14-flood-risk.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">14-Extreme Value Estimation with Package FAmle</span></a>
   </div>
 </li>
       </ul>
@@ -4970,7 +4982,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../qmd/02-discharge-elbe-project.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Discharge of River Elbe: Homework Project</span></a>
+ <span class="menu-text">x02-Discharge of River Elbe: Homework Project</span></a>
   </div>
 </li>
       </ul>
@@ -4987,7 +4999,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../qmd/10-nonlinear-regression-solution.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Fit nonlinear model to plankton growth data</span></a>
+ <span class="menu-text">x10-Fit nonlinear model to plankton growth data</span></a>
   </div>
 </li>
       </ul>
@@ -5029,9 +5041,9 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../qmd/01-pivot-tables-with-libreoffice.html">Labs</a></li><li class="breadcrumb-item"><a href="../qmd/05-distributions-fruits-tidyverse.html">Distribution and confidence intervals of Clementine fruits</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../qmd/01-pivot-tables-with-libreoffice.html">Labs</a></li><li class="breadcrumb-item"><a href="../qmd/05-distributions-fruits-tidyverse.html">05-Distribution and Confidence Intervals of Clementines</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Distribution and confidence intervals of Clementine fruits</h1>
+<h1 class="title">05-Distribution and Confidence Intervals of Clementines</h1>
 </div>
 
 
