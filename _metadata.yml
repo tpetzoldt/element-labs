@@ -1,0 +1,14 @@
+author: "Thomas Petzoldt"
+subtitle: "Applied Statistics -- Lab Exercises"
+date-format: "YYYY-MM-DD"
+format:
+  html:
+    theme: cosmo
+    css: thpe.css
+    toc: true
+bibliography: bib.bib
+csl: apa.csl
+
+
+
+

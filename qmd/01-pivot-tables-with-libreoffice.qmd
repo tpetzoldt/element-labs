@@ -1,0 +1,202 @@
+---
+title: "Discharge of River Elbe: Data Management with LibreOffice"
+author: "Thomas Petzoldt"
+date: "2024-10-16"
+date-format: "YYYY-MM-DD"
+format:
+  html:
+    toc: true
+    number-sections: true
+  pdf:
+    toc: false
+    number-sections: true
+    papersize: a4
+self-contained: true
+bibliography: bib.bib
+---
+
+```{r setup, include=FALSE}
+## this code chunk sets some technical details, it is not shown to the user
+library("readxl")
+#knitr::opts_chunk$set(echo = TRUE, eval=FALSE)
+knitr::opts_chunk$set(echo = TRUE, eval=TRUE)
+#setupKnitr(autoprint = TRUE)
+```
+
+# Introduction
+
+Planning and maintenance of waterways and rivers needs adequate
+measurements and data.  However, raw time series can often be long and
+confusing, so a first step is aggregation and visualization.
+
+**Scientific aim:** plot an average year and calculate monthly
+averages, minima and maxima of the discharge.
+
+
+# Methods
+
+The approach demonstrates the use of pivot tables for aggregating data
+according to certain criteria. This feature is available in 
+spreadsheet software, e.g. Excel or LibreOffice. We will also use date
+and time computation to derive aggregation criteria from a single date
+column.
+
+The data set consists of daily measurements for discharge of the Elbe
+River in Dresden (daily discharge sum in $\mathrm{m^3 d^{-1}}$).  The
+data were kindly provided by the German Federal Institute for
+Hydrology (BfG)^[Data Source: Federal Waterways and Shipping
+Administration (WSV), provided by the Federal Institute for Hydrology
+(BfG).].
+
+In order to simplify access, we will distribute an aggregated file
+during the course.
+
+# Exercises
+
+## Download the data set and inspect the data
+
+
+1. Download the data set (**elbe_data.ods**) from the course home page
+  and save it to a personal folder or your USB pendrive.
+2. Open it with LibreOffice **Calc**. Excel has a similar functionality, but details differ.
+3. Make sure that you have set Calc to English language.
+3. Inspect the data. You see that the date format has the form
+  YYYY-MM-DD, that is the so-called "ISO 8601" date format, the
+  international standard that makes data exchange between diferent
+  software systems easier^[For details, see
+  http://en.wikipedia.org/wiki/ISO_dates].
+
+## Creation of categories
+
+In the following, we intend to aggregate the discharge data according
+to certain criteria, e.g. year and month. This can be done with the
+"pivot table" tool, so before we can do this, we need to create
+additional columns with the categories.
+
+### Date computations
+
+Create the following categorical columns using formulas for date
+computation:
+
+
+* year:` = YEAR(A2)`
+* month: ` = MONTH(A2)`
+* day: ` = DAY(A2)`
+* weekday: ` = WEEKDAY(A2)`
+* doy: ` = A2 - DATE(YEAR(A2), 1, 1) + 1`
+
+The last formula computes thew "day of year" (doy), also called Julian
+day. Here `DATE(YEAR(A2), 1, 1)` creates a date for the first January
+of the respective year and then the difference (+1) between the
+respective day and the corresponding 1st January. The formula respects
+the different length of months automatically, including 29th February
+in leap years.
+
+Then fill the formulas down the column until the end of the data
+column.
+
+**Note:** The formulas above assume that you use LibreOffice with
+English user interface. If you use another language (e.g. German) or
+other program (e.g. Excel), then the keywords and delimiters
+(semi-colon instead of comma) of the formulas may be different and you
+have to look up for them in the function library.
+
+### Pivot tables
+
+In LibreOffice pivot tables are created like follows:
+
+
+1. Select the data range for which the pivot table is to be created
+  (including header!),
+2. In the menu select **Insert, Pivot Table**
+3. Select Source -- Current selection -- ok
+4. Now drag the appropriate items to the fields, e.g. "year" to the
+  Column field, "month" to Row field and "discharge" to Data field.
+5. Double click on "discharge" and change Function to "Average".
+6. OK
+
+That's it, and you get the monthly average discharge values.
+
+**Task:** Repeat the same for individual years, and for all years to
+  extract minimum and maximum discharge and find a way to show the
+  results graphically.
+
+### Average year and seasonality
+
+Create a pivot table with "year" as Column fields, "doy" as Row fields
+and "Mean discharge" (i.e. Average) as Data fields.
+
+Plot all years as function of the day of year.
+
+Then create the some of following plots (you may need additional pivot tables):
+
+
+1. a bar chart for annual discharge sums (y=annual discharge, x=year)
+
+2. a bar chart with average discharge for the 12 months.
+
+3. XY (Scatter) chart for all years like example before, and in
+  addition average discharge for all observed years as thick
+  line. Note: here it may be necessary to copy the numbers only from
+  the pivot table to a separate sheet (Paste special -- numbers) to
+  remove the pivot table automatism for the graphics.
+
+4. XY (Scatter) chart with confidence band.  Calculate maximum,
+  average and minimum per doy over all years 3 lines: y = discharge
+  min / average / max, x = doy.
+
+
+Now interpret the results. What was 2002? Google for "Elbe river
+2002".
+
+### Cumulative sum plot^[optional topic with higher difficulty]
+
+Cumulative sum plots of rainfall, discharge or temperature are
+useful for reservoir managers, or to classify years whether they are
+dry, wet, cold or warm.
+
+Create a cumulative sum plot for each year by adding the discharge
+data ($Q$) as follows:
+
+\begin{align*}
+Q_{sum, 1} &= Q_1 \\
+Q_{sum, 2} &= Q_1 + Q_2\\
+Q_{sum, 3} &= Q_1 + Q_2 + Q_3\\
+Q_{sum, n} &= Q_1 + Q_2 + Q_3 + \cdots + Q_n\\
+\end{align*}
+
+Answer the following questions. Which year was:
+
+* the wettest,
+* the driest,
+* had a wet winter and a dry summer?
+
+### Additional ideas
+
+The following ideas are intended as a stimulus for own explorations of
+the data and creative work. Feel free just to play around with
+downloaded data or develop your own project.
+
+
+ * Repeat the analysis with an additional
+   [elbe.csv](https://github.com/tpetzoldt/datasets/blob/main/data/elbe-1806.csv)^[https://github.com/tpetzoldt/datasets/blob/main/data/]
+   file with more years.
+ * Download data from other measurement stations, e.g.
+     * from  http://www.fgg-elbe.de/elbe-datenportal.html or 
+     * U.S. Geological Survey http://waterdata.usgs.gov/ 
+     
+and analyse the data.
+
+
+# Discussion
+
+
+Think about the hydrological situation in middle Europe in general,
+and Dresden in particular:
+
+* Why do high discharge and floods occur in winter and spring?  
+* When did the highest flood occur? 
+* Do research on the internet about this. 
+
+Select your favorite tasks from above and create a two-page document
+to describe your results.

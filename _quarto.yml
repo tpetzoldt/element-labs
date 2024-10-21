@@ -1,0 +1,27 @@
+project:
+  type: website
+  output-dir: docs
+  render: 
+    - "*.qmd"
+    - "qmd/*.qmd"
+  
+
+website:
+  title: "Elements of Data Analysis and Statistics - Lab Exercises"
+  sidebar:
+    style: "docked"
+    search: true
+    contents:
+      - section: Labs
+        contents:
+          - qmd/01-pivot-tables-with-libreoffice.qmd
+          - qmd/02-discharge-elbe.qmd
+          - qmd/05-distributions-fruits-tidyverse.qmd
+          - qmd/10-nonlinear-regression.qmd
+          - qmd/12-timeseries-trends.qmd
+      - section: Projects
+        contents:
+          - qmd/02-discharge-elbe-project.qmd
+      - section: Solutions
+        contents:
+          - qmd/10-nonlinear-regression-solution.qmd

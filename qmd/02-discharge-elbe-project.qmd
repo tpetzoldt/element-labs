@@ -1,0 +1,94 @@
+---
+title: 'Discharge of River Elbe: Homework Project'
+author: "Thomas Petzoldt"
+date: "2023-11-09"
+format:
+  html:
+    toc: true
+    number-sections: true
+    embed-resources: true
+  pdf:
+    toc: false
+    number-sections: true
+    papersize: a4
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Task 1: Distribution of discharge
+
+Interpret the results of Sections 3.3 and 3.4. Discuss which of the
+plots best shows the shape of the **distribution** of discharge
+data. You can include up to 4 plots. Add a table with the statistical
+parameters (min, max, $\bar{x}, s_x$, median, geometric mean and
+quartiles).
+
+Then discuss all results (parameters and figures) in connection.
+
+# Task 2: Dry and wet years
+
+Analyse the data and identify 2 dry and 2 wet years. Try to spot years
+with different seasonal characteristics, e.g. one with a dry winter
+and the other with a dry summer, or one with a wet winter and a dry
+summer and so on.
+
+Describe the selected years with appropriate plots, e.g. time series
+from Section 3.2 or annual cumulative sums (Section 3.5). A boxplot,
+histograms or own ideas are also possible (2-4 plots at maximum).
+
+# Outline and formal requirements
+
+Use a scientific outline, ideally the IMRAD scheme:
+
+1. Introduction
+2. Methods
+3. Results
+4. Discussion
+5. References
+
+see https://en.wikipedia.org/wiki/IMRAD for an explanation.
+
+As it is a tiny report, Methods and Results can be merged in this
+case. However, Introducton and Discussion must be separate. Use the
+internet and find about 2-3 literature references for the Discussion.
+
+
+## Communicate in your team, with other teams and with tutors
+
+Communicate results and ideas in your team and also with other teams
+and with the tutors. It is a good idea to speak (or email) with your
+collegues first, then collect material and create a first version
+(this is often longer as the 5 pages).
+
+Then discuss and improve the result, select the most important parts
+and create the final version.
+
+Communication can be done in person or in the matrix. The idea of the matrix
+is that all (= "the community") can learn from each other. Private
+communication channels for teamwork are of course allowed, just find
+an agreement what fits your needs best. If you want, it is also
+possible to create separate communication channels in Opal or the
+Matrix for the groups.
+
+If you ask in the forum or the matrix, please formulate specific 
+questions and not only "this is my result, is this correct". Good examples
+will hopefully develop during the work. Please feel free to post questions and
+contribute to the answers.
+
+## Technical recommendations
+
+The report should read nicely. Space needed for figures, tables and 
+explanatory text should be in good balance.
+
+* The report should have 5 pages at maximum. Quality instead of quantity! Distill the essential messages.
+* Font size of the text should be 11 or 12 points.
+* A line spacing of 1.2 lines is recommended to improve readability.
+* Figures (lines, font size of annotations) must be well readable.
+* Literature must be properly cited. We encourage to use author-year style citations. Good examples can be found at the [APA style web page](https://apastyle.apa.org/style-grammar-guidelines/references/examples).
+
+Finally, upload your result as PDF and (optionally) an R script to the
+**File** folder of your group. Submissions after the deadline cannot be considered.
+
+
