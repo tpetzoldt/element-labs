@@ -1,3 +1,5 @@
+## Overview
+
 This repository contains a collection of lab-exercises for an introductory statistics 
 course with **R**. The aim is to provide insight in fundamental principles and 
 a broad overview and enable students to select and understand particular books 
@@ -9,8 +11,7 @@ The lab exercises are found on: https://tpetzoldt.github.io/element-labs/ and th
 
 ## Status
 
-The selection of material is work in progress. Additional material will appear 
-until end of January 2025. Feedback and comments are welcome.
+The selection of material is work in progress. Additional material will appear until end of January 2025. Then it will be decided about the most suitable creative common license. Feedback and comments are welcome.
 
 
 ## Author
