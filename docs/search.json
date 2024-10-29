@@ -659,49 +659,77 @@
     "href": "qmd/07-correlation.html",
     "title": "07-Correlation",
     "section": "",
-    "text": "Given are the following series of measurements from a polluted river (Ertel et al., 2012):\n\nStation &lt;- 1:17\nCOD   &lt;- c(9.6, 12.2, 13.2, 13.3, 37.4, 21.4, 16.1, 24.8, 24.2, 26.9,\n           29.2, 31.6, 18.2, 24.8, 13.7, 23.6, 24.2)\nO2    &lt;- c(9.8, 10, 8.3, 9.6, 1.5, 4.4, 6.3, 3, 3, 10, 9.4, 17.9, 9.7,\n           9.7, 8.2, 9.5, 11.3)\nNH4   &lt;- c(0.15, 0.1, 0.74, 0.29, 5.04, 2.26, 0.96, 3.37, 2.44, 0.27,\n          0.32, 0.68, 0.27, 0.32, 0.22, 0.58, 0.59)\nColor &lt;- c(0.59, 0.52, 0.6, 0.57, 1.34, 1.21, 1.17, 1.12, 1.1, 1.08,\n           1.24, 1.25, 1.29, 1.29, 1.06, 1.25, 1.16)\n\nwith COD, the chemical oxygen demand (in \\(\\mathrm{mg L^{-1}}\\)), \\(\\mathrm O_2\\) oxygen concentration (\\(\\mathrm{mg L^{-1}}\\)) and Color. The spectral absorption coefficient at 436nm (\\(\\mathrm m^{-1}\\)) is a measure of the color intensity of the filtered water. The data set is subset from field measurements, that contained more samples from several measurement campaigns.\nThe question is whether Ammonium (NH4), Oxygen (O2) and Color depend on the organic load (COD).\n\n\n\nFor the dependency between Color and COD we can use Pearson correlation. In addition it is always a good idea to plot the data.\n\nplot(COD, Color)\ncor.test(COD, Color)\n\nWe see an almost linear dependency and get a highly significant correlation. Now, for the dependence between Ammonium on COD we can proceed with:\n\nplot(COD, NH4)\ncor.test(COD, NH4)\n\nWe find again significant correlation. However, the dependency is not very strict and it seems that there are two different data sets. This is in fact true because sampling sites 1–9 were before and the other sampling sites below a cooling reservoir of a power plant. In the following, we create first an empty plot(...., type = \"n\") and then add the station number as text labels:\n\nplot(COD, NH4, type = \"n\")\ntext(COD, NH4, labels = Station)\n\nWe now repeat the analysis with the first 9 data pairs from the stations upstream of the cooling reservoir (50.19N, 24.40E, Link to Google Maps):\n\nplot(COD[1:9], NH4[1:9])\ncor.test(COD[1:9], NH4[1:9])\n\n\n\n\nIs oxygen concentration (O2) directly related to organic pollution (COD)? Interpret the results, and discuss the potential mechanisms how the cooling reservoir may influence water quality. Compare your conclusions with the paper of (Ertel et al. 2011). Does the assumption of independent residuals hold?\nRepeat the analysis with Spearman’s correlation, and compare the results with the Pearson correlation coefficients."
+    "text": "Given are the following series of measurements from a polluted river (Ertel et al., 2012):\n\nStation &lt;- 1:17\nCOD   &lt;- c(9.6, 12.2, 13.2, 13.3, 37.4, 21.4, 16.1, 24.8, 24.2, 26.9,\n           29.2, 31.6, 18.2, 24.8, 13.7, 23.6, 24.2)\nO2    &lt;- c(9.8, 10, 8.3, 9.6, 1.5, 4.4, 6.3, 3, 3, 10, 9.4, 17.9, 9.7,\n           9.7, 8.2, 9.5, 11.3)\nNH4   &lt;- c(0.15, 0.1, 0.74, 0.29, 5.04, 2.26, 0.96, 3.37, 2.44, 0.27,\n          0.32, 0.68, 0.27, 0.32, 0.22, 0.58, 0.59)\nColor &lt;- c(0.59, 0.52, 0.6, 0.57, 1.34, 1.21, 1.17, 1.12, 1.1, 1.08,\n           1.24, 1.25, 1.29, 1.29, 1.06, 1.25, 1.16)\n\nwith COD, the chemical oxygen demand (in \\(\\mathrm{mg L^{-1}}\\)), \\(\\mathrm O_2\\) oxygen concentration (\\(\\mathrm{mg L^{-1}}\\)) and Color. The spectral absorption coefficient at 436nm (\\(\\mathrm m^{-1}\\)) is a measure of the color intensity of the filtered water. The data set is subset from field measurements, that contained more samples from several measurement campaigns.\nThe question is whether Ammonium (NH4), Oxygen (O2) and Color depend on the organic load (COD).\n\n\n\nFor the dependency between Color and COD we can use Pearson correlation. In addition it is always a good idea to plot the data.\n\nplot(COD, Color)\ncor.test(COD, Color)\n\nWe see an almost linear dependency and get a highly significant correlation. Now, for the dependence between Ammonium on COD we can proceed with:\n\nplot(COD, NH4)\ncor.test(COD, NH4)\n\nWe find again significant correlation. However, the dependency is not very strict and it seems that there are two different data sets. This is in fact true because sampling sites 1–9 were before and the other sampling sites below a cooling reservoir of a power plant. In the following, we create first an empty plot(...., type = \"n\") and then add the station number as text labels:\n\nplot(COD, NH4, type = \"n\")\ntext(COD, NH4, labels = Station)\n\nWe now repeat the analysis with the first 9 data pairs from the stations upstream of the cooling reservoir (50.19N, 24.40E, Link to Google Maps):\n\nplot(COD[1:9], NH4[1:9])\ncor.test(COD[1:9], NH4[1:9])\n\n\n\n\nIs oxygen concentration (O2) directly related to organic pollution (COD)? Interpret the results, and discuss the potential mechanisms how the cooling reservoir may influence water quality. Compare your conclusions with the paper of (Ertel et al. 2011). Does the assumption of independent residuals hold?\nRepeat the analysis with Spearman’s correlation, and compare the results with the Pearson correlation coefficients.",
+    "crumbs": [
+      "Labs",
+      "07-Correlation"
+    ]
   },
   {
     "objectID": "qmd/07-correlation.html#introduction",
     "href": "qmd/07-correlation.html#introduction",
     "title": "07-Correlation",
     "section": "",
-    "text": "Given are the following series of measurements from a polluted river (Ertel et al., 2012):\n\nStation &lt;- 1:17\nCOD   &lt;- c(9.6, 12.2, 13.2, 13.3, 37.4, 21.4, 16.1, 24.8, 24.2, 26.9,\n           29.2, 31.6, 18.2, 24.8, 13.7, 23.6, 24.2)\nO2    &lt;- c(9.8, 10, 8.3, 9.6, 1.5, 4.4, 6.3, 3, 3, 10, 9.4, 17.9, 9.7,\n           9.7, 8.2, 9.5, 11.3)\nNH4   &lt;- c(0.15, 0.1, 0.74, 0.29, 5.04, 2.26, 0.96, 3.37, 2.44, 0.27,\n          0.32, 0.68, 0.27, 0.32, 0.22, 0.58, 0.59)\nColor &lt;- c(0.59, 0.52, 0.6, 0.57, 1.34, 1.21, 1.17, 1.12, 1.1, 1.08,\n           1.24, 1.25, 1.29, 1.29, 1.06, 1.25, 1.16)\n\nwith COD, the chemical oxygen demand (in \\(\\mathrm{mg L^{-1}}\\)), \\(\\mathrm O_2\\) oxygen concentration (\\(\\mathrm{mg L^{-1}}\\)) and Color. The spectral absorption coefficient at 436nm (\\(\\mathrm m^{-1}\\)) is a measure of the color intensity of the filtered water. The data set is subset from field measurements, that contained more samples from several measurement campaigns.\nThe question is whether Ammonium (NH4), Oxygen (O2) and Color depend on the organic load (COD)."
+    "text": "Given are the following series of measurements from a polluted river (Ertel et al., 2012):\n\nStation &lt;- 1:17\nCOD   &lt;- c(9.6, 12.2, 13.2, 13.3, 37.4, 21.4, 16.1, 24.8, 24.2, 26.9,\n           29.2, 31.6, 18.2, 24.8, 13.7, 23.6, 24.2)\nO2    &lt;- c(9.8, 10, 8.3, 9.6, 1.5, 4.4, 6.3, 3, 3, 10, 9.4, 17.9, 9.7,\n           9.7, 8.2, 9.5, 11.3)\nNH4   &lt;- c(0.15, 0.1, 0.74, 0.29, 5.04, 2.26, 0.96, 3.37, 2.44, 0.27,\n          0.32, 0.68, 0.27, 0.32, 0.22, 0.58, 0.59)\nColor &lt;- c(0.59, 0.52, 0.6, 0.57, 1.34, 1.21, 1.17, 1.12, 1.1, 1.08,\n           1.24, 1.25, 1.29, 1.29, 1.06, 1.25, 1.16)\n\nwith COD, the chemical oxygen demand (in \\(\\mathrm{mg L^{-1}}\\)), \\(\\mathrm O_2\\) oxygen concentration (\\(\\mathrm{mg L^{-1}}\\)) and Color. The spectral absorption coefficient at 436nm (\\(\\mathrm m^{-1}\\)) is a measure of the color intensity of the filtered water. The data set is subset from field measurements, that contained more samples from several measurement campaigns.\nThe question is whether Ammonium (NH4), Oxygen (O2) and Color depend on the organic load (COD).",
+    "crumbs": [
+      "Labs",
+      "07-Correlation"
+    ]
   },
   {
     "objectID": "qmd/07-correlation.html#data-analysis",
     "href": "qmd/07-correlation.html#data-analysis",
     "title": "07-Correlation",
     "section": "",
-    "text": "For the dependency between Color and COD we can use Pearson correlation. In addition it is always a good idea to plot the data.\n\nplot(COD, Color)\ncor.test(COD, Color)\n\nWe see an almost linear dependency and get a highly significant correlation. Now, for the dependence between Ammonium on COD we can proceed with:\n\nplot(COD, NH4)\ncor.test(COD, NH4)\n\nWe find again significant correlation. However, the dependency is not very strict and it seems that there are two different data sets. This is in fact true because sampling sites 1–9 were before and the other sampling sites below a cooling reservoir of a power plant. In the following, we create first an empty plot(...., type = \"n\") and then add the station number as text labels:\n\nplot(COD, NH4, type = \"n\")\ntext(COD, NH4, labels = Station)\n\nWe now repeat the analysis with the first 9 data pairs from the stations upstream of the cooling reservoir (50.19N, 24.40E, Link to Google Maps):\n\nplot(COD[1:9], NH4[1:9])\ncor.test(COD[1:9], NH4[1:9])"
+    "text": "For the dependency between Color and COD we can use Pearson correlation. In addition it is always a good idea to plot the data.\n\nplot(COD, Color)\ncor.test(COD, Color)\n\nWe see an almost linear dependency and get a highly significant correlation. Now, for the dependence between Ammonium on COD we can proceed with:\n\nplot(COD, NH4)\ncor.test(COD, NH4)\n\nWe find again significant correlation. However, the dependency is not very strict and it seems that there are two different data sets. This is in fact true because sampling sites 1–9 were before and the other sampling sites below a cooling reservoir of a power plant. In the following, we create first an empty plot(...., type = \"n\") and then add the station number as text labels:\n\nplot(COD, NH4, type = \"n\")\ntext(COD, NH4, labels = Station)\n\nWe now repeat the analysis with the first 9 data pairs from the stations upstream of the cooling reservoir (50.19N, 24.40E, Link to Google Maps):\n\nplot(COD[1:9], NH4[1:9])\ncor.test(COD[1:9], NH4[1:9])",
+    "crumbs": [
+      "Labs",
+      "07-Correlation"
+    ]
   },
   {
     "objectID": "qmd/07-correlation.html#exercises-and-discussion",
     "href": "qmd/07-correlation.html#exercises-and-discussion",
     "title": "07-Correlation",
     "section": "",
-    "text": "Is oxygen concentration (O2) directly related to organic pollution (COD)? Interpret the results, and discuss the potential mechanisms how the cooling reservoir may influence water quality. Compare your conclusions with the paper of (Ertel et al. 2011). Does the assumption of independent residuals hold?\nRepeat the analysis with Spearman’s correlation, and compare the results with the Pearson correlation coefficients."
+    "text": "Is oxygen concentration (O2) directly related to organic pollution (COD)? Interpret the results, and discuss the potential mechanisms how the cooling reservoir may influence water quality. Compare your conclusions with the paper of (Ertel et al. 2011). Does the assumption of independent residuals hold?\nRepeat the analysis with Spearman’s correlation, and compare the results with the Pearson correlation coefficients.",
+    "crumbs": [
+      "Labs",
+      "07-Correlation"
+    ]
   },
   {
     "objectID": "qmd/07-correlation.html#introduction-1",
     "href": "qmd/07-correlation.html#introduction-1",
     "title": "07-Correlation",
     "section": "2.1 Introduction",
-    "text": "2.1 Introduction\nGiven is a number of students that passed an examination in statistics. The examination was written two times, one time before and one time after an additional series of lectures. The values represent the number of points approached during the examination. Check whether there is a dependency between the results before and after the test, i.e. if there is any dependency between the results of the final test and the basic knowledge before the course."
+    "text": "2.1 Introduction\nGiven is a number of students that passed an examination in statistics. The examination was written two times, one time before and one time after an additional series of lectures. The values represent the number of points approached during the examination. Check whether there is a dependency between the results before and after the test, i.e. if there is any dependency between the results of the final test and the basic knowledge before the course.",
+    "crumbs": [
+      "Labs",
+      "07-Correlation"
+    ]
   },
   {
     "objectID": "qmd/07-correlation.html#data-and-data-analysis",
     "href": "qmd/07-correlation.html#data-and-data-analysis",
     "title": "07-Correlation",
     "section": "2.2 Data and data analysis",
-    "text": "2.2 Data and data analysis\n\nx1 &lt;- c(69, 77, 35, 34, 87, 45, 95, 83)\nx2 &lt;- c(100, 97, 67, 42, 75, 73, 92, 97)\ncor.test(x1, x2)\n\nIf we plot this, we see a rather strange pattern, i.e. no clear linear relationship:\n\nplot(x1, x2)\n\nTherefore it may be a good idea to use the rank correlation:\n\ncor.test(x1, x2, method=\"spearman\")\n\nSometimes, we may get a warning that it “cannot compute exact p-values with ties”, then we can use another approach and compute the Spearman correlation via the Pearson correlation of ranks:\n\ncor.test(rank(x1), rank(x2))\n\nThis needs a little bit more effort (for the computer, not for us), but the interpretation is the same. To understand how this worked, it can be a good idea to create a scatterplot of the ranks of both variables."
+    "text": "2.2 Data and data analysis\n\nx1 &lt;- c(69, 77, 35, 34, 87, 45, 95, 83)\nx2 &lt;- c(100, 97, 67, 42, 75, 73, 92, 97)\ncor.test(x1, x2)\n\nIf we plot this, we see a rather strange pattern, i.e. no clear linear relationship:\n\nplot(x1, x2)\n\nTherefore it may be a good idea to use the rank correlation:\n\ncor.test(x1, x2, method=\"spearman\")\n\nSometimes, we may get a warning that it “cannot compute exact p-values with ties”, then we can use another approach and compute the Spearman correlation via the Pearson correlation of ranks:\n\ncor.test(rank(x1), rank(x2))\n\nThis needs a little bit more effort (for the computer, not for us), but the interpretation is the same. To understand how this worked, it can be a good idea to create a scatterplot of the ranks of both variables.",
+    "crumbs": [
+      "Labs",
+      "07-Correlation"
+    ]
   },
   {
     "objectID": "qmd/07-correlation.html#exercise-and-discussion",
     "href": "qmd/07-correlation.html#exercise-and-discussion",
     "title": "07-Correlation",
     "section": "2.3 Exercise and Discussion",
-    "text": "2.3 Exercise and Discussion\nWhat do the results above tell us? Compare the results with a paired t-test of the same data set. Which test tells what?"
+    "text": "2.3 Exercise and Discussion\nWhat do the results above tell us? Compare the results with a paired t-test of the same data set. Which test tells what?",
+    "crumbs": [
+      "Labs",
+      "07-Correlation"
+    ]
   },
   {
     "objectID": "qmd/10-nonlinear-regression-solution.html",

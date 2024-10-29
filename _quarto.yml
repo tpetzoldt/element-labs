@@ -19,7 +19,7 @@ website:
           - qmd/03-distributions-leaves.qmd
           - qmd/05-distributions-fruits-tidyverse.qmd
           - qmd/06-classical-tests.qmd
-          - qmd/07-correlation
+          - qmd/07-correlation.qmd
           - qmd/10-nonlinear-regression.qmd
           - qmd/12-timeseries-trends.qmd
           - qmd/13-timeseries-breakpoints.qmd
