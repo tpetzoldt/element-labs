@@ -1,5 +1,5 @@
 ---
-title: "Distribution and confidence intervals of maple leaf samples"
+title: "03-Distribution and confidence intervals of maple leaf samples"
 author: "Thomas Petzoldt"
 date: '2024-10-29'
 date-format: "YYYY-MM-DD"

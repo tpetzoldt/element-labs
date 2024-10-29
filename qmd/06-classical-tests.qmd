@@ -1,5 +1,5 @@
 ---
-title: "Classical Tests"
+title: "06-Classical Tests"
 author: 'HSE Lab Exercise'
 date: '2023-11-29'
 date-format: "YYYY-MM-DD"

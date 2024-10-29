@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Thomas Petzoldt">
-<meta name="dcterms.date" content="2023-11-09">
+<meta name="dcterms.date" content="2022-11-30">
 
-<title>x02-Discharge of River Elbe: Homework Project – Elements of Data Analysis and Statistics - Lab Exercises</title>
+<title>07-Correlation – Elements of Data Analysis and Statistics - Lab Exercises</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,7 +21,61 @@ ul.task-list li input[type="checkbox"] {
 width: 0.8em;
 margin: 0 0.8em 0.2em -1em;  vertical-align: middle;
 }
-</style>
+
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+}
+pre.numberSource { margin-left: 3em; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+
+div.csl-bib-body { }
+div.csl-entry {
+clear: both;
+margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+margin-left:2em;
+text-indent:-2em;
+}
+div.csl-left-margin {
+min-width:2em;
+float:left;
+}
+div.csl-right-inline {
+margin-left:2em;
+padding-left:1em;
+}
+div.csl-indent {
+margin-left: 2em;
+}</style>
 
 
 <script>const headroomChanged = new CustomEvent("quarto-hrChanged", {
@@ -4858,7 +4912,9 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../qmd/02-discharge-elbe-project.html">Projects</a></li><li class="breadcrumb-item"><a href="../qmd/02-discharge-elbe-project.html">x02-Discharge of River Elbe: Homework Project</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      Elements of Data Analysis and Statistics - Lab Exercises
+      </li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -4962,7 +5018,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../qmd/02-discharge-elbe-project.html" class="sidebar-item-text sidebar-link active">
+  <a href="../qmd/02-discharge-elbe-project.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">x02-Discharge of River Elbe: Homework Project</span></a>
   </div>
 </li>
@@ -4995,22 +5051,28 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#task-1-distribution-of-discharge" id="toc-task-1-distribution-of-discharge" class="nav-link active" data-scroll-target="#task-1-distribution-of-discharge"><span class="header-section-number">1</span> Task 1: Distribution of discharge</a></li>
-  <li><a href="#task-2-dry-and-wet-years" id="toc-task-2-dry-and-wet-years" class="nav-link" data-scroll-target="#task-2-dry-and-wet-years"><span class="header-section-number">2</span> Task 2: Dry and wet years</a></li>
-  <li><a href="#outline-and-formal-requirements" id="toc-outline-and-formal-requirements" class="nav-link" data-scroll-target="#outline-and-formal-requirements"><span class="header-section-number">3</span> Outline and formal requirements</a>
+  <li><a href="#example-1-correlation-of-water-quality-indicators-of-a-stream" id="toc-example-1-correlation-of-water-quality-indicators-of-a-stream" class="nav-link active" data-scroll-target="#example-1-correlation-of-water-quality-indicators-of-a-stream"><span class="header-section-number">1</span> Example 1: Correlation of water quality indicators of a stream</a>
   <ul class="collapse">
-  <li><a href="#communicate-in-your-team-with-other-teams-and-with-tutors" id="toc-communicate-in-your-team-with-other-teams-and-with-tutors" class="nav-link" data-scroll-target="#communicate-in-your-team-with-other-teams-and-with-tutors"><span class="header-section-number">3.1</span> Communicate in your team, with other teams and with tutors</a></li>
-  <li><a href="#technical-recommendations" id="toc-technical-recommendations" class="nav-link" data-scroll-target="#technical-recommendations"><span class="header-section-number">3.2</span> Technical recommendations</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction"><span class="header-section-number">1.1</span> Introduction</a></li>
+  <li><a href="#data-analysis" id="toc-data-analysis" class="nav-link" data-scroll-target="#data-analysis"><span class="header-section-number">1.2</span> Data analysis</a></li>
+  <li><a href="#exercises-and-discussion" id="toc-exercises-and-discussion" class="nav-link" data-scroll-target="#exercises-and-discussion"><span class="header-section-number">1.3</span> Exercises and discussion</a></li>
   </ul></li>
+  <li><a href="#example-2-examination-results-in-statistics" id="toc-example-2-examination-results-in-statistics" class="nav-link" data-scroll-target="#example-2-examination-results-in-statistics"><span class="header-section-number">2</span> Example 2: Examination results in statistics</a>
+  <ul class="collapse">
+  <li><a href="#introduction-1" id="toc-introduction-1" class="nav-link" data-scroll-target="#introduction-1"><span class="header-section-number">2.1</span> Introduction</a></li>
+  <li><a href="#data-and-data-analysis" id="toc-data-and-data-analysis" class="nav-link" data-scroll-target="#data-and-data-analysis"><span class="header-section-number">2.2</span> Data and data analysis</a></li>
+  <li><a href="#exercise-and-discussion" id="toc-exercise-and-discussion" class="nav-link" data-scroll-target="#exercise-and-discussion"><span class="header-section-number">2.3</span> Exercise and Discussion</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">3</span> References</a></li>
   </ul>
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="02-discharge-elbe-project.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="07-correlation.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../qmd/02-discharge-elbe-project.html">Projects</a></li><li class="breadcrumb-item"><a href="../qmd/02-discharge-elbe-project.html">x02-Discharge of River Elbe: Homework Project</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">x02-Discharge of River Elbe: Homework Project</h1>
+<h1 class="title">07-Correlation</h1>
 </div>
 
 
@@ -5027,7 +5089,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 9, 2023</p>
+      <p class="date">2022-11-30</p>
     </div>
   </div>
   
@@ -5039,52 +5101,103 @@ window.Quarto = {
 </header>
 
 
-<section id="task-1-distribution-of-discharge" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Task 1: Distribution of discharge</h1>
-<p>Interpret the results of Sections 3.3 and 3.4. Discuss which of the plots best shows the shape of the <strong>distribution</strong> of discharge data. You can include up to 4 plots. Add a table with the statistical parameters (min, max, <span class="math inline">\(\bar{x}, s_x\)</span>, median, geometric mean and quartiles).</p>
-<p>Then discuss all results (parameters and figures) in connection.</p>
+<section id="example-1-correlation-of-water-quality-indicators-of-a-stream" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Example 1: Correlation of water quality indicators of a stream</h1>
+<section id="introduction" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1.1</span> Introduction</h2>
+<p>Given are the following series of measurements from a polluted river <span class="citation" data-cites="Ertel2012">(<a href="#ref-Ertel2012" role="doc-biblioref">Ertel et al., 2012</a>)</span>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>Station <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">17</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>COD   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">9.6</span>, <span class="fl">12.2</span>, <span class="fl">13.2</span>, <span class="fl">13.3</span>, <span class="fl">37.4</span>, <span class="fl">21.4</span>, <span class="fl">16.1</span>, <span class="fl">24.8</span>, <span class="fl">24.2</span>, <span class="fl">26.9</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>           <span class="fl">29.2</span>, <span class="fl">31.6</span>, <span class="fl">18.2</span>, <span class="fl">24.8</span>, <span class="fl">13.7</span>, <span class="fl">23.6</span>, <span class="fl">24.2</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>O2    <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">9.8</span>, <span class="dv">10</span>, <span class="fl">8.3</span>, <span class="fl">9.6</span>, <span class="fl">1.5</span>, <span class="fl">4.4</span>, <span class="fl">6.3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">10</span>, <span class="fl">9.4</span>, <span class="fl">17.9</span>, <span class="fl">9.7</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>           <span class="fl">9.7</span>, <span class="fl">8.2</span>, <span class="fl">9.5</span>, <span class="fl">11.3</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>NH4   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.15</span>, <span class="fl">0.1</span>, <span class="fl">0.74</span>, <span class="fl">0.29</span>, <span class="fl">5.04</span>, <span class="fl">2.26</span>, <span class="fl">0.96</span>, <span class="fl">3.37</span>, <span class="fl">2.44</span>, <span class="fl">0.27</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>          <span class="fl">0.32</span>, <span class="fl">0.68</span>, <span class="fl">0.27</span>, <span class="fl">0.32</span>, <span class="fl">0.22</span>, <span class="fl">0.58</span>, <span class="fl">0.59</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>Color <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.59</span>, <span class="fl">0.52</span>, <span class="fl">0.6</span>, <span class="fl">0.57</span>, <span class="fl">1.34</span>, <span class="fl">1.21</span>, <span class="fl">1.17</span>, <span class="fl">1.12</span>, <span class="fl">1.1</span>, <span class="fl">1.08</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>           <span class="fl">1.24</span>, <span class="fl">1.25</span>, <span class="fl">1.29</span>, <span class="fl">1.29</span>, <span class="fl">1.06</span>, <span class="fl">1.25</span>, <span class="fl">1.16</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>with COD, the chemical oxygen demand (in <span class="math inline">\(\mathrm{mg L^{-1}}\)</span>), <span class="math inline">\(\mathrm O_2\)</span> oxygen concentration (<span class="math inline">\(\mathrm{mg L^{-1}}\)</span>) and Color. The spectral absorption coefficient at 436nm (<span class="math inline">\(\mathrm m^{-1}\)</span>) is a measure of the color intensity of the filtered water. The data set is subset from field measurements, that contained more samples from several measurement campaigns.</p>
+<p>The question is whether Ammonium (NH4), Oxygen (O2) and Color depend on the organic load (COD).</p>
 </section>
-<section id="task-2-dry-and-wet-years" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Task 2: Dry and wet years</h1>
-<p>Analyse the data and identify 2 dry and 2 wet years. Try to spot years with different seasonal characteristics, e.g. one with a dry winter and the other with a dry summer, or one with a wet winter and a dry summer and so on.</p>
-<p>Describe the selected years with appropriate plots, e.g. time series from Section 3.2 or annual cumulative sums (Section 3.5). A boxplot, histograms or own ideas are also possible (2-4 plots at maximum).</p>
+<section id="data-analysis" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="data-analysis"><span class="header-section-number">1.2</span> Data analysis</h2>
+<p>For the dependency between Color and COD we can use Pearson correlation. In addition it is always a good idea to plot the data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(COD, Color)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(COD, Color)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We see an almost linear dependency and get a highly significant correlation. Now, for the dependence between Ammonium on COD we can proceed with:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(COD, NH4)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(COD, NH4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We find again significant correlation. However, the dependency is not very strict and it seems that there are two different data sets. This is in fact true because sampling sites 1–9 were before and the other sampling sites below a cooling reservoir of a power plant. In the following, we create first an empty <code>plot(...., type = &quot;n&quot;)</code> and then add the station number as text labels:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(COD, NH4, <span class="at">type =</span> <span class="st">&quot;n&quot;</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(COD, NH4, <span class="at">labels =</span> Station)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We now repeat the analysis with the first 9 data pairs from the stations upstream of the cooling reservoir (<a href="https://goo.gl/maps/jKwanmqjdTwY6oKv6">50.19N, 24.40E, Link to Google Maps</a>):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(COD[<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>], NH4[<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>])</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(COD[<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>], NH4[<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
-<section id="outline-and-formal-requirements" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Outline and formal requirements</h1>
-<p>Use a scientific outline, ideally the IMRAD scheme:</p>
-<ol type="1">
-<li>Introduction</li>
-<li>Methods</li>
-<li>Results</li>
-<li>Discussion</li>
-<li>References</li>
-</ol>
-<p>see https://en.wikipedia.org/wiki/IMRAD for an explanation.</p>
-<p>As it is a tiny report, Methods and Results can be merged in this case. However, Introducton and Discussion must be separate. Use the internet and find about 2-3 literature references for the Discussion.</p>
-<section id="communicate-in-your-team-with-other-teams-and-with-tutors" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="communicate-in-your-team-with-other-teams-and-with-tutors"><span class="header-section-number">3.1</span> Communicate in your team, with other teams and with tutors</h2>
-<p>Communicate results and ideas in your team and also with other teams and with the tutors. It is a good idea to speak (or email) with your collegues first, then collect material and create a first version (this is often longer as the 5 pages).</p>
-<p>Then discuss and improve the result, select the most important parts and create the final version.</p>
-<p>Communication can be done in person or in the matrix. The idea of the matrix is that all (= “the community”) can learn from each other. Private communication channels for teamwork are of course allowed, just find an agreement what fits your needs best. If you want, it is also possible to create separate communication channels in Opal or the Matrix for the groups.</p>
-<p>If you ask in the forum or the matrix, please formulate specific questions and not only “this is my result, is this correct”. Good examples will hopefully develop during the work. Please feel free to post questions and contribute to the answers.</p>
+<section id="exercises-and-discussion" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="exercises-and-discussion"><span class="header-section-number">1.3</span> Exercises and discussion</h2>
+<p>Is oxygen concentration (O2) directly related to organic pollution (COD)? Interpret the results, and discuss the potential mechanisms how the cooling reservoir may influence water quality. Compare your conclusions with the paper of (Ertel et al. 2011). Does the assumption of independent residuals hold?</p>
+<p>Repeat the analysis with Spearman’s correlation, and compare the results with the Pearson correlation coefficients.</p>
 </section>
-<section id="technical-recommendations" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="technical-recommendations"><span class="header-section-number">3.2</span> Technical recommendations</h2>
-<p>The report should read nicely. Space needed for figures, tables and explanatory text should be in good balance.</p>
-<ul>
-<li>The report should have 5 pages at maximum. Quality instead of quantity! Distill the essential messages.</li>
-<li>Font size of the text should be 11 or 12 points.</li>
-<li>A line spacing of 1.2 lines is recommended to improve readability.</li>
-<li>Figures (lines, font size of annotations) must be well readable.</li>
-<li>Literature must be properly cited. We encourage to use author-year style citations. Good examples can be found at the <a href="https://apastyle.apa.org/style-grammar-guidelines/references/examples">APA style web page</a>.</li>
-</ul>
-<p>Finally, upload your result as PDF and (optionally) an R script to the <strong>File</strong> folder of your group. Submissions after the deadline cannot be considered.</p>
+</section>
+<section id="example-2-examination-results-in-statistics" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Example 2: Examination results in statistics</h1>
+<section id="introduction-1" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="introduction-1"><span class="header-section-number">2.1</span> Introduction</h2>
+<p>Given is a number of students that passed an examination in statistics. The examination was written two times, one time before and one time after an additional series of lectures. The values represent the number of points approached during the examination. Check whether there is a dependency between the results before and after the test, i.e. if there is any dependency between the results of the final test and the basic knowledge before the course.</p>
+</section>
+<section id="data-and-data-analysis" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="data-and-data-analysis"><span class="header-section-number">2.2</span> Data and data analysis</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">69</span>, <span class="dv">77</span>, <span class="dv">35</span>, <span class="dv">34</span>, <span class="dv">87</span>, <span class="dv">45</span>, <span class="dv">95</span>, <span class="dv">83</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">97</span>, <span class="dv">67</span>, <span class="dv">42</span>, <span class="dv">75</span>, <span class="dv">73</span>, <span class="dv">92</span>, <span class="dv">97</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(x1, x2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If we plot this, we see a rather strange pattern, i.e. no clear linear relationship:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x1, x2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Therefore it may be a good idea to use the rank correlation:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(x1, x2, <span class="at">method=</span><span class="st">&quot;spearman&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Sometimes, we may get a warning that it “cannot compute exact p-values with ties”, then we can use another approach and compute the Spearman correlation via the Pearson correlation of ranks:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(<span class="fu">rank</span>(x1), <span class="fu">rank</span>(x2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This needs a little bit more effort (for the computer, not for us), but the interpretation is the same. To understand how this worked, it can be a good idea to create a scatterplot of the ranks of both variables.</p>
+</section>
+<section id="exercise-and-discussion" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="exercise-and-discussion"><span class="header-section-number">2.3</span> Exercise and Discussion</h2>
+<p>What do the results above tell us? Compare the results with a paired t-test of the same data set. Which test tells what?</p>
+<!--
+The same test can be performed in PAST via ``Correlation table'' and more extensively
+using ``Rank/ordinal correlation''. Note again, that p-values for small data sets
+differ slightly because of different approximations used by different software.
+/ -->
+</section>
+</section>
+<section id="references" class="level1" data-number="3">
+
+
 
 
 </section>
-</section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">3 References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-Ertel2012" class="csl-entry" role="listitem">
+Ertel, A.-M., Lupo, A., Scheifhacken, N., Bodnarchuk, T., Manturova, O., Berendonk, T., &amp; Petzoldt, T. (2012). Heavy load and high potential: Anthropogenic pressures and their impacts on the water quality along a lowland river (western bug, ukraine). <em>Environmental Earth Sciences</em>, <em>65</em>, 1459–1473. <a href="https://doi.org/10.1007/s12665-011-1289-0">https://doi.org/10.1007/s12665-011-1289-0</a>
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

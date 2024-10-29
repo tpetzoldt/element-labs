@@ -55,7 +55,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+
+div.csl-bib-body { }
+div.csl-entry {
+clear: both;
+margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+margin-left:2em;
+text-indent:-2em;
+}
+div.csl-left-margin {
+min-width:2em;
+float:left;
+}
+div.csl-right-inline {
+margin-left:2em;
+padding-left:1em;
+}
+div.csl-indent {
+margin-left: 2em;
+}</style>
 
 
 <script>const headroomChanged = new CustomEvent("quarto-hrChanged", {
@@ -4940,10 +4960,25 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../qmd/03-distributions-leaves.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">03-Distribution and confidence intervals of maple leaf samples</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../qmd/05-distributions-fruits-tidyverse.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">05-Distribution and Confidence Intervals of Clementines</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/06-classical-tests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">06-Classical Tests</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+ <span class="menu-text">qmd/07-correlation</span>
+  </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../qmd/10-nonlinear-regression.html" class="sidebar-item-text sidebar-link">
@@ -5076,7 +5111,7 @@ window.Quarto = {
 <li>test for a monotonic trend</li>
 </ol>
 <p>The general procedure should then be applied to two real data sets as an exercise. Please keep in mind that the main objective here is trend analysis. The concepts of stationarity and autocorrelation and the related tests are only used as pre-tests to check if simple trend tests are possible. Please note also the importance of the <strong>effect size</strong>, e.g. the temperature increase pear year.</p>
-<p>The book of <span class="citation" data-cites="Kleiber2008">(<a href="#ref-Kleiber2008" role="doc-biblioref"><strong>Kleiber2008?</strong></a>)</span> contains an excellent explanation of the methods described here and is strongly recommended for further reading.</p>
+<p>The book of <span class="citation" data-cites="Kleiber2008">Kleiber &amp; Zeileis (<a href="#ref-Kleiber2008" role="doc-biblioref">2008</a>)</span> contains an excellent explanation of the methods described here and is strongly recommended for further reading.</p>
 </section>
 <section id="demonstration-of-methods-artificial-data-set" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Demonstration of methods (artificial data set)</h1>
@@ -5255,13 +5290,18 @@ The data analysis was performed with **R** [@RCore] and **Rstudio** [@RCore], th
 -->
 </section>
 <section id="references" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> References</h1>
+
 <!-- references added from the data base -->
+
 
 
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">5 References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-Kleiber2008" class="csl-entry" role="listitem">
+Kleiber, C., &amp; Zeileis, A. (2008). <em>Applied <span>Econometrics</span> with <span>R</span></em>. <span>Springer Verlag</span>. <a href="https://link.springer.com/book/10.1007%2F978-0-387-77318-6">https://link.springer.com/book/10.1007%2F978-0-387-77318-6</a>
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

@@ -4800,10 +4800,25 @@ vertical-align: -.125em;
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../qmd/03-distributions-leaves.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">03-Distribution and confidence intervals of maple leaf samples</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../qmd/05-distributions-fruits-tidyverse.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">05-Distribution and Confidence Intervals of Clementines</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/06-classical-tests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">06-Classical Tests</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+ <span class="menu-text">qmd/07-correlation</span>
+  </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../qmd/10-nonlinear-regression.html" class="sidebar-item-text sidebar-link">
@@ -5067,7 +5082,7 @@ Figure 3: Plot of the mle object corresponding to the fitting James River data 
 </section>
 <section id="lognormal-distribution-with-3-parameters" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="lognormal-distribution-with-3-parameters"><span class="header-section-number">4</span> Lognormal Distribution with 3 Parameters</h2>
-<p>Let’s repeat the procedure for a Lognormal distribution of three parameters. In this case the package FAdist is required. Results are presented in <strong>?@fig-mle-ln3</strong>.</p>
+<p>Let’s repeat the procedure for a Lognormal distribution with three parameters. In this case the package FAdist is required. Results are presented in <strong>?@fig-mle-ln3</strong>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Fit a lognormal distribution with three parameters</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>fitLn3 <span class="ot">&lt;-</span> <span class="fu">mle</span>(<span class="at">x=</span>flow, <span class="at">dist=</span><span class="st">&quot;lnorm3&quot;</span>, <span class="at">start=</span><span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>))</span>
