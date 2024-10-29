@@ -160,7 +160,7 @@ distr(x=3000, dist="lnorm", param=fitLn2$par.hat, type="p")
 
 ## Lognormal Distribution with 3 Parameters
 
-Let’s repeat the procedure for a Lognormal distribution of three parameters. In this case the package
+Let’s repeat the procedure for a Lognormal distribution with three parameters. In this case the package
 FAdist is required. Results are presented in @fig-mle-ln3.
 
 
