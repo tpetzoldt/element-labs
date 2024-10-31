@@ -1,0 +1,253 @@
+---
+title: "09-Which fruits are the biggest? An ANOVA example"
+date: "November 21, 2023"
+format:
+  html:
+    toc: true
+    number-sections: true
+  pdf:
+    toc: false
+    number-sections: true
+    colorlinks: true
+    papersize: a4
+bibliography: bib.bib
+csl: apa
+embed-resources: true  
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval=FALSE)
+library(readxl)
+library(dplyr)
+```
+
+**Preface**
+
+The following template is intended as a starting point for your
+analysis. Please follow the general outline (Introduction, Methods,
+Results, Discussion), but **adapt the content** to your needs. Avoid
+unnecessary technical details and concentrate on main outcome and its
+discussion. Include the important (and only the important) tables and
+graphics and discuss them properly.  Special R ideas can also be
+shown, but long R codes should be avoided.
+
+The intention of the report is to practice an analysis and to get
+feedback.  It can be creative and hopefully also some fun. The
+following rules apply:
+
+* Maximum 4 students per group,
+
+* The general page limit is: **3 pages** for analyzing the weight
+  data.
+
+* **Two additional pages** allowed if a creative part, e.g. additional
+  data (length, width, weight, ...) are analysed or an additional
+  method is used
+
+* you can also extend the data set by using data from previous years.
+
+
+# Introduction
+
+Describe briefly the setup of the experiment.  Which data sets are to
+be compared by your group?
+
+What are the Null hypothesis ($H_0$) and the alternative hypothesis
+($H_A$) in this experiment?
+
+
+# Material and Methods
+
+## Data 
+* write something about the data
+    - describe the different samples
+    - weight determination with a scale, length determination with
+      a caliper (see below)
+
+* read the data in:
+
+```{r eval=FALSE}
+library(readxl)
+library(dplyr)
+```
+
+
+```{r}
+brands <- read_excel("clementines_2022.xlsx", "Brands")
+fruits <- read_excel("clementines_2022.xlsx", "Fruits")
+```
+
+Show the structure of the data. You can also use the `head`-function,
+shows the first lines of each data set. **Please do not forget to
+report the sample size of your data!**
+
+```{r}
+cat("sample size:", nrow(fruits), "\n")
+head(fruits, n=3)
+```
+
+```{r}
+head(brands, n=3)
+```
+
+Join the two tables and convert the Brand column into a factor
+variable.
+
+```{R}
+dat <- left_join(fruits, brands, by="brand")
+dat$brand <- factor(dat$brand)
+```
+
+## Data analysis
+
+Mention R [@RCore] in a single sentence, cite special packages. Write
+that an ANOVA was performed and in case of an own creative part (see
+below), which methods were used in addition.
+
+
+# Results
+
+* Visualize the data first, show box plots, either the full data set
+  **or** the samples of the group
+
+* explain briefly what you see in the box plot
+
+* Show the effect size (means of groups or differences between the
+  means)
+
+* perform an ANOVA:
+    - the ANOVA
+    - check variance homogeneity and approximate normality
+    - perform a post-hoc test
+
+* give a short explanation of the ANOVA results
+
+**Creative part:** You can also be somewhat creative and analyse
+further properties of the data, e.g. length, width, weight, ... Select
+appropriate test methods, e.g. t-tests, ANOVA, correlation or
+regression, etc. You may also use **tidyverse** methods
+(e.g. `group_by` and `summarize`) to summarize the data
+[@tidyverse2019].  It can also be possible to try a two-way ANOVA with
+a subset of the data. In that case, make sure to have a balanced data
+set or use `Anova` function (with capital letter "A") from package
+**car**.
+
+
+# Discussion and Conclusions
+
+The discussion should contain three parts:
+
+1. The "scientific" toy problem: Summary of the outcome of the ANOVA
+experiment (focus on the fruits).
+
+2. Technical aspects about the ANOVA or other methods:
+    * do the results look plausible and sound? Can things be made better?
+    * are there any comments to the method?
+    * Which results were obtained from additional analyses from the creative part?
+
+3. A conclusion, how can the results can be interpreted. Which
+clementines would you buy? Why?
+
+
+# Appendix
+
+
+## Hypotheses
+
+It is important to formulate clear hypotheses. Here are a few
+**examples**, related to the data set from 2019. Please think about it
+and define your own hypotheses, related to the **current** data set.
+
+
+* $H_{0,1}$: The mean weight of the fruits is the same in all samples.
+* $H_{A,1}$: The weight is different in any of the samples.
+* $H_{A,2}$: Which brand is the smallest? The mean weight of smallest sample is 
+  significantly smaller than of the 2nd samplest sample.
+* $H_{A,3}$: The fruits from the premium brands are bigger than corresponding 
+  basic brands.
+
+**Note:** Hypotheses $H_{A,2}$ and $H_{A,3}$ have their own, different $H_0$.
+
+A hypothesis like $H_{A,3}$ is more difficult and optional. It
+requires a two-way ANOVA and can only be applied to a subset of the
+data, where different brands from the same shops are available. Is a
+similar comparison possible for the 2022 data?
+
+## Measurement methods
+
+* **Weight**: was determined with a kitchen scale in gramm (g).
+* **Height and Width**: were measured with a **caliper** (Fig. 1)
+
+<div align="center">
+![Size measurement with a digital caliper.](../img/caliper.jpg){height=200}
+</div>
+
+
+## R example code
+
+* The following code is intended as a basic example only.
+
+* It is recommended to adapt the script to analyse the data from the
+  current year (2022).
+
+* However, if you want to compare it with some of previous data, we
+  are curious to see what you can make out of it.
+
+* Don't forget that it is an exercise, not a serious analysis, so feel
+  free to create your own story.
+
+* Don't make your report too technical, concentrate on your message.
+
+* If you like to share your code, put it in a separate file.
+
+```{R,eval=FALSE}
+library(readxl)
+
+brands <- read_excel("Clementines_2019.xlsx", "Brands")
+fruits <- read_excel("Clementines_2019.xlsx", "Fruits")
+
+dat <- left_join(fruits, brands) # merge tables by their common colum 'Brand'
+dat$brand <- factor(dat$brand)
+
+boxplot(weight ~ brand, data=dat)
+
+## the ANOVA
+m <- lm(weight ~ brand, data=dat)
+anova(m)
+
+## posthoc test
+TukeyHSD(aov(m))
+
+## graphical display of Tukey's test
+plot(TukeyHSD(aov(m)), las=1, cex.axis=0.5)
+
+## graphical and numerical checks of variance homogeneity
+plot(m, which=1)
+fligner.test(weight ~ brand, data=dat)
+
+## approximate normality of residuals
+plot(m, which=2)
+
+## optional: special one-way anova alternative if variances are unequal
+oneway.test(weight ~ brand, data=dat)
+```
+
+## Text processing
+
+The report can be written in any text processing software,
+e.g. Microsoft Word, LibreOffice Write or Quarto. Quarto needs a
+little extra learning, but is an extremely efficient way to combine
+text and analysis with **R** in one document and write it directly in
+RStudio. A comprehensive documentation can be found on
+[https://quarto.org/](https://quarto.org/).
+
+
+## Questions and literature research
+
+Please post questions and comments to the Matrix chat group or the
+Forum. Ideas are also welcome.  As the exercise is a toy example, it
+may be difficult to find relevant citable literature. However, we
+don't limit creativity.
+
+**References**
+

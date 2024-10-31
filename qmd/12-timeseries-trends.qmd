@@ -271,7 +271,7 @@ International ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)) licens
 The data sets are available online from https://github.com/tpetzoldt/datasets . Please
 consult the info-files about terms of use and data licenses.
 
-The data analysis was performed with **R** [@RCore] and **Rstudio** [@RCore], the text was written with **knitr** [@knitr]. 
+The data analysis was performed with **R** [@RCore] and **Rstudio** [@RStudio], the text was written with Quarto [https://quarto.org](https://quarto.org). 
 -->
 
 # References
