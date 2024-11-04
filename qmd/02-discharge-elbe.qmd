@@ -9,17 +9,17 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Introduction and prerequisites
 
-The following practical example demonstrates how data in "long format" can be 
-analysed with **R**. It builds up on a previous exercise about date and time 
-computation and pivot tables with **LibreOfficce**.
+The following practical example demonstrates how data in "long format"
+can be analysed with **R**. It builds up on the previous exercise
+about date and time computation and pivot tables with **LibreOffice**.
 
 ## Software prerequisites
 
-The example assumes that recent versions of **R** and **RStudio** are installed, 
-together with some add-on packages **dplyr**, **tidyr**, **readr**, **lubridate** and 
-**ggplot2**. The packages should already be available in the computer pool of the 
-university, otherwise install it over the "Packages" pane in **RStudio** or from the 
-command line:
+The example assumes that recent versions of **R** and **RStudio** are
+installed, together with some add-on packages **dplyr**, **tidyr**,
+**readr**, **lubridate** and **ggplot2**. The packages should already
+be available in the computer pool of the university, otherwise install
+it over the "Packages" pane in **RStudio** or from the command line:
 
 If all packages are installed, we need to load it to the active session with
 
@@ -46,17 +46,21 @@ Hydrology (BfG)^[Data Source: Federal Waterways and Shipping
 Administration (WSV), provided by the Federal Institute for Hydrology
 (BfG).].
 
-Please read the information file [elbe_info.txt](https://github.com/tpetzoldt/datasets/blob/main/data/elbe_info.txt) 
-about data source and copyright before downloading the data file "data.csv". The data set ist then available 
-in the course folder or from [https://github.com/tpetzoldt/datasets/blob/main/data/](https://github.com/tpetzoldt/datasets/blob/main/data/).
+Please read the information file
+[elbe_info.txt](https://github.com/tpetzoldt/datasets/blob/main/data/elbe_info.txt)
+about data source and copyright before downloading the data file
+"data.csv". The data set ist then available in the course folder or
+from
+[https://github.com/tpetzoldt/datasets/blob/main/data/](https://github.com/tpetzoldt/datasets/blob/main/data/).
 
 
 ## Overview
 
-We first learn how to import data to **R**, then we will do date and time 
-conversion and create some plots. After that we learn how to aggregate, analyse and 
-reformat the data set. A final outlook gives an impression how to use pipelines
-and high level plotting with the **ggplot** package.
+We first learn how to import data to **R**, then we will do date and
+time conversion and create some plots. After that we learn how to
+aggregate, analyse and reformat the data set. A final outlook gives an
+impression how to use pipelines and high level plotting with the
+**ggplot** package.
 
 # Data Import to **R**
 
@@ -65,17 +69,23 @@ and high level plotting with the **ggplot** package.
 **R** can access spreadsheet tables and data bases directly using packages like
 **readxl** for Excel files. It can also read LibreOffice files and data bases.
 
-Here we want to make it simple and just read the data from a **universal exchange format** (.txt or .csv) that can be shared between all systems.
-In our example, we use a csv-file (comma separated values), where the first
-row is the table header of unique variable names. The **variable names** must start with a letter and should not contain special characters, spaces etc. Additional meta information (e.g. source of data) and measurement shold be documented separately, for example in a separate file README.txt.
+Here we want to make it simple and just read the data from a
+**universal exchange format** (.txt or .csv) that can be shared
+between all systems.  In our example, we use a csv-file (comma
+separated values), where the first row is the table header of unique
+variable names. The **variable names** must start with a letter and
+should not contain special characters, spaces etc. Additional meta
+information (e.g. source of data) and measurement shold be documented
+separately, for example in a separate file README.txt.
 
-The example file **elbe.csv** contains daily discharge of the Elbe River in 
-$\mathrm{m^3 s^{-1}}$ from gauging station 
-Dresden, river km 55.6 from the Federal Waterways and Shipping 
-Administration (WSV) and where provided by the Federal Institute for Hydrology (BfG).
+The example file **elbe.csv** contains daily discharge of the Elbe
+River in $\mathrm{m^3 s^{-1}}$ from gauging station Dresden, river km
+55.6 from the Federal Waterways and Shipping Administration (WSV) and
+where provided by the Federal Institute for Hydrology (BfG).
 
-The third column "validated" indicates whether the values were finally approved by 
-WSV and BfG. Data from the 19th century are particularly uncertain. Please consult the file `elbe_info.txt` for details.
+The third column "validated" indicates whether the values were finally
+approved by WSV and BfG. Data from the 19th century are particularly
+uncertain. Please consult the file `elbe_info.txt` for details.
 
 
 ![RStudio import assistant](rstudio-import-readr-elbe.png){width=50%}
@@ -112,30 +122,38 @@ elbe <- read_csv("elbe.csv")
 ```
 
 
-This works if the data format is a **true** csv (comma separated values) file with English decimal dot "." for the numbers and "," for the column separator. If the file format is different, we may use `read.table`, a more flexible function that allows to specify the column separator decimal.
+This works if the data format is a **true** csv (comma separated
+values) file with English decimal dot "." for the numbers and "," for
+the column separator. If the file format is different, we may use
+`read.table`, a more flexible function that allows to specify the
+column separator decimal.
 
 
-**Note:** for the exercise, one of the above methods is sufficient, either the
-import wizard or `read_csv`. The command line method is advantageous 
-if a file is read several times or if several files need to be imported.
+**Note:** for the exercise, one of the above methods is sufficient,
+either the import wizard or `read_csv`. The command line method is
+advantageous if a file is read several times or if several files need
+to be imported.
 
 
 # Data management with **R** -- the modern way
 
-In the last years, a new series of packages, called the "tidyverse" appeared,
-leading to a small revolution how to work with data. 
-We start with the Elbe data set and date and some time computation. The *tidyverse* methods
-look intriguingly simple, so that many people like it. Often, there is also a
-classical way in "base R" that is sometimes still needed. Experts know both.
+In the last years, a new series of packages, called the "tidyverse"
+appeared, leading to a small revolution how to work with data.  We
+start with the Elbe data set and date and some time computation. The
+*tidyverse* methods look intriguingly simple, so that many people like
+it. Often, there is also a classical way in "base R" that is sometimes
+still needed. Experts know both.
 
 ## Date and time conversion
 
-In the following we extend the **elbe** data frame by adding information about
-the day, month, year and day of year. Here function `mutate` adds additional columns, 
-or modifies existing if the column names exist.
+In the following we extend the **elbe** data frame by adding
+information about the day, month, year and day of year. Here function
+`mutate` adds additional columns, or modifies existing if the column
+names exist.
 
-Note also that the day of year function in the date and time package **lubridate**
-is named `yday`. Details about date and time conversion can be found in a cheatsheet available from 
+Note also that the day of year function in the date and time package
+**lubridate** is named `yday`. Details about date and time conversion
+can be found in a cheatsheet available from
 [https://raw.githubusercontent.com/rstudio/cheatsheets/main/lubridate.pdf](https://raw.githubusercontent.com/rstudio/cheatsheets/main/lubridate.pdf)
 
 
@@ -154,9 +172,10 @@ inspect the data structure of the `elbe` data frame.
 
 ## Basic plotting with R's base plot
 
-The full time series can be plotted  using the `date` as argument for the x-axis 
-and `discharge` for the y-axis. The `$` sign indicates from which column of 
-the `elbe`-table data are taken. The `"l"` indicates line plots.
+The full time series can be plotted using the `date` as argument for
+the x-axis and `discharge` for the y-axis. The `$` sign indicates from
+which column of the `elbe`-table data are taken. The `"l"` indicates
+line plots.
 
 ```{r,eval=FALSE,fig=FALSE}
 plot(elbe$date, elbe$discharge, type="l")
@@ -170,18 +189,21 @@ The formula syntax allows to specify the data as a separate argument.
 plot(discharge ~ date, data=elbe, type="l")
 ```
 
-The formula syntax has additional benefits, for example a subset argument:
+The formula syntax has additional benefits, for example a subset
+argument:
 
 ```{r,eval=FALSE,fig=FALSE}
 plot(discharge ~ doy, data=elbe, subset = year==2002, col="blue", type="l")
 lines(discharge ~ doy, data=elbe, subset = year==2003, col="red")
 ```
+
 **Exercise:** Plot 4 years with 4 different colors, 2 wet and 2 dry years.
 
 
 ## Histograms
 
-Histograms show the distribution of the data. Compare the shape of following three:
+Histograms show the distribution of the data. Compare the shape of
+following three:
 
 1. Histogram with untransformed data
 2. Histogram with log-transformed data
@@ -226,18 +248,19 @@ $x_1, x_2, x_3, x_4, \dots$ into
 $(x_1), (x_1+x_2), (x_1+x_2+x_3), (x_1+x_2+x_3+x_4), \dots$
 
 
-If we just use `cumsum` for daily discharge (in $\mathrm{m^3 s^{-1}}$) and multiply it with the number of seconds per day / 1e6, we get a cumulative sum in Mio $\mathrm{m^3}$ over all years:
+If we just use `cumsum` for daily discharge (in $\mathrm{m^3 s^{-1}}$)
+and multiply it with the number of seconds per day / 1e6, we get a
+cumulative sum in Mio $\mathrm{m^3}$ over all years:
 
 ```{r,eval=FALSE,fig=FALSE}
 elbe$cum <- cumsum(elbe$discharge) * 60*60*24 / 1e6
 plot(elbe$date, elbe$cum, type="l", ylab="Mio m^3")
 ```
 
-
-However, cumulation is more commonly done per year, i.e. each year 
-should start with the discharge from a given start day. In the following, 
-let's start with 1st of January, experts may consider to modify the code, to use
-the German hydrological year.
+However, cumulation is more commonly done per year, i.e. each year
+should start with the discharge from a given start day. In the
+following, let's start with 1st of January, experts may consider to
+modify the code, to use the German hydrological year.
 
 
 ```{r,eval=FALSE,fig=FALSE}
@@ -250,12 +273,11 @@ Here, a steep increase shows a wet period, a flat curve indicates a dry period.
  
 # Summarizing and pivoting data
 
-
 ## Summaries and cross-tabulation
 
-Here we use the tidyverse method `summarize`, after grouping with `group_by`. 
-It is, compared to the classical `aggregate`-function i **R** more powerful and
-much easier to use:
+Here we use the tidyverse method `summarize`, after grouping with
+`group_by`.  It is, compared to the classical `aggregate`-function i
+**R** more powerful and much easier to use:
 
 
 ```{r,eval=FALSE,fig=FALSE}
@@ -269,27 +291,28 @@ totals <- summarize(elbe_grouped,
 totals
 ```
 
-**Exercise:** Use the above method to compute annual total discharge **sums** and
-monthly average discharge values.
+**Exercise:** Use the above method to compute annual total discharge
+**sums** and monthly average discharge values.
 
 
 ## A standard pivot table
 
-Tidyverse provides also tools for the
-conversion of data base tables (long data format) into cross-tables 
-(wide data format) and vice versa. This functionality changed several times
-in the last years, so you may see functions like `melt` and `cast` or `gather` and `spread` doing more or less the same, but with different
-syntax. The most recent development suggests the two functions `pivot_wider` and
+Tidyverse provides also tools for the conversion of data base tables
+(long data format) into cross-tables (wide data format) and vice
+versa. This functionality changed several times in the last years, so
+you may see functions like `melt` and `cast` or `gather` and `spread`
+doing more or less the same, but with different syntax. The most
+recent development suggests the two functions `pivot_wider` and
 `pivot_longer` for this purpose.
 
 Its first argument is a data base table, the other arguments define
 the structure of the desired crosstable.
 
-Here `id_cols` is the name of a column in a long table that will become the rows, 
-`names_from` indicates where the names of the columns are taken from and
-`values_from` the column with the values for the cross table. If more than
-one value is possible for a row x column combination, an optional `values_fn`
-can be given. 
+Here `id_cols` is the name of a column in a long table that will
+become the rows, `names_from` indicates where the names of the columns
+are taken from and `values_from` the column with the values for the
+cross table. If more than one value is possible for a row x column
+combination, an optional `values_fn` can be given.
 
 
 ```{r, recast,eval=FALSE,fig=FALSE}
@@ -301,6 +324,7 @@ elbe_wide <-  pivot_wider(elbe,
               )
 elbe_wide
 ```
+
 **Exercise:** Create a crosstable for monthly max. discharge over all years.
 
 <!--
@@ -314,9 +338,10 @@ pivot_wider(elbe,
 
 ## Back-conversion of a crosstable into a data base table
 
-The inverse case is also possible, e.g. the conversion of a cross table
-into a data base table.  It can be done with the function `pivot_longer`. 
-The column of the `id.vars` variable(s) will become identifier(s) downwards.
+The inverse case is also possible, e.g. the conversion of a cross
+table into a data base table.  It can be done with the function
+`pivot_longer`.  The column of the `id.vars` variable(s) will become
+identifier(s) downwards.
 
 ```{r, eval=FALSE,fig=FALSE}
 pivot_longer(elbe_wide, names_to="year", cols=as.character(1989:2019))
@@ -325,22 +350,26 @@ pivot_longer(elbe_wide, names_to="year", cols=as.character(1989:2019))
 
 # Outlook: Pipelined data analysis with dplyr and ggplot
 
-The following examples are intended as an outlook, how modern data management 
-packages from the so-called "tidyverse" can be combined to *pipeline* an analysis 
-in a compact way. The examples combine the data manipulation package 
-**dplyr** with the plotting package **ggplot2** and the so-called pipeline `|>`
-operator that "pipes" the outcome of one function to the next.
+The following examples are intended as an outlook, how modern data
+management packages from the so-called "tidyverse" can be combined to
+*pipeline* an analysis in a compact way. The examples combine the data
+manipulation package **dplyr** with the plotting package **ggplot2**
+and the so-called pipeline `|>` operator that "pipes" the outcome of
+one function to the next.
 
-All packages have in common to rely on long database tables, the
-"tidy data format".
+All packages have in common to rely on long database tables, the "tidy
+data format".
 
-A note if you read this at the beginning of your **R** experience: pipelines and 
-tidyverse are very elegant and the examples below give an impression what is possible 
-with very few commands. That opens up a whole world of possibilities. It takes some
-time to understand everything, but the general concept is easy to grasp.
+A note if you read this at the beginning of your **R** experience:
+pipelines and tidyverse are very elegant and the examples below give
+an impression what is possible with very few commands. That opens up a
+whole world of possibilities. It takes some time to understand
+everything, but the general concept is easy to grasp.
 
-A short introduction about pipelines is found [here](https://tpetzoldt.github.io/elements/slides/x4-pipes-intro.html) 
-and some more on [www.r-bloggers.com](https://www.r-bloggers.com/2017/12/pipes-in-r-tutorial-for-beginners/).
+A short introduction about pipelines is found
+[here](https://tpetzoldt.github.io/elements/slides/x4-pipes-intro.html)
+and some more on
+[www.r-bloggers.com](https://www.r-bloggers.com/2017/12/pipes-in-r-tutorial-for-beginners/).
 
 ## Minimum-Maximum plot with summarize and ggplot2
 
@@ -367,8 +396,8 @@ elbe |>
 
 ## Cumulative sums for all years
 
-Cumulative sums are a standard tool used by hydrologists and reservoir managers. 
-They allow to detect easily dry and wet years and periods.
+Cumulative sums are a standard tool used by hydrologists and reservoir
+managers.  They allow to detect easily dry and wet years and periods.
 
 If we just use `cumsum`, we get a cumulative sum over all years:
 
@@ -383,8 +412,14 @@ elbe |>
 
 **Exercises:**
 
-1. Which year was the wettest, which one the driest year in total? Find a year with dry spring and wet summer.    Use the outcommented `filter` to reduce the number of simultanaeous lines.
-2. Modify the commands so that the hydrological year is shown. Note that the German hydrological year goes from    1st November to 31st October of the following year. Other countries have different regulations.
+1. Which year was the wettest, which one the driest year in total?
+   Find a year with dry spring and wet summer.  Use the outcommented
+   `filter` to reduce the number of simultanaeous lines.
+
+2. Modify the commands so that the hydrological year is shown. Note
+   that the German hydrological year goes from 1st November to 31st
+   October of the following year. Other countries have different
+   regulations.
 
 
 
