@@ -5,15 +5,17 @@ subtitle: "Teaching material"
 
 ## Introduction
 
-This website contains a collection of lab-exercises for an introductory statistics 
-course with **R**. The aim is to provide insight in fundamental principles and 
+This website contains a collection of lab-exercises for introductory statistics 
+courses with **R**. The aim is to provide insight in fundamental principles and 
 a broad overview and enable students to select and understand particular books 
 and online material to dig in deeper in the diverse and fascinating field of statistics.
 
+The corresponding slides are found at [https://tpetzoldt.github.io/elements/](https://tpetzoldt.github.io/elements/).
+
 ## Status
 
-The selection of material is work in progress. Additional material will appear 
-until end of January 2025. Feedback and comments are welcome.
+The selection of material is work in progress. The material is updated and 
+additional material will appear until end of January 2025. Feedback and comments are welcome.
 
 
 ## Author
@@ -22,4 +24,4 @@ https://tu-dresden.de/Members/thomas.petzoldt
 
 https://github.com/tpetzoldt
 
-2024-10-21
+2024-11-04

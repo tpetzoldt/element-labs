@@ -1,16 +1,6 @@
 ---
-title: "02-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting"
-author: "Thomas Petzoldt"
-date: "2023-11-08"
-format:
-  html:
-    toc: true
-    number-sections: true
-    embed-resources: true
-  pdf:
-    toc: false
-    number-sections: true
-    papersize: a4
+title: "02-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R"
+date: "2024-11-04"
 ---
 
 ```{r setup, include=FALSE}

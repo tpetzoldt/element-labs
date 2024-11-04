@@ -1,18 +1,6 @@
 ---
 title: "05-Distribution and Confidence Intervals of Clementines"
-author: "Thomas Petzoldt"
 date: '2023-11-14'
-date-format: "YYYY-MM-DD"
-format:
-  html:
-    toc: true
-    number-sections: true
-  pdf:
-    toc: false
-    number-sections: true
-    colorlinks: true
-    papersize: a4
-embed-resources: true    
 ---
 
 ```{r include=FALSE, eval=TRUE}

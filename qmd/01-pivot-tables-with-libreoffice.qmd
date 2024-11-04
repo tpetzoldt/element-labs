@@ -1,18 +1,6 @@
 ---
 title: "01-Discharge of River Elbe: Data Management with LibreOffice"
-author: "Thomas Petzoldt"
 date: "2024-10-16"
-date-format: "YYYY-MM-DD"
-format:
-  html:
-    toc: true
-    number-sections: true
-  pdf:
-    toc: false
-    number-sections: true
-    papersize: a4
-self-contained: true
-bibliography: bib.bib
 ---
 
 ```{r setup, include=FALSE}

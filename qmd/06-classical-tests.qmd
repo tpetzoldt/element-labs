@@ -1,18 +1,6 @@
 ---
 title: "06-Classical Tests"
-author: 'HSE Lab Exercise'
 date: '2023-11-29'
-date-format: "YYYY-MM-DD"
-format:
-  html:
-    toc: true
-    number-sections: true
-  pdf:
-    toc: false
-    number-sections: true
-    colorlinks: true
-    papersize: a4
-embed-resources: true    
 ---
 
 ```{r setup, include=FALSE}

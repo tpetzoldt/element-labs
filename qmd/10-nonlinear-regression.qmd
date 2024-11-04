@@ -1,17 +1,6 @@
 ---
 title: "10-Nonlinear Regression"
-author: "Thomas Petzoldt"
 date: '2024-01-24'
-date-format: "YYYY-MM-DD"
-format:
-  html:
-    toc: true
-    number-sections: true
-  pdf:
-    toc: false
-    number-sections: true
-    papersize: a4
-self-contained: true
 ---
 
 ```{r setup, include=FALSE}

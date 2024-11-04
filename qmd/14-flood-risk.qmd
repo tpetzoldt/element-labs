@@ -1,20 +1,11 @@
 ---
 title: '14-Extreme Value Estimation with Package FAmle'
 date: "2024-10-21"
-format:
-  html:
-    toc: true
-    number-sections: true
-    embed-resources: true
-  pdf:
-    toc: false
-    number-sections: true
-    papersize: a4
 ---
 
 ## Introduction
 
-Here, it is described how to fit distributions to a given hydrollogical data set. 
+Here, it is described how to fit distributions to a given hydrological data set. 
 Our intention here is to provide an example how easy and powerful distribution fitting can be done in R. More information can be found in
 Rice(2003), Hogg(2004), Coles (2001) and in the help file of package FAmle (Aucoin, 2001). For the
 given example, a data set from the US Geological Survey (USGS, http://waterdata.usgs.gov/nwis will
@@ -161,7 +152,7 @@ distr(x=3000, dist="lnorm", param=fitLn2$par.hat, type="p")
 ## Lognormal Distribution with 3 Parameters
 
 Let’s repeat the procedure for a Lognormal distribution with three parameters. In this case the package
-FAdist is required. Results are presented in @fig-mle-ln3.
+FAdist is required. Results are presented in @fig-mle-ln3
 
 
 ```{r}

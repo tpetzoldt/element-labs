@@ -1,16 +1,6 @@
 ---
 title: "13-Identification of Breakpoints in Time Series"
-author: "Thomas Petzoldt"
 date: "2023-11-08"
-format:
-  html:
-    toc: true
-    number-sections: true
-    embed-resources: true
-  pdf:
-    toc: false
-    number-sections: true
-    papersize: a4
 ---
 
 ## Text needs to be written

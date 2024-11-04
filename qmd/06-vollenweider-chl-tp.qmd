@@ -1,26 +1,6 @@
 ---
 title: "06-Correlation and regression: Dependency of chlorophyll on phosphorus in lakes"
-#author: "Th. Pe."
 date: '2024-10-31'
-date-format: "YYYY-MM-DD"
-format:
-  html:
-    #theme: cosmo
-    toc: true
-    number-sections: true
-  pdf:
-    toc: false
-    number-sections: true
-    colorlinks: true
-    papersize: a4
-    geometry:
-      - top=20mm
-      - left=25mm
-      - bottom=25mm
-bibliography: bib.bib
-csl: apa
-    
-embed-resources: true    
 ---
 
 
@@ -35,7 +15,7 @@ The following example is based on the classical OECD study on
 among others, describes the relationship between annual mean
 chlorophyll concentration and annual mean total phosphorus in lakes.
 A website about aspects of this study can be found on
-[https://www.chebucto.ns.ca/ccn/info/Science/SWCS/TPMODELS/OECD/oecd.html](https://www.chebucto.ns.ca/ccn/info/Science/SWCS/TPMODELS/OECD/oecd.html)
+[https://www.chebucto.ns.ca/ccn/info/Science/SWCS/TPMODELS/OECD/oecd.html](https://www.chebucto.ns.ca/ccn/info/Science/SWCS/TPMODELS/OECD/oecd.html).
 
 We use a data set that was taken manually from the figure below. It is
 of course not exactly the original data set, but should be sufficient

@@ -1,20 +1,6 @@
 ---
 title: "03-Distribution and confidence intervals of maple leaf samples"
-author: "Thomas Petzoldt"
 date: '2024-10-29'
-date-format: "YYYY-MM-DD"
-format:
-  html:
-    toc: true
-    number-sections: true
-  pdf:
-    toc: false
-    number-sections: true
-    colorlinks: true
-    papersize: a4
-bibliography: bib.bib
-csl: apa
-embed-resources: true    
 ---
 
 ```{r setup, include=FALSE}

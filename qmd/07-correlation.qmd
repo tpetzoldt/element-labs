@@ -1,20 +1,6 @@
 ---
 title: "07-Correlation"
-author: "Thomas Petzoldt"
 date: "2022-11-30"
-date-format: "YYYY-MM-DD"
-format:
-  html:
-    toc: true
-    number-sections: true
-  pdf:
-    toc: false
-    number-sections: true
-    colorlinks: true
-    papersize: a4
-bibliography: bib.bib
-csl: apa
-embed-resources: true  
 ---
 
 # Example 1: Correlation of water quality indicators of a stream

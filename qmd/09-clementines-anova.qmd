@@ -1,18 +1,6 @@
 ---
 title: "09-Which fruits are the biggest? An ANOVA example"
 date: "November 21, 2023"
-format:
-  html:
-    toc: true
-    number-sections: true
-  pdf:
-    toc: false
-    number-sections: true
-    colorlinks: true
-    papersize: a4
-bibliography: bib.bib
-csl: apa
-embed-resources: true  
 ---
 
 ```{r setup, include=FALSE}

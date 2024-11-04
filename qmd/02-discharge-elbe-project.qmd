@@ -1,16 +1,6 @@
 ---
 title: 'x02-Discharge of River Elbe: Homework Project'
-author: "Thomas Petzoldt"
 date: "2023-11-09"
-format:
-  html:
-    toc: true
-    number-sections: true
-    embed-resources: true
-  pdf:
-    toc: false
-    number-sections: true
-    papersize: a4
 ---
 
 ```{r setup, include=FALSE}
