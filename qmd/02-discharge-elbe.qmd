@@ -35,7 +35,7 @@ library(ggplot2)   # high level plotting with the grammar of graphics
 ```
 
 
-The examples were tested with **R** versions 4.2.1 -- 4.3.2.
+The examples were tested with **R** versions 4.2.1 -- 4.4.2.
 
 ## The data set
 
@@ -371,7 +371,7 @@ A short introduction about pipelines is found
 and some more on
 [www.r-bloggers.com](https://www.r-bloggers.com/2017/12/pipes-in-r-tutorial-for-beginners/).
 
-## Minimum-Maximum plot with summarize and ggplot2
+## Minimum-maximum plot with summarize and ggplot2
 
 
 ```{r, message=FALSE, fig.height=2.5}
@@ -380,7 +380,8 @@ and some more on
 elbe <- read.csv("elbe.csv")
 
 ## do everything in one pipeline:
-##   doy calculation; grouping; min, max, mean; melt to long format; plotting
+##   doy calculation |> grouping |> min, max, mean |> melt to long format |>
+##   plotting
 elbe |> 
   mutate(doy = yday(date)) |>
   group_by(doy) |>
