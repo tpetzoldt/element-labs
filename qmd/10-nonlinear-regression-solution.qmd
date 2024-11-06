@@ -1,5 +1,5 @@
 ---
-title: "x10-Fit nonlinear model to plankton growth data"
+title: "x10-Fit Nonlinear Models to Plankton Growth Data"
 date: '2024-01-24'
 bibliography: nonlinear.bib
 ---

@@ -15,18 +15,20 @@ website:
       - section: Labs
         contents:
           - qmd/01-pivot-tables-with-libreoffice.qmd
-          - qmd/02-discharge-elbe.qmd
-          - qmd/03-distributions-leaves.qmd
+          - qmd/03-discharge-elbe.qmd
+          - qmd/04-distributions-leaves.qmd
           - qmd/05-distributions-fruits-tidyverse.qmd
           - qmd/06-classical-tests.qmd
           - qmd/07-correlation.qmd
+          - qmd/08-vollenweider-chl-tp.qmd
+          - qmd/09-clementines-anova.qmd
           - qmd/10-nonlinear-regression.qmd
           - qmd/12-timeseries-trends.qmd
           - qmd/13-timeseries-breakpoints.qmd
           - qmd/14-flood-risk.qmd
       - section: Projects
         contents:
-          - qmd/02-discharge-elbe-project.qmd
+          - qmd/03-discharge-elbe-project.qmd
       - section: Solutions
         contents:
           - qmd/10-nonlinear-regression-solution.qmd
