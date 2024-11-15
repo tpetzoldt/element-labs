@@ -66,7 +66,7 @@ so we can estimate a start value of the exponential growth rate $r$ from the log
 The straight line between two data points with steep 
 increase indicates the initial exponential phase. Here we use simply points number 1 and 5:
 
-```{r}
+```{r, linear-log}
 par(mfrow=c(1, 2))
 plot(x, yy)
 plot(x, log(yy))
@@ -134,7 +134,7 @@ baranyi <- function(x, r, K, N0, h0) {
 
 If we assume a lag time $h_0 = 2$, we can try to fit it and compare it with the logistic model
 
-```{r}
+```{r, logistic-baranyi}
 pstart <- c(r=0.5, K=7, N0=1, h0=2)
 fit_baranyi   <- nls(yy ~ baranyi(x, r, K, N0, h0), start = pstart, trace=FALSE)
 
@@ -168,7 +168,7 @@ routine. Details of the algorithm are found in @Hall2014.
 The following shows the phase of steepest increase, the exponential phase, identified 
 by linear regression using the data points with the steepest increase:
 
-```{r}
+```{r, growthrates-easy}
 library("growthrates")
 par(mfrow=c(1, 2))
 fit_easy <- fit_easylinear(x, yy)
@@ -183,7 +183,7 @@ Now we can take the start parameters from above and function `fit_growthmodel` u
 the `grow_logistic` function, that is pre-defined in the package. We can also use 
 a specific `plot` function from the package
 
-```{r}
+```{r, rowthrates-logistic}
 pstart <- c(mumax=r, K=max(yy), y0=yy[1])
 fit_logistic2 <- fit_growthmodel(grow_logistic, p=pstart, time=x, y=yy)
 plot(fit_logistic2)
@@ -211,7 +211,7 @@ or set it to zero, the models would not work anymore. We see that some parameter
 
 Finally, we plot the results in both, linear and log scale:
 
-```{r}
+```{r, growthrates-fits}
 par(mfrow=c(1, 2))
 plot(fit_logistic2, ylim=c(0, 10), las=1)
 lines(fit_baranyi2, col="magenta")

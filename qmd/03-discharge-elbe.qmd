@@ -185,7 +185,7 @@ The same can be done with a so-called formula syntax. Here y and x are given in
 opposite order, separated with a `~` (tilde sign). It can be read as  "**y as a function of x**".
 The formula syntax allows to specify the data as a separate argument.
 
-```{r,eval=TRUE,fig=TRUE, fig.height=3}
+```{r timeseries,eval=TRUE,fig=TRUE, fig.height=3}
 plot(discharge ~ date, data=elbe, type="l")
 ```
 
@@ -374,7 +374,7 @@ and some more on
 ## Minimum-maximum plot with summarize and ggplot2
 
 
-```{r, message=FALSE, fig.height=2.5}
+```{r minmax, message=FALSE, fig.height=2.5}
 
 ## Read data
 elbe <- read.csv("elbe.csv")

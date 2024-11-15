@@ -58,7 +58,7 @@ plot(DSP)
 
 First, plot the autocorrelation (`acf`) and partial autocorrelation (`pacf`) of the DSP series:
 
-```{r, eval=TRUE, fig.height=3}
+```{r acf-plot, eval=TRUE, fig.height=3}
 par(mfrow=c(1,2))
 acf(DSP)
 pacf(DSP)

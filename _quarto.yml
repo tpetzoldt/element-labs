@@ -39,7 +39,7 @@ format:
     css: thpe.css
     toc: true
     number-sections: true
-    embed-resources: true
+    #embed-resources: true
   pdf:
     toc: false
     number-sections: true
