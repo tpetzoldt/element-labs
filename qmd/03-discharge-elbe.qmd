@@ -1,6 +1,6 @@
 ---
 title: "03-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R"
-date: "2024-11-04"
+date: "2024-11-15"
 ---
 
 ```{r setup, include=FALSE}
@@ -154,7 +154,7 @@ names exist.
 Note also that the day of year function in the date and time package
 **lubridate** is named `yday`. Details about date and time conversion
 can be found in a cheatsheet available from
-[https://raw.githubusercontent.com/rstudio/cheatsheets/main/lubridate.pdf](https://raw.githubusercontent.com/rstudio/cheatsheets/main/lubridate.pdf)
+[https://rstudio.github.io/cheatsheets/lubridate.pdf](https://rstudio.github.io/cheatsheets/lubridate.pdf)
 
 
 ```{r,eval=TRUE,fig=FALSE, results='hide', message=FALSE, warning=FALSE}
@@ -402,10 +402,14 @@ managers.  They allow to detect easily dry and wet years and periods.
 
 If we just use `cumsum`, we get a cumulative sum over all years:
 
-```{r,eval=TRUE,fig=TRUE,fig.height=3}
+<!--
+{r,eval=TRUE,fig=TRUE,fig.height=3}
+/-->
+
+```{r,eval=FALSE,fig=FALSE}
 elbe |> 
   mutate(doy = yday(date), year = year(date)) |>
-  filter(year %in% 2000:2010) |>
+  #filter(year %in% 2000:2010) |>
   group_by(year = factor(year)) |>
   mutate(cum_discharge = cumsum(discharge) * 60*60*24) |>
   ggplot(aes(doy, cum_discharge, color = year)) + geom_line()
@@ -417,8 +421,8 @@ elbe |>
    Find a year with dry spring and wet summer.  Use the outcommented
    `filter` to reduce the number of simultanaeous lines.
 
-2. Modify the commands so that the hydrological year is shown. Note
-   that the German hydrological year goes from 1st November to 31st
+2. Modify the commands so that the hydrological year is shown. 
+   The German hydrological year goes from 1st November to 31st
    October of the following year. Other countries have different
    regulations.
 

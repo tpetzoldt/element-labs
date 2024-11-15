@@ -1,11 +1,15 @@
 ---
 title: 'x03-Discharge of River Elbe: Homework Project'
-date: "2023-11-09"
+date: "2024-11-15"
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+The project is related to the lab exercise
+"Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R".
+
 
 # Task 1: Distribution of discharge
 
@@ -56,14 +60,15 @@ collegues first, then collect material and create a first version
 Then discuss and improve the result, select the most important parts
 and create the final version.
 
-Communication can be done in person or in the matrix. The idea of the matrix
-is that all (= "the community") can learn from each other. Private
+Communication can be done in person or in the [Matrix](https://matrix.org)[^Matrix] chat group. 
+The idea of the chat group is that all (= "the community") can learn from each other. Private
 communication channels for teamwork are of course allowed, just find
 an agreement what fits your needs best. If you want, it is also
-possible to create separate communication channels in Opal or the
-matrix for the groups.
+possible to create separate communication channels in 
+[OPAL](https://tud.de/opal)[^OPAL]
+or in the Matrix for your group.
 
-If you ask in the forum or the matrix, please formulate specific 
+If you ask in the forum or the Matrix, please formulate specific 
 questions and not only "this is my result, is this correct". Good examples
 will hopefully develop during the work. Please feel free to post questions and
 contribute to the answers.
@@ -73,13 +78,16 @@ contribute to the answers.
 The report should read nicely. Space needed for figures, tables and 
 explanatory text should be in good balance.
 
-* The report should have 5 pages at maximum. Quality instead of quantity! Distill the essential messages.
+* The report should have 5 pages A4 at maximum. Quality instead of quantity! Distill the essential messages.
 * Font size of the text should be 11 or 12 points.
 * A line spacing of 1.2 lines is recommended to improve readability.
 * Figures (lines, font size of annotations) must be well readable.
 * Literature must be properly cited. We encourage to use author-year style citations. Good examples can be found at the [APA style web page](https://apastyle.apa.org/style-grammar-guidelines/references/examples).
 
-You will have four weeks time for the preparation of the report. Then upload it as PDF and (optionally) an R script to the
-**File** folder of your group. Submissions after the deadline cannot be considered.
+You will have four weeks time for the preparation of the report. Then upload it as 
+PDF od HTML document and (optionally) an .R or Quarto (.qmd) script to the
+**File** folder of your group in the OPAL learning management system. 
+Submissions after the deadline cannot be considered.
 
-
+[^OPAL]: [OPAL](https://tud.de/opal)  is the learning managament platform used by TU Dresden.
+[^Matrix]: TU Dresden uses the [Matrix](https://doc.matrix.tu-dresden.de) instant messenger.
