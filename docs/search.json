@@ -70,7 +70,7 @@
     "href": "qmd/04-distributions-leaves.html#calculation-of-summary-statistics-with-dplyr",
     "title": "04-Distribution and Confidence Intervals of Maple Leaf Samples",
     "section": "4.1 Calculation of summary statistics with dplyr",
-    "text": "4.1 Calculation of summary statistics with dplyr\n\nlibrary(\"dplyr\")\nleaves &lt;- read.csv(\"leaves.csv\")\n\nstats &lt;-\n  leaves %&gt;%\n    group_by(group) %&gt;%\n    summarize(mean = mean(width), sd=sd(width), N=length(width), se=sd/sqrt(N),\n              lwr = mean + qt(p = 0.025, df = N-1) * se,\n              upr = mean + qt(p = 0.975, df = N-1) * se\n             )\n\nstats",
+    "text": "4.1 Calculation of summary statistics with dplyr\n\nlibrary(\"dplyr\")\nleaves &lt;- read.csv(\"leaves.csv\")\n\nstats &lt;-\n  leaves |&gt;\n    group_by(group) |&gt;\n    summarize(mean = mean(width), sd=sd(width), N=length(width), se=sd/sqrt(N),\n              lwr = mean + qt(p = 0.025, df = N-1) * se,\n              upr = mean + qt(p = 0.975, df = N-1) * se\n             )\n\nstats",
     "crumbs": [
       "Labs",
       "04-Distribution and Confidence Intervals of Maple Leaf Samples"
@@ -81,7 +81,7 @@
     "href": "qmd/04-distributions-leaves.html#barchart-and-errorbars-with-ggplot2",
     "title": "04-Distribution and Confidence Intervals of Maple Leaf Samples",
     "section": "4.2 Barchart and errorbars with ggplot2",
-    "text": "4.2 Barchart and errorbars with ggplot2\n\nlibrary(\"ggplot2\")\nstats %&gt;%\n  ggplot(aes(x=group, y=mean, min=lwr, max=upr))  +\n    geom_col() + geom_errorbar(width=0.2)",
+    "text": "4.2 Barchart and errorbars with ggplot2\n\nlibrary(\"ggplot2\")\nstats |&gt;\n  ggplot(aes(x=group, y=mean, min=lwr, max=upr))  +\n    geom_col() + geom_errorbar(width=0.2)",
     "crumbs": [
       "Labs",
       "04-Distribution and Confidence Intervals of Maple Leaf Samples"
@@ -422,7 +422,7 @@
     "href": "qmd/08-vollenweider-chl-tp.html#confidence-intervals",
     "title": "08-Linear Regression: Dependency of Chlorophyll on Phosphorus in Lakes",
     "section": "2.2 Confidence intervals",
-    "text": "2.2 Confidence intervals\nConfidence and prediction intervals are useful to demonstrate uncertainty of the regression line and for predictions. The following code shows an example with test data.\n\nx &lt;- 1:10\ny &lt;- 2 + 3 * x + rnorm(10, sd=2)\nplot(x, y)\nreg &lt;- lm(y ~ x)\n\nnewdata &lt;- data.frame(x=seq(min(x), max(x), length=100))\nconflim &lt;- predict(reg, newdata=newdata, interval=\"confidence\")\npredlim &lt;- predict(reg, newdata=newdata, interval=\"prediction\")\nlines(newdata$x, conflim[,2], col=\"blue\", lty=\"dashed\") \nlines(newdata$x, conflim[,3], col=\"blue\", lty=\"dashed\")\nlines(newdata$x, predlim[,2], col=\"red\", lty=\"solid\") \nlines(newdata$x, predlim[,3], col=\"red\", lty=\"solid\")\n\nabline(reg)\n\n\n\n\n\n\n\n\nThe result of predict is a matrix with 3 columns:\n\n\n       fit       lwr      upr\n1 4.750374 0.3679997 9.132748\n2 5.029801 0.7101451 9.349457\n3 5.309228 1.0519062 9.566550\n\n\n\nthe first column contains the fit,\nthe second and 3rd column the confidence resp. prediction intervals.\n\nYou can also find this out yourself by reading the documentation (?predict) or by inspecting conflim and predlim in the RStudio object explorer.\nThe data frame newdata contains \\(x\\) values for the prediction. Please note that the variable name (e.g. x or log_TP) must be exactly the same as in the lm-function!",
+    "text": "2.2 Confidence intervals\nConfidence and prediction intervals are useful to demonstrate uncertainty of the regression line and for predictions. The following code shows an example with test data.\n\nx &lt;- 1:10\ny &lt;- 2 + 3 * x + rnorm(10, sd=2)\nplot(x, y)\nreg &lt;- lm(y ~ x)\n\nnewdata &lt;- data.frame(x=seq(min(x), max(x), length=100))\nconflim &lt;- predict(reg, newdata=newdata, interval=\"confidence\")\npredlim &lt;- predict(reg, newdata=newdata, interval=\"prediction\")\nlines(newdata$x, conflim[,2], col=\"blue\", lty=\"dashed\") \nlines(newdata$x, conflim[,3], col=\"blue\", lty=\"dashed\")\nlines(newdata$x, predlim[,2], col=\"red\", lty=\"solid\") \nlines(newdata$x, predlim[,3], col=\"red\", lty=\"solid\")\n\nabline(reg)\n\n\n\n\n\n\n\n\nThe result of predict is a matrix with 3 columns:\n\n\n       fit      lwr      upr\n1 3.955315 1.463529 6.447102\n2 4.238710 1.782585 6.694836\n3 4.522105 2.101422 6.942788\n\n\n\nthe first column contains the fit,\nthe second and 3rd column the confidence resp. prediction intervals.\n\nYou can also find this out yourself by reading the documentation (?predict) or by inspecting conflim and predlim in the RStudio object explorer.\nThe data frame newdata contains \\(x\\) values for the prediction. Please note that the variable name (e.g. x or log_TP) must be exactly the same as in the lm-function!",
     "crumbs": [
       "Labs",
       "08-Linear Regression: Dependency of Chlorophyll on Phosphorus in Lakes"
@@ -769,7 +769,7 @@
     "href": "qmd/06-classical-tests.html",
     "title": "06-Classical Tests",
     "section": "",
-    "text": "The example is inspired by a classical test data set (Student, 1908) about a study with two groups of persons treated with two different pharmaceutical drugs.\nDrug 1: 8.7, 6.4, 7.8, 6.8, 7.9, 11.4, 11.7, 8.8, 8, 10\nDrug 2: 9.9, 8.8, 9.1, 8.1, 7.9, 12.4, 13.5, 9.6, 12.6, 11.4\nThe data are the duration of sleeping time in hours. It is assumed that the normal sleeping time would be 8 hours.\n\n\nLet’s test whether the drugs increased or decreased sleeping time, compared to 8 hours:\n\n x &lt;- c(8.7, 6.4, 7.8, 6.8, 7.9, 11.4, 11.7, 8.8, 8, 10)\n t.test(x, mu = 8)\n\nExercise 1: Test the effect of the second drug. Does it change sleeping duration?\n\n\n\nThe two sample t-Test is used to compare two groups of data: Related to our example, we test the following hypotheses:\n\\(H_0\\): Both drugs have the same effect.\n\\(H_A\\): The drugs have a different effect, i.e. one of the drugs is stronger.\n\nx1 &lt;- c(8.7, 6.4, 7.8, 6.8, 7.9, 11.4, 11.7, 8.8, 8, 10)\nx2 &lt;- c(9.9, 8.8, 9.1, 8.1, 7.9, 12.4, 13.5, 9.6, 12.6, 11.4)\nt.test(x1, x2)  # Welch-t-test\n\nHere, R performs the Welch test by default, that is also valid for samples with different variances.\nThe classical approach suggested to check homogeneity of variances with the F-Test (var.test) first and if the assumption holds, to apply the “ordinary” two sample t-test (t.test(....., var.equal = TRUE)). This method is not anymore recommended (Delacre et al., 2017).\n\nvar.test(x1, x2)                    # F-test as pre-test\nt.test(x1, x2, var.equal = TRUE)    # classical t-test\n\nExercise 2: Create a boxplot, and perform the tests. What is the effect size, i.e. by how many hours differs sleep duration?\n\n\n\nGiven is a number of students that passed an examination in statistics. The examination was written two times, one time before and one time after an additional series of lectures. The values represent the numbers of points approached during the examination. Check whether the additional lectures had any positive effect:\n\nx1 &lt;- c(69,  77, 35, 34, 87, 45, 95, 83)\nx2 &lt;- c(100, 97, 67, 42, 75, 73, 92, 97)\n\nExercise 3: The test was conducted by the same individuals before and after the course, so one can use a paired t-test:\n\nt.test(x1, x2, paired = TRUE)\n\nThen compare the results with the ordinary two-sample t-test.\n\n\n\nThe Mann-Whitney and Wilxon tests are nonparametric tests of location. “Nonparametric” means, that the general location of the distributions is compared and not a parameter like the mean. This makes the test independent of assumptions, but can sometimes lead to a vague interpretation.\nExercise 4: Now repeat the comparison for the sleep study using the Wilcoxon test for unpaired and paired samples. Note that the unpaired test is often also called “Mann-Whitney U test”.\nIn R both tests can be found as wilcox.test. Use the help system of R (?wilcox.test) and read the help page about the usage of these tests.",
+    "text": "Preface\nThe following exercises demonstrate some of the most common classical tests by means of simple examples.",
     "crumbs": [
       "Labs",
       "06-Classical Tests"
@@ -779,8 +779,8 @@
     "objectID": "qmd/06-classical-tests.html#one-sample-t-test",
     "href": "qmd/06-classical-tests.html#one-sample-t-test",
     "title": "06-Classical Tests",
-    "section": "",
-    "text": "Let’s test whether the drugs increased or decreased sleeping time, compared to 8 hours:\n\n x &lt;- c(8.7, 6.4, 7.8, 6.8, 7.9, 11.4, 11.7, 8.8, 8, 10)\n t.test(x, mu = 8)\n\nExercise 1: Test the effect of the second drug. Does it change sleeping duration?",
+    "section": "1.1 One sample t-Test",
+    "text": "1.1 One sample t-Test\nLet’s test whether the drugs increased or decreased sleeping time, compared to 8 hours:\n\n x &lt;- c(8.7, 6.4, 7.8, 6.8, 7.9, 11.4, 11.7, 8.8, 8, 10)\n t.test(x, mu = 8)\n\nExercise 1: Test the effect of the second drug. Does it change sleeping duration?",
     "crumbs": [
       "Labs",
       "06-Classical Tests"
@@ -790,8 +790,8 @@
     "objectID": "qmd/06-classical-tests.html#two-sample-t-test",
     "href": "qmd/06-classical-tests.html#two-sample-t-test",
     "title": "06-Classical Tests",
-    "section": "",
-    "text": "The two sample t-Test is used to compare two groups of data: Related to our example, we test the following hypotheses:\n\\(H_0\\): Both drugs have the same effect.\n\\(H_A\\): The drugs have a different effect, i.e. one of the drugs is stronger.\n\nx1 &lt;- c(8.7, 6.4, 7.8, 6.8, 7.9, 11.4, 11.7, 8.8, 8, 10)\nx2 &lt;- c(9.9, 8.8, 9.1, 8.1, 7.9, 12.4, 13.5, 9.6, 12.6, 11.4)\nt.test(x1, x2)  # Welch-t-test\n\nHere, R performs the Welch test by default, that is also valid for samples with different variances.\nThe classical approach suggested to check homogeneity of variances with the F-Test (var.test) first and if the assumption holds, to apply the “ordinary” two sample t-test (t.test(....., var.equal = TRUE)). This method is not anymore recommended (Delacre et al., 2017).\n\nvar.test(x1, x2)                    # F-test as pre-test\nt.test(x1, x2, var.equal = TRUE)    # classical t-test\n\nExercise 2: Create a boxplot, and perform the tests. What is the effect size, i.e. by how many hours differs sleep duration?",
+    "section": "1.2 Two sample t-Test",
+    "text": "1.2 Two sample t-Test\nThe two sample t-Test is used to compare two groups of data: Related to our example, we test the following hypotheses:\n\\(H_0\\): Both drugs have the same effect.\n\\(H_A\\): The drugs have a different effect, i.e. one of the drugs is stronger.\n\nx1 &lt;- c(8.7, 6.4, 7.8, 6.8, 7.9, 11.4, 11.7, 8.8, 8, 10)\nx2 &lt;- c(9.9, 8.8, 9.1, 8.1, 7.9, 12.4, 13.5, 9.6, 12.6, 11.4)\nt.test(x1, x2)  # Welch-t-test\n\nHere, R performs the Welch test by default, that is also valid for samples with different variances.\nThe classical approach suggested to check homogeneity of variances with the F-Test (var.test) first and if the assumption holds, to apply the “ordinary” two sample t-test (t.test(....., var.equal = TRUE)). This method is not anymore recommended (Delacre et al., 2017).\n\nvar.test(x1, x2)                    # F-test as pre-test\nt.test(x1, x2, var.equal = TRUE)    # classical t-test\n\nExercise 2: Create a boxplot, and perform the tests. What is the effect size, i.e. by how many hours differs sleep duration?",
     "crumbs": [
       "Labs",
       "06-Classical Tests"
@@ -801,8 +801,8 @@
     "objectID": "qmd/06-classical-tests.html#paired-t-test",
     "href": "qmd/06-classical-tests.html#paired-t-test",
     "title": "06-Classical Tests",
-    "section": "",
-    "text": "Given is a number of students that passed an examination in statistics. The examination was written two times, one time before and one time after an additional series of lectures. The values represent the numbers of points approached during the examination. Check whether the additional lectures had any positive effect:\n\nx1 &lt;- c(69,  77, 35, 34, 87, 45, 95, 83)\nx2 &lt;- c(100, 97, 67, 42, 75, 73, 92, 97)\n\nExercise 3: The test was conducted by the same individuals before and after the course, so one can use a paired t-test:\n\nt.test(x1, x2, paired = TRUE)\n\nThen compare the results with the ordinary two-sample t-test.",
+    "section": "1.3 Paired t-test",
+    "text": "1.3 Paired t-test\nGiven is a number of students that passed an examination in statistics. The examination was written two times, one time before and one time after an additional series of lectures. The values represent the numbers of points approached during the examination. Check whether the additional lectures had any positive effect:\n\nx1 &lt;- c(69,  77, 35, 34, 87, 45, 95, 83)\nx2 &lt;- c(100, 97, 67, 42, 75, 73, 92, 97)\n\nExercise 3: The test was conducted by the same individuals before and after the course, so one can use a paired t-test:\n\nt.test(x1, x2, paired = TRUE)\n\nThen compare the results with the ordinary two-sample t-test.",
     "crumbs": [
       "Labs",
       "06-Classical Tests"
@@ -812,8 +812,8 @@
     "objectID": "qmd/06-classical-tests.html#wilcoxon-test-optional",
     "href": "qmd/06-classical-tests.html#wilcoxon-test-optional",
     "title": "06-Classical Tests",
-    "section": "",
-    "text": "The Mann-Whitney and Wilxon tests are nonparametric tests of location. “Nonparametric” means, that the general location of the distributions is compared and not a parameter like the mean. This makes the test independent of assumptions, but can sometimes lead to a vague interpretation.\nExercise 4: Now repeat the comparison for the sleep study using the Wilcoxon test for unpaired and paired samples. Note that the unpaired test is often also called “Mann-Whitney U test”.\nIn R both tests can be found as wilcox.test. Use the help system of R (?wilcox.test) and read the help page about the usage of these tests.",
+    "section": "1.4 Wilcoxon test (optional)",
+    "text": "1.4 Wilcoxon test (optional)\nThe Mann-Whitney and Wilxon tests are nonparametric tests of location. “Nonparametric” means, that the general location of the distributions is compared and not a parameter like the mean. This makes the test independent of distributional assumptions, but can sometimes lead to a vague interpretations.\nExercise 4: Now repeat the comparison for the sleep study using the Wilcoxon test for unpaired and paired samples. Note that the unpaired test is often also called “Mann-Whitney U test”.\nIn R both tests can be found as wilcox.test. Use the help system of R (?wilcox.test) and read the help page about the usage of these tests.",
     "crumbs": [
       "Labs",
       "06-Classical Tests"
@@ -1055,7 +1055,7 @@
     "href": "qmd/05-distributions-fruits-tidyverse.html#prepare-and-inspect-data",
     "title": "05-Distribution and Confidence Intervals of Clementines",
     "section": "3.1 Prepare and inspect data",
-    "text": "3.1 Prepare and inspect data\n\nDownload the data set fruits-2023-hse.csv and use one of RStudio’s “Import Dataset” wizards.\nA better alternative is to use read.csv().\n\n\n#  ... do it\n\n\nplot everything, just for testing:\n\n\nplot(fruits)\n\n\nsplit table for box1 and box2:\n\n\nbox1 &lt;- subset(fruits, brand == \"box1\")\nbox2 &lt;- subset(fruits, brand == \"box2\")\n\n\ncompare weight of both groups:\n\n\nboxplot(box1$weight, box2$weight, names=c(\"box1\", \"box2\"))\n\nNote: It is also possible to use boxplot with the model formula syntax. This is the preferred way, because it does not require to split the data set beforehand:\n\nboxplot(weight ~ brand, data = fruits)",
+    "text": "3.1 Prepare and inspect data\n\nDownload the data set fruits-2023-hse.csv and use one of RStudio’s “Import Dataset” wizards.\nA better alternative is to use read.csv().\nThe data set is available in OPAL1 or from: https://raw.githubusercontent.com/tpetzoldt/datasets/refs/heads/main/data/fruits-2023-hse.csv\n\n\n#  ... do it\n\n\nplot everything, just for testing:\n\n\nplot(fruits)\n\n\nsplit table for box1 and box2:\n\n\nbox1 &lt;- subset(fruits, brand == \"box1\")\nbox2 &lt;- subset(fruits, brand == \"box2\")\n\n\ncompare weight of both groups:\n\n\nboxplot(box1$weight, box2$weight, names=c(\"box1\", \"box2\"))\n\nNote: It is also possible to use boxplot with the model formula syntax. This is the preferred way, because it does not require to split the data set beforehand:\n\nboxplot(weight ~ brand, data = fruits)",
     "crumbs": [
       "Labs",
       "05-Distribution and Confidence Intervals of Clementines"
@@ -1122,6 +1122,17 @@
     "title": "05-Distribution and Confidence Intervals of Clementines",
     "section": "5.3 Additional tasks",
     "text": "5.3 Additional tasks\nRepeat the analysis with other properties of the fruits, e.g. width and height. Create box plots, analyse distribution, create bar charts.",
+    "crumbs": [
+      "Labs",
+      "05-Distribution and Confidence Intervals of Clementines"
+    ]
+  },
+  {
+    "objectID": "qmd/05-distributions-fruits-tidyverse.html#footnotes",
+    "href": "qmd/05-distributions-fruits-tidyverse.html#footnotes",
+    "title": "05-Distribution and Confidence Intervals of Clementines",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nOPAL is the learning management system used at TU Dresden.↩︎",
     "crumbs": [
       "Labs",
       "05-Distribution and Confidence Intervals of Clementines"

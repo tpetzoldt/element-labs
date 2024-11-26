@@ -16,8 +16,7 @@ The example aims to demonstrate estimation and interpretation of confidence
 intervals. At the end, the two samples are compared with respect to variance and
 mean values.
 
-The experimental hypotheses was, that weight and size of two samples of Clementine fruits differ. The result is to be visualized with bar charts or box plots. We use only the weight as an example, analysis of the other
-statistical parameters is left as an optional exercise.
+The experimental hypotheses was, that weight and size of two samples of Clementine fruits differ. The result is to be visualized with bar charts or box plots. We use only the weight as an example, analysis of the other statistical parameters is left as an optional exercise.
 
 We can now derive the following statistical hypotheses **about the variance:**
 
@@ -35,7 +34,8 @@ The data set consists of two samples of Clementines from the same shop. Weight,
 width and height of the fruits were measured with a scale and a caliper.
 
 The statistical analysis is performed with the **R** software for statistical 
-computing and graphics (R Core Team 2022), version 4.2.2 and the following packages:
+computing and graphics [@RCore] and the following packages 
+[@Wickham2016; @Wickham2023; @Warnes2024]:
 
 ```{r packages, eval=FALSE}
 library("gplots")  # contains barplot2 with error bars
@@ -50,6 +50,7 @@ library("ggplot2") # modern plotting package "grammar of graphics"
 
 * Download the data set `fruits-2023-hse.csv` and use one of RStudio's "Import Dataset" wizards.
 * A better alternative is to use `read.csv()`.
+* The data set is available in OPAL[^OPAL] or from: [https://raw.githubusercontent.com/tpetzoldt/datasets/refs/heads/main/data/fruits-2023-hse.csv](https://raw.githubusercontent.com/tpetzoldt/datasets/refs/heads/main/data/fruits-2023-hse.csv)
 
 ```{r, include=FALSE}
 fruits <- read.csv("fruits-2023-hse.csv")
@@ -201,10 +202,11 @@ the results of all 3 tests.
 The following shows how to calculate summary statistics in a more modern and efficient way.
 
 The approach uses the **dplyr** and **ggplot2** packages from the so-called 
-**tidyverse** family of packages. Furthermore, we use the pipeline operator `|>`,
-that transfers the output of one data manipulation step directly to the next.
+**tidyverse** family of packages [@Wickham2019, @Wickham2023]. Furthermore, we 
+use the pipeline operator `|>`, that transfers the output of one data manipulation 
+step directly to the next.
 
-Some slides about the use of pipelines can be found under [https://tpetzoldt.github.io/elements/slides/x4-pipes-intro.html](https://tpetzoldt.github.io/elements/slides/x4-pipes-intro.html)
+Some slides about the use of pipelines can be found under [https://tpetzoldt.github.io/elements/](https://tpetzoldt.github.io/elements/)
 
 ## Calculation of summary statistics with **dplyr**
 
@@ -246,11 +248,4 @@ Create box plots, analyse distribution, create bar charts.
 
 # References
 
-R Core Team (2021). R: A language and environment for statistical computing. R
-Foundation for Statistical Computing, Vienna, Austria. URL https://www.R-project.org/
-
-Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, Grolemund G, Hayes A,
-  Henry L, Hester J, Kuhn M, Pedersen TL, Miller E, Bache SM, Müller K, Ooms J, Robinson D,
-  Seidel DP, Spinu V, Takahashi K, Vaughan D, Wilke C, Woo K, Yutani H (2019). “Welcome to
-  the tidyverse.” Journal of Open Source Software, *4*(43), 1686. doi:10.21105/joss.01686
-
+[^OPAL]: OPAL is the learning management system used at TU Dresden.

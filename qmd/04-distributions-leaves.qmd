@@ -258,8 +258,8 @@ library("dplyr")
 leaves <- read.csv("leaves.csv")
 
 stats <-
-  leaves %>%
-    group_by(group) %>%
+  leaves |>
+    group_by(group) |>
     summarize(mean = mean(width), sd=sd(width), N=length(width), se=sd/sqrt(N),
               lwr = mean + qt(p = 0.025, df = N-1) * se,
               upr = mean + qt(p = 0.975, df = N-1) * se
@@ -272,7 +272,7 @@ stats
 
 ```{r }
 library("ggplot2")
-stats %>%
+stats |>
   ggplot(aes(x=group, y=mean, min=lwr, max=upr))  +
     geom_col() + geom_errorbar(width=0.2)
 ```

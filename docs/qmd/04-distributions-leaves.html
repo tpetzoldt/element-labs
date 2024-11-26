@@ -552,8 +552,8 @@ leaves <- read.csv("https://raw.githubusercontent.com/tpetzoldt/datasets/main/da
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>leaves <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"leaves.csv"</span>)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>stats <span class="ot">&lt;-</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  leaves <span class="sc">%&gt;%</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(group) <span class="sc">%&gt;%</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  leaves <span class="sc">|&gt;</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(group) <span class="sc">|&gt;</span></span>
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(width), <span class="at">sd=</span><span class="fu">sd</span>(width), <span class="at">N=</span><span class="fu">length</span>(width), <span class="at">se=</span>sd<span class="sc">/</span><span class="fu">sqrt</span>(N),</span>
 <span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">lwr =</span> mean <span class="sc">+</span> <span class="fu">qt</span>(<span class="at">p =</span> <span class="fl">0.025</span>, <span class="at">df =</span> N<span class="dv">-1</span>) <span class="sc">*</span> se,</span>
 <span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">upr =</span> mean <span class="sc">+</span> <span class="fu">qt</span>(<span class="at">p =</span> <span class="fl">0.975</span>, <span class="at">df =</span> N<span class="dv">-1</span>) <span class="sc">*</span> se</span>
@@ -566,7 +566,7 @@ leaves <- read.csv("https://raw.githubusercontent.com/tpetzoldt/datasets/main/da
 <h2 data-number="4.2" class="anchored" data-anchor-id="barchart-and-errorbars-with-ggplot2"><span class="header-section-number">4.2</span> Barchart and errorbars with <strong>ggplot2</strong></h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggplot2"</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>stats <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>stats <span class="sc">|&gt;</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>group, <span class="at">y=</span>mean, <span class="at">min=</span>lwr, <span class="at">max=</span>upr))  <span class="sc">+</span></span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>() <span class="sc">+</span> <span class="fu">geom_errorbar</span>(<span class="at">width=</span><span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>

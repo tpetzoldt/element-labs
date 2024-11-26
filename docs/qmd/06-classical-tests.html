@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2023-11-29">
+<meta name="dcterms.date" content="2024-11-26">
 
 <title>06-Classical Tests – Elements of Data Analysis and Statistics - Lab Exercises</title>
 <style>
@@ -355,7 +355,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 29, 2023</p>
+      <p class="date">November 26, 2024</p>
     </div>
   </div>
   
@@ -367,12 +367,8 @@ window.Quarto = {
 </header>
 
 
-<!--
-**Preface**
-
-The following exercises demonstrate some of the most common classical tests by 
-means of simple examples.
--->
+<p><strong>Preface</strong></p>
+<p>The following exercises demonstrate some of the most common classical tests by means of simple examples.</p>
 <section id="a-sleep-duration-study-statistical-tests-of-location" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> A sleep duration study: statistical tests of location</h1>
 <p>The example is inspired by a classical test data set <span class="citation" data-cites="Student1908">(<a href="#ref-Student1908" role="doc-biblioref">Student, 1908</a>)</span> about a study with two groups of persons treated with two different pharmaceutical drugs.</p>
@@ -421,14 +417,14 @@ means of simple examples.
 </section>
 <section id="wilcoxon-test-optional" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="wilcoxon-test-optional"><span class="header-section-number">1.4</span> Wilcoxon test (optional)</h2>
-<p>The Mann-Whitney and Wilxon tests are nonparametric tests of location. “Nonparametric” means, that the general location of the distributions is compared and not a parameter like the mean. This makes the test independent of assumptions, but can sometimes lead to a vague interpretation.</p>
+<p>The Mann-Whitney and Wilxon tests are nonparametric tests of location. “Nonparametric” means, that the general location of the distributions is compared and not a parameter like the mean. This makes the test independent of distributional assumptions, but can sometimes lead to a vague interpretations.</p>
 <p><strong>Exercise 4:</strong> Now repeat the comparison for the sleep study using the Wilcoxon test for unpaired and paired samples. Note that the unpaired test is often also called “Mann-Whitney U test”.</p>
 <p>In R both tests can be found as <code>wilcox.test</code>. Use the help system of R (<code>?wilcox.test</code>) and read the help page about the usage of these tests.</p>
 </section>
 </section>
 <section id="own-project-weight-of-clementine-fruits" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Own project: Weight of Clementine fruits</h1>
-<p>Import the Clementines data set (fruits-2023-hse.csv). Think about an appropriate data structure and use a suitable statistical test to compare the weights. Try to check variance homogeneity and normal distribution. Can the weights from each brand be considered as independent samples?</p>
+<p>Import the Clementines data set (fruits-2023-hse.csv). Think about an appropriate data structure and use a suitable statistical test to compare the weights. Check variance homogeneity and normal distribution graphically. Can the weights from each brand be considered as independent samples?</p>
 <section id="perform-a-statistical-test-for-the-following-hypotheses" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="perform-a-statistical-test-for-the-following-hypotheses"><span class="header-section-number">2.1</span> Perform a statistical test for the following hypotheses</h2>
 <p><span class="math inline">\(H_0\)</span>: The weight of the fruits bought on Friday (box2) and on Monday (box1) are the same.</p>

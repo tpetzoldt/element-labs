@@ -6,13 +6,13 @@ index <- dir(pattern=".*[.]qmd")
 qmd <- dir(path="qmd", pattern=".*[.]qmd")
 
 
-system(paste0("quarto render ", index), wait = FALSE)
+ret0 %<-% system(paste0("quarto render ", index), intern = TRUE)
 
 compile <- function(file) {
-  #system(paste0("quarto render ", file), wait=FALSE)
-  shell(paste0("quarto render ", file), intern=TRUE)
+  list(file = file,
+       ret = system(paste0("quarto render ", file), wait = TRUE)
+  )
 }
 
-#future_lapply(paste0("qmd/", qmd), print)
 
-ret <- future_lapply(paste0("qmd/", qmd), compile)
+system.time(ret <- future_sapply(paste0("qmd/", qmd), compile))

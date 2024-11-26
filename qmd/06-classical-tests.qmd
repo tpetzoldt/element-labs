@@ -1,18 +1,18 @@
 ---
 title: "06-Classical Tests"
-date: '2023-11-29'
+date: '2024-11-26'
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, eval=FALSE)
 ```
 
-<!--
+
 **Preface**
 
 The following exercises demonstrate some of the most common classical tests by 
 means of simple examples.
--->
+
 
 # A sleep duration study: statistical tests of location
 
@@ -101,8 +101,8 @@ Then compare the results with the ordinary two-sample t-test.
 
 The Mann-Whitney and Wilxon tests are nonparametric tests of location. 
 "Nonparametric" means, that the general location of the distributions is compared
-and not a parameter like the mean. This makes the test independent of assumptions,
-but can sometimes lead to a vague interpretation.
+and not a parameter like the mean. This makes the test independent of distributional
+assumptions, but can sometimes lead to a vague interpretations.
 
 **Exercise 4:** Now repeat the comparison for the sleep study using the
 Wilcoxon test for unpaired and paired samples. Note that the unpaired
@@ -113,13 +113,11 @@ system of R (`?wilcox.test`) and read the help page about the
 usage of these tests.
 
 
-
-
 # Own project: Weight of Clementine fruits
 
 Import the Clementines data set (fruits-2023-hse.csv). Think about an 
 appropriate data structure and use a suitable statistical test to compare the weights. 
-Try to check variance homogeneity and normal distribution. 
+Check variance homogeneity and normal distribution graphically. 
 Can the weights from each brand be considered as independent samples?
 
 ## Perform a statistical test for the following hypotheses

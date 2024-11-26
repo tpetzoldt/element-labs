@@ -55,7 +55,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -366,7 +386,7 @@ window.Quarto = {
 <section id="material-and-methods" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Material and Methods</h1>
 <p>The data set consists of two samples of Clementines from the same shop. Weight, width and height of the fruits were measured with a scale and a caliper.</p>
-<p>The statistical analysis is performed with the <strong>R</strong> software for statistical computing and graphics (R Core Team 2022), version 4.2.2 and the following packages:</p>
+<p>The statistical analysis is performed with the <strong>R</strong> software for statistical computing and graphics <span class="citation" data-cites="RCore">(<a href="#ref-RCore" role="doc-biblioref">R Core Team, 2024</a>)</span> and the following packages <span class="citation" data-cites="Wickham2016 Wickham2023 Warnes2024">(<a href="#ref-Warnes2024" role="doc-biblioref">Warnes et al., 2024</a>; <a href="#ref-Wickham2016" role="doc-biblioref">Wickham, 2016</a>; <a href="#ref-Wickham2023" role="doc-biblioref">Wickham et al., 2023</a>)</span>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"gplots"</span>)  <span class="co"># contains barplot2 with error bars</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"dplyr"</span>)   <span class="co"># for pipelines, group_by and summarize</span></span>
@@ -380,6 +400,7 @@ window.Quarto = {
 <ul>
 <li>Download the data set <code>fruits-2023-hse.csv</code> and use one of RStudio’s “Import Dataset” wizards.</li>
 <li>A better alternative is to use <code>read.csv()</code>.</li>
+<li>The data set is available in OPAL<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> or from: <a href="https://raw.githubusercontent.com/tpetzoldt/datasets/refs/heads/main/data/fruits-2023-hse.csv">https://raw.githubusercontent.com/tpetzoldt/datasets/refs/heads/main/data/fruits-2023-hse.csv</a></li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#  ... do it</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -488,8 +509,8 @@ window.Quarto = {
 <section id="summary-statistics-and-ci-with-tidyverse" class="level1" data-number="5">
 <h1 data-number="5"><span class="header-section-number">5</span> Summary statistics and CI with <strong>tidyverse</strong></h1>
 <p>The following shows how to calculate summary statistics in a more modern and efficient way.</p>
-<p>The approach uses the <strong>dplyr</strong> and <strong>ggplot2</strong> packages from the so-called <strong>tidyverse</strong> family of packages. Furthermore, we use the pipeline operator <code>|&gt;</code>, that transfers the output of one data manipulation step directly to the next.</p>
-<p>Some slides about the use of pipelines can be found under <a href="https://tpetzoldt.github.io/elements/slides/x4-pipes-intro.html">https://tpetzoldt.github.io/elements/slides/x4-pipes-intro.html</a></p>
+<p>The approach uses the <strong>dplyr</strong> and <strong>ggplot2</strong> packages from the so-called <strong>tidyverse</strong> family of packages <span class="citation" data-cites="Wickham2019">Wickham et al. (<a href="#ref-Wickham2023" role="doc-biblioref">2023</a>)</span>. Furthermore, we use the pipeline operator <code>|&gt;</code>, that transfers the output of one data manipulation step directly to the next.</p>
+<p>Some slides about the use of pipelines can be found under <a href="https://tpetzoldt.github.io/elements/">https://tpetzoldt.github.io/elements/</a></p>
 <section id="calculation-of-summary-statistics-with-dplyr" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="calculation-of-summary-statistics-with-dplyr"><span class="header-section-number">5.1</span> Calculation of summary statistics with <strong>dplyr</strong></h2>
 <p>Summarizing can be done with two functions, <code>group_by</code> that adds grouping information to a data frame and <code>summarize</code> to calculate summary statistics. In the following, we use the full data set with 4 groups.</p>
@@ -524,14 +545,35 @@ window.Quarto = {
 </section>
 </section>
 <section id="references" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> References</h1>
-<p>R Core Team (2021). R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria. URL https://www.R-project.org/</p>
-<p>Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, Grolemund G, Hayes A, Henry L, Hester J, Kuhn M, Pedersen TL, Miller E, Bache SM, Müller K, Ooms J, Robinson D, Seidel DP, Spinu V, Takahashi K, Vaughan D, Wilke C, Woo K, Yutani H (2019). “Welcome to the tidyverse.” Journal of Open Source Software, <em>4</em>(43), 1686. doi:10.21105/joss.01686</p>
+
+
 
 
 </section>
 
-</main> <!-- /main -->
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">6 References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-RCore" class="csl-entry" role="listitem">
+R Core Team. (2024). <em>R: A language and environment for statistical computing</em>. R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>
+</div>
+<div id="ref-Warnes2024" class="csl-entry" role="listitem">
+Warnes, G. R., Bolker, B., Bonebakker, L., Gentleman, R., Huber, W., Liaw, A., Lumley, T., Maechler, M., Magnusson, A., Moeller, S., Schwartz, M., Venables, B., &amp; Galili, T. (2024). <em>Gplots: Various r programming tools for plotting data</em>. <a href="https://CRAN.R-project.org/package=gplots">https://CRAN.R-project.org/package=gplots</a>
+</div>
+<div id="ref-Wickham2016" class="csl-entry" role="listitem">
+Wickham, H. (2016). <em>ggplot2: Elegant graphics for data analysis</em>. Springer-Verlag New York. <a href="https://ggplot2.tidyverse.org">https://ggplot2.tidyverse.org</a>
+</div>
+<div id="ref-Wickham2019" class="csl-entry" role="listitem">
+Wickham, H., Averick, M., Bryan, J., Chang, W., McGowan, L. D., François, R., Grolemund, G., Hayes, A., Henry, L., Hester, J., Kuhn, M., Pedersen, T. L., Miller, E., Bache, S. M., Müller, K., Ooms, J., Robinson, D., Seidel, D. P., Spinu, V., … Yutani, H. (2019). Welcome to the <span class="nocase">tidyverse</span>. <em>Journal of Open Source Software</em>, <em>4</em>(43), 1686. <a href="https://doi.org/10.21105/joss.01686">https://doi.org/10.21105/joss.01686</a>
+</div>
+<div id="ref-Wickham2023" class="csl-entry" role="listitem">
+Wickham, H., François, R., Henry, L., Müller, K., &amp; Vaughan, D. (2023). <em>Dplyr: A grammar of data manipulation</em>. <a href="https://CRAN.R-project.org/package=dplyr">https://CRAN.R-project.org/package=dplyr</a>
+</div>
+</div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>OPAL is the learning management system used at TU Dresden.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
