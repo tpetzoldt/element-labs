@@ -18,10 +18,14 @@ The selection of material is work in progress. The material is updated and
 additional material will appear until end of January 2025. Feedback and comments are welcome.
 
 
+## Related Pages
+
+* [Source code of the exercises](https://github.com/tpetzoldt/element-labs)
+* [Lecture slides](../elements/)
+
+
 ## Author
 
-https://tu-dresden.de/Members/thomas.petzoldt
+[homepage](https://tu-dresden.de/Members/thomas.petzoldt) +++ [github](https://github.com/tpetzoldt)
 
-https://github.com/tpetzoldt
-
-2024-11-15
+2024-12-03
