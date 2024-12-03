@@ -115,7 +115,7 @@ usage of these tests.
 
 # Own project: Weight of Clementine fruits
 
-Import the Clementines data set (fruits-2023-hse.csv). Think about an 
+Import the Clementines data set (fruits-2023-hse.csv)[^fruits-data]. Think about an 
 appropriate data structure and use a suitable statistical test to compare the weights. 
 Check variance homogeneity and normal distribution graphically. 
 Can the weights from each brand be considered as independent samples?
@@ -218,3 +218,5 @@ or a statistics text book.
 
 
 ## References
+
+[^fruits-data]: `fruits.csv` available from: [https://github.com/tpetzoldt/datasets/blob/main/data/fruits-2023-hse.csv](https://github.com/tpetzoldt/datasets/blob/main/data/fruits-2023-hse.csv)
