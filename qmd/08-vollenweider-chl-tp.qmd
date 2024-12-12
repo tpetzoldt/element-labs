@@ -1,6 +1,6 @@
 ---
 title: "08-Linear Regression: Dependency of Chlorophyll on Phosphorus in Lakes"
-date: '2024-10-31'
+date: '2024-12-11'
 ---
 
 
@@ -37,7 +37,7 @@ on the original figure, so that 2 lakes are missing.
 
 ## Methods
 
-Download `oecd.csv` from the course web page and copy it to a suitable
+Download `oecd.csv` from the course web[^oecd_data] page and copy it to a suitable
 folder. The first row contains the variable names (`header=TRUE`) and
 don't forget to set the working directory to the correct location:
 
@@ -221,6 +221,7 @@ reg <- lm(CHLa ~ TP, data = dat, subset = (Limitation == "P"))
 # ...
 ```
 
+[^oecd_data]: The data set is available from [https://tpetzoldt.github.io/datasets/data/oecd.csv](https://tpetzoldt.github.io/datasets/data/oecd.csv). Students of TU Dresden find it also in the OPAL learning management system.
 
 **References**
 
