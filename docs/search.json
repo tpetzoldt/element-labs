@@ -422,7 +422,7 @@
     "href": "qmd/08-vollenweider-chl-tp.html#confidence-intervals",
     "title": "08-Linear Regression: Dependency of Chlorophyll on Phosphorus in Lakes",
     "section": "2.2 Confidence intervals",
-    "text": "2.2 Confidence intervals\nConfidence and prediction intervals are useful to demonstrate uncertainty of the regression line and for predictions. The following code shows an example with test data.\n\nx &lt;- 1:10\ny &lt;- 2 + 3 * x + rnorm(10, sd=2)\nplot(x, y)\nreg &lt;- lm(y ~ x)\n\nnewdata &lt;- data.frame(x=seq(min(x), max(x), length=100))\nconflim &lt;- predict(reg, newdata=newdata, interval=\"confidence\")\npredlim &lt;- predict(reg, newdata=newdata, interval=\"prediction\")\nlines(newdata$x, conflim[,2], col=\"blue\", lty=\"dashed\") \nlines(newdata$x, conflim[,3], col=\"blue\", lty=\"dashed\")\nlines(newdata$x, predlim[,2], col=\"red\", lty=\"solid\") \nlines(newdata$x, predlim[,3], col=\"red\", lty=\"solid\")\n\nabline(reg)\n\n\n\n\n\n\n\n\nThe result of predict is a matrix with 3 columns:\n\n\n       fit      lwr      upr\n1 6.337482 2.640288 10.03468\n2 6.603145 2.958863 10.24743\n3 6.868808 3.277113 10.46050\n\n\n\nthe first column contains the fit,\nthe second and 3rd column the confidence resp. prediction intervals.\n\nYou can also find this out yourself by reading the documentation (?predict) or by inspecting conflim and predlim in the RStudio object explorer.\nThe data frame newdata contains \\(x\\) values for the prediction. Please note that the variable name (e.g. x or log_TP) must be exactly the same as in the lm-function!",
+    "text": "2.2 Confidence intervals\nConfidence and prediction intervals are useful to demonstrate uncertainty of the regression line and for predictions. The following code shows an example with test data.\n\nx &lt;- 1:10\ny &lt;- 2 + 3 * x + rnorm(10, sd=2)\nplot(x, y)\nreg &lt;- lm(y ~ x)\n\nnewdata &lt;- data.frame(x=seq(min(x), max(x), length=100))\nconflim &lt;- predict(reg, newdata=newdata, interval=\"confidence\")\npredlim &lt;- predict(reg, newdata=newdata, interval=\"prediction\")\nlines(newdata$x, conflim[,2], col=\"blue\", lty=\"dashed\") \nlines(newdata$x, conflim[,3], col=\"blue\", lty=\"dashed\")\nlines(newdata$x, predlim[,2], col=\"red\", lty=\"solid\") \nlines(newdata$x, predlim[,3], col=\"red\", lty=\"solid\")\n\nabline(reg)\n\n\n\n\n\n\n\n\nThe result of predict is a matrix with 3 columns:\n\n\n       fit      lwr      upr\n1 3.226884 1.072507 5.381262\n2 3.516231 1.392686 5.639776\n3 3.805577 1.712676 5.898479\n\n\n\nthe first column contains the fit,\nthe second and 3rd column the confidence resp. prediction intervals.\n\nYou can also find this out yourself by reading the documentation (?predict) or by inspecting conflim and predlim in the RStudio object explorer.\nThe data frame newdata contains \\(x\\) values for the prediction. Please note that the variable name (e.g. x or log_TP) must be exactly the same as in the lm-function!",
     "crumbs": [
       "Labs",
       "08-Linear Regression: Dependency of Chlorophyll on Phosphorus in Lakes"
@@ -462,11 +462,22 @@
     ]
   },
   {
+    "objectID": "qmd/08-vollenweider-chl-tp.html#footnotes",
+    "href": "qmd/08-vollenweider-chl-tp.html#footnotes",
+    "title": "08-Linear Regression: Dependency of Chlorophyll on Phosphorus in Lakes",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nThe data set is available from https://tpetzoldt.github.io/datasets/data/oecd.csv. Students of TU Dresden find it also in the OPAL learning management system.↩︎",
+    "crumbs": [
+      "Labs",
+      "08-Linear Regression: Dependency of Chlorophyll on Phosphorus in Lakes"
+    ]
+  },
+  {
     "objectID": "qmd/07-correlation.html",
     "href": "qmd/07-correlation.html",
     "title": "07-Correlation Between Water Quality Indicators",
     "section": "",
-    "text": "Given are the following series of measurements from a polluted river (Ertel et al., 2012):\n\nStation &lt;- 1:17\nCOD   &lt;- c(9.6, 12.2, 13.2, 13.3, 37.4, 21.4, 16.1, 24.8, 24.2, 26.9,\n           29.2, 31.6, 18.2, 24.8, 13.7, 23.6, 24.2)\nO2    &lt;- c(9.8, 10, 8.3, 9.6, 1.5, 4.4, 6.3, 3, 3, 10, 9.4, 17.9, 9.7,\n           9.7, 8.2, 9.5, 11.3)\nNH4   &lt;- c(0.15, 0.1, 0.74, 0.29, 5.04, 2.26, 0.96, 3.37, 2.44, 0.27,\n          0.32, 0.68, 0.27, 0.32, 0.22, 0.58, 0.59)\nColor &lt;- c(0.59, 0.52, 0.6, 0.57, 1.34, 1.21, 1.17, 1.12, 1.1, 1.08,\n           1.24, 1.25, 1.29, 1.29, 1.06, 1.25, 1.16)\n\nwith COD, the chemical oxygen demand (in \\(\\mathrm{mg L^{-1}}\\)), \\(\\mathrm O_2\\) oxygen concentration (\\(\\mathrm{mg L^{-1}}\\)) and Color. The spectral absorption coefficient at 436nm (\\(\\mathrm m^{-1}\\)) is a measure of the color intensity of the filtered water. The data set is subset from field measurements, that contained more samples from several measurement campaigns.\nThe question is whether Ammonium (NH4), Oxygen (O2) and Color depend on the organic load (COD).\n\n\n\nFor the dependency between Color and COD we can use Pearson correlation. In addition it is always a good idea to plot the data.\n\nplot(COD, Color)\ncor.test(COD, Color)\n\nWe see an almost linear dependency and get a highly significant correlation. Now, for the dependence between Ammonium on COD we can proceed with:\n\nplot(COD, NH4)\ncor.test(COD, NH4)\n\nWe find again significant correlation. However, the dependency is not very strict and it seems that there are two different data sets. This is in fact true because sampling sites 1–9 were before and the other sampling sites below a cooling reservoir of a power plant. In the following, we create first an empty plot(...., type = \"n\") and then add the station number as text labels:\n\nplot(COD, NH4, type = \"n\")\ntext(COD, NH4, labels = Station)\n\nWe now repeat the analysis with the first 9 data pairs from the stations upstream of the cooling reservoir (50.19N, 24.40E, Link to Google Maps):\n\nplot(COD[1:9], NH4[1:9])\ncor.test(COD[1:9], NH4[1:9])\n\n\n\n\nIs oxygen concentration (O2) directly related to organic pollution (COD)? Interpret the results, and discuss the potential mechanisms how the cooling reservoir may influence water quality. Compare your conclusions with the paper of (Ertel et al. 2011). Does the assumption of independent residuals hold?\nRepeat the analysis with Spearman’s correlation, and compare the results with the Pearson correlation coefficients.",
+    "text": "Given are the following series of measurements from a polluted river (Ertel et al., 2012):\n\nStation &lt;- 1:17\nCOD   &lt;- c(9.6, 12.2, 13.2, 13.3, 37.4, 21.4, 16.1, 24.8, 24.2, 26.9,\n           29.2, 31.6, 18.2, 24.8, 13.7, 23.6, 24.2)\nO2    &lt;- c(9.8, 10, 8.3, 9.6, 1.5, 4.4, 6.3, 3, 3, 10, 9.4, 17.9, 9.7,\n           9.7, 8.2, 9.5, 11.3)\nNH4   &lt;- c(0.15, 0.1, 0.74, 0.29, 5.04, 2.26, 0.96, 3.37, 2.44, 0.27,\n          0.32, 0.68, 0.27, 0.32, 0.22, 0.58, 0.59)\nColor &lt;- c(0.59, 0.52, 0.6, 0.57, 1.34, 1.21, 1.17, 1.12, 1.1, 1.08,\n           1.24, 1.25, 1.29, 1.29, 1.06, 1.25, 1.16)\n\nwith COD, the chemical oxygen demand (in \\(\\mathrm{mg L^{-1}}\\)), \\(\\mathrm O_2\\) oxygen concentration (\\(\\mathrm{mg L^{-1}}\\)) and Color. The spectral absorption coefficient at 436nm (\\(\\mathrm m^{-1}\\)) is a measure of the color intensity of the filtered water. The data set is a subset from field measurements, that contained more samples from several measurement campaigns.\nThe question is whether Ammonium (NH4), Oxygen (O2) and Color depend on the organic load (COD).\n\n\n\nFor the dependency between Color and COD we can use Pearson correlation. In addition it is always a good idea to plot the data.\n\nplot(COD, Color)\ncor.test(COD, Color)\n\nWe see an almost linear dependency and get a highly significant correlation. Now, for the dependence between Ammonium on COD we can proceed with:\n\nplot(COD, NH4)\ncor.test(COD, NH4)\n\nWe find again significant correlation. However, the dependency is not very strict and it seems that there are two different data sets. This is in fact true because sampling sites 1–9 were before and the other sampling sites below a cooling reservoir of a power plant. In the following, we create first an empty plot(...., type = \"n\") and then add the station number as text labels:\n\nplot(COD, NH4, type = \"n\")\ntext(COD, NH4, labels = Station)\n\nWe now repeat the analysis with the first 9 data pairs from the stations upstream of the cooling reservoir (50.19N, 24.40E, Link to Google Maps):\n\nplot(COD[1:9], NH4[1:9])\ncor.test(COD[1:9], NH4[1:9])\n\n\n\n\nIs oxygen concentration (O2) directly related to organic pollution (COD)? Interpret the results, and discuss the potential mechanisms how the cooling reservoir may influence water quality. Compare your conclusions with the paper of Ertel et al. (2012). Does the assumption of independent residuals hold?\nRepeat the analysis with Spearman’s correlation, and compare the results with the Pearson correlation coefficients.",
     "crumbs": [
       "Labs",
       "07-Correlation Between Water Quality Indicators"
@@ -477,7 +488,7 @@
     "href": "qmd/07-correlation.html#introduction",
     "title": "07-Correlation Between Water Quality Indicators",
     "section": "",
-    "text": "Given are the following series of measurements from a polluted river (Ertel et al., 2012):\n\nStation &lt;- 1:17\nCOD   &lt;- c(9.6, 12.2, 13.2, 13.3, 37.4, 21.4, 16.1, 24.8, 24.2, 26.9,\n           29.2, 31.6, 18.2, 24.8, 13.7, 23.6, 24.2)\nO2    &lt;- c(9.8, 10, 8.3, 9.6, 1.5, 4.4, 6.3, 3, 3, 10, 9.4, 17.9, 9.7,\n           9.7, 8.2, 9.5, 11.3)\nNH4   &lt;- c(0.15, 0.1, 0.74, 0.29, 5.04, 2.26, 0.96, 3.37, 2.44, 0.27,\n          0.32, 0.68, 0.27, 0.32, 0.22, 0.58, 0.59)\nColor &lt;- c(0.59, 0.52, 0.6, 0.57, 1.34, 1.21, 1.17, 1.12, 1.1, 1.08,\n           1.24, 1.25, 1.29, 1.29, 1.06, 1.25, 1.16)\n\nwith COD, the chemical oxygen demand (in \\(\\mathrm{mg L^{-1}}\\)), \\(\\mathrm O_2\\) oxygen concentration (\\(\\mathrm{mg L^{-1}}\\)) and Color. The spectral absorption coefficient at 436nm (\\(\\mathrm m^{-1}\\)) is a measure of the color intensity of the filtered water. The data set is subset from field measurements, that contained more samples from several measurement campaigns.\nThe question is whether Ammonium (NH4), Oxygen (O2) and Color depend on the organic load (COD).",
+    "text": "Given are the following series of measurements from a polluted river (Ertel et al., 2012):\n\nStation &lt;- 1:17\nCOD   &lt;- c(9.6, 12.2, 13.2, 13.3, 37.4, 21.4, 16.1, 24.8, 24.2, 26.9,\n           29.2, 31.6, 18.2, 24.8, 13.7, 23.6, 24.2)\nO2    &lt;- c(9.8, 10, 8.3, 9.6, 1.5, 4.4, 6.3, 3, 3, 10, 9.4, 17.9, 9.7,\n           9.7, 8.2, 9.5, 11.3)\nNH4   &lt;- c(0.15, 0.1, 0.74, 0.29, 5.04, 2.26, 0.96, 3.37, 2.44, 0.27,\n          0.32, 0.68, 0.27, 0.32, 0.22, 0.58, 0.59)\nColor &lt;- c(0.59, 0.52, 0.6, 0.57, 1.34, 1.21, 1.17, 1.12, 1.1, 1.08,\n           1.24, 1.25, 1.29, 1.29, 1.06, 1.25, 1.16)\n\nwith COD, the chemical oxygen demand (in \\(\\mathrm{mg L^{-1}}\\)), \\(\\mathrm O_2\\) oxygen concentration (\\(\\mathrm{mg L^{-1}}\\)) and Color. The spectral absorption coefficient at 436nm (\\(\\mathrm m^{-1}\\)) is a measure of the color intensity of the filtered water. The data set is a subset from field measurements, that contained more samples from several measurement campaigns.\nThe question is whether Ammonium (NH4), Oxygen (O2) and Color depend on the organic load (COD).",
     "crumbs": [
       "Labs",
       "07-Correlation Between Water Quality Indicators"
@@ -499,7 +510,7 @@
     "href": "qmd/07-correlation.html#exercises-and-discussion",
     "title": "07-Correlation Between Water Quality Indicators",
     "section": "",
-    "text": "Is oxygen concentration (O2) directly related to organic pollution (COD)? Interpret the results, and discuss the potential mechanisms how the cooling reservoir may influence water quality. Compare your conclusions with the paper of (Ertel et al. 2011). Does the assumption of independent residuals hold?\nRepeat the analysis with Spearman’s correlation, and compare the results with the Pearson correlation coefficients.",
+    "text": "Is oxygen concentration (O2) directly related to organic pollution (COD)? Interpret the results, and discuss the potential mechanisms how the cooling reservoir may influence water quality. Compare your conclusions with the paper of Ertel et al. (2012). Does the assumption of independent residuals hold?\nRepeat the analysis with Spearman’s correlation, and compare the results with the Pearson correlation coefficients.",
     "crumbs": [
       "Labs",
       "07-Correlation Between Water Quality Indicators"
@@ -543,7 +554,7 @@
     "href": "qmd/09-clementines-anova.html",
     "title": "09-Which fruits are the biggest? An ANOVA example",
     "section": "",
-    "text": "Preface\nThe following template is intended as a starting point for your analysis. Please follow the general outline (Introduction, Methods, Results, Discussion), but adapt the content to your needs. Avoid unnecessary technical details and concentrate on main outcome and its discussion. Include the important (and only the important) tables and graphics and discuss them properly. Special R ideas can also be shown, but long R codes should be avoided.\nThe intention of the report is to practice an analysis and to get feedback. It can be creative and hopefully also some fun. The following rules apply:",
+    "text": "Preface\nThe following template is intended as a starting point for a short report of an ANOVA. It is recommended to follow the general outline (Introduction, Methods, Results, Discussion), but to adapt the content to the specific needs of the analysis.\nIt is good practice to concentrate on the main findings and their discussion and to avoid unnecessary technical detail. The report should be illustrated with meaningful (and only the most important) tables and graphs.\nThe data set consists of different samples of clementine fruits from different brands and different shops. The data sets can be downloaded from\nhttps://tpetzoldt.github.io/datasets/.\nA description is found in the file clementines_info.txt.",
     "crumbs": [
       "Labs",
       "09-Which fruits are the biggest? An ANOVA example"
@@ -554,7 +565,7 @@
     "href": "qmd/09-clementines-anova.html#data",
     "title": "09-Which fruits are the biggest? An ANOVA example",
     "section": "2.1 Data",
-    "text": "2.1 Data\n\nwrite something about the data\n\ndescribe the different samples\nweight determination with a scale, length determination with a caliper (see below)\n\nread the data in:\n\n\nlibrary(readxl)\nlibrary(dplyr)\n\n\nbrands &lt;- read_excel(\"clementines_2022.xlsx\", \"Brands\")\nfruits &lt;- read_excel(\"clementines_2022.xlsx\", \"Fruits\")\n\nShow the structure of the data. You can also use the head-function, shows the first lines of each data set. Please do not forget to report the sample size of your data!\n\ncat(\"sample size:\", nrow(fruits), \"\\n\")\nhead(fruits, n=3)\n\n\nhead(brands, n=3)\n\nJoin the two tables and convert the Brand column into a factor variable.\n\ndat &lt;- left_join(fruits, brands, by=\"brand\")\ndat$brand &lt;- factor(dat$brand)",
+    "text": "2.1 Data\n\nwrite something about the data\n\ndescribe the different samples and how they were obtained\nweight determination with a scale, length determination with a caliper (see below)\n\nread the data in:\n\n\nbrands &lt;- read.csv(\"clementines2022-brands.csv\")\nfruits &lt;- read.csv(\"clementines2022-fruits.csv\")\n\nShow the structure of the data. Use the data explorer of RStudio or the head-function, that shows the first lines of each data set. Please do not forget to report the sample size of your data!\n\ncat(\"sample size:\", nrow(fruits), \"\\n\")\nhead(fruits, n=3)\n\nLook also at the structure of brands.\nThen join the two tables and convert the brand column into a factor variable.\n\ndat &lt;- left_join(fruits, brands, by=\"brand\")\ndat$brand &lt;- factor(dat$brand)",
     "crumbs": [
       "Labs",
       "09-Which fruits are the biggest? An ANOVA example"
@@ -565,7 +576,7 @@
     "href": "qmd/09-clementines-anova.html#data-analysis",
     "title": "09-Which fruits are the biggest? An ANOVA example",
     "section": "2.2 Data analysis",
-    "text": "2.2 Data analysis\nMention R (R Core Team, 2024) in a single sentence, cite special packages. Write that an ANOVA was performed and in case of an own creative part (see below), which methods were used in addition.",
+    "text": "2.2 Data analysis\nMention R (R Core Team, 2024) in a single sentence, cite special packages. Write that an ANOVA was performed and which methods were used in addition.",
     "crumbs": [
       "Labs",
       "09-Which fruits are the biggest? An ANOVA example"
@@ -576,7 +587,7 @@
     "href": "qmd/09-clementines-anova.html#hypotheses",
     "title": "09-Which fruits are the biggest? An ANOVA example",
     "section": "5.1 Hypotheses",
-    "text": "5.1 Hypotheses\nIt is important to formulate clear hypotheses. Here are a few examples, related to the data set from 2019. Please think about it and define your own hypotheses, related to the current data set.\n\n\\(H_{0,1}\\): The mean weight of the fruits is the same in all samples.\n\\(H_{A,1}\\): The weight is different in any of the samples.\n\\(H_{A,2}\\): Which brand is the smallest? The mean weight of smallest sample is significantly smaller than of the 2nd samplest sample.\n\\(H_{A,3}\\): The fruits from the premium brands are bigger than corresponding basic brands.\n\nNote: Hypotheses \\(H_{A,2}\\) and \\(H_{A,3}\\) have their own, different \\(H_0\\).\nA hypothesis like \\(H_{A,3}\\) is more difficult and optional. It requires a two-way ANOVA and can only be applied to a subset of the data, where different brands from the same shops are available. Is a similar comparison possible for the 2022 data?",
+    "text": "5.1 Hypotheses\nIt is important to formulate clear hypotheses. Here are a few examples, related to the data set from 2019. Please think about it and define your own hypotheses, related to the current data set.\n\n\\(H_{0,1}\\): The mean weight of the fruits is the same in all samples.\n\\(H_{A,1}\\): The weight is different in any of the samples.\n\\(H_{A,2}\\): Which brand is the smallest? The mean weight of smallest sample is significantly smaller than of the 2nd samplest sample.\n\\(H_{A,3}\\): The fruits from the premium brands are bigger than corresponding basic brands.\n\nNote: Hypotheses \\(H_{A,2}\\) and \\(H_{A,3}\\) have their own, different \\(H_0\\).\nA hypothesis like \\(H_{A,3}\\) is more difficult and optional. It requires a two-way ANOVA and can only be applied to a subset of the data, where different brands from the same shops are available.",
     "crumbs": [
       "Labs",
       "09-Which fruits are the biggest? An ANOVA example"
@@ -598,7 +609,7 @@
     "href": "qmd/09-clementines-anova.html#r-example-code",
     "title": "09-Which fruits are the biggest? An ANOVA example",
     "section": "5.3 R example code",
-    "text": "5.3 R example code\n\nThe following code is intended as a basic example only.\nIt is recommended to adapt the script to analyse the data from the current year (2022).\nHowever, if you want to compare it with some of previous data, we are curious to see what you can make out of it.\nDon’t forget that it is an exercise, not a serious analysis, so feel free to create your own story.\nDon’t make your report too technical, concentrate on your message.\nIf you like to share your code, put it in a separate file.\n\n\nlibrary(readxl)\n\nbrands &lt;- read_excel(\"Clementines_2019.xlsx\", \"Brands\")\nfruits &lt;- read_excel(\"Clementines_2019.xlsx\", \"Fruits\")\n\ndat &lt;- left_join(fruits, brands) # merge tables by their common colum 'Brand'\ndat$brand &lt;- factor(dat$brand)\n\nboxplot(weight ~ brand, data=dat)\n\n## the ANOVA\nm &lt;- lm(weight ~ brand, data=dat)\nanova(m)\n\n## posthoc test\nTukeyHSD(aov(m))\n\n## graphical display of Tukey's test\nplot(TukeyHSD(aov(m)), las=1, cex.axis=0.5)\n\n## graphical and numerical checks of variance homogeneity\nplot(m, which=1)\nfligner.test(weight ~ brand, data=dat)\n\n## approximate normality of residuals\nplot(m, which=2)\n\n## optional: special one-way anova alternative if variances are unequal\noneway.test(weight ~ brand, data=dat)",
+    "text": "5.3 R example code\n\nThe following code is intended as a starting example. It is recommended to adapt the script to analyse the data from another year.\nDon’t forget that it is an exercise, not a serious analysis, so feel free to create your own story.\nDon’t make your report too technical, concentrate on your message.\n\n\nbrands &lt;- read.csv(\"https://tpetzoldt.github.io/datasets/data/clementines2019-brands.csv\")\nfruits &lt;- read.csv(\"https://tpetzoldt.github.io/datasets/data/clementines2019-fruits.csv\")\n\ndat &lt;- left_join(fruits, brands) # merge tables by their common colum 'Brand'\ndat$brand &lt;- factor(dat$brand)\n\nboxplot(weight ~ brand, data=dat)\n\n## the ANOVA\nm &lt;- lm(weight ~ brand, data=dat)\nanova(m)\n\n## posthoc test\nTukeyHSD(aov(m))\n\n## graphical display of Tukey's test\nplot(TukeyHSD(aov(m)), las=1, cex.axis=0.5)\n\n## graphical and numerical checks of variance homogeneity\nplot(m, which=1)\nfligner.test(weight ~ brand, data=dat)\n\n## approximate normality of residuals\nplot(m, which=2)\n\n## optional: special one-way anova alternative if variances are unequal\noneway.test(weight ~ brand, data=dat)",
     "crumbs": [
       "Labs",
       "09-Which fruits are the biggest? An ANOVA example"
@@ -609,7 +620,7 @@
     "href": "qmd/09-clementines-anova.html#text-processing",
     "title": "09-Which fruits are the biggest? An ANOVA example",
     "section": "5.4 Text processing",
-    "text": "5.4 Text processing\nThe report can be written in any text processing software, e.g. Microsoft Word, LibreOffice Write or Quarto. Quarto needs a little extra learning, but is an extremely efficient way to combine text and analysis with R in one document and write it directly in RStudio. A comprehensive documentation can be found on https://quarto.org/.",
+    "text": "5.4 Text processing\nThe report can, in principle, be written in any text processing software, e.g. Microsoft Word or LibreOffice Write, but I recommend to try Quarto. It needs only a little extra learning, but is an extremely efficient way to combine text and analysis with R in one document and write it directly in RStudio. A comprehensive documentation can be found on https://quarto.org/.",
     "crumbs": [
       "Labs",
       "09-Which fruits are the biggest? An ANOVA example"
@@ -620,7 +631,7 @@
     "href": "qmd/09-clementines-anova.html#questions-and-literature-research",
     "title": "09-Which fruits are the biggest? An ANOVA example",
     "section": "5.5 Questions and literature research",
-    "text": "5.5 Questions and literature research\nPlease post questions and comments to the Matrix chat group or the Forum. Ideas are also welcome. As the exercise is a toy example, it may be difficult to find relevant citable literature. However, we don’t limit creativity.\nReferences",
+    "text": "5.5 Questions and literature research\nPlease post questions, comments and ideas to the chat group. As the exercise is a toy example, it may be difficult to find relevant citeable literature. However, we don’t limit creativity.\nReferences",
     "crumbs": [
       "Labs",
       "09-Which fruits are the biggest? An ANOVA example"
@@ -692,11 +703,18 @@
     "text": "2 Status\nThe selection of material is work in progress. The material is updated and additional material will appear until end of January 2025. Feedback and comments are welcome."
   },
   {
+    "objectID": "00-index.html#related-pages",
+    "href": "00-index.html#related-pages",
+    "title": "Elements of Applied Statistics – Lab Exercises",
+    "section": "3 Related Pages",
+    "text": "3 Related Pages\n\nLecture slides\nDatasets\nSource code of the exercises"
+  },
+  {
     "objectID": "00-index.html#author",
     "href": "00-index.html#author",
     "title": "Elements of Applied Statistics – Lab Exercises",
-    "section": "3 Author",
-    "text": "3 Author\nhttps://tu-dresden.de/Members/thomas.petzoldt\nhttps://github.com/tpetzoldt\n2024-11-15"
+    "section": "4 Author",
+    "text": "4 Author\nhomepage +++ github\n2024-12-03"
   },
   {
     "objectID": "qmd/01-pivot-tables-with-libreoffice.html",
@@ -880,6 +898,17 @@
     "title": "06-Classical Tests",
     "section": "3.4 Background",
     "text": "3.4 Background\nRead the Wikipedia articles “Lady tasting tea” about Fisher’s experiment and Fisher’s exact test and “The Lady Tasting Tea” about a popular science book on the “statistical revolution” in the 20th century.\nThe odds ratio describes the strength of association in a two-by-two table, see explanation of “Odds ratio” in Wikipedia or a statistics text book.",
+    "crumbs": [
+      "Labs",
+      "06-Classical Tests"
+    ]
+  },
+  {
+    "objectID": "qmd/06-classical-tests.html#footnotes",
+    "href": "qmd/06-classical-tests.html#footnotes",
+    "title": "06-Classical Tests",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nfruits.csv available from: https://github.com/tpetzoldt/datasets/blob/main/data/fruits-2023-hse.csv↩︎",
     "crumbs": [
       "Labs",
       "06-Classical Tests"
@@ -1136,17 +1165,6 @@
     "crumbs": [
       "Labs",
       "05-Distribution and Confidence Intervals of Clementines"
-    ]
-  },
-  {
-    "objectID": "qmd/08-vollenweider-chl-tp.html#footnotes",
-    "href": "qmd/08-vollenweider-chl-tp.html#footnotes",
-    "title": "08-Linear Regression: Dependency of Chlorophyll on Phosphorus in Lakes",
-    "section": "Footnotes",
-    "text": "Footnotes\n\n\nThe data set is available from https://tpetzoldt.github.io/datasets/data/oecd.csv. Students of TU Dresden find it also in the OPAL learning management system.↩︎",
-    "crumbs": [
-      "Labs",
-      "08-Linear Regression: Dependency of Chlorophyll on Phosphorus in Lakes"
     ]
   }
 ]

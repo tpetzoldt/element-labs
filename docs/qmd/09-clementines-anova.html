@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2023-11-21">
+<meta name="dcterms.date" content="2024-12-16">
 
 <title>09-Which fruits are the biggest? An ANOVA example – Elements of Data Analysis and Statistics - Lab Exercises</title>
 <style>
@@ -351,7 +351,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 21, 2023</p>
+      <p class="date">December 16, 2024</p>
     </div>
   </div>
   
@@ -364,14 +364,11 @@ window.Quarto = {
 
 
 <p><strong>Preface</strong></p>
-<p>The following template is intended as a starting point for your analysis. Please follow the general outline (Introduction, Methods, Results, Discussion), but <strong>adapt the content</strong> to your needs. Avoid unnecessary technical details and concentrate on main outcome and its discussion. Include the important (and only the important) tables and graphics and discuss them properly. Special R ideas can also be shown, but long R codes should be avoided.</p>
-<p>The intention of the report is to practice an analysis and to get feedback. It can be creative and hopefully also some fun. The following rules apply:</p>
-<ul>
-<li><p>Maximum 4 students per group,</p></li>
-<li><p>The general page limit is: <strong>3 pages</strong> for analyzing the weight data.</p></li>
-<li><p><strong>Two additional pages</strong> allowed if a creative part, e.g.&nbsp;additional data (length, width, weight, …) are analysed or an additional method is used</p></li>
-<li><p>you can also extend the data set by using data from previous years.</p></li>
-</ul>
+<p>The following template is intended as a starting point for a short report of an ANOVA. It is recommended to follow the general outline (Introduction, Methods, Results, Discussion), but to adapt the content to the specific needs of the analysis.</p>
+<p>It is good practice to concentrate on the main findings and their discussion and to avoid unnecessary technical detail. The report should be illustrated with meaningful (and only the most important) tables and graphs.</p>
+<p>The data set consists of different samples of clementine fruits from different brands and different shops. The data sets can be downloaded from</p>
+<p><a href="https://tpetzoldt.github.io/datasets/">https://tpetzoldt.github.io/datasets/</a>.</p>
+<p>A description is found in the file <a href="https://tpetzoldt.github.io/datasets/data/clementines_info.txt">clementines_info.txt</a>.</p>
 <section id="introduction" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
 <p>Describe briefly the setup of the experiment. Which data sets are to be compared by your group?</p>
@@ -384,51 +381,44 @@ window.Quarto = {
 <ul>
 <li>write something about the data
 <ul>
-<li>describe the different samples</li>
+<li>describe the different samples and how they were obtained</li>
 <li>weight determination with a scale, length determination with a caliper (see below)</li>
 </ul></li>
 <li>read the data in:</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>brands <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"clementines2022-brands.csv"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>fruits <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"clementines2022-fruits.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Show the structure of the data. Use the data explorer of RStudio or the <code>head</code>-function, that shows the first lines of each data set. <strong>Please do not forget to report the sample size of your data!</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>brands <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"clementines_2022.xlsx"</span>, <span class="st">"Brands"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>fruits <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"clementines_2022.xlsx"</span>, <span class="st">"Fruits"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"sample size:"</span>, <span class="fu">nrow</span>(fruits), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(fruits, <span class="at">n=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Show the structure of the data. You can also use the <code>head</code>-function, shows the first lines of each data set. <strong>Please do not forget to report the sample size of your data!</strong></p>
+<p>Look also at the structure of <code>brands</code>.</p>
+<p>Then <strong>join</strong> the two tables and convert the brand column into a factor variable.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"sample size:"</span>, <span class="fu">nrow</span>(fruits), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(fruits, <span class="at">n=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(brands, <span class="at">n=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Join the two tables and convert the Brand column into a factor variable.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">left_join</span>(fruits, brands, <span class="at">by=</span><span class="st">"brand"</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>brand <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>brand)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">left_join</span>(fruits, brands, <span class="at">by=</span><span class="st">"brand"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>brand <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>brand)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="data-analysis" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="data-analysis"><span class="header-section-number">2.2</span> Data analysis</h2>
-<p>Mention R <span class="citation" data-cites="RCore">(<a href="#ref-RCore" role="doc-biblioref">R Core Team, 2024</a>)</span> in a single sentence, cite special packages. Write that an ANOVA was performed and in case of an own creative part (see below), which methods were used in addition.</p>
+<p>Mention R <span class="citation" data-cites="RCore">(<a href="#ref-RCore" role="doc-biblioref">R Core Team, 2024</a>)</span> in a single sentence, cite special packages. Write that an ANOVA was performed and which methods were used in addition.</p>
 </section>
 </section>
 <section id="results" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Results</h1>
 <ul>
-<li><p>Visualize the data first, show box plots, either the full data set <strong>or</strong> the samples of the group</p></li>
+<li><p>Visualize the data first, show box plots, either the full data set <strong>or</strong> selected samples.</p></li>
 <li><p>explain briefly what you see in the box plot</p></li>
-<li><p>Show the effect size (means of groups or differences between the means)</p></li>
 <li><p>perform an ANOVA:</p>
 <ul>
 <li>the ANOVA</li>
 <li>check variance homogeneity and approximate normality</li>
 <li>perform a post-hoc test</li>
 </ul></li>
-<li><p>give a short explanation of the ANOVA results</p></li>
+<li><p>give a short explanation of the ANOVA results and report effect sizes</p></li>
 </ul>
 <p><strong>Creative part:</strong> You can also be somewhat creative and analyse further properties of the data, e.g.&nbsp;length, width, weight, … Select appropriate test methods, e.g.&nbsp;t-tests, ANOVA, correlation or regression, etc. You may also use <strong>tidyverse</strong> methods (e.g.&nbsp;<code>group_by</code> and <code>summarize</code>) to summarize the data <span class="citation" data-cites="tidyverse2019">(<a href="#ref-tidyverse2019" role="doc-biblioref">Wickham et al., 2019</a>)</span>. It can also be possible to try a two-way ANOVA with a subset of the data. In that case, make sure to have a balanced data set or use <code>Anova</code> function (with capital letter “A”) from package <strong>car</strong>.</p>
 </section>
@@ -458,7 +448,7 @@ window.Quarto = {
 <li><span class="math inline">\(H_{A,3}\)</span>: The fruits from the premium brands are bigger than corresponding basic brands.</li>
 </ul>
 <p><strong>Note:</strong> Hypotheses <span class="math inline">\(H_{A,2}\)</span> and <span class="math inline">\(H_{A,3}\)</span> have their own, different <span class="math inline">\(H_0\)</span>.</p>
-<p>A hypothesis like <span class="math inline">\(H_{A,3}\)</span> is more difficult and optional. It requires a two-way ANOVA and can only be applied to a subset of the data, where different brands from the same shops are available. Is a similar comparison possible for the 2022 data?</p>
+<p>A hypothesis like <span class="math inline">\(H_{A,3}\)</span> is more difficult and optional. It requires a two-way ANOVA and can only be applied to a subset of the data, where different brands from the same shops are available.</p>
 </section>
 <section id="measurement-methods" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="measurement-methods"><span class="header-section-number">5.2</span> Measurement methods</h2>
@@ -478,52 +468,47 @@ window.Quarto = {
 <section id="r-example-code" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="r-example-code"><span class="header-section-number">5.3</span> R example code</h2>
 <ul>
-<li><p>The following code is intended as a basic example only.</p></li>
-<li><p>It is recommended to adapt the script to analyse the data from the current year (2022).</p></li>
-<li><p>However, if you want to compare it with some of previous data, we are curious to see what you can make out of it.</p></li>
+<li><p>The following code is intended as a starting example. It is recommended to adapt the script to analyse the data from another year.</p></li>
 <li><p>Don’t forget that it is an exercise, not a serious analysis, so feel free to create your own story.</p></li>
 <li><p>Don’t make your report too technical, concentrate on your message.</p></li>
-<li><p>If you like to share your code, put it in a separate file.</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>brands <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"Clementines_2019.xlsx"</span>, <span class="st">"Brands"</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>fruits <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"Clementines_2019.xlsx"</span>, <span class="st">"Fruits"</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">left_join</span>(fruits, brands) <span class="co"># merge tables by their common colum 'Brand'</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>brand <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>brand)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(weight <span class="sc">~</span> brand, <span class="at">data=</span>dat)</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="do">## the ANOVA</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">lm</span>(weight <span class="sc">~</span> brand, <span class="at">data=</span>dat)</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m)</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="do">## posthoc test</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(<span class="fu">aov</span>(m))</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="do">## graphical display of Tukey's test</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">TukeyHSD</span>(<span class="fu">aov</span>(m)), <span class="at">las=</span><span class="dv">1</span>, <span class="at">cex.axis=</span><span class="fl">0.5</span>)</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="do">## graphical and numerical checks of variance homogeneity</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(m, <span class="at">which=</span><span class="dv">1</span>)</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="fu">fligner.test</span>(weight <span class="sc">~</span> brand, <span class="at">data=</span>dat)</span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="do">## approximate normality of residuals</span></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(m, <span class="at">which=</span><span class="dv">2</span>)</span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="do">## optional: special one-way anova alternative if variances are unequal</span></span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="fu">oneway.test</span>(weight <span class="sc">~</span> brand, <span class="at">data=</span>dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>brands <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"https://tpetzoldt.github.io/datasets/data/clementines2019-brands.csv"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>fruits <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"https://tpetzoldt.github.io/datasets/data/clementines2019-fruits.csv"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">left_join</span>(fruits, brands) <span class="co"># merge tables by their common colum 'Brand'</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>brand <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>brand)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(weight <span class="sc">~</span> brand, <span class="at">data=</span>dat)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="do">## the ANOVA</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">lm</span>(weight <span class="sc">~</span> brand, <span class="at">data=</span>dat)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="do">## posthoc test</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(<span class="fu">aov</span>(m))</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="do">## graphical display of Tukey's test</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">TukeyHSD</span>(<span class="fu">aov</span>(m)), <span class="at">las=</span><span class="dv">1</span>, <span class="at">cex.axis=</span><span class="fl">0.5</span>)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="do">## graphical and numerical checks of variance homogeneity</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(m, <span class="at">which=</span><span class="dv">1</span>)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="fu">fligner.test</span>(weight <span class="sc">~</span> brand, <span class="at">data=</span>dat)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="do">## approximate normality of residuals</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(m, <span class="at">which=</span><span class="dv">2</span>)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="do">## optional: special one-way anova alternative if variances are unequal</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="fu">oneway.test</span>(weight <span class="sc">~</span> brand, <span class="at">data=</span>dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="text-processing" class="level2" data-number="5.4">
 <h2 data-number="5.4" class="anchored" data-anchor-id="text-processing"><span class="header-section-number">5.4</span> Text processing</h2>
-<p>The report can be written in any text processing software, e.g.&nbsp;Microsoft Word, LibreOffice Write or Quarto. Quarto needs a little extra learning, but is an extremely efficient way to combine text and analysis with <strong>R</strong> in one document and write it directly in RStudio. A comprehensive documentation can be found on <a href="https://quarto.org/">https://quarto.org/</a>.</p>
+<p>The report can, in principle, be written in any text processing software, e.g.&nbsp;Microsoft Word or LibreOffice Write, but I recommend to try Quarto. It needs only a little extra learning, but is an extremely efficient way to combine text and analysis with <strong>R</strong> in one document and write it directly in RStudio. A comprehensive documentation can be found on <a href="https://quarto.org/">https://quarto.org/</a>.</p>
 </section>
 <section id="questions-and-literature-research" class="level2" data-number="5.5">
 <h2 data-number="5.5" class="anchored" data-anchor-id="questions-and-literature-research"><span class="header-section-number">5.5</span> Questions and literature research</h2>
-<p>Please post questions and comments to the Matrix chat group or the Forum. Ideas are also welcome. As the exercise is a toy example, it may be difficult to find relevant citable literature. However, we don’t limit creativity.</p>
+<p>Please post questions, comments and ideas to the chat group. As the exercise is a toy example, it may be difficult to find relevant citeable literature. However, we don’t limit creativity.</p>
 <p><strong>References</strong></p>
 
 

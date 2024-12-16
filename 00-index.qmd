@@ -20,9 +20,9 @@ additional material will appear until end of January 2025. Feedback and comments
 
 ## Related Pages
 
+* [**Lecture slides**](../elements/)
+* [**Datasets**](../datasets/)
 * [Source code of the exercises](https://github.com/tpetzoldt/element-labs)
-* [Lecture slides](../elements/)
-
 
 ## Author
 
