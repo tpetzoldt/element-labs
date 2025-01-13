@@ -1,35 +1,99 @@
 ---
 title: "13-Identification of Breakpoints in Time Series"
-date: "2023-11-08"
+date: "2025-01-13"
 ---
 
-## Text needs to be written
+
+```{r setup, include=FALSE}
+#knitr::opts_chunk$set(eval = TRUE, echo = TRUE)
+knitr::opts_chunk$set(eval = FALSE, echo = TRUE)
+#knitr::opts_chunk$set(echo = TRUE)
+```
 
 
-The example is adapted from the help pages of R package "strucchange", 
-see Zeileis, A. et al. (2002), Journal of Statistical Software, 7(2), https://www.jstatsoft.org/v07/i02/
+# Introduction
 
-```{r}
-library(strucchange)
+The example is adapted from the help pages of R package **strucchange**, 
+[@Zeileis2002]. The scientific question is to detect breakpoints where the
+hydrological regime of a river suddenly changed due to management changes, 
+e.g. dam construction.
+
+# Methods
+
+## Dataset
+
+The dataset is a hydrological time series of the discharge of the river Nile 
+measured at Aswan in 10^8^ m^3^ a^-1^. The origin of the data is described in 
+@Cobb1978. It is contained in the **strucchange** package and can be loaded with `data(Nile)`.
+
+```{r, eval=TRUE, include=FALSE}
+library("strucchange")
 data("Nile")
 plot(Nile)
+```
 
-## OLS-CUMSUM test for structural breaks in the time series
-## are there periods with different discharge?
+```{r, eval=FALSE}
+library("strucchange")
+data("Nile")
+plot(Nile)
+```
+
+
+## Data analysis
+
+The data analysis is carried out in several steps:
+
+1. Statistical test if the timne series contains breakpoints
+2. Identification of number and position of breakpoints
+3. Visualization of model results
+4. Diagnostic tests
+
+# Results
+
+## Test of existence of breakpoints
+
+Here we use a so-called OLS-CUSUM test (ordinary least-squares regression, 
+cumulative sums). The technical procedure is that we first define a null 
+hypothesis for an empirical fluctuation process (`efp`). Here the model `Nile ~ 1` means that we assume a constant mean value over time without trend. In case we allow for a linear trend, we could use `Nile ~ time (Nile)`.
+
+The `ocus` (OLS-CUSUM) object is then plotted and a structural change test (`sctest`) applied. 
+The y-axis of the plot is scaled in units of standard deviations. The line shows the cumulative sum of deviations from the mean value. An monotonous increase of the line means that values are above the arithmetic mean, a decrease that they are below average. If the line exceeds the horizontal confidence bands, it indicates a structural change.
+
+```{r, ols-cusum, eval = TRUE}
 ocus <- efp(Nile ~ 1, type = "OLS-CUSUM")
 plot(ocus)
 sctest(ocus)
+```
 
-## identify time of structural break (with respect to mean value)
+## Identification of structural breaks
+
+Function `breakpoints`is the main workhorse of the package. It iteratively scans 
+the time series for candidate breakpoints, that can be printed. The BIC values 
+returned by summary or and that are visible in the plot are then used for model 
+selection. We select the model with the minimum BIC. Here we use again a model
+without trend (`Nile ~ 1`).
+
+```{r}
 bp.nile <- breakpoints(Nile ~ 1)
 summary(bp.nile)
 
-## the BIC also chooses one breakpoint
 plot(bp.nile)
+```
 
-## fit null hypothesis model and model with 1 breakpoint
+**Task:** find out how many breakpoints are necessary for an optimal model and 
+at which time they occured.
+
+## Visualisation
+
+In the following, we compare the model with **N** breakpoints with the null model 
+`fm0` without any breakpoint. In addition, we can also show indcate the confidence interval.
+
+**Task:** replace `xxx`with the correct number of breakpoints. It is also possible, 
+to try other numbers of breakpoints to understand the algorith. Finally set it back to the optimal value.
+
+```{r}
 fm0 <- lm(Nile ~ 1)
-fm1 <- lm(Nile ~ breakfactor(bp.nile,  breaks = 1))
+fm1 <- lm(Nile ~ breakfactor(bp.nile,  breaks = xxx))
 plot(Nile)
 lines(ts(fitted(fm0),  start = 1871),  col = 3)
 lines(ts(fitted(fm1),  start = 1871),  col = 4)
@@ -39,23 +103,47 @@ lines(bp.nile)
 ci.nile <- confint(bp.nile)
 ci.nile
 lines(ci.nile)
+```
+The optional code uses a simpler and less fancy method for indicating the breakpoint(s).
 
-## mark breakoint using a simpler (and less fancy) method
+```{r}
+
 plot(Nile)
 dat <- data.frame(time = time(Nile), Q = as.vector(Nile))
-abline(v=dat$time[bp.nile$breakpoints],  col="green")
+abline(v = dat$time[bp.nile$breakpoints],  col = "green")
+```
 
+If we need a p-value, we can compare the two models with a likelihood ratio test:
+
+```{r}
 ## ANOVA test whether the two models are significantly different
 anova(fm0, fm1)
+```
 
-## alternative: AIC-based model comparison. 
-## The model with lower AIC is better
-AIC(fm0,fm1)
+## Diagnostics
 
-## some tests for quality and assumptions of the fitted model
+Finally let's check autocorrelation and normality of residuals. In case the 
+breakpoint model was appropriate, autocorrelations should vanish. As a counterexample, 
+we plot also the autocorrelation function of the null model (`fm1`).
+
+Finally, we check  residuals for approximate normality.
+
+```{r}
+par(mfrow=c(2, 2))
 acf(residuals(fm0))
 acf(residuals(fm1))
 qqnorm(residuals(fm0))
 qqnorm(residuals(fm1))
 ```
 
+# Discussion
+
+Now we come back to the original objective and its implications. How many breakpoints 
+were found in he time series, when and in which direction? What happened in the 
+year(s) of the identified breakpoints? Read the article about the Aswan Dam in Wikipedia [https://en.wikipedia.org/wiki/Aswan_Dam](https://en.wikipedia.org/wiki/Aswan_Dam). Then look at the time series again:
+
+* When you would expect structural breaks? Why?
+* Hint: Looking closer, there is another breakpoint, not identified by the algorithm. 
+* How can this be explained?
+
+# References

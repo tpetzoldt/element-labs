@@ -550,239 +550,6 @@
     ]
   },
   {
-    "objectID": "qmd/09-clementines-anova.html",
-    "href": "qmd/09-clementines-anova.html",
-    "title": "09-Which fruits are the biggest? An ANOVA example",
-    "section": "",
-    "text": "Preface\nThe following template is intended as a starting point for a short report of an ANOVA. It is recommended to follow the general outline (Introduction, Methods, Results, Discussion), but to adapt the content to the specific needs of the analysis.\nIt is good practice to concentrate on the main findings and their discussion and to avoid unnecessary technical detail. The report should be illustrated with meaningful (and only the most important) tables and graphs.\nThe data set consists of different samples of clementine fruits from different brands and different shops. The data sets can be downloaded from\nhttps://tpetzoldt.github.io/datasets/.\nA description is found in the file clementines_info.txt.",
-    "crumbs": [
-      "Labs",
-      "09-Which fruits are the biggest? An ANOVA example"
-    ]
-  },
-  {
-    "objectID": "qmd/09-clementines-anova.html#data",
-    "href": "qmd/09-clementines-anova.html#data",
-    "title": "09-Which fruits are the biggest? An ANOVA example",
-    "section": "2.1 Data",
-    "text": "2.1 Data\n\nwrite something about the data\n\ndescribe the different samples and how they were obtained\nweight determination with a scale, length determination with a caliper (see below)\n\nread the data in:\n\n\nbrands &lt;- read.csv(\"clementines2022-brands.csv\")\nfruits &lt;- read.csv(\"clementines2022-fruits.csv\")\n\nShow the structure of the data. Use the data explorer of RStudio or the head-function, that shows the first lines of each data set. Please do not forget to report the sample size of your data!\n\ncat(\"sample size:\", nrow(fruits), \"\\n\")\nhead(fruits, n=3)\n\nLook also at the structure of brands.\nThen join the two tables and convert the brand column into a factor variable.\n\ndat &lt;- left_join(fruits, brands, by=\"brand\")\ndat$brand &lt;- factor(dat$brand)",
-    "crumbs": [
-      "Labs",
-      "09-Which fruits are the biggest? An ANOVA example"
-    ]
-  },
-  {
-    "objectID": "qmd/09-clementines-anova.html#data-analysis",
-    "href": "qmd/09-clementines-anova.html#data-analysis",
-    "title": "09-Which fruits are the biggest? An ANOVA example",
-    "section": "2.2 Data analysis",
-    "text": "2.2 Data analysis\nMention R (R Core Team, 2024) in a single sentence, cite special packages. Write that an ANOVA was performed and which methods were used in addition.",
-    "crumbs": [
-      "Labs",
-      "09-Which fruits are the biggest? An ANOVA example"
-    ]
-  },
-  {
-    "objectID": "qmd/09-clementines-anova.html#hypotheses",
-    "href": "qmd/09-clementines-anova.html#hypotheses",
-    "title": "09-Which fruits are the biggest? An ANOVA example",
-    "section": "5.1 Hypotheses",
-    "text": "5.1 Hypotheses\nIt is important to formulate clear hypotheses. Here are a few examples, related to the data set from 2019. Please think about it and define your own hypotheses, related to the current data set.\n\n\\(H_{0,1}\\): The mean weight of the fruits is the same in all samples.\n\\(H_{A,1}\\): The weight is different in any of the samples.\n\\(H_{A,2}\\): Which brand is the smallest? The mean weight of smallest sample is significantly smaller than of the 2nd samplest sample.\n\\(H_{A,3}\\): The fruits from the premium brands are bigger than corresponding basic brands.\n\nNote: Hypotheses \\(H_{A,2}\\) and \\(H_{A,3}\\) have their own, different \\(H_0\\).\nA hypothesis like \\(H_{A,3}\\) is more difficult and optional. It requires a two-way ANOVA and can only be applied to a subset of the data, where different brands from the same shops are available.",
-    "crumbs": [
-      "Labs",
-      "09-Which fruits are the biggest? An ANOVA example"
-    ]
-  },
-  {
-    "objectID": "qmd/09-clementines-anova.html#measurement-methods",
-    "href": "qmd/09-clementines-anova.html#measurement-methods",
-    "title": "09-Which fruits are the biggest? An ANOVA example",
-    "section": "5.2 Measurement methods",
-    "text": "5.2 Measurement methods\n\nWeight: was determined with a kitchen scale in gramm (g).\nHeight and Width: were measured with a caliper (Fig. 1)\n\n\n\n\n\nSize measurement with a digital caliper.",
-    "crumbs": [
-      "Labs",
-      "09-Which fruits are the biggest? An ANOVA example"
-    ]
-  },
-  {
-    "objectID": "qmd/09-clementines-anova.html#r-example-code",
-    "href": "qmd/09-clementines-anova.html#r-example-code",
-    "title": "09-Which fruits are the biggest? An ANOVA example",
-    "section": "5.3 R example code",
-    "text": "5.3 R example code\n\nThe following code is intended as a starting example. It is recommended to adapt the script to analyse the data from another year.\nDon’t forget that it is an exercise, not a serious analysis, so feel free to create your own story.\nDon’t make your report too technical, concentrate on your message.\n\n\nbrands &lt;- read.csv(\"https://tpetzoldt.github.io/datasets/data/clementines2019-brands.csv\")\nfruits &lt;- read.csv(\"https://tpetzoldt.github.io/datasets/data/clementines2019-fruits.csv\")\n\ndat &lt;- left_join(fruits, brands) # merge tables by their common colum 'Brand'\ndat$brand &lt;- factor(dat$brand)\n\nboxplot(weight ~ brand, data=dat)\n\n## the ANOVA\nm &lt;- lm(weight ~ brand, data=dat)\nanova(m)\n\n## posthoc test\nTukeyHSD(aov(m))\n\n## graphical display of Tukey's test\nplot(TukeyHSD(aov(m)), las=1, cex.axis=0.5)\n\n## graphical and numerical checks of variance homogeneity\nplot(m, which=1)\nfligner.test(weight ~ brand, data=dat)\n\n## approximate normality of residuals\nplot(m, which=2)\n\n## optional: special one-way anova alternative if variances are unequal\noneway.test(weight ~ brand, data=dat)",
-    "crumbs": [
-      "Labs",
-      "09-Which fruits are the biggest? An ANOVA example"
-    ]
-  },
-  {
-    "objectID": "qmd/09-clementines-anova.html#text-processing",
-    "href": "qmd/09-clementines-anova.html#text-processing",
-    "title": "09-Which fruits are the biggest? An ANOVA example",
-    "section": "5.4 Text processing",
-    "text": "5.4 Text processing\nThe report can, in principle, be written in any text processing software, e.g. Microsoft Word or LibreOffice Write, but I recommend to try Quarto. It needs only a little extra learning, but is an extremely efficient way to combine text and analysis with R in one document and write it directly in RStudio. A comprehensive documentation can be found on https://quarto.org/.",
-    "crumbs": [
-      "Labs",
-      "09-Which fruits are the biggest? An ANOVA example"
-    ]
-  },
-  {
-    "objectID": "qmd/09-clementines-anova.html#questions-and-literature-research",
-    "href": "qmd/09-clementines-anova.html#questions-and-literature-research",
-    "title": "09-Which fruits are the biggest? An ANOVA example",
-    "section": "5.5 Questions and literature research",
-    "text": "5.5 Questions and literature research\nPlease post questions, comments and ideas to the chat group. As the exercise is a toy example, it may be difficult to find relevant citeable literature. However, we don’t limit creativity.\nReferences",
-    "crumbs": [
-      "Labs",
-      "09-Which fruits are the biggest? An ANOVA example"
-    ]
-  },
-  {
-    "objectID": "qmd/03-discharge-elbe-project.html",
-    "href": "qmd/03-discharge-elbe-project.html",
-    "title": "x03-Discharge of River Elbe: Homework Project",
-    "section": "",
-    "text": "The project is related to the lab exercise “Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R”.",
-    "crumbs": [
-      "Projects",
-      "x03-Discharge of River Elbe: Homework Project"
-    ]
-  },
-  {
-    "objectID": "qmd/03-discharge-elbe-project.html#communicate-in-your-team-with-other-teams-and-with-tutors",
-    "href": "qmd/03-discharge-elbe-project.html#communicate-in-your-team-with-other-teams-and-with-tutors",
-    "title": "x03-Discharge of River Elbe: Homework Project",
-    "section": "3.1 Communicate in your team, with other teams and with tutors",
-    "text": "3.1 Communicate in your team, with other teams and with tutors\nCommunicate results and ideas in your team and also with other teams and with the tutors. It is a good idea to speak (or email) with your collegues first, then collect material and create a first version (this is often longer as the 5 pages).\nThen discuss and improve the result, select the most important parts and create the final version.\nCommunication can be done in person or in the Matrix1 chat group. The idea of the chat group is that all (= “the community”) can learn from each other. Private communication channels for teamwork are of course allowed, just find an agreement what fits your needs best. If you want, it is also possible to create separate communication channels in OPAL2 or in the Matrix for your group.\nIf you ask in the forum or the Matrix, please formulate specific questions and not only “this is my result, is this correct”. Good examples will hopefully develop during the work. Please feel free to post questions and contribute to the answers.",
-    "crumbs": [
-      "Projects",
-      "x03-Discharge of River Elbe: Homework Project"
-    ]
-  },
-  {
-    "objectID": "qmd/03-discharge-elbe-project.html#technical-recommendations",
-    "href": "qmd/03-discharge-elbe-project.html#technical-recommendations",
-    "title": "x03-Discharge of River Elbe: Homework Project",
-    "section": "3.2 Technical recommendations",
-    "text": "3.2 Technical recommendations\nThe report should read nicely. Space needed for figures, tables and explanatory text should be in good balance.\n\nThe report should have 5 pages A4 at maximum. Quality instead of quantity! Distill the essential messages.\nFont size of the text should be 11 or 12 points.\nA line spacing of 1.2 lines is recommended to improve readability.\nFigures (lines, font size of annotations) must be well readable.\nLiterature must be properly cited. We encourage to use author-year style citations. Good examples can be found at the APA style web page.\n\nYou will have four weeks time for the preparation of the report. Then upload it as PDF od HTML document and (optionally) an .R or Quarto (.qmd) script to the File folder of your group in the OPAL learning management system. Submissions after the deadline cannot be considered.",
-    "crumbs": [
-      "Projects",
-      "x03-Discharge of River Elbe: Homework Project"
-    ]
-  },
-  {
-    "objectID": "qmd/03-discharge-elbe-project.html#footnotes",
-    "href": "qmd/03-discharge-elbe-project.html#footnotes",
-    "title": "x03-Discharge of River Elbe: Homework Project",
-    "section": "Footnotes",
-    "text": "Footnotes\n\n\nTU Dresden uses the Matrix instant messenger.↩︎\nOPAL is the learning managament platform used by TU Dresden.↩︎",
-    "crumbs": [
-      "Projects",
-      "x03-Discharge of River Elbe: Homework Project"
-    ]
-  },
-  {
-    "objectID": "00-index.html",
-    "href": "00-index.html",
-    "title": "Elements of Applied Statistics – Lab Exercises",
-    "section": "",
-    "text": "This website contains a collection of lab-exercises for introductory statistics courses with R. The aim is to provide insight in fundamental principles and a broad overview and enable students to select and understand particular books and online material to dig in deeper in the diverse and fascinating field of statistics.\nThe corresponding slides are found at https://tpetzoldt.github.io/elements/."
-  },
-  {
-    "objectID": "00-index.html#introduction",
-    "href": "00-index.html#introduction",
-    "title": "Elements of Applied Statistics – Lab Exercises",
-    "section": "",
-    "text": "This website contains a collection of lab-exercises for introductory statistics courses with R. The aim is to provide insight in fundamental principles and a broad overview and enable students to select and understand particular books and online material to dig in deeper in the diverse and fascinating field of statistics.\nThe corresponding slides are found at https://tpetzoldt.github.io/elements/."
-  },
-  {
-    "objectID": "00-index.html#status",
-    "href": "00-index.html#status",
-    "title": "Elements of Applied Statistics – Lab Exercises",
-    "section": "2 Status",
-    "text": "2 Status\nThe selection of material is work in progress. The material is updated and additional material will appear until end of January 2025. Feedback and comments are welcome."
-  },
-  {
-    "objectID": "00-index.html#related-pages",
-    "href": "00-index.html#related-pages",
-    "title": "Elements of Applied Statistics – Lab Exercises",
-    "section": "3 Related Pages",
-    "text": "3 Related Pages\n\nLecture slides\nDatasets\nSource code of the exercises"
-  },
-  {
-    "objectID": "00-index.html#author",
-    "href": "00-index.html#author",
-    "title": "Elements of Applied Statistics – Lab Exercises",
-    "section": "4 Author",
-    "text": "4 Author\nhomepage +++ github\n2024-12-03"
-  },
-  {
-    "objectID": "qmd/01-pivot-tables-with-libreoffice.html",
-    "href": "qmd/01-pivot-tables-with-libreoffice.html",
-    "title": "01-Discharge of River Elbe: Data Management with LibreOffice",
-    "section": "",
-    "text": "Planning and maintenance of waterways and rivers needs adequate measurements and data. However, raw time series can often be long and confusing, so a first step is aggregation and visualization.\nScientific aim: plot an average year and calculate monthly averages, minima and maxima of the discharge.",
-    "crumbs": [
-      "Labs",
-      "01-Discharge of River Elbe: Data Management with LibreOffice"
-    ]
-  },
-  {
-    "objectID": "qmd/01-pivot-tables-with-libreoffice.html#download-the-data-set-and-inspect-the-data",
-    "href": "qmd/01-pivot-tables-with-libreoffice.html#download-the-data-set-and-inspect-the-data",
-    "title": "01-Discharge of River Elbe: Data Management with LibreOffice",
-    "section": "3.1 Download the data set and inspect the data",
-    "text": "3.1 Download the data set and inspect the data\n\nDownload the data set (elbe_data.ods) from the course home page and save it to a personal folder or your USB pendrive.\nOpen it with LibreOffice Calc. Excel has a similar functionality, but details differ.\nMake sure that you have set Calc to English language.\nInspect the data. You see that the date format has the form YYYY-MM-DD, that is the so-called “ISO 8601” date format, the international standard that makes data exchange between diferent software systems easier2.",
-    "crumbs": [
-      "Labs",
-      "01-Discharge of River Elbe: Data Management with LibreOffice"
-    ]
-  },
-  {
-    "objectID": "qmd/01-pivot-tables-with-libreoffice.html#creation-of-categories",
-    "href": "qmd/01-pivot-tables-with-libreoffice.html#creation-of-categories",
-    "title": "01-Discharge of River Elbe: Data Management with LibreOffice",
-    "section": "3.2 Creation of categories",
-    "text": "3.2 Creation of categories\nIn the following, we intend to aggregate the discharge data according to certain criteria, e.g. year and month. This can be done with the “pivot table” tool, so before we can do this, we need to create additional columns with the categories.\n\n3.2.1 Date computations\nCreate the following categorical columns using formulas for date computation:\n\nyear:= YEAR(A2)\nmonth: = MONTH(A2)\nday: = DAY(A2)\nweekday: = WEEKDAY(A2)\ndoy: = A2 - DATE(YEAR(A2), 1, 1) + 1\n\nThe last formula computes thew “day of year” (doy), also called Julian day. Here DATE(YEAR(A2), 1, 1) creates a date for the first January of the respective year and then the difference (+1) between the respective day and the corresponding 1st January. The formula respects the different length of months automatically, including 29th February in leap years.\nThen fill the formulas down the column until the end of the data column.\nNote: The formulas above assume that you use LibreOffice with English user interface. If you use another language (e.g. German) or other program (e.g. Excel), then the keywords and delimiters (semi-colon instead of comma) of the formulas may be different and you have to look up for them in the function library.\n\n\n3.2.2 Pivot tables\nIn LibreOffice pivot tables are created like follows:\n\nSelect the data range for which the pivot table is to be created (including header!),\nIn the menu select Insert, Pivot Table\nSelect Source – Current selection – ok\nNow drag the appropriate items to the fields, e.g. “year” to the Column field, “month” to Row field and “discharge” to Data field.\nDouble click on “discharge” and change Function to “Average”.\nOK\n\nThat’s it, and you get the monthly average discharge values.\nTask: Repeat the same for individual years, and for all years to extract minimum and maximum discharge and find a way to show the results graphically.\n\n\n3.2.3 Average year and seasonality\nCreate a pivot table with “year” as Column fields, “doy” as Row fields and “Mean discharge” (i.e. Average) as Data fields.\nPlot all years as function of the day of year.\nThen create the some of following plots (you may need additional pivot tables):\n\na bar chart for annual discharge sums (y=annual discharge, x=year)\na bar chart with average discharge for the 12 months.\nXY (Scatter) chart for all years like example before, and in addition average discharge for all observed years as thick line. Note: here it may be necessary to copy the numbers only from the pivot table to a separate sheet (Paste special – numbers) to remove the pivot table automatism for the graphics.\nXY (Scatter) chart with confidence band. Calculate maximum, average and minimum per doy over all years 3 lines: y = discharge min / average / max, x = doy.\n\nNow interpret the results. What was 2002? Google for “Elbe river 2002”.\n\n\n3.2.4 Cumulative sum plot3\nCumulative sum plots of rainfall, discharge or temperature are useful for reservoir managers, or to classify years whether they are dry, wet, cold or warm.\nCreate a cumulative sum plot for each year by adding the discharge data (\\(Q\\)) as follows:\n\\[\\begin{align*}\nQ_{sum, 1} &= Q_1 \\\\\nQ_{sum, 2} &= Q_1 + Q_2\\\\\nQ_{sum, 3} &= Q_1 + Q_2 + Q_3\\\\\nQ_{sum, n} &= Q_1 + Q_2 + Q_3 + \\cdots + Q_n\\\\\n\\end{align*}\\]\nAnswer the following questions. Which year was:\n\nthe wettest,\nthe driest,\nhad a wet winter and a dry summer?\n\n\n\n3.2.5 Additional ideas\nThe following ideas are intended as a stimulus for own explorations of the data and creative work. Feel free just to play around with downloaded data or develop your own project.\n\nRepeat the analysis with an additional elbe.csv4 file with more years.\nDownload data from other measurement stations, e.g.\n\nfrom http://www.fgg-elbe.de/elbe-datenportal.html or\nU.S. Geological Survey http://waterdata.usgs.gov/\n\n\nand analyse the data.",
-    "crumbs": [
-      "Labs",
-      "01-Discharge of River Elbe: Data Management with LibreOffice"
-    ]
-  },
-  {
-    "objectID": "qmd/01-pivot-tables-with-libreoffice.html#footnotes",
-    "href": "qmd/01-pivot-tables-with-libreoffice.html#footnotes",
-    "title": "01-Discharge of River Elbe: Data Management with LibreOffice",
-    "section": "Footnotes",
-    "text": "Footnotes\n\n\nData Source: Federal Waterways and Shipping Administration (WSV), provided by the Federal Institute for Hydrology (BfG).↩︎\nFor details, see http://en.wikipedia.org/wiki/ISO_dates↩︎\noptional topic with higher difficulty↩︎\nhttps://github.com/tpetzoldt/datasets/blob/main/data/↩︎",
-    "crumbs": [
-      "Labs",
-      "01-Discharge of River Elbe: Data Management with LibreOffice"
-    ]
-  },
-  {
-    "objectID": "qmd/13-timeseries-breakpoints.html",
-    "href": "qmd/13-timeseries-breakpoints.html",
-    "title": "13-Identification of Breakpoints in Time Series",
-    "section": "",
-    "text": "The example is adapted from the help pages of R package “strucchange”, see Zeileis, A. et al. (2002), Journal of Statistical Software, 7(2), https://www.jstatsoft.org/v07/i02/\n\nlibrary(strucchange)\n\nLade nötiges Paket: zoo\n\n\n\nAttache Paket: 'zoo'\n\n\nDie folgenden Objekte sind maskiert von 'package:base':\n\n    as.Date, as.Date.numeric\n\n\nLade nötiges Paket: sandwich\n\ndata(\"Nile\")\nplot(Nile)\n\n\n\n\n\n\n\n## OLS-CUMSUM test for structural breaks in the time series\n## are there periods with different discharge?\nocus &lt;- efp(Nile ~ 1, type = \"OLS-CUSUM\")\nplot(ocus)\n\n\n\n\n\n\n\nsctest(ocus)\n\n\n    OLS-based CUSUM test\n\ndata:  ocus\nS0 = 2.9518, p-value = 5.409e-08\n\n## identify time of structural break (with respect to mean value)\nbp.nile &lt;- breakpoints(Nile ~ 1)\nsummary(bp.nile)\n\n\n     Optimal (m+1)-segment partition: \n\nCall:\nbreakpoints.formula(formula = Nile ~ 1)\n\nBreakpoints at observation number:\n                      \nm = 1      28         \nm = 2      28       83\nm = 3      28    68 83\nm = 4      28 45 68 83\nm = 5   15 30 45 68 83\n\nCorresponding to breakdates:\n                                \nm = 1        1898               \nm = 2        1898           1953\nm = 3        1898      1938 1953\nm = 4        1898 1915 1938 1953\nm = 5   1885 1900 1915 1938 1953\n\nFit:\n                                                   \nm   0       1       2       3       4       5      \nRSS 2835157 1597457 1552924 1538097 1507888 1659994\nBIC    1318    1270    1276    1285    1292    1311\n\n## the BIC also chooses one breakpoint\nplot(bp.nile)\n\n\n\n\n\n\n\n## fit null hypothesis model and model with 1 breakpoint\nfm0 &lt;- lm(Nile ~ 1)\nfm1 &lt;- lm(Nile ~ breakfactor(bp.nile,  breaks = 1))\nplot(Nile)\nlines(ts(fitted(fm0),  start = 1871),  col = 3)\nlines(ts(fitted(fm1),  start = 1871),  col = 4)\nlines(bp.nile)\n\n## confidence interval\nci.nile &lt;- confint(bp.nile)\nci.nile\n\n\n     Confidence intervals for breakpoints\n     of optimal 2-segment partition: \n\nCall:\nconfint.breakpointsfull(object = bp.nile)\n\nBreakpoints at observation number:\n  2.5 % breakpoints 97.5 %\n1    25          28     32\n\nCorresponding to breakdates:\n  2.5 % breakpoints 97.5 %\n1  1895        1898   1902\n\nlines(ci.nile)\n\n\n\n\n\n\n\n## mark breakoint using a simpler (and less fancy) method\nplot(Nile)\ndat &lt;- data.frame(time = time(Nile), Q = as.vector(Nile))\nabline(v=dat$time[bp.nile$breakpoints],  col=\"green\")\n\n\n\n\n\n\n\n## ANOVA test whether the two models are significantly different\nanova(fm0, fm1)\n\nAnalysis of Variance Table\n\nModel 1: Nile ~ 1\nModel 2: Nile ~ breakfactor(bp.nile, breaks = 1)\n  Res.Df     RSS Df Sum of Sq     F    Pr(&gt;F)    \n1     99 2835157                                 \n2     98 1597457  1   1237700 75.93 7.439e-14 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n## alternative: AIC-based model comparison. \n## The model with lower AIC is better\nAIC(fm0,fm1)\n\n    df      AIC\nfm0  2 1313.031\nfm1  3 1257.663\n\n## some tests for quality and assumptions of the fitted model\nacf(residuals(fm0))\n\n\n\n\n\n\n\nacf(residuals(fm1))\n\n\n\n\n\n\n\nqqnorm(residuals(fm0))\n\n\n\n\n\n\n\nqqnorm(residuals(fm1))",
-    "crumbs": [
-      "Labs",
-      "13-Identification of Breakpoints in Time Series"
-    ]
-  },
-  {
-    "objectID": "qmd/13-timeseries-breakpoints.html#text-needs-to-be-written",
-    "href": "qmd/13-timeseries-breakpoints.html#text-needs-to-be-written",
-    "title": "13-Identification of Breakpoints in Time Series",
-    "section": "",
-    "text": "The example is adapted from the help pages of R package “strucchange”, see Zeileis, A. et al. (2002), Journal of Statistical Software, 7(2), https://www.jstatsoft.org/v07/i02/\n\nlibrary(strucchange)\n\nLade nötiges Paket: zoo\n\n\n\nAttache Paket: 'zoo'\n\n\nDie folgenden Objekte sind maskiert von 'package:base':\n\n    as.Date, as.Date.numeric\n\n\nLade nötiges Paket: sandwich\n\ndata(\"Nile\")\nplot(Nile)\n\n\n\n\n\n\n\n## OLS-CUMSUM test for structural breaks in the time series\n## are there periods with different discharge?\nocus &lt;- efp(Nile ~ 1, type = \"OLS-CUSUM\")\nplot(ocus)\n\n\n\n\n\n\n\nsctest(ocus)\n\n\n    OLS-based CUSUM test\n\ndata:  ocus\nS0 = 2.9518, p-value = 5.409e-08\n\n## identify time of structural break (with respect to mean value)\nbp.nile &lt;- breakpoints(Nile ~ 1)\nsummary(bp.nile)\n\n\n     Optimal (m+1)-segment partition: \n\nCall:\nbreakpoints.formula(formula = Nile ~ 1)\n\nBreakpoints at observation number:\n                      \nm = 1      28         \nm = 2      28       83\nm = 3      28    68 83\nm = 4      28 45 68 83\nm = 5   15 30 45 68 83\n\nCorresponding to breakdates:\n                                \nm = 1        1898               \nm = 2        1898           1953\nm = 3        1898      1938 1953\nm = 4        1898 1915 1938 1953\nm = 5   1885 1900 1915 1938 1953\n\nFit:\n                                                   \nm   0       1       2       3       4       5      \nRSS 2835157 1597457 1552924 1538097 1507888 1659994\nBIC    1318    1270    1276    1285    1292    1311\n\n## the BIC also chooses one breakpoint\nplot(bp.nile)\n\n\n\n\n\n\n\n## fit null hypothesis model and model with 1 breakpoint\nfm0 &lt;- lm(Nile ~ 1)\nfm1 &lt;- lm(Nile ~ breakfactor(bp.nile,  breaks = 1))\nplot(Nile)\nlines(ts(fitted(fm0),  start = 1871),  col = 3)\nlines(ts(fitted(fm1),  start = 1871),  col = 4)\nlines(bp.nile)\n\n## confidence interval\nci.nile &lt;- confint(bp.nile)\nci.nile\n\n\n     Confidence intervals for breakpoints\n     of optimal 2-segment partition: \n\nCall:\nconfint.breakpointsfull(object = bp.nile)\n\nBreakpoints at observation number:\n  2.5 % breakpoints 97.5 %\n1    25          28     32\n\nCorresponding to breakdates:\n  2.5 % breakpoints 97.5 %\n1  1895        1898   1902\n\nlines(ci.nile)\n\n\n\n\n\n\n\n## mark breakoint using a simpler (and less fancy) method\nplot(Nile)\ndat &lt;- data.frame(time = time(Nile), Q = as.vector(Nile))\nabline(v=dat$time[bp.nile$breakpoints],  col=\"green\")\n\n\n\n\n\n\n\n## ANOVA test whether the two models are significantly different\nanova(fm0, fm1)\n\nAnalysis of Variance Table\n\nModel 1: Nile ~ 1\nModel 2: Nile ~ breakfactor(bp.nile, breaks = 1)\n  Res.Df     RSS Df Sum of Sq     F    Pr(&gt;F)    \n1     99 2835157                                 \n2     98 1597457  1   1237700 75.93 7.439e-14 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n## alternative: AIC-based model comparison. \n## The model with lower AIC is better\nAIC(fm0,fm1)\n\n    df      AIC\nfm0  2 1313.031\nfm1  3 1257.663\n\n## some tests for quality and assumptions of the fitted model\nacf(residuals(fm0))\n\n\n\n\n\n\n\nacf(residuals(fm1))\n\n\n\n\n\n\n\nqqnorm(residuals(fm0))\n\n\n\n\n\n\n\nqqnorm(residuals(fm1))",
-    "crumbs": [
-      "Labs",
-      "13-Identification of Breakpoints in Time Series"
-    ]
-  },
-  {
     "objectID": "qmd/06-classical-tests.html",
     "href": "qmd/06-classical-tests.html",
     "title": "06-Classical Tests",
@@ -912,6 +679,272 @@
     "crumbs": [
       "Labs",
       "06-Classical Tests"
+    ]
+  },
+  {
+    "objectID": "qmd/03-discharge-elbe-project.html",
+    "href": "qmd/03-discharge-elbe-project.html",
+    "title": "x03-Discharge of River Elbe: Homework Project",
+    "section": "",
+    "text": "The project is related to the lab exercise “Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R”.",
+    "crumbs": [
+      "Projects",
+      "x03-Discharge of River Elbe: Homework Project"
+    ]
+  },
+  {
+    "objectID": "qmd/03-discharge-elbe-project.html#communicate-in-your-team-with-other-teams-and-with-tutors",
+    "href": "qmd/03-discharge-elbe-project.html#communicate-in-your-team-with-other-teams-and-with-tutors",
+    "title": "x03-Discharge of River Elbe: Homework Project",
+    "section": "3.1 Communicate in your team, with other teams and with tutors",
+    "text": "3.1 Communicate in your team, with other teams and with tutors\nCommunicate results and ideas in your team and also with other teams and with the tutors. It is a good idea to speak (or email) with your collegues first, then collect material and create a first version (this is often longer as the 5 pages).\nThen discuss and improve the result, select the most important parts and create the final version.\nCommunication can be done in person or in the Matrix1 chat group. The idea of the chat group is that all (= “the community”) can learn from each other. Private communication channels for teamwork are of course allowed, just find an agreement what fits your needs best. If you want, it is also possible to create separate communication channels in OPAL2 or in the Matrix for your group.\nIf you ask in the forum or the Matrix, please formulate specific questions and not only “this is my result, is this correct”. Good examples will hopefully develop during the work. Please feel free to post questions and contribute to the answers.",
+    "crumbs": [
+      "Projects",
+      "x03-Discharge of River Elbe: Homework Project"
+    ]
+  },
+  {
+    "objectID": "qmd/03-discharge-elbe-project.html#technical-recommendations",
+    "href": "qmd/03-discharge-elbe-project.html#technical-recommendations",
+    "title": "x03-Discharge of River Elbe: Homework Project",
+    "section": "3.2 Technical recommendations",
+    "text": "3.2 Technical recommendations\nThe report should read nicely. Space needed for figures, tables and explanatory text should be in good balance.\n\nThe report should have 5 pages A4 at maximum. Quality instead of quantity! Distill the essential messages.\nFont size of the text should be 11 or 12 points.\nA line spacing of 1.2 lines is recommended to improve readability.\nFigures (lines, font size of annotations) must be well readable.\nLiterature must be properly cited. We encourage to use author-year style citations. Good examples can be found at the APA style web page.\n\nYou will have four weeks time for the preparation of the report. Then upload it as PDF od HTML document and (optionally) an .R or Quarto (.qmd) script to the File folder of your group in the OPAL learning management system. Submissions after the deadline cannot be considered.",
+    "crumbs": [
+      "Projects",
+      "x03-Discharge of River Elbe: Homework Project"
+    ]
+  },
+  {
+    "objectID": "qmd/03-discharge-elbe-project.html#footnotes",
+    "href": "qmd/03-discharge-elbe-project.html#footnotes",
+    "title": "x03-Discharge of River Elbe: Homework Project",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nTU Dresden uses the Matrix instant messenger.↩︎\nOPAL is the learning managament platform used by TU Dresden.↩︎",
+    "crumbs": [
+      "Projects",
+      "x03-Discharge of River Elbe: Homework Project"
+    ]
+  },
+  {
+    "objectID": "00-index.html",
+    "href": "00-index.html",
+    "title": "Elements of Applied Statistics – Lab Exercises",
+    "section": "",
+    "text": "This website contains a collection of lab-exercises for introductory statistics courses with R. The aim is to provide insight in fundamental principles and a broad overview and enable students to select and understand particular books and online material to dig in deeper in the diverse and fascinating field of statistics.\nThe corresponding slides are found at https://tpetzoldt.github.io/elements/."
+  },
+  {
+    "objectID": "00-index.html#introduction",
+    "href": "00-index.html#introduction",
+    "title": "Elements of Applied Statistics – Lab Exercises",
+    "section": "",
+    "text": "This website contains a collection of lab-exercises for introductory statistics courses with R. The aim is to provide insight in fundamental principles and a broad overview and enable students to select and understand particular books and online material to dig in deeper in the diverse and fascinating field of statistics.\nThe corresponding slides are found at https://tpetzoldt.github.io/elements/."
+  },
+  {
+    "objectID": "00-index.html#status",
+    "href": "00-index.html#status",
+    "title": "Elements of Applied Statistics – Lab Exercises",
+    "section": "2 Status",
+    "text": "2 Status\nThe selection of material is work in progress. The material is updated and additional material will appear until end of January 2025. Feedback and comments are welcome."
+  },
+  {
+    "objectID": "00-index.html#related-pages",
+    "href": "00-index.html#related-pages",
+    "title": "Elements of Applied Statistics – Lab Exercises",
+    "section": "3 Related Pages",
+    "text": "3 Related Pages\n\nLecture slides\nDatasets\nSource code of the exercises"
+  },
+  {
+    "objectID": "00-index.html#author",
+    "href": "00-index.html#author",
+    "title": "Elements of Applied Statistics – Lab Exercises",
+    "section": "4 Author",
+    "text": "4 Author\nhomepage +++ github\n2024-12-03"
+  },
+  {
+    "objectID": "qmd/01-pivot-tables-with-libreoffice.html",
+    "href": "qmd/01-pivot-tables-with-libreoffice.html",
+    "title": "01-Discharge of River Elbe: Data Management with LibreOffice",
+    "section": "",
+    "text": "Planning and maintenance of waterways and rivers needs adequate measurements and data. However, raw time series can often be long and confusing, so a first step is aggregation and visualization.\nScientific aim: plot an average year and calculate monthly averages, minima and maxima of the discharge.",
+    "crumbs": [
+      "Labs",
+      "01-Discharge of River Elbe: Data Management with LibreOffice"
+    ]
+  },
+  {
+    "objectID": "qmd/01-pivot-tables-with-libreoffice.html#download-the-data-set-and-inspect-the-data",
+    "href": "qmd/01-pivot-tables-with-libreoffice.html#download-the-data-set-and-inspect-the-data",
+    "title": "01-Discharge of River Elbe: Data Management with LibreOffice",
+    "section": "3.1 Download the data set and inspect the data",
+    "text": "3.1 Download the data set and inspect the data\n\nDownload the data set (elbe_data.ods) from the course home page and save it to a personal folder or your USB pendrive.\nOpen it with LibreOffice Calc. Excel has a similar functionality, but details differ.\nMake sure that you have set Calc to English language.\nInspect the data. You see that the date format has the form YYYY-MM-DD, that is the so-called “ISO 8601” date format, the international standard that makes data exchange between diferent software systems easier2.",
+    "crumbs": [
+      "Labs",
+      "01-Discharge of River Elbe: Data Management with LibreOffice"
+    ]
+  },
+  {
+    "objectID": "qmd/01-pivot-tables-with-libreoffice.html#creation-of-categories",
+    "href": "qmd/01-pivot-tables-with-libreoffice.html#creation-of-categories",
+    "title": "01-Discharge of River Elbe: Data Management with LibreOffice",
+    "section": "3.2 Creation of categories",
+    "text": "3.2 Creation of categories\nIn the following, we intend to aggregate the discharge data according to certain criteria, e.g. year and month. This can be done with the “pivot table” tool, so before we can do this, we need to create additional columns with the categories.\n\n3.2.1 Date computations\nCreate the following categorical columns using formulas for date computation:\n\nyear:= YEAR(A2)\nmonth: = MONTH(A2)\nday: = DAY(A2)\nweekday: = WEEKDAY(A2)\ndoy: = A2 - DATE(YEAR(A2), 1, 1) + 1\n\nThe last formula computes thew “day of year” (doy), also called Julian day. Here DATE(YEAR(A2), 1, 1) creates a date for the first January of the respective year and then the difference (+1) between the respective day and the corresponding 1st January. The formula respects the different length of months automatically, including 29th February in leap years.\nThen fill the formulas down the column until the end of the data column.\nNote: The formulas above assume that you use LibreOffice with English user interface. If you use another language (e.g. German) or other program (e.g. Excel), then the keywords and delimiters (semi-colon instead of comma) of the formulas may be different and you have to look up for them in the function library.\n\n\n3.2.2 Pivot tables\nIn LibreOffice pivot tables are created like follows:\n\nSelect the data range for which the pivot table is to be created (including header!),\nIn the menu select Insert, Pivot Table\nSelect Source – Current selection – ok\nNow drag the appropriate items to the fields, e.g. “year” to the Column field, “month” to Row field and “discharge” to Data field.\nDouble click on “discharge” and change Function to “Average”.\nOK\n\nThat’s it, and you get the monthly average discharge values.\nTask: Repeat the same for individual years, and for all years to extract minimum and maximum discharge and find a way to show the results graphically.\n\n\n3.2.3 Average year and seasonality\nCreate a pivot table with “year” as Column fields, “doy” as Row fields and “Mean discharge” (i.e. Average) as Data fields.\nPlot all years as function of the day of year.\nThen create the some of following plots (you may need additional pivot tables):\n\na bar chart for annual discharge sums (y=annual discharge, x=year)\na bar chart with average discharge for the 12 months.\nXY (Scatter) chart for all years like example before, and in addition average discharge for all observed years as thick line. Note: here it may be necessary to copy the numbers only from the pivot table to a separate sheet (Paste special – numbers) to remove the pivot table automatism for the graphics.\nXY (Scatter) chart with confidence band. Calculate maximum, average and minimum per doy over all years 3 lines: y = discharge min / average / max, x = doy.\n\nNow interpret the results. What was 2002? Google for “Elbe river 2002”.\n\n\n3.2.4 Cumulative sum plot3\nCumulative sum plots of rainfall, discharge or temperature are useful for reservoir managers, or to classify years whether they are dry, wet, cold or warm.\nCreate a cumulative sum plot for each year by adding the discharge data (\\(Q\\)) as follows:\n\\[\\begin{align*}\nQ_{sum, 1} &= Q_1 \\\\\nQ_{sum, 2} &= Q_1 + Q_2\\\\\nQ_{sum, 3} &= Q_1 + Q_2 + Q_3\\\\\nQ_{sum, n} &= Q_1 + Q_2 + Q_3 + \\cdots + Q_n\\\\\n\\end{align*}\\]\nAnswer the following questions. Which year was:\n\nthe wettest,\nthe driest,\nhad a wet winter and a dry summer?\n\n\n\n3.2.5 Additional ideas\nThe following ideas are intended as a stimulus for own explorations of the data and creative work. Feel free just to play around with downloaded data or develop your own project.\n\nRepeat the analysis with an additional elbe.csv4 file with more years.\nDownload data from other measurement stations, e.g.\n\nfrom http://www.fgg-elbe.de/elbe-datenportal.html or\nU.S. Geological Survey http://waterdata.usgs.gov/\n\n\nand analyse the data.",
+    "crumbs": [
+      "Labs",
+      "01-Discharge of River Elbe: Data Management with LibreOffice"
+    ]
+  },
+  {
+    "objectID": "qmd/01-pivot-tables-with-libreoffice.html#footnotes",
+    "href": "qmd/01-pivot-tables-with-libreoffice.html#footnotes",
+    "title": "01-Discharge of River Elbe: Data Management with LibreOffice",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nData Source: Federal Waterways and Shipping Administration (WSV), provided by the Federal Institute for Hydrology (BfG).↩︎\nFor details, see http://en.wikipedia.org/wiki/ISO_dates↩︎\noptional topic with higher difficulty↩︎\nhttps://github.com/tpetzoldt/datasets/blob/main/data/↩︎",
+    "crumbs": [
+      "Labs",
+      "01-Discharge of River Elbe: Data Management with LibreOffice"
+    ]
+  },
+  {
+    "objectID": "qmd/09-clementines-anova.html",
+    "href": "qmd/09-clementines-anova.html",
+    "title": "09-Which fruits are the biggest? An ANOVA example",
+    "section": "",
+    "text": "Preface\nThe following template is intended as a starting point for a short report of an ANOVA. It is recommended to follow the general outline (Introduction, Methods, Results, Discussion), but to adapt the content to the specific needs of the analysis.\nIt is good practice to concentrate on the main findings and their discussion and to avoid unnecessary technical detail. The report should be illustrated with meaningful (and only the most important) tables and graphs.\nThe data set consists of different samples of clementine fruits from different brands and different shops. The data sets can be downloaded from\nhttps://tpetzoldt.github.io/datasets/.\nA description is found in the file clementines_info.txt.",
+    "crumbs": [
+      "Labs",
+      "09-Which fruits are the biggest? An ANOVA example"
+    ]
+  },
+  {
+    "objectID": "qmd/09-clementines-anova.html#data",
+    "href": "qmd/09-clementines-anova.html#data",
+    "title": "09-Which fruits are the biggest? An ANOVA example",
+    "section": "2.1 Data",
+    "text": "2.1 Data\n\nwrite something about the data\n\ndescribe the different samples and how they were obtained\nweight determination with a scale, length determination with a caliper (see below)\n\nread the data in:\n\n\nbrands &lt;- read.csv(\"clementines2022-brands.csv\")\nfruits &lt;- read.csv(\"clementines2022-fruits.csv\")\n\nShow the structure of the data. Use the data explorer of RStudio or the head-function, that shows the first lines of each data set. Please do not forget to report the sample size of your data!\n\ncat(\"sample size:\", nrow(fruits), \"\\n\")\nhead(fruits, n=3)\n\nLook also at the structure of brands.\nThen join the two tables and convert the brand column into a factor variable.\n\ndat &lt;- left_join(fruits, brands, by=\"brand\")\ndat$brand &lt;- factor(dat$brand)",
+    "crumbs": [
+      "Labs",
+      "09-Which fruits are the biggest? An ANOVA example"
+    ]
+  },
+  {
+    "objectID": "qmd/09-clementines-anova.html#data-analysis",
+    "href": "qmd/09-clementines-anova.html#data-analysis",
+    "title": "09-Which fruits are the biggest? An ANOVA example",
+    "section": "2.2 Data analysis",
+    "text": "2.2 Data analysis\nMention R (R Core Team, 2024) in a single sentence, cite special packages. Write that an ANOVA was performed and which methods were used in addition.",
+    "crumbs": [
+      "Labs",
+      "09-Which fruits are the biggest? An ANOVA example"
+    ]
+  },
+  {
+    "objectID": "qmd/09-clementines-anova.html#hypotheses",
+    "href": "qmd/09-clementines-anova.html#hypotheses",
+    "title": "09-Which fruits are the biggest? An ANOVA example",
+    "section": "5.1 Hypotheses",
+    "text": "5.1 Hypotheses\nIt is important to formulate clear hypotheses. Here are a few examples, related to the data set from 2019. Please think about it and define your own hypotheses, related to the current data set.\n\n\\(H_{0,1}\\): The mean weight of the fruits is the same in all samples.\n\\(H_{A,1}\\): The weight is different in any of the samples.\n\\(H_{A,2}\\): Which brand is the smallest? The mean weight of smallest sample is significantly smaller than of the 2nd samplest sample.\n\\(H_{A,3}\\): The fruits from the premium brands are bigger than corresponding basic brands.\n\nNote: Hypotheses \\(H_{A,2}\\) and \\(H_{A,3}\\) have their own, different \\(H_0\\).\nA hypothesis like \\(H_{A,3}\\) is more difficult and optional. It requires a two-way ANOVA and can only be applied to a subset of the data, where different brands from the same shops are available.",
+    "crumbs": [
+      "Labs",
+      "09-Which fruits are the biggest? An ANOVA example"
+    ]
+  },
+  {
+    "objectID": "qmd/09-clementines-anova.html#measurement-methods",
+    "href": "qmd/09-clementines-anova.html#measurement-methods",
+    "title": "09-Which fruits are the biggest? An ANOVA example",
+    "section": "5.2 Measurement methods",
+    "text": "5.2 Measurement methods\n\nWeight: was determined with a kitchen scale in gramm (g).\nHeight and Width: were measured with a caliper (Fig. 1)\n\n\n\n\n\nSize measurement with a digital caliper.",
+    "crumbs": [
+      "Labs",
+      "09-Which fruits are the biggest? An ANOVA example"
+    ]
+  },
+  {
+    "objectID": "qmd/09-clementines-anova.html#r-example-code",
+    "href": "qmd/09-clementines-anova.html#r-example-code",
+    "title": "09-Which fruits are the biggest? An ANOVA example",
+    "section": "5.3 R example code",
+    "text": "5.3 R example code\n\nThe following code is intended as a starting example. It is recommended to adapt the script to analyse the data from another year.\nDon’t forget that it is an exercise, not a serious analysis, so feel free to create your own story.\nDon’t make your report too technical, concentrate on your message.\n\n\nbrands &lt;- read.csv(\"https://tpetzoldt.github.io/datasets/data/clementines2019-brands.csv\")\nfruits &lt;- read.csv(\"https://tpetzoldt.github.io/datasets/data/clementines2019-fruits.csv\")\n\ndat &lt;- left_join(fruits, brands) # merge tables by their common colum 'Brand'\ndat$brand &lt;- factor(dat$brand)\n\nboxplot(weight ~ brand, data=dat)\n\n## the ANOVA\nm &lt;- lm(weight ~ brand, data=dat)\nanova(m)\n\n## posthoc test\nTukeyHSD(aov(m))\n\n## graphical display of Tukey's test\nplot(TukeyHSD(aov(m)), las=1, cex.axis=0.5)\n\n## graphical and numerical checks of variance homogeneity\nplot(m, which=1)\nfligner.test(weight ~ brand, data=dat)\n\n## approximate normality of residuals\nplot(m, which=2)\n\n## optional: special one-way anova alternative if variances are unequal\noneway.test(weight ~ brand, data=dat)",
+    "crumbs": [
+      "Labs",
+      "09-Which fruits are the biggest? An ANOVA example"
+    ]
+  },
+  {
+    "objectID": "qmd/09-clementines-anova.html#text-processing",
+    "href": "qmd/09-clementines-anova.html#text-processing",
+    "title": "09-Which fruits are the biggest? An ANOVA example",
+    "section": "5.4 Text processing",
+    "text": "5.4 Text processing\nThe report can, in principle, be written in any text processing software, e.g. Microsoft Word or LibreOffice Write, but I recommend to try Quarto. It needs only a little extra learning, but is an extremely efficient way to combine text and analysis with R in one document and write it directly in RStudio. A comprehensive documentation can be found on https://quarto.org/.",
+    "crumbs": [
+      "Labs",
+      "09-Which fruits are the biggest? An ANOVA example"
+    ]
+  },
+  {
+    "objectID": "qmd/09-clementines-anova.html#questions-and-literature-research",
+    "href": "qmd/09-clementines-anova.html#questions-and-literature-research",
+    "title": "09-Which fruits are the biggest? An ANOVA example",
+    "section": "5.5 Questions and literature research",
+    "text": "5.5 Questions and literature research\nPlease post questions, comments and ideas to the chat group. As the exercise is a toy example, it may be difficult to find relevant citeable literature. However, we don’t limit creativity.\nReferences",
+    "crumbs": [
+      "Labs",
+      "09-Which fruits are the biggest? An ANOVA example"
+    ]
+  },
+  {
+    "objectID": "qmd/13-timeseries-breakpoints.html",
+    "href": "qmd/13-timeseries-breakpoints.html",
+    "title": "13-Identification of Breakpoints in Time Series",
+    "section": "",
+    "text": "The example is adapted from the help pages of R package strucchange, (Zeileis et al., 2002). The scientific question is to detect breakpoints where the hydrological regime of a river suddenly changed due to management changes, e.g. dam construction.",
+    "crumbs": [
+      "Labs",
+      "13-Identification of Breakpoints in Time Series"
+    ]
+  },
+  {
+    "objectID": "qmd/13-timeseries-breakpoints.html#test-of-existence-of-breakpoints",
+    "href": "qmd/13-timeseries-breakpoints.html#test-of-existence-of-breakpoints",
+    "title": "13-Identification of Breakpoints in Time Series",
+    "section": "3.1 Test of existence of breakpoints",
+    "text": "3.1 Test of existence of breakpoints\nHere we use a so-called OLS-CUSUM test (ordinary least-squares regression, cumulative sums). The technical procedure is that we first define a null hypothesis for an empirical fluctuation process (efp). Here the model Nile ~ 1 means that we assume a constant mean value over time without trend. In case we allow for a linear trend, we could use Nile ~ time (Nile).\nThe ocus (OLS-CUSUM) object is then plotted and a structural change test (sctest) applied. The y-axis of the plot is scaled in units of standard deviations. The line shows the cumulative sum of deviations from the mean value. An monotonous increase of the line means that values are above the arithmetic mean, a decrease that they are below average. If the line exceeds the horizontal confidence bands, it indicates a structural change.\n\nocus &lt;- efp(Nile ~ 1, type = \"OLS-CUSUM\")\nplot(ocus)\n\n\n\n\n\n\n\nsctest(ocus)\n\n\n    OLS-based CUSUM test\n\ndata:  ocus\nS0 = 2.9518, p-value = 5.409e-08",
+    "crumbs": [
+      "Labs",
+      "13-Identification of Breakpoints in Time Series"
+    ]
+  },
+  {
+    "objectID": "qmd/13-timeseries-breakpoints.html#identification-of-structural-breaks",
+    "href": "qmd/13-timeseries-breakpoints.html#identification-of-structural-breaks",
+    "title": "13-Identification of Breakpoints in Time Series",
+    "section": "3.2 Identification of structural breaks",
+    "text": "3.2 Identification of structural breaks\nFunction breakpointsis the main workhorse of the package. It iteratively scans the time series for candidate breakpoints, that can be printed. The BIC values returned by summary or and that are visible in the plot are then used for model selection. We select the model with the minimum BIC. Here we use again a model without trend (Nile ~ 1).\n\nbp.nile &lt;- breakpoints(Nile ~ 1)\nsummary(bp.nile)\n\nplot(bp.nile)\n\nTask: find out how many breakpoints are necessary for an optimal model and at which time they occured.",
+    "crumbs": [
+      "Labs",
+      "13-Identification of Breakpoints in Time Series"
+    ]
+  },
+  {
+    "objectID": "qmd/13-timeseries-breakpoints.html#visualisation",
+    "href": "qmd/13-timeseries-breakpoints.html#visualisation",
+    "title": "13-Identification of Breakpoints in Time Series",
+    "section": "3.3 Visualisation",
+    "text": "3.3 Visualisation\nIn the following, we compare the model with N breakpoints with the null model fm0 without any breakpoint. In addition, we can also show indcate the confidence interval.\nTask: replace xxxwith the correct number of breakpoints. It is also possible, to try other numbers of breakpoints to understand the algorith. Finally set it back to the optimal value.\n\nfm0 &lt;- lm(Nile ~ 1)\nfm1 &lt;- lm(Nile ~ breakfactor(bp.nile,  breaks = xxx))\nplot(Nile)\nlines(ts(fitted(fm0),  start = 1871),  col = 3)\nlines(ts(fitted(fm1),  start = 1871),  col = 4)\nlines(bp.nile)\n\n## confidence interval\nci.nile &lt;- confint(bp.nile)\nci.nile\nlines(ci.nile)\n\nThe optional code uses a simpler and less fancy method for indicating the breakpoint(s).\n\nplot(Nile)\ndat &lt;- data.frame(time = time(Nile), Q = as.vector(Nile))\nabline(v = dat$time[bp.nile$breakpoints],  col = \"green\")\n\nIf we need a p-value, we can compare the two models with a likelihood ratio test:\n\n## ANOVA test whether the two models are significantly different\nanova(fm0, fm1)",
+    "crumbs": [
+      "Labs",
+      "13-Identification of Breakpoints in Time Series"
+    ]
+  },
+  {
+    "objectID": "qmd/13-timeseries-breakpoints.html#diagnostics",
+    "href": "qmd/13-timeseries-breakpoints.html#diagnostics",
+    "title": "13-Identification of Breakpoints in Time Series",
+    "section": "3.4 Diagnostics",
+    "text": "3.4 Diagnostics\nFinally let’s check autocorrelation and normality of residuals. In case the breakpoint model was appropriate, autocorrelations should vanish. As a counterexample, we plot also the autocorrelation function of the null model (fm1).\nFinally, we check residuals for approximate normality.\n\npar(mfrow=c(2, 2))\nacf(residuals(fm0))\nacf(residuals(fm1))\nqqnorm(residuals(fm0))\nqqnorm(residuals(fm1))",
+    "crumbs": [
+      "Labs",
+      "13-Identification of Breakpoints in Time Series"
     ]
   },
   {
@@ -1165,6 +1198,28 @@
     "crumbs": [
       "Labs",
       "05-Distribution and Confidence Intervals of Clementines"
+    ]
+  },
+  {
+    "objectID": "qmd/13-timeseries-breakpoints.html#dataset",
+    "href": "qmd/13-timeseries-breakpoints.html#dataset",
+    "title": "13-Identification of Breakpoints in Time Series",
+    "section": "2.1 Dataset",
+    "text": "2.1 Dataset\nThe dataset is a hydrological time series of the discharge of the river Nile measured at Aswan in 108 m3 a-1. The origin of the data is described in Cobb (1978). It is contained in the strucchange package and can be loaded with data(Nile).\n\nlibrary(\"strucchange\")\ndata(\"Nile\")\nplot(Nile)",
+    "crumbs": [
+      "Labs",
+      "13-Identification of Breakpoints in Time Series"
+    ]
+  },
+  {
+    "objectID": "qmd/13-timeseries-breakpoints.html#data-analysis",
+    "href": "qmd/13-timeseries-breakpoints.html#data-analysis",
+    "title": "13-Identification of Breakpoints in Time Series",
+    "section": "2.2 Data analysis",
+    "text": "2.2 Data analysis\nThe data analysis is carried out in several steps:\n\nStatistical test if the timne series contains breakpoints\nIdentification of number and position of breakpoints\nVisualization of model results\nDiagnostic tests",
+    "crumbs": [
+      "Labs",
+      "13-Identification of Breakpoints in Time Series"
     ]
   }
 ]
