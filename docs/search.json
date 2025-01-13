@@ -301,7 +301,7 @@
     "href": "qmd/12-timeseries-trends.html#data-set",
     "title": "12-An introductory time series example",
     "section": "2.1 Data set",
-    "text": "2.1 Data set\nThe data set “timeseries.txt” contains artificial data with specifically designed properties, similar to the TSP and DSP series in the tutorial https://tpetzoldt.github.io/elements/. The data can be entered to R either with read.table or with the import assistant, then we convert it to time series objects (ts), to make their analysis easier.\n\ndat &lt;- read.csv(\"timeseries.csv\", header = TRUE)\nTSP &lt;- ts(dat$TSP)\nDSP &lt;- ts(dat$DSP)\n\nIt is always a good idea to plot the data first.\n\npar(mfrow=c(1,2))\nplot(TSP)\nplot(DSP)",
+    "text": "2.1 Data set\nThe data set “timeseries.txt” contains artificial data with specifically designed properties, similar to the TSP and DSP series in the tutorial https://tpetzoldt.github.io/elements/.\nThe data sets are available from https://tpetzoldt.github.io/datasets/. You can either download it locally or modify the code that the data are directly read from the web. Then convert it to time series objects (ts), to make their analysis easier.\n\ndat &lt;- read.csv(\"timeseries.csv\")\nTSP &lt;- ts(dat$TSP)\nDSP &lt;- ts(dat$DSP)\n\nIt is always a good idea to plot the data first.\n\npar(mfrow=c(1,2))\nplot(TSP)\nplot(DSP)",
     "crumbs": [
       "Labs",
       "12-An introductory time series example"
