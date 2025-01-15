@@ -43,7 +43,7 @@ plot(Nile)
 
 The data analysis is carried out in several steps:
 
-1. Statistical test if the timne series contains breakpoints
+1. Statistical test if the time series contains breakpoints
 2. Identification of number and position of breakpoints
 3. Visualization of model results
 4. Diagnostic tests
