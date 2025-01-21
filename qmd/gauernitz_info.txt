@@ -1,16 +1,16 @@
 Datensatz: gauernitz.csv
 
-Beschreibung: Benthische Besiedlung zweier Bäche 
-              in der Nähe von Dresden
+Beschreibung: Benthische Besiedlung zweier BÃ¤che 
+              in der NÃ¤he von Dresden
 
-Achtung: Übungsdatensatz,
+Achtung: Ãœbungsdatensatz,
          Taxa sind teilweise recht mutig zusammengefasst.
 
 Faktoren:
 	p 	pool
 	r	riffle
 	g	Gauernitzbach
-	t	Tännichtgrundbach
+	t	TÃ¤nnichtgrundbach
 	n	nach Hochwasser
 	v	vor Hochwasser
 
@@ -21,7 +21,7 @@ Lizenz: classroom use
 
 Quelle: Carola Winkelmann, unveroeff. 2002
         TU Dresden 
-        Institut für Hydrobiologie
+        Institut fÃ¼r Hydrobiologie
         Arbeitsgruppe Limnologie 
 
 ------------------------------------------------------------
@@ -36,7 +36,7 @@ Factors:
         p pool
 	r riffle
 	g Gauernitzbach
-	t Tännichtgrundbach
+	t TÃ¤nnichtgrundbach
 	n after flood
 	v before flood
 
