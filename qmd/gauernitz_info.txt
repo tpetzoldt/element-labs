@@ -1,0 +1,50 @@
+Datensatz: gauernitz.csv
+
+Beschreibung: Benthische Besiedlung zweier Bäche 
+              in der Nähe von Dresden
+
+Achtung: Übungsdatensatz,
+         Taxa sind teilweise recht mutig zusammengefasst.
+
+Faktoren:
+	p 	pool
+	r	riffle
+	g	Gauernitzbach
+	t	Tännichtgrundbach
+	n	nach Hochwasser
+	v	vor Hochwasser
+
+sites:		
+GR10		Gau riffle Oktober
+
+Lizenz: classroom use
+
+Quelle: Carola Winkelmann, unveroeff. 2002
+        TU Dresden 
+        Institut für Hydrobiologie
+        Arbeitsgruppe Limnologie 
+
+------------------------------------------------------------
+
+Dataset: gauernitz.csv
+
+Description: Benthic colonization of two streams near Dresden
+
+Attention: Exercise data set, taxa pragmatically aggregated.
+
+Factors:
+        p pool
+	r riffle
+	g Gauernitzbach
+	t Tännichtgrundbach
+	n after flood
+	v before flood
+
+Example: GR10 Gau riffle October
+
+License: classroom use
+
+Source: Carola Winkelmann, unveroeff. 2002
+        TU Dresden 
+        Institute of Hydrobiology
+        Limnology working group 
