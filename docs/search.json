@@ -1126,78 +1126,78 @@
   {
     "objectID": "qmd/15-multivariate-small-streams.html",
     "href": "qmd/15-multivariate-small-streams.html",
-    "title": "15-Multivariate Analysis of Ecological Community Data",
+    "title": "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
     "section": "",
-    "text": "The aim of the following exercise is to demonstrate some important multivariate methods by example of a simplified data set. In some cases, several alternatives are presented, but for a real analysis one does not need to include everything. On the other hand, the methods offer further possibilities that cannot all be presented, see the online help and corresponding books and tutorials.\nThe data set used originates from a field experiment to investigate the influence of fish predation on the species composition of the macrozoobenthos community in two streams. During the study period, however, an extreme flood occurred in August and caused major morphological changes to the two streams. This motivated the hypothesis that the species community has also changed.",
+    "text": "The aim of the following exercise is to demonstrate some important multivariate methods by example of a macrozoobenthos data set from two small streams. In some cases, several alternatives are presented, but for a real analysis one does not need to include everything. On the other hand, the methods offer further possibilities that cannot all be presented, see the online help and corresponding books and tutorials.\nThe data set used originates from a field experiment to investigate the influence of fish predation on the macrozoobenthos species composition. However, during the study period an extreme flood occurred in August and caused major morphological changes to the streams. This motivated the hypothesis that the species community has also changed.",
     "crumbs": [
       "Labs",
-      "15-Multivariate Analysis of Ecological Community Data"
+      "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
     ]
   },
   {
     "objectID": "qmd/15-multivariate-small-streams.html#nmds",
     "href": "qmd/15-multivariate-small-streams.html#nmds",
-    "title": "15-Multivariate Analysis of Ecological Community Data",
+    "title": "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
     "section": "3.1 NMDS",
-    "text": "3.1 NMDS\nWe start with an NMDS (nonmetric multidimensional scaling), of the bio-data using the Bray-Curtis dissimilarity measure. It is the default, but we specify it here explicitly to make this transparent. Automatic transformation is switched off. This can be changed, depending on the properties of the data, for example to wisconsin(sqrt(bio)).\nThe function metaMDS then runs the NMDS several times with different starting values to avoid local minima. For difficult data sets, it may be necessary to increase the metaparameters try and trymax.\nAfter that, we should have a look at the value of the stress and the stressplot.\n\nmds &lt;- metaMDS(bio, distance = \"bray\", autotransform = FALSE)\nmds\nstressplot(mds)\n\nWe can then plot the results of the NMDS-ordination.\n\nplot(mds, type = \"t\")\n\nIn order to show the influence of environmental variables, we can fit vectors or factors to the ordination. In addition to this, we can show the significance of the fitted vectors. For getting reliable p-values, I recommend to increase permu to 3999 or 9999.\n\n## Environmental fitting mit Permutations-Test\nefit &lt;- envfit(mds ~ Hochwasser + Bach + Habitat, env, permu = 999)\nefit\n\nNow, we can visualize the complete result.\n\nplot(mds, type = \"t\")\nplot(efit, add = TRUE)\nabline(h=0, col=\"grey\", lty=\"dotted\")\nabline(v=0, col=\"grey\", lty=\"dotted\")",
+    "text": "3.1 NMDS\nWe start with an NMDS (nonmetric multidimensional scaling) of the bio-data using the Bray-Curtis dissimilarity measure. It is the default of metaMDS, but we specify it explicitly to make the selection of the dissimilarity measure clearly visible in the code. Automatic transformation is switched off. This can be changed, depending on the properties of the data, or enabled “manually” for example with wisconsin(sqrt(bio)).\nThe function metaMDS then runs the NMDS several times with different starting values to avoid local minima. For difficult data sets, it may be necessary to increase the metaparameters try and trymax, see helpfile for details.\nAfter that, we should have a look at the stress value and the stressplot.\n\nmds &lt;- metaMDS(bio, distance = \"bray\", autotransform = FALSE)\nmds\nstressplot(mds)\n\nWe can then plot the results of the NMDS-ordination.\n\nplot(mds, type = \"t\")\n\nIn order to show the influence of environmental variables, we can fit vectors or factors to the ordination. In addition to this, we can show the significance of the fitted vectors. For getting reliable p-values, I recommend to increase permu to 3999 or 9999.\n\n## fit environmental factors and perform a permutations-test\nefit &lt;- envfit(mds ~ Hochwasser + Bach + Habitat, env, permu = 999)\nefit\n\nNow, we can visualize the complete result. Grey dotted zero-lines are added to make interpretation easier.\n\nplot(mds, type = \"t\")\nplot(efit, add = TRUE)\nabline(h=0, col=\"grey\", lty=\"dotted\")\nabline(v=0, col=\"grey\", lty=\"dotted\")",
     "crumbs": [
       "Labs",
-      "15-Multivariate Analysis of Ecological Community Data"
+      "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
     ]
   },
   {
     "objectID": "qmd/15-multivariate-small-streams.html#hierarchical-clustering",
     "href": "qmd/15-multivariate-small-streams.html#hierarchical-clustering",
-    "title": "15-Multivariate Analysis of Ecological Community Data",
+    "title": "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
     "section": "3.2 Hierarchical Clustering",
-    "text": "3.2 Hierarchical Clustering\nThe NMDS tries to project the distances as good as possible to a low number of dimensions, e.g. k=2 that is the default. To see the full picture of distances in space, we may consider to apply hierarchical clustering. As agglomeration algorithm, we may consider complete, ward.D2 or ward.D.\n\nhc &lt;- hclust(vegdist(bio), method=\"ward.D\")\nplot(hc)\n\nIt is also possible, to colorize the clusters in the NMDS plot. Let’s assume we have 4 clusters, we can first indicate it in the hierarchical cluster tree with rect.hclust``, then cut the tree withcutree`.\n\nplot(hc)\nrect.hclust(hc, 4)\n\nThe result is an assignment of the original observations to groups, that can be used to colorize the NMDS plot. It is possible to show the cluster tree directly in the nmds plot or to indicate it otherwise with, for example, ordispider, ordihull or ordiellipse\n\ngrp &lt;- cutree(hc, 4)  # assign observations to 4 groups\ngrp\n\nplot(mds, type = \"n\")\ntext(mds$points, row.names(bio), col = grp)\n\n## optional: show cluster tree\n#ordicluster(mds, hc, col=\"blue\")\n\nExercise: Include the fitted environmental variables.",
+    "text": "3.2 Hierarchical Clustering\nThe NMDS tries to project the distances as good as possible to a low number of dimensions, e.g. k=2 that is the default. To see the full picture of distances in multidimensional space, we may consider to apply hierarchical clustering. As agglomeration algorithm, complete, ward.D2 or ward.D can be a good choice. To improve understanding it can be a good idea to compare it with other agglomeration schemes, e.g. single.\n\nhc &lt;- hclust(vegdist(bio), method=\"ward.D\")\nplot(hc)\n\nIt is also possible, to colorize the clusters in the NMDS plot. Let’s assume we have 4 clusters, we can first indicate it in the hierarchical cluster tree with rect.hclust``, then cut the tree withcutree`.\n\nplot(hc)\nrect.hclust(hc, 4)\ngrp &lt;- cutree(hc, 4)  # assign observations to 4 groups\ngrp\n\nThe result is an assignment of the original observations to groups, that can be used to colorize the NMDS plot. It is possible to show the cluster tree directly in the nmds plot or to indicate it otherwise with, for example, ordispider, ordihull or ordiellipse\n\nplot(mds, type = \"n\")\ntext(mds$points, row.names(bio), col = grp)\n\n## optional: show cluster tree\n#ordicluster(mds, hc, col=\"blue\")\n\nExercises: Compare different agglomeration schemes, try different numbers of clusters in rect.hclust and cutree and add the fitted environmental variables in the final plot.",
     "crumbs": [
       "Labs",
-      "15-Multivariate Analysis of Ecological Community Data"
+      "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
     ]
   },
   {
     "objectID": "qmd/15-multivariate-small-streams.html#canonical-correspondence-analysis",
     "href": "qmd/15-multivariate-small-streams.html#canonical-correspondence-analysis",
-    "title": "15-Multivariate Analysis of Ecological Community Data",
+    "title": "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
     "section": "3.3 Canonical Correspondence Analysis",
     "text": "3.3 Canonical Correspondence Analysis\nAs an alternative to NMDS, we can also use CCA, that is a “constraied ordination method” and allows a more detailed numerical analysis (e.g. separatation of inertia), but is limited to \\(\\chi^2\\)-distance, while NMDS allows arbitrary distance measures, including Bray-Curtis.\n\ncc &lt;- cca(bio ~ Habitat + Bach + Hochwasser, data = env)\n#cc &lt;- cca(bio ~ ., data = env) # same. The . means all from env\ncc # print Eigenvalues\nplot(cc)\nordihull(cc, env$Habitat, col = \"blue\")   # or: ordispider, ordiellipse ...",
     "crumbs": [
       "Labs",
-      "15-Multivariate Analysis of Ecological Community Data"
+      "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
     ]
   },
   {
     "objectID": "qmd/15-multivariate-small-streams.html#test-of-significance",
     "href": "qmd/15-multivariate-small-streams.html#test-of-significance",
-    "title": "15-Multivariate Analysis of Ecological Community Data",
+    "title": "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
     "section": "3.4 Test of significance",
-    "text": "3.4 Test of significance\nThe CCA supports also significance tests and model selection.\n\n## Resampling-ANOVAs of the CCA\nanova(cc)\nanova(cc, by = \"terms\") # most useful\nanova(cc, by = \"axis\")\n\n## Model selection to find the optimal model\nstep(cc)\n\nSeveral other multivariate significance tests exist. The Adonis-Test is in particular popular, because it considers also interaction terms. It does not rely on an NMDS or CCA and works directly with a distance matrix. In order to increase its power, it may optionally consider strata. The following shows some examples.\nExercise: Try different model formulae and decide which one is most appropriate for the data set and the original hypothesis.\n\ndist &lt;- vegdist(bio, method = \"bray\")\n\nadonis2(dist ~ Hochwasser * Habitat * Bach, data=dat)\n\n## Comparison with and without strata\nadonis2(dist ~ Hochwasser * Bach, strata = env$Habitat, data=dat)\nadonis2(dist ~ Hochwasser * Bach, data=dat)",
+    "text": "3.4 Test of significance\nThe CCA supports also significance tests and model selection with ANOVA-like permutation tests.\n\n## Resampling-ANOVAs of the CCA\nanova(cc)\nanova(cc, by = \"terms\") # most useful\nanova(cc, by = \"axis\")\n\n## Model selection to find the optimal model\nstep(cc)\n\nSeveral other multivariate significance tests exist. The Adonis-Test is in particular popular, because it considers also interaction terms. It does not rely on an NMDS or CCA and works directly with a distance matrix. In order to increase its power, we may optionally consider strata. The following shows some examples.\nExercise: Try different model formulae and decide which one is most appropriate for the data set and the original hypothesis.\n\ndist &lt;- vegdist(bio, method = \"bray\")\n\nadonis2(dist ~ Hochwasser * Habitat * Bach, data=dat)\n\n## Comparison with and without strata\nadonis2(dist ~ Hochwasser * Bach, strata = env$Habitat, data=dat)\nadonis2(dist ~ Hochwasser * Bach, data=dat)",
     "crumbs": [
       "Labs",
-      "15-Multivariate Analysis of Ecological Community Data"
+      "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
     ]
   },
   {
     "objectID": "qmd/15-multivariate-small-streams.html#dbrda-and-elimination-of-covariates",
     "href": "qmd/15-multivariate-small-streams.html#dbrda-and-elimination-of-covariates",
-    "title": "15-Multivariate Analysis of Ecological Community Data",
+    "title": "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
     "section": "3.5 dbRDA and elimination of covariates",
     "text": "3.5 dbRDA and elimination of covariates\nThe following examples show further possibilities. Instead of a CCA (that uses \\(\\chi^2\\)) we can also use a so-called distance-based redundancy analysis (dbRDA), that supports arbitrary distance measures, e.g. Bray-Curtis.\nAnother option is a partial CCA or partial dbRDA where we can eliminate covariates (condtion = ...) that we are not much interested in, so that the ordination focuses on the variables we are interested in. This is the called a partial analysis (pCCA, p-dbRDA). We will then also get three kinds of eigenvalues and eigenvectors (components of the inertia).\n\n## =========================================================================\n## dbRDA, supports arbitrary dissimilarity measures\n## =========================================================================\n\ndbr &lt;- dbrda(dist ~ Habitat * Bach * Hochwasser, data = env, distance=\"bray\")\ndbr\nanova(dbr, by=\"terms\", permutations=3999)\n#summary(dbr)\nplot(dbr)\n\n## =========================================================================\n## partial CCA: elimination of covariates\n## =========================================================================\npcc &lt;- cca(bio ~ Hochwasser + Bach + Condition(Habitat), data = env)\npcc\nplot(pcc)\n\n\n## =========================================================================\n## partial dbRDA\n## =========================================================================\ndbrc &lt;- dbrda(bio ~ Hochwasser + Bach + Condition(Habitat), \n              data = env, distance = \"bray\")\ndbrc\nplot(dbrc)\n\nExercise: Apply a method that eliminates the differences between the streams and investigate whether pools and riffles behave differently.",
     "crumbs": [
       "Labs",
-      "15-Multivariate Analysis of Ecological Community Data"
+      "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
     ]
   },
   {
     "objectID": "qmd/15-multivariate-small-streams.html#procrustes-test",
     "href": "qmd/15-multivariate-small-streams.html#procrustes-test",
-    "title": "15-Multivariate Analysis of Ecological Community Data",
+    "title": "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
     "section": "3.6 Procrustes test",
     "text": "3.6 Procrustes test\nTo compare the ordinations, that we get with a different set of environmental variable and conditions, we can use the so-called Procrustes test.\n\ndbr  &lt;- dbrda(bio ~ Hochwasser + Bach + Habitat, \n              data = env, distance=\"bray\")\npdbr &lt;- dbrda(bio ~ Hochwasser + Bach + Condition(Habitat), \n              data = env, distance=\"bray\")\n\nproc &lt;- procrustes(dbr, pdbr)\nplot(proc, type = \"t\")\nprotest(dbr, pdbr)",
     "crumbs": [
       "Labs",
-      "15-Multivariate Analysis of Ecological Community Data"
+      "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
     ]
   },
   {

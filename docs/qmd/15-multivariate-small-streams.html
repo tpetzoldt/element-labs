@@ -8,7 +8,7 @@
 
 <meta name="dcterms.date" content="2025-01-21">
 
-<title>15-Multivariate Analysis of Ecological Community Data – Elements of Data Analysis and Statistics - Lab Exercises</title>
+<title>15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams – Elements of Data Analysis and Statistics - Lab Exercises</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -164,7 +164,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../qmd/01-pivot-tables-with-libreoffice.html">Labs</a></li><li class="breadcrumb-item"><a href="../qmd/15-multivariate-small-streams.html">15-Multivariate Analysis of Ecological Community Data</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../qmd/01-pivot-tables-with-libreoffice.html">Labs</a></li><li class="breadcrumb-item"><a href="../qmd/15-multivariate-small-streams.html">15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -273,7 +273,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../qmd/15-multivariate-small-streams.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">15-Multivariate Analysis of Ecological Community Data</span></a>
+ <span class="menu-text">15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams</span></a>
   </div>
 </li>
       </ul>
@@ -333,16 +333,17 @@ window.Quarto = {
   <li><a href="#dbrda-and-elimination-of-covariates" id="toc-dbrda-and-elimination-of-covariates" class="nav-link" data-scroll-target="#dbrda-and-elimination-of-covariates"><span class="header-section-number">3.5</span> dbRDA and elimination of covariates</a></li>
   <li><a href="#procrustes-test" id="toc-procrustes-test" class="nav-link" data-scroll-target="#procrustes-test"><span class="header-section-number">3.6</span> Procrustes test</a></li>
   </ul></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">4</span> References</a></li>
+  <li><a href="#final-recommendations" id="toc-final-recommendations" class="nav-link" data-scroll-target="#final-recommendations"><span class="header-section-number">4</span> Final recommendations</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">5</span> References</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="15-multivariate-small-streams.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../qmd/01-pivot-tables-with-libreoffice.html">Labs</a></li><li class="breadcrumb-item"><a href="../qmd/15-multivariate-small-streams.html">15-Multivariate Analysis of Ecological Community Data</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../qmd/01-pivot-tables-with-libreoffice.html">Labs</a></li><li class="breadcrumb-item"><a href="../qmd/15-multivariate-small-streams.html">15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">15-Multivariate Analysis of Ecological Community Data</h1>
+<h1 class="title">15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams</h1>
 </div>
 
 
@@ -367,15 +368,15 @@ window.Quarto = {
 
 <section id="introduction" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
-<p>The aim of the following exercise is to demonstrate some important multivariate methods by example of a simplified data set. In some cases, several alternatives are presented, but for a real analysis one does not need to include everything. On the other hand, the methods offer further possibilities that cannot all be presented, see the online help and corresponding books and tutorials.</p>
-<p>The data set used originates from a field experiment to investigate the influence of fish predation on the species composition of the macrozoobenthos community in two streams. During the study period, however, an extreme flood occurred in August and caused major morphological changes to the two streams. This motivated the hypothesis that the species community has also changed.</p>
+<p>The aim of the following exercise is to demonstrate some important multivariate methods by example of a macrozoobenthos data set from two small streams. In some cases, several alternatives are presented, but for a real analysis one does not need to include everything. On the other hand, the methods offer further possibilities that cannot all be presented, see the online help and corresponding books and tutorials.</p>
+<p>The data set used originates from a field experiment to investigate the influence of fish predation on the macrozoobenthos species composition. However, during the study period an extreme flood occurred in August and caused major morphological changes to the streams. This motivated the hypothesis that the species community has also changed.</p>
 </section>
 <section id="material-and-methods" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Material and Methods</h1>
-<p>The data set originates from these two streams, “Gauernitzbach” and “Tännichtgrundbach”) near Dresden. It contains a table of macrozoobenthos taxa and a description of the site (t = Tännichtgrund, g = Gauernitz, p = pool, r = riffle) and the time before (v) and after (n)) the flood. The data set is an unpublished teaching example with a selected number of time points and where the relatively large number of species was pragmatically aggregated to a small number of taxa. More about the experiment can be found in <span class="citation" data-cites="Winkelmann2008 Winkelmann2011">(<a href="#ref-Winkelmann2008" role="doc-biblioref">Winkelmann et al., 2008</a>, <a href="#ref-Winkelmann2011" role="doc-biblioref">2011</a>)</span>.</p>
+<p>The data set originates from the two streams, “Gauernitzbach” and “Tännichtgrundbach” near Dresden. It contains a table of macrozoobenthos taxa and a description of the sites (t = Tännichtgrund, g = Gauernitz, p = pool, r = riffle) and the time before (v) and after (n)) the flood. The variable names were left in German with Bach (stream), Hochwasser (before and after the flood), Habitat and Site. This may be changed in the future. The data set is a subset from a longer project. To make it accessible as a teaching example, the relatively large number of species of the original data was pragmatically aggregated to a small number of taxa. More about the experiment can be found in <span class="citation" data-cites="Winkelmann2008 Winkelmann2011">(<a href="#ref-Winkelmann2008" role="doc-biblioref">Winkelmann et al., 2008</a>, <a href="#ref-Winkelmann2011" role="doc-biblioref">2011</a>)</span>.</p>
 <p>The data set is available from <a href="https://tpetzoldt.github.io/datasets/data/gauernitz.csv">https://tpetzoldt.github.io/datasets/data/gauernitz.csv</a>, together with a <a href="https://tpetzoldt.github.io/datasets/data/gauernitz_info.txt">file description</a>.</p>
-<p>After reading the data in we assing row names to the data frame from the <code>site</code> column that contains short codes for the observarions, e.g.&nbsp;<code>GP9</code> than means Gauernitzbach, pool, September. These rownames are very useful to indicate the observations in the plots.</p>
-<p>In a second step, we split the original table in two separate tables <code>bio</code> with the species data only and <code>env</code> with the environmental factors. For the calculations, it is important that the <code>bio</code>-table contains only numbers. The data analysis is carried out with the <strong>vegan</strong> package <span class="citation" data-cites="Oksanen2024">(<a href="#ref-Oksanen2024" role="doc-biblioref">Oksanen et al., 2024</a>)</span>.</p>
+<p>After reading the data in with <code>read.csv</code> row names are assigned to the data frame from the <code>site</code> column that contains short codes for the observarions, e.g.&nbsp;<code>GP9</code> than means Gauernitzbach, pool, September. These rownames are very useful to indicate the observations in the plots.</p>
+<p>In a second step, we split the original data frame in two separate tables <code>bio</code> with the taxonomic data only and <code>env</code> with the environmental factors. For the calculations, it is important that the <code>bio</code>-table contains only numbers. The data analysis is carried out with the <strong>vegan</strong> package <span class="citation" data-cites="Oksanen2024">(<a href="#ref-Oksanen2024" role="doc-biblioref">Oksanen et al., 2024</a>)</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"dplyr"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"vegan"</span>)</span>
@@ -390,15 +391,15 @@ window.Quarto = {
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>             Turbellaria, Heptageniidae, Ephemeroptera, Gammarus,</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>             Trichoptera, Acari, Nematoda, Oligochaeta)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>After loading the data, it is always important to have a look at the data structures, for example with <code>str(bio)</code>, <code>str(env)</code> or in the “Global Environment” pane of RStudio.</p>
+<p>After loading the data, it is always important to have a look at the data structure, for example with <code>str(bio)</code>, <code>str(env)</code> or in the “Global Environment” pane of RStudio.</p>
 </section>
 <section id="data-analysis" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Data Analysis</h1>
 <section id="nmds" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="nmds"><span class="header-section-number">3.1</span> NMDS</h2>
-<p>We start with an NMDS (nonmetric multidimensional scaling), of the <code>bio</code>-data using the Bray-Curtis dissimilarity measure. It is the default, but we specify it here explicitly to make this transparent. Automatic transformation is switched off. This can be changed, depending on the properties of the data, for example to <code>wisconsin(sqrt(bio))</code>.</p>
-<p>The function <code>metaMDS</code> then runs the NMDS several times with different starting values to avoid local minima. For difficult data sets, it may be necessary to increase the metaparameters <code>try</code> and <code>trymax</code>.</p>
-<p>After that, we should have a look at the value of the stress and the stressplot.</p>
+<p>We start with an NMDS (nonmetric multidimensional scaling) of the <code>bio</code>-data using the Bray-Curtis dissimilarity measure. It is the default of <code>metaMDS</code>, but we specify it explicitly to make the selection of the dissimilarity measure clearly visible in the code. Automatic transformation is switched off. This can be changed, depending on the properties of the data, or enabled “manually” for example with <code>wisconsin(sqrt(bio))</code>.</p>
+<p>The function <code>metaMDS</code> then runs the NMDS several times with different starting values to avoid local minima. For difficult data sets, it may be necessary to increase the metaparameters <code>try</code> and <code>trymax</code>, see helpfile for details.</p>
+<p>After that, we should have a look at the stress value and the stressplot.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mds <span class="ot">&lt;-</span> <span class="fu">metaMDS</span>(bio, <span class="at">distance =</span> <span class="st">"bray"</span>, <span class="at">autotransform =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>mds</span>
@@ -410,11 +411,11 @@ window.Quarto = {
 </div>
 <p>In order to show the influence of environmental variables, we can fit vectors or factors to the ordination. In addition to this, we can show the significance of the fitted vectors. For getting reliable p-values, I recommend to increase <code>permu</code> to 3999 or 9999.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Environmental fitting mit Permutations-Test</span></span>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## fit environmental factors and perform a permutations-test</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>efit <span class="ot">&lt;-</span> <span class="fu">envfit</span>(mds <span class="sc">~</span> Hochwasser <span class="sc">+</span> Bach <span class="sc">+</span> Habitat, env, <span class="at">permu =</span> <span class="dv">999</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>efit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now, we can visualize the complete result.</p>
+<p>Now, we can visualize the complete result. Grey dotted zero-lines are added to make interpretation easier.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mds, <span class="at">type =</span> <span class="st">"t"</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(efit, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
@@ -424,7 +425,7 @@ window.Quarto = {
 </section>
 <section id="hierarchical-clustering" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="hierarchical-clustering"><span class="header-section-number">3.2</span> Hierarchical Clustering</h2>
-<p>The NMDS tries to project the distances as good as possible to a low number of dimensions, e.g.&nbsp;<code>k=2</code> that is the default. To see the full picture of distances in space, we may consider to apply hierarchical clustering. As agglomeration algorithm, we may consider <code>complete</code>, <code>ward.D2</code> or <code>ward.D</code>.</p>
+<p>The NMDS tries to project the distances as good as possible to a low number of dimensions, e.g.&nbsp;<code>k=2</code> that is the default. To see the full picture of distances in multidimensional space, we may consider to apply hierarchical clustering. As agglomeration algorithm, <code>complete</code>, <code>ward.D2</code> or <code>ward.D</code> can be a good choice. To improve understanding it can be a good idea to compare it with other agglomeration schemes, e.g.&nbsp;<code>single</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>hc <span class="ot">&lt;-</span> <span class="fu">hclust</span>(<span class="fu">vegdist</span>(bio), <span class="at">method=</span><span class="st">"ward.D"</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -432,20 +433,19 @@ window.Quarto = {
 <p>It is also possible, to colorize the clusters in the NMDS plot. Let’s assume we have 4 clusters, we can first indicate it in the hierarchical cluster tree with <code>rect.hclust``, then cut the tree with</code>cutree`.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hc)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rect.hclust</span>(hc, <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rect.hclust</span>(hc, <span class="dv">4</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>grp <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hc, <span class="dv">4</span>)  <span class="co"># assign observations to 4 groups</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>grp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The result is an assignment of the original observations to groups, that can be used to colorize the NMDS plot. It is possible to show the cluster tree directly in the nmds plot or to indicate it otherwise with, for example, <code>ordispider</code>, <code>ordihull</code> or <code>ordiellipse</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>grp <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hc, <span class="dv">4</span>)  <span class="co"># assign observations to 4 groups</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>grp</span>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mds, <span class="at">type =</span> <span class="st">"n"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(mds<span class="sc">$</span>points, <span class="fu">row.names</span>(bio), <span class="at">col =</span> grp)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mds, <span class="at">type =</span> <span class="st">"n"</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(mds<span class="sc">$</span>points, <span class="fu">row.names</span>(bio), <span class="at">col =</span> grp)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="do">## optional: show cluster tree</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#ordicluster(mds, hc, col="blue")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="do">## optional: show cluster tree</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#ordicluster(mds, hc, col="blue")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><strong>Exercise:</strong> Include the fitted environmental variables.</p>
+<p><strong>Exercises:</strong> Compare different agglomeration schemes, try different numbers of clusters in <code>rect.hclust</code> and <code>cutree</code> and add the fitted environmental variables in the final plot.</p>
 </section>
 <section id="canonical-correspondence-analysis" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="canonical-correspondence-analysis"><span class="header-section-number">3.3</span> Canonical Correspondence Analysis</h2>
@@ -460,7 +460,7 @@ window.Quarto = {
 </section>
 <section id="test-of-significance" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="test-of-significance"><span class="header-section-number">3.4</span> Test of significance</h2>
-<p>The CCA supports also significance tests and model selection.</p>
+<p>The CCA supports also significance tests and model selection with ANOVA-like permutation tests.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Resampling-ANOVAs of the CCA</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(cc)</span>
@@ -470,7 +470,7 @@ window.Quarto = {
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Model selection to find the optimal model</span></span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">step</span>(cc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Several other multivariate significance tests exist. The Adonis-Test is in particular popular, because it considers also interaction terms. It does not rely on an NMDS or CCA and works directly with a distance matrix. In order to increase its power, it may optionally consider strata. The following shows some examples.</p>
+<p>Several other multivariate significance tests exist. The Adonis-Test is in particular popular, because it considers also interaction terms. It does not rely on an NMDS or CCA and works directly with a distance matrix. In order to increase its power, we may optionally consider strata. The following shows some examples.</p>
 <p><strong>Exercise:</strong> Try different model formulae and decide which one is most appropriate for the data set and the original hypothesis.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dist <span class="ot">&lt;-</span> <span class="fu">vegdist</span>(bio, <span class="at">method =</span> <span class="st">"bray"</span>)</span>
@@ -530,14 +530,24 @@ window.Quarto = {
 </div>
 </section>
 </section>
-<section id="references" class="level1" data-number="4">
+<section id="final-recommendations" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Final recommendations</h1>
+<p>Multivariate methods are excellent tools for the explorative analysis of larger data sets. However, it is easy to get lost in the variety of methods and plots, and multivariate ordination programs are not always easy to understand. It is therefore a good idea to summarize the main results afterwards with simpler graphics and summary statistics.</p>
+<p><strong>Exercise:</strong> Create some (e.g.&nbsp;2-3) bar charts and/or x-y-plots to visualize main results, e.g. abundance of typical taxa or classical diversity indices like Simpson’s index and interpret the results.</p>
+<p>The following code example shows one of the taxa and the Simpson index for all sites. Now find meaningful aggregations of sites (e.g.&nbsp;stream, pool-riffle, time or cluster) to vizualize main results of the multivariate analysis.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(bio<span class="sc">$</span>Mollusca, <span class="at">names.arg=</span>dat<span class="sc">$</span>Site, <span class="at">horiz=</span><span class="cn">TRUE</span>, <span class="at">las=</span><span class="dv">1</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">diversity</span>(bio, <span class="at">index=</span><span class="st">"simpson"</span>), <span class="at">names.arg=</span>dat<span class="sc">$</span>Site, <span class="at">horiz=</span><span class="cn">TRUE</span>, <span class="at">las=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="references" class="level1" data-number="5">
 
 
 
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">4 References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">5 References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
 <div id="ref-Oksanen2024" class="csl-entry" role="listitem">
 Oksanen, J., Simpson, G. L., Blanchet, F. G., Kindt, R., Legendre, P., Minchin, P. R., O’Hara, R. B., Solymos, P., Stevens, M. H. H., Szoecs, E., Wagner, H., Barbour, M., Bedward, M., Bolker, B., Borcard, D., Carvalho, G., Chirico, M., De Caceres, M., Durand, S., … Weedon, J. (2024). <em>Vegan: Community ecology package</em>. <a href="https://CRAN.R-project.org/package=vegan">https://CRAN.R-project.org/package=vegan</a>
 </div>

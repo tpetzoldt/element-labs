@@ -1,5 +1,5 @@
 ---
-title: "15-Multivariate Analysis of Ecological Community Data"
+title: "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
 date: '2025-01-21'
 ---
 
@@ -11,46 +11,50 @@ knitr::opts_chunk$set(eval = FALSE, echo = TRUE)
 # Introduction
 
 The aim of the following exercise is to demonstrate some important
-multivariate methods by example of a simplified data set. In some
-cases, several alternatives are presented, but for a real analysis one
-does not need to include everything. On the other hand, the methods
-offer further possibilities that cannot all be presented, see the
-online help and corresponding books and tutorials.
+multivariate methods by example of a macrozoobenthos data set from 
+two small streams. In some cases, several alternatives are presented, 
+but for a real analysis one does not need to include everything. 
+On the other hand, the methods offer further possibilities that 
+cannot all be presented, see the online help and corresponding 
+books and tutorials.
 
 The data set used originates from a field experiment to investigate
-the influence of fish predation on the species composition of the
-macrozoobenthos community in two streams. During the study period,
-however, an extreme flood occurred in August and caused major
-morphological changes to the two streams. This motivated the
-hypothesis that the species community has also changed.
+the influence of fish predation on the macrozoobenthos species 
+composition. However, during the study period an extreme flood 
+occurred in August and caused major morphological changes to the 
+streams. This motivated the hypothesis that the species community 
+has also changed.
 
 # Material and Methods
 
-The data set originates from these two streams, "Gauernitzbach" and
-"Tännichtgrundbach") near Dresden. It contains a table of
-macrozoobenthos taxa and a description of the site (t =
+The data set originates from the two streams, "Gauernitzbach" and
+"Tännichtgrundbach" near Dresden. It contains a table of
+macrozoobenthos taxa and a description of the sites (t =
 Tännichtgrund, g = Gauernitz, p = pool, r = riffle) and the time
-before (v) and after (n)) the flood. The data set is an unpublished
-teaching example with a selected number of time points and where the
-relatively large number of species was pragmatically aggregated to a
-small number of taxa. More about the experiment can be found in
+before (v) and after (n)) the flood. The variable names were left
+in German with Bach (stream), Hochwasser (before and after the flood),
+Habitat and Site. This may be changed in the future.
+The data set is a subset from a longer project. 
+To make it accessible as a teaching example, the 
+relatively large number of species of the original data was 
+pragmatically aggregated to a small number of taxa. 
+More about the experiment can be found in
 [@Winkelmann2008;@Winkelmann2011].
 
 The data set is available from
 [https://tpetzoldt.github.io/datasets/data/gauernitz.csv](https://tpetzoldt.github.io/datasets/data/gauernitz.csv),
 together with a [file description](https://tpetzoldt.github.io/datasets/data/gauernitz_info.txt).
 
-After reading the data in we assing row names to the data frame from the
-`site` column that contains short codes for the observarions,
+After reading the data in with `read.csv` row names are assigned to the 
+data frame from the `site` column that contains short codes for the observarions,
 e.g. `GP9` than means Gauernitzbach, pool, September. These rownames
 are very useful to indicate the observations in the plots.
 
-In a second step, we split the original table in two separate tables
-`bio` with the species data only and `env` with the environmental
+In a second step, we split the original data frame in two separate tables
+`bio` with the taxonomic data only and `env` with the environmental
 factors. For the calculations, it is important that the `bio`-table
 contains only numbers. The data analysis is carried out with the **vegan** 
 package [@Oksanen2024]. 
-
 
 ```{r}
 library("dplyr")
@@ -68,26 +72,27 @@ bio <- dat |> select(Mollusca, Diptera, Baetis, Plecoptera, Coleoptera,
 ```
 
 After loading the data, it is always important to have a look at the
-data structures, for example with `str(bio)`, `str(env)` or in the
+data structure, for example with `str(bio)`, `str(env)` or in the
 "Global Environment" pane of RStudio.
 
 # Data Analysis
 
 ## NMDS
 
-We start with an NMDS (nonmetric multidimensional scaling), of the
+We start with an NMDS (nonmetric multidimensional scaling) of the
 `bio`-data using the Bray-Curtis dissimilarity measure. It is the
-default, but we specify it here explicitly to make this
-transparent. Automatic transformation is switched off.  This can be
-changed, depending on the properties of the data, for example to
-`wisconsin(sqrt(bio))`.
+default of `metaMDS`, but we specify it explicitly to make the selection 
+of the dissimilarity measure clearly visible in the code. 
+Automatic transformation is switched off. This can be
+changed, depending on the properties of the data, or enabled "manually" 
+for example with `wisconsin(sqrt(bio))`.
 
 The function `metaMDS` then runs the NMDS several times with different
 starting values to avoid local minima. For difficult data sets, it may
-be necessary to increase the metaparameters `try` and `trymax`.
+be necessary to increase the metaparameters `try` and `trymax`, see 
+helpfile for details.
 
-After that, we should have a look at the value of the stress and the
-stressplot.
+After that, we should have a look at the stress value and the stressplot.
 
 ```{r}
 mds <- metaMDS(bio, distance = "bray", autotransform = FALSE)
@@ -107,12 +112,13 @@ the significance of the fitted vectors. For getting reliable p-values,
 I recommend to increase `permu` to 3999 or 9999.
 
 ```{r}
-## Environmental fitting mit Permutations-Test
+## fit environmental factors and perform a permutations-test
 efit <- envfit(mds ~ Hochwasser + Bach + Habitat, env, permu = 999)
 efit
 ```
 
-Now, we can visualize the complete result.
+Now, we can visualize the complete result. Grey dotted zero-lines 
+are added to make interpretation easier.
 
 ```{r}
 plot(mds, type = "t")
@@ -125,9 +131,10 @@ abline(v=0, col="grey", lty="dotted")
 
 The NMDS tries to project the distances as good as possible to a low
 number of dimensions, e.g. `k=2` that is the default. To see the full
-picture of distances in space, we may consider to apply hierarchical
-clustering. As agglomeration algorithm, we may consider `complete`,
-`ward.D2` or `ward.D`.
+picture of distances in multidimensional space, we may consider to apply hierarchical
+clustering. As agglomeration algorithm, `complete`,
+`ward.D2` or `ward.D` can be a good choice. To improve understanding it can be a good idea to compare it 
+with other agglomeration schemes, e.g. `single`.
 
 ```{r}
 hc <- hclust(vegdist(bio), method="ward.D")
@@ -142,6 +149,8 @@ hierarchical cluster tree with `rect.hclust``, then cut the tree with
 ```{r}
 plot(hc)
 rect.hclust(hc, 4)
+grp <- cutree(hc, 4)  # assign observations to 4 groups
+grp
 ```
 
 The result is an assignment of the original observations to groups,
@@ -150,9 +159,6 @@ cluster tree directly in the nmds plot or to indicate it otherwise
 with, for example, `ordispider`, `ordihull` or `ordiellipse`
 
 ```{r}
-grp <- cutree(hc, 4)  # assign observations to 4 groups
-grp
-
 plot(mds, type = "n")
 text(mds$points, row.names(bio), col = grp)
 
@@ -160,7 +166,9 @@ text(mds$points, row.names(bio), col = grp)
 #ordicluster(mds, hc, col="blue")
 ```
 
-**Exercise:** Include the fitted environmental variables.
+**Exercises:** Compare different agglomeration schemes, try different 
+numbers of clusters in `rect.hclust` and `cutree` and add the fitted
+environmental variables in the final plot.
 
 ## Canonical Correspondence Analysis
 
@@ -179,7 +187,8 @@ ordihull(cc, env$Habitat, col = "blue")   # or: ordispider, ordiellipse ...
 
 ## Test of significance
 
-The CCA supports also significance tests and model selection.
+The CCA supports also significance tests and model selection with ANOVA-like 
+permutation tests.
 
 ```{r}
 ## Resampling-ANOVAs of the CCA
@@ -194,7 +203,7 @@ step(cc)
 Several other multivariate significance tests exist. The Adonis-Test
 is in particular popular, because it considers also interaction
 terms. It does not rely on an NMDS or CCA and works directly with a
-distance matrix. In order to increase its power, it may optionally
+distance matrix. In order to increase its power, we may optionally
 consider strata. The following shows some examples.
 
 **Exercise:** Try different model formulae and decide which one is
@@ -271,5 +280,28 @@ proc <- procrustes(dbr, pdbr)
 plot(proc, type = "t")
 protest(dbr, pdbr)
 ```
+
+# Final recommendations
+
+Multivariate methods are excellent tools for the explorative analysis 
+of larger data sets. However, it is easy to get lost in the variety of 
+methods and plots, and multivariate ordination programs are not always 
+easy to understand. It is therefore a good idea to summarize the main
+results afterwards with simpler graphics and summary statistics.
+
+**Exercise:** Create some (e.g. 2-3) bar charts and/or x-y-plots to visualize main results, e.g.
+abundance of typical taxa or classical diversity indices like Simpson's index and
+interpret the results.
+
+The following code example shows one of the taxa and 
+the Simpson index for all sites. 
+Now find meaningful aggregations of sites (e.g. stream, pool-riffle, time or cluster)
+to vizualize main results of the multivariate analysis.
+
+```{r}
+barplot(bio$Mollusca, names.arg=dat$Site, horiz=TRUE, las=1)
+barplot(diversity(bio, index="simpson"), names.arg=dat$Site, horiz=TRUE, las=1)
+```
+
 
 # References
