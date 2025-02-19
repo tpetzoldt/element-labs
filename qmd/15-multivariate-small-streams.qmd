@@ -212,11 +212,11 @@ most appropriate for the data set and the original hypothesis.
 ```{r}
 dist <- vegdist(bio, method = "bray")
 
-adonis2(dist ~ Hochwasser * Habitat * Bach, data=dat)
+adonis2(dist ~ Hochwasser * Habitat * Bach, data = dat, by = "terms")
 
 ## Comparison with and without strata
-adonis2(dist ~ Hochwasser * Bach, strata = env$Habitat, data=dat)
-adonis2(dist ~ Hochwasser * Bach, data=dat)
+adonis2(dist ~ Hochwasser * Bach, strata = env$Habitat, data = dat, by = "terms")
+adonis2(dist ~ Hochwasser * Bach, data = dat, by = "terms")
 ```
 
 ## dbRDA and elimination of covariates
@@ -238,7 +238,7 @@ We will then also get three kinds of eigenvalues and eigenvectors
 ## dbRDA, supports arbitrary dissimilarity measures
 ## =========================================================================
 
-dbr <- dbrda(dist ~ Habitat * Bach * Hochwasser, data = env, distance="bray")
+dbr <- dbrda(dist ~ Habitat + Bach + Hochwasser, data = env, distance = "bray")
 dbr
 anova(dbr, by="terms", permutations=3999)
 #summary(dbr)

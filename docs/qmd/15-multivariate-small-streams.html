@@ -475,11 +475,11 @@ window.Quarto = {
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dist <span class="ot">&lt;-</span> <span class="fu">vegdist</span>(bio, <span class="at">method =</span> <span class="st">"bray"</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">adonis2</span>(dist <span class="sc">~</span> Hochwasser <span class="sc">*</span> Habitat <span class="sc">*</span> Bach, <span class="at">data=</span>dat)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">adonis2</span>(dist <span class="sc">~</span> Hochwasser <span class="sc">*</span> Habitat <span class="sc">*</span> Bach, <span class="at">data =</span> dat, <span class="at">by =</span> <span class="st">"terms"</span>)</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Comparison with and without strata</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="fu">adonis2</span>(dist <span class="sc">~</span> Hochwasser <span class="sc">*</span> Bach, <span class="at">strata =</span> env<span class="sc">$</span>Habitat, <span class="at">data=</span>dat)</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="fu">adonis2</span>(dist <span class="sc">~</span> Hochwasser <span class="sc">*</span> Bach, <span class="at">data=</span>dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="fu">adonis2</span>(dist <span class="sc">~</span> Hochwasser <span class="sc">*</span> Bach, <span class="at">strata =</span> env<span class="sc">$</span>Habitat, <span class="at">data =</span> dat, <span class="at">by =</span> <span class="st">"terms"</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="fu">adonis2</span>(dist <span class="sc">~</span> Hochwasser <span class="sc">*</span> Bach, <span class="at">data =</span> dat, <span class="at">by =</span> <span class="st">"terms"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="dbrda-and-elimination-of-covariates" class="level2" data-number="3.5">
@@ -491,7 +491,7 @@ window.Quarto = {
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="do">## dbRDA, supports arbitrary dissimilarity measures</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="do">## =========================================================================</span></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>dbr <span class="ot">&lt;-</span> <span class="fu">dbrda</span>(dist <span class="sc">~</span> Habitat <span class="sc">*</span> Bach <span class="sc">*</span> Hochwasser, <span class="at">data =</span> env, <span class="at">distance=</span><span class="st">"bray"</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>dbr <span class="ot">&lt;-</span> <span class="fu">dbrda</span>(dist <span class="sc">~</span> Habitat <span class="sc">+</span> Bach <span class="sc">+</span> Hochwasser, <span class="at">data =</span> env, <span class="at">distance =</span> <span class="st">"bray"</span>)</span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>dbr</span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(dbr, <span class="at">by=</span><span class="st">"terms"</span>, <span class="at">permutations=</span><span class="dv">3999</span>)</span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(dbr)</span></span>
