@@ -167,7 +167,7 @@ downloaded data or develop your own project.
 
 
  * Repeat the analysis with an additional
-   [elbe.csv](https://github.com/tpetzoldt/datasets/blob/main/data/elbe-1806.csv)^[https://github.com/tpetzoldt/datasets/blob/main/data/]
+   [elbe-1806.csv](https://tpetzoldt.github.io/datasets/data/elbe-1806.csv)^[https://tpetzoldt.github.io/datasets/]
    file with more years.
  * Download data from other measurement stations, e.g.
      * from  http://www.fgg-elbe.de/elbe-datenportal.html or 

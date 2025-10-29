@@ -47,11 +47,11 @@ Administration (WSV), provided by the Federal Institute for Hydrology
 (BfG).].
 
 Please read the information file
-[elbe_info.txt](https://github.com/tpetzoldt/datasets/blob/main/data/elbe_info.txt)
+[elbe_info.txt](https://tpetzoldt.github.io/datasets/data/elbe_info.txt)
 about data source and copyright before downloading the data file
-"data.csv". The data set ist then available in the course folder or
+"data.csv". The data set is then available in the course folder or
 from
-[https://github.com/tpetzoldt/datasets/blob/main/data/](https://github.com/tpetzoldt/datasets/blob/main/data/).
+[https://tpetzoldt.github.io/datasets/](https://tpetzoldt.github.io/datasets/).
 
 
 ## Overview

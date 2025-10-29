@@ -219,4 +219,4 @@ or a statistics text book.
 
 ## References
 
-[^fruits-data]: `fruits.csv` available from: [https://github.com/tpetzoldt/datasets/blob/main/data/fruits-2023-hse.csv](https://github.com/tpetzoldt/datasets/blob/main/data/fruits-2023-hse.csv)
+[^fruits-data]: `fruits.csv` available from: [https://tpetzoldt.github.io/datasets/data/fruits-2023-hse.csv](https://tpetzoldt.github.io/datasets/data/fruits-2023-hse.csv)

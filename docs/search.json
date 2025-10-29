@@ -1,90 +1,453 @@
 [
   {
-    "objectID": "qmd/04-distributions-leaves.html",
-    "href": "qmd/04-distributions-leaves.html",
-    "title": "04-Distribution and Confidence Intervals of Maple Leaf Samples",
+    "objectID": "qmd/15-multivariate-small-streams.html",
+    "href": "qmd/15-multivariate-small-streams.html",
+    "title": "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
     "section": "",
-    "text": "The example aims to demonstrate estimation and interpretation of confidence intervals. At the end, the two samples are compared with respect to variance and mean values.\nThe experimental hypotheses was, that the sampling strategy has an influence on the parameters of the distribution, i.e. that a sampling bias may occur. Here we leave it open, if the “subjective sampling” strategy prefers bigger or smaller leaves or if it has an influence on variance. The result is to be visualized with bar charts or box plots. We use only the leave width as an example, analysis of the other statistical parameters is left as an optional exercise.\nWe can now derive the following statistical hypotheses about the variance:\n\n\\(H_0\\): The variance of both samples is the same.\n\\(H_a\\): The samples have different variance.\n\nand about the mean:\n\n\\(H_0\\): The mean of both samples is the same.\n\\(H_a\\): The mean values of the samples are different.",
+    "text": "The aim of the following exercise is to demonstrate some important multivariate methods by example of a macrozoobenthos data set from two small streams. In some cases, several alternatives are presented, but for a real analysis one does not need to include everything. On the other hand, the methods offer further possibilities that cannot all be presented, see the online help and corresponding books and tutorials.\nThe data set used originates from a field experiment to investigate the influence of fish predation on the macrozoobenthos species composition. However, during the study period an extreme flood occurred in August and caused major morphological changes to the streams. This motivated the hypothesis that the species community has also changed.",
     "crumbs": [
       "Labs",
-      "04-Distribution and Confidence Intervals of Maple Leaf Samples"
+      "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
     ]
   },
   {
-    "objectID": "qmd/04-distributions-leaves.html#prepare-and-inspect-data",
-    "href": "qmd/04-distributions-leaves.html#prepare-and-inspect-data",
-    "title": "04-Distribution and Confidence Intervals of Maple Leaf Samples",
+    "objectID": "qmd/15-multivariate-small-streams.html#nmds",
+    "href": "qmd/15-multivariate-small-streams.html#nmds",
+    "title": "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
+    "section": "3.1 NMDS",
+    "text": "3.1 NMDS\nWe start with an NMDS (nonmetric multidimensional scaling) of the bio-data using the Bray-Curtis dissimilarity measure. It is the default of metaMDS, but we specify it explicitly to make the selection of the dissimilarity measure clearly visible in the code. Automatic transformation is switched off. This can be changed, depending on the properties of the data, or enabled “manually” for example with wisconsin(sqrt(bio)).\nThe function metaMDS then runs the NMDS several times with different starting values to avoid local minima. For difficult data sets, it may be necessary to increase the metaparameters try and trymax, see helpfile for details.\nAfter that, we should have a look at the stress value and the stressplot.\n\nmds &lt;- metaMDS(bio, distance = \"bray\", autotransform = FALSE)\nmds\nstressplot(mds)\n\nWe can then plot the results of the NMDS-ordination.\n\nplot(mds, type = \"t\")\n\nIn order to show the influence of environmental variables, we can fit vectors or factors to the ordination. In addition to this, we can show the significance of the fitted vectors. For getting reliable p-values, I recommend to increase permu to 3999 or 9999.\n\n## fit environmental factors and perform a permutations-test\nefit &lt;- envfit(mds ~ Hochwasser + Bach + Habitat, env, permu = 999)\nefit\n\nNow, we can visualize the complete result. Grey dotted zero-lines are added to make interpretation easier.\n\nplot(mds, type = \"t\")\nplot(efit, add = TRUE)\nabline(h=0, col=\"grey\", lty=\"dotted\")\nabline(v=0, col=\"grey\", lty=\"dotted\")",
+    "crumbs": [
+      "Labs",
+      "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
+    ]
+  },
+  {
+    "objectID": "qmd/15-multivariate-small-streams.html#hierarchical-clustering",
+    "href": "qmd/15-multivariate-small-streams.html#hierarchical-clustering",
+    "title": "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
+    "section": "3.2 Hierarchical Clustering",
+    "text": "3.2 Hierarchical Clustering\nThe NMDS tries to project the distances as good as possible to a low number of dimensions, e.g. k=2 that is the default. To see the full picture of distances in multidimensional space, we may consider to apply hierarchical clustering. As agglomeration algorithm, complete, ward.D2 or ward.D can be a good choice. To improve understanding it can be a good idea to compare it with other agglomeration schemes, e.g. single.\n\nhc &lt;- hclust(vegdist(bio), method=\"ward.D\")\nplot(hc)\n\nIt is also possible, to colorize the clusters in the NMDS plot. Let’s assume we have 4 clusters, we can first indicate it in the hierarchical cluster tree with rect.hclust``, then cut the tree withcutree`.\n\nplot(hc)\nrect.hclust(hc, 4)\ngrp &lt;- cutree(hc, 4)  # assign observations to 4 groups\ngrp\n\nThe result is an assignment of the original observations to groups, that can be used to colorize the NMDS plot. It is possible to show the cluster tree directly in the nmds plot or to indicate it otherwise with, for example, ordispider, ordihull or ordiellipse\n\nplot(mds, type = \"n\")\ntext(mds$points, row.names(bio), col = grp)\n\n## optional: show cluster tree\n#ordicluster(mds, hc, col=\"blue\")\n\nExercises: Compare different agglomeration schemes, try different numbers of clusters in rect.hclust and cutree and add the fitted environmental variables in the final plot.",
+    "crumbs": [
+      "Labs",
+      "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
+    ]
+  },
+  {
+    "objectID": "qmd/15-multivariate-small-streams.html#canonical-correspondence-analysis",
+    "href": "qmd/15-multivariate-small-streams.html#canonical-correspondence-analysis",
+    "title": "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
+    "section": "3.3 Canonical Correspondence Analysis",
+    "text": "3.3 Canonical Correspondence Analysis\nAs an alternative to NMDS, we can also use CCA, that is a “constraied ordination method” and allows a more detailed numerical analysis (e.g. separatation of inertia), but is limited to \\(\\chi^2\\)-distance, while NMDS allows arbitrary distance measures, including Bray-Curtis.\n\ncc &lt;- cca(bio ~ Habitat + Bach + Hochwasser, data = env)\n#cc &lt;- cca(bio ~ ., data = env) # same. The . means all from env\ncc # print Eigenvalues\nplot(cc)\nordihull(cc, env$Habitat, col = \"blue\")   # or: ordispider, ordiellipse ...",
+    "crumbs": [
+      "Labs",
+      "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
+    ]
+  },
+  {
+    "objectID": "qmd/15-multivariate-small-streams.html#test-of-significance",
+    "href": "qmd/15-multivariate-small-streams.html#test-of-significance",
+    "title": "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
+    "section": "3.4 Test of significance",
+    "text": "3.4 Test of significance\nThe CCA supports also significance tests and model selection with ANOVA-like permutation tests.\n\n## Resampling-ANOVAs of the CCA\nanova(cc)\nanova(cc, by = \"terms\") # most useful\nanova(cc, by = \"axis\")\n\n## Model selection to find the optimal model\nstep(cc)\n\nSeveral other multivariate significance tests exist. The Adonis-Test is in particular popular, because it considers also interaction terms. It does not rely on an NMDS or CCA and works directly with a distance matrix. In order to increase its power, we may optionally consider strata. The following shows some examples.\nExercise: Try different model formulae and decide which one is most appropriate for the data set and the original hypothesis.\n\ndist &lt;- vegdist(bio, method = \"bray\")\n\nadonis2(dist ~ Hochwasser * Habitat * Bach, data = dat, by = \"terms\")\n\n## Comparison with and without strata\nadonis2(dist ~ Hochwasser * Bach, strata = env$Habitat, data = dat, by = \"terms\")\nadonis2(dist ~ Hochwasser * Bach, data = dat, by = \"terms\")",
+    "crumbs": [
+      "Labs",
+      "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
+    ]
+  },
+  {
+    "objectID": "qmd/15-multivariate-small-streams.html#dbrda-and-elimination-of-covariates",
+    "href": "qmd/15-multivariate-small-streams.html#dbrda-and-elimination-of-covariates",
+    "title": "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
+    "section": "3.5 dbRDA and elimination of covariates",
+    "text": "3.5 dbRDA and elimination of covariates\nThe following examples show further possibilities. Instead of a CCA (that uses \\(\\chi^2\\)) we can also use a so-called distance-based redundancy analysis (dbRDA), that supports arbitrary distance measures, e.g. Bray-Curtis.\nAnother option is a partial CCA or partial dbRDA where we can eliminate covariates (condtion = ...) that we are not much interested in, so that the ordination focuses on the variables we are interested in. This is the called a partial analysis (pCCA, p-dbRDA). We will then also get three kinds of eigenvalues and eigenvectors (components of the inertia).\n\n## =========================================================================\n## dbRDA, supports arbitrary dissimilarity measures\n## =========================================================================\n\ndbr &lt;- dbrda(dist ~ Habitat + Bach + Hochwasser, data = env, distance = \"bray\")\ndbr\nanova(dbr, by=\"terms\", permutations=3999)\n#summary(dbr)\nplot(dbr)\n\n## =========================================================================\n## partial CCA: elimination of covariates\n## =========================================================================\npcc &lt;- cca(bio ~ Hochwasser + Bach + Condition(Habitat), data = env)\npcc\nplot(pcc)\n\n\n## =========================================================================\n## partial dbRDA\n## =========================================================================\ndbrc &lt;- dbrda(bio ~ Hochwasser + Bach + Condition(Habitat), \n              data = env, distance = \"bray\")\ndbrc\nplot(dbrc)\n\nExercise: Apply a method that eliminates the differences between the streams and investigate whether pools and riffles behave differently.",
+    "crumbs": [
+      "Labs",
+      "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
+    ]
+  },
+  {
+    "objectID": "qmd/15-multivariate-small-streams.html#procrustes-test",
+    "href": "qmd/15-multivariate-small-streams.html#procrustes-test",
+    "title": "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
+    "section": "3.6 Procrustes test",
+    "text": "3.6 Procrustes test\nTo compare the ordinations, that we get with a different set of environmental variable and conditions, we can use the so-called Procrustes test.\n\ndbr  &lt;- dbrda(bio ~ Hochwasser + Bach + Habitat, \n              data = env, distance=\"bray\")\npdbr &lt;- dbrda(bio ~ Hochwasser + Bach + Condition(Habitat), \n              data = env, distance=\"bray\")\n\nproc &lt;- procrustes(dbr, pdbr)\nplot(proc, type = \"t\")\nprotest(dbr, pdbr)",
+    "crumbs": [
+      "Labs",
+      "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
+    ]
+  },
+  {
+    "objectID": "qmd/13-timeseries-breakpoints.html",
+    "href": "qmd/13-timeseries-breakpoints.html",
+    "title": "13-Identification of Breakpoints in Time Series",
+    "section": "",
+    "text": "The example is adapted from the help pages of R package strucchange, (Zeileis et al., 2002). The scientific question is to detect breakpoints where the hydrological regime of a river suddenly changed due to management changes, e.g. dam construction.",
+    "crumbs": [
+      "Labs",
+      "13-Identification of Breakpoints in Time Series"
+    ]
+  },
+  {
+    "objectID": "qmd/13-timeseries-breakpoints.html#dataset",
+    "href": "qmd/13-timeseries-breakpoints.html#dataset",
+    "title": "13-Identification of Breakpoints in Time Series",
+    "section": "2.1 Dataset",
+    "text": "2.1 Dataset\nThe dataset is a hydrological time series of the discharge of the river Nile measured at Aswan in 108 m3 a-1. The origin of the data is described in Cobb (1978). It is contained in the strucchange package and can be loaded with data(Nile).\n\nlibrary(\"strucchange\")\ndata(\"Nile\")\nplot(Nile)",
+    "crumbs": [
+      "Labs",
+      "13-Identification of Breakpoints in Time Series"
+    ]
+  },
+  {
+    "objectID": "qmd/13-timeseries-breakpoints.html#data-analysis",
+    "href": "qmd/13-timeseries-breakpoints.html#data-analysis",
+    "title": "13-Identification of Breakpoints in Time Series",
+    "section": "2.2 Data analysis",
+    "text": "2.2 Data analysis\nThe data analysis is carried out in several steps:\n\nStatistical test if the time series contains breakpoints\nIdentification of number and position of breakpoints\nVisualization of model results\nDiagnostic tests",
+    "crumbs": [
+      "Labs",
+      "13-Identification of Breakpoints in Time Series"
+    ]
+  },
+  {
+    "objectID": "qmd/13-timeseries-breakpoints.html#test-of-existence-of-breakpoints",
+    "href": "qmd/13-timeseries-breakpoints.html#test-of-existence-of-breakpoints",
+    "title": "13-Identification of Breakpoints in Time Series",
+    "section": "3.1 Test of existence of breakpoints",
+    "text": "3.1 Test of existence of breakpoints\nHere we use a so-called OLS-CUSUM test (ordinary least-squares regression, cumulative sums). The technical procedure is that we first define a null hypothesis for an empirical fluctuation process (efp). Here the model Nile ~ 1 means that we assume a constant mean value over time without trend. In case we allow for a linear trend, we could use Nile ~ time (Nile).\nThe ocus (OLS-CUSUM) object is then plotted and a structural change test (sctest) applied. The y-axis of the plot is scaled in units of standard deviations. The line shows the cumulative sum of deviations from the mean value. An monotonous increase of the line means that values are above the arithmetic mean, a decrease that they are below average. If the line exceeds the horizontal confidence bands, it indicates a structural change.\n\nocus &lt;- efp(Nile ~ 1, type = \"OLS-CUSUM\")\nplot(ocus)\n\n\n\n\n\n\n\nsctest(ocus)\n\n\n    OLS-based CUSUM test\n\ndata:  ocus\nS0 = 2.9518, p-value = 5.409e-08",
+    "crumbs": [
+      "Labs",
+      "13-Identification of Breakpoints in Time Series"
+    ]
+  },
+  {
+    "objectID": "qmd/13-timeseries-breakpoints.html#identification-of-structural-breaks",
+    "href": "qmd/13-timeseries-breakpoints.html#identification-of-structural-breaks",
+    "title": "13-Identification of Breakpoints in Time Series",
+    "section": "3.2 Identification of structural breaks",
+    "text": "3.2 Identification of structural breaks\nFunction breakpointsis the main workhorse of the package. It iteratively scans the time series for candidate breakpoints, that can be printed. The BIC values returned by summary or and that are visible in the plot are then used for model selection. We select the model with the minimum BIC. Here we use again a model without trend (Nile ~ 1).\n\nbp.nile &lt;- breakpoints(Nile ~ 1)\nsummary(bp.nile)\n\nplot(bp.nile)\n\nTask: find out how many breakpoints are necessary for an optimal model and at which time they occured.",
+    "crumbs": [
+      "Labs",
+      "13-Identification of Breakpoints in Time Series"
+    ]
+  },
+  {
+    "objectID": "qmd/13-timeseries-breakpoints.html#visualisation",
+    "href": "qmd/13-timeseries-breakpoints.html#visualisation",
+    "title": "13-Identification of Breakpoints in Time Series",
+    "section": "3.3 Visualisation",
+    "text": "3.3 Visualisation\nIn the following, we compare the model with N breakpoints with the null model fm0 without any breakpoint. In addition, we can also show indcate the confidence interval.\nTask: replace xxxwith the correct number of breakpoints. It is also possible, to try other numbers of breakpoints to understand the algorith. Finally set it back to the optimal value.\n\nfm0 &lt;- lm(Nile ~ 1)\nfm1 &lt;- lm(Nile ~ breakfactor(bp.nile,  breaks = xxx))\nplot(Nile)\nlines(ts(fitted(fm0),  start = 1871),  col = 3)\nlines(ts(fitted(fm1),  start = 1871),  col = 4)\nlines(bp.nile)\n\n## confidence interval\nci.nile &lt;- confint(bp.nile)\nci.nile\nlines(ci.nile)\n\nThe optional code uses a simpler and less fancy method for indicating the breakpoint(s).\n\nplot(Nile)\ndat &lt;- data.frame(time = time(Nile), Q = as.vector(Nile))\nabline(v = dat$time[bp.nile$breakpoints],  col = \"green\")\n\nIf we need a p-value, we can compare the two models with a likelihood ratio test:\n\n## ANOVA test whether the two models are significantly different\nanova(fm0, fm1)",
+    "crumbs": [
+      "Labs",
+      "13-Identification of Breakpoints in Time Series"
+    ]
+  },
+  {
+    "objectID": "qmd/13-timeseries-breakpoints.html#diagnostics",
+    "href": "qmd/13-timeseries-breakpoints.html#diagnostics",
+    "title": "13-Identification of Breakpoints in Time Series",
+    "section": "3.4 Diagnostics",
+    "text": "3.4 Diagnostics\nFinally let’s check autocorrelation and normality of residuals. In case the breakpoint model was appropriate, autocorrelations should vanish. As a counterexample, we plot also the autocorrelation function of the null model (fm1).\nFinally, we check residuals for approximate normality.\n\npar(mfrow=c(2, 2))\nacf(residuals(fm0))\nacf(residuals(fm1))\nqqnorm(residuals(fm0))\nqqnorm(residuals(fm1))",
+    "crumbs": [
+      "Labs",
+      "13-Identification of Breakpoints in Time Series"
+    ]
+  },
+  {
+    "objectID": "qmd/10-nonlinear-regression.html",
+    "href": "qmd/10-nonlinear-regression.html",
+    "title": "10-Nonlinear Regression",
+    "section": "",
+    "text": "The following examples demonstrate how to perform non-linear regression in R. This is quite different from linear regression, not only because the regression functions show a curve, but also due to the applied numerical techniques. While in the linear case, the coefficients of the regression line can be calculated directly (analytically) by solving a linear system of equations, iterative numerical optimization needs to be used instead.\nThis means that the coefficients are approximated step by step until convergence, beginning with start values specified by the user. There is no guarantee that an optimal solution can be found.\nThe following examples are intended as a starting point, the last example (logistic growth) is left as an exercise.\n\n\nThe first example shows an exponentially growing data set that is fitted by nonlinear least squares (nls). Here, the exponential function is given directly at the right hand side of the formula and the start values for the parameters are specified in pstart. An optional argument trace = TRUE is set to watch the progress of iteration.\nFunction predict can be used to create dense \\(x\\) and \\(y\\)-values (here: x1 and y1) for a smooth curve.\nThe statistical results of the regression are displayed with summary: parameters (\\(a\\), \\(b\\)) of the curve, standard errors and the correlation between \\(a\\) and \\(b\\). Note the optional correlation=TRUE argument. High correlations can indicate problems in model fitting, especially due to so called non-identifiablility of the parameter set.\nHere everything went through even with high correlation, because the data do not vary much around the exponential curve.\nFinally, the nonlinear coefficient of determination \\(R^2\\) can be calculated from the variances of the residuals and the original data:\n\nx &lt;- 1:10\ny &lt;- c(1.6, 1.8, 2.1, 2.8, 3.5, 4.1, 5.1, 5.8, 7.1, 9.0)\nplot(x, y)\n\npstart &lt;- c(a = 1, b = 1)\nmodel_fit &lt;- nls(y ~ a * exp(b * x), start = pstart, trace = TRUE)\nx1 &lt;- seq(1, 10, 0.1)\ny1 &lt;- predict(model_fit, data.frame(x = x1))\nlines(x1, y1, col = \"red\")\n\nsummary(model_fit, correlation = TRUE)\n\n## R squared\n1 - var(residuals(model_fit))/var(y)\n\n\n\n\nInstead of putting the regression model directly into nls it is also possible to use a user-defined function, that we call f here for example. This approach is especially useful for more complicated regression models:\n\nf &lt;- function(x, a, b) {a * exp(b * x)}\n\nplot(x, y)\n\npstart &lt;- c(a = 1, b = 1)\nmodel_fit &lt;- nls(y ~ f(x, a, b), start = pstart)\n\nx1 &lt;- seq(1, 10, 0.1)\ny1 &lt;- predict(model_fit, data.frame(x = x1))\nlines(x1, y1, col = \"red\")\nsummary(model_fit, correlation = TRUE)\n1 - var(residuals(model_fit))/var(y)",
+    "crumbs": [
+      "Labs",
+      "10-Nonlinear Regression"
+    ]
+  },
+  {
+    "objectID": "qmd/10-nonlinear-regression.html#exponential-growth",
+    "href": "qmd/10-nonlinear-regression.html#exponential-growth",
+    "title": "10-Nonlinear Regression",
+    "section": "",
+    "text": "The first example shows an exponentially growing data set that is fitted by nonlinear least squares (nls). Here, the exponential function is given directly at the right hand side of the formula and the start values for the parameters are specified in pstart. An optional argument trace = TRUE is set to watch the progress of iteration.\nFunction predict can be used to create dense \\(x\\) and \\(y\\)-values (here: x1 and y1) for a smooth curve.\nThe statistical results of the regression are displayed with summary: parameters (\\(a\\), \\(b\\)) of the curve, standard errors and the correlation between \\(a\\) and \\(b\\). Note the optional correlation=TRUE argument. High correlations can indicate problems in model fitting, especially due to so called non-identifiablility of the parameter set.\nHere everything went through even with high correlation, because the data do not vary much around the exponential curve.\nFinally, the nonlinear coefficient of determination \\(R^2\\) can be calculated from the variances of the residuals and the original data:\n\nx &lt;- 1:10\ny &lt;- c(1.6, 1.8, 2.1, 2.8, 3.5, 4.1, 5.1, 5.8, 7.1, 9.0)\nplot(x, y)\n\npstart &lt;- c(a = 1, b = 1)\nmodel_fit &lt;- nls(y ~ a * exp(b * x), start = pstart, trace = TRUE)\nx1 &lt;- seq(1, 10, 0.1)\ny1 &lt;- predict(model_fit, data.frame(x = x1))\nlines(x1, y1, col = \"red\")\n\nsummary(model_fit, correlation = TRUE)\n\n## R squared\n1 - var(residuals(model_fit))/var(y)",
+    "crumbs": [
+      "Labs",
+      "10-Nonlinear Regression"
+    ]
+  },
+  {
+    "objectID": "qmd/10-nonlinear-regression.html#regression-model-as-user-defined-function",
+    "href": "qmd/10-nonlinear-regression.html#regression-model-as-user-defined-function",
+    "title": "10-Nonlinear Regression",
+    "section": "",
+    "text": "Instead of putting the regression model directly into nls it is also possible to use a user-defined function, that we call f here for example. This approach is especially useful for more complicated regression models:\n\nf &lt;- function(x, a, b) {a * exp(b * x)}\n\nplot(x, y)\n\npstart &lt;- c(a = 1, b = 1)\nmodel_fit &lt;- nls(y ~ f(x, a, b), start = pstart)\n\nx1 &lt;- seq(1, 10, 0.1)\ny1 &lt;- predict(model_fit, data.frame(x = x1))\nlines(x1, y1, col = \"red\")\nsummary(model_fit, correlation = TRUE)\n1 - var(residuals(model_fit))/var(y)",
+    "crumbs": [
+      "Labs",
+      "10-Nonlinear Regression"
+    ]
+  },
+  {
+    "objectID": "qmd/09-clementines-anova.html",
+    "href": "qmd/09-clementines-anova.html",
+    "title": "09-Which fruits are the biggest? An ANOVA example",
+    "section": "",
+    "text": "Preface\nThe following template is intended as a starting point for a short report of an ANOVA. It is recommended to follow the general outline (Introduction, Methods, Results, Discussion), but to adapt the content to the specific needs of the analysis.\nIt is good practice to concentrate on the main findings and their discussion and to avoid unnecessary technical detail. The report should be illustrated with meaningful (and only the most important) tables and graphs.\nThe data set consists of different samples of clementine fruits from different brands and different shops. The data sets can be downloaded from\nhttps://tpetzoldt.github.io/datasets/.\nA description is found in the file clementines_info.txt.",
+    "crumbs": [
+      "Labs",
+      "09-Which fruits are the biggest? An ANOVA example"
+    ]
+  },
+  {
+    "objectID": "qmd/09-clementines-anova.html#data",
+    "href": "qmd/09-clementines-anova.html#data",
+    "title": "09-Which fruits are the biggest? An ANOVA example",
+    "section": "2.1 Data",
+    "text": "2.1 Data\n\nwrite something about the data\n\ndescribe the different samples and how they were obtained\nweight determination with a scale, length determination with a caliper (see below)\n\nread the data in:\n\n\nbrands &lt;- read.csv(\"clementines2022-brands.csv\")\nfruits &lt;- read.csv(\"clementines2022-fruits.csv\")\n\nShow the structure of the data. Use the data explorer of RStudio or the head-function, that shows the first lines of each data set. Please do not forget to report the sample size of your data!\n\ncat(\"sample size:\", nrow(fruits), \"\\n\")\nhead(fruits, n=3)\n\nLook also at the structure of brands.\nThen join the two tables and convert the brand column into a factor variable.\n\ndat &lt;- left_join(fruits, brands, by=\"brand\")\ndat$brand &lt;- factor(dat$brand)",
+    "crumbs": [
+      "Labs",
+      "09-Which fruits are the biggest? An ANOVA example"
+    ]
+  },
+  {
+    "objectID": "qmd/09-clementines-anova.html#data-analysis",
+    "href": "qmd/09-clementines-anova.html#data-analysis",
+    "title": "09-Which fruits are the biggest? An ANOVA example",
+    "section": "2.2 Data analysis",
+    "text": "2.2 Data analysis\nMention R (R Core Team, 2024) in a single sentence, cite special packages. Write that an ANOVA was performed and which methods were used in addition.",
+    "crumbs": [
+      "Labs",
+      "09-Which fruits are the biggest? An ANOVA example"
+    ]
+  },
+  {
+    "objectID": "qmd/09-clementines-anova.html#hypotheses",
+    "href": "qmd/09-clementines-anova.html#hypotheses",
+    "title": "09-Which fruits are the biggest? An ANOVA example",
+    "section": "5.1 Hypotheses",
+    "text": "5.1 Hypotheses\nIt is important to formulate clear hypotheses. Here are a few examples, related to the data set from 2019. Please think about it and define your own hypotheses, related to the current data set.\n\n\\(H_{0,1}\\): The mean weight of the fruits is the same in all samples.\n\\(H_{A,1}\\): The weight is different in any of the samples.\n\\(H_{A,2}\\): Which brand is the smallest? The mean weight of smallest sample is significantly smaller than of the 2nd samplest sample.\n\\(H_{A,3}\\): The fruits from the premium brands are bigger than corresponding basic brands.\n\nNote: Hypotheses \\(H_{A,2}\\) and \\(H_{A,3}\\) have their own, different \\(H_0\\).\nA hypothesis like \\(H_{A,3}\\) is more difficult and optional. It requires a two-way ANOVA and can only be applied to a subset of the data, where different brands from the same shops are available.",
+    "crumbs": [
+      "Labs",
+      "09-Which fruits are the biggest? An ANOVA example"
+    ]
+  },
+  {
+    "objectID": "qmd/09-clementines-anova.html#measurement-methods",
+    "href": "qmd/09-clementines-anova.html#measurement-methods",
+    "title": "09-Which fruits are the biggest? An ANOVA example",
+    "section": "5.2 Measurement methods",
+    "text": "5.2 Measurement methods\n\nWeight: was determined with a kitchen scale in gramm (g).\nHeight and Width: were measured with a caliper (Fig. 1)\n\n\n\n\n\nSize measurement with a digital caliper.",
+    "crumbs": [
+      "Labs",
+      "09-Which fruits are the biggest? An ANOVA example"
+    ]
+  },
+  {
+    "objectID": "qmd/09-clementines-anova.html#r-example-code",
+    "href": "qmd/09-clementines-anova.html#r-example-code",
+    "title": "09-Which fruits are the biggest? An ANOVA example",
+    "section": "5.3 R example code",
+    "text": "5.3 R example code\n\nThe following code is intended as a starting example. It is recommended to adapt the script to analyse the data from another year.\nDon’t forget that it is an exercise, not a serious analysis, so feel free to create your own story.\nDon’t make your report too technical, concentrate on your message.\n\n\nbrands &lt;- read.csv(\"https://tpetzoldt.github.io/datasets/data/clementines2019-brands.csv\")\nfruits &lt;- read.csv(\"https://tpetzoldt.github.io/datasets/data/clementines2019-fruits.csv\")\n\ndat &lt;- left_join(fruits, brands) # merge tables by their common colum 'Brand'\ndat$brand &lt;- factor(dat$brand)\n\nboxplot(weight ~ brand, data=dat)\n\n## the ANOVA\nm &lt;- lm(weight ~ brand, data=dat)\nanova(m)\n\n## posthoc test\nTukeyHSD(aov(m))\n\n## graphical display of Tukey's test\nplot(TukeyHSD(aov(m)), las=1, cex.axis=0.5)\n\n## graphical and numerical checks of variance homogeneity\nplot(m, which=1)\nfligner.test(weight ~ brand, data=dat)\n\n## approximate normality of residuals\nplot(m, which=2)\n\n## optional: special one-way anova alternative if variances are unequal\noneway.test(weight ~ brand, data=dat)",
+    "crumbs": [
+      "Labs",
+      "09-Which fruits are the biggest? An ANOVA example"
+    ]
+  },
+  {
+    "objectID": "qmd/09-clementines-anova.html#text-processing",
+    "href": "qmd/09-clementines-anova.html#text-processing",
+    "title": "09-Which fruits are the biggest? An ANOVA example",
+    "section": "5.4 Text processing",
+    "text": "5.4 Text processing\nThe report can, in principle, be written in any text processing software, e.g. Microsoft Word or LibreOffice Write, but I recommend to try Quarto. It needs only a little extra learning, but is an extremely efficient way to combine text and analysis with R in one document and write it directly in RStudio. A comprehensive documentation can be found on https://quarto.org/.",
+    "crumbs": [
+      "Labs",
+      "09-Which fruits are the biggest? An ANOVA example"
+    ]
+  },
+  {
+    "objectID": "qmd/09-clementines-anova.html#questions-and-literature-research",
+    "href": "qmd/09-clementines-anova.html#questions-and-literature-research",
+    "title": "09-Which fruits are the biggest? An ANOVA example",
+    "section": "5.5 Questions and literature research",
+    "text": "5.5 Questions and literature research\nPlease post questions, comments and ideas to the chat group. As the exercise is a toy example, it may be difficult to find relevant citeable literature. However, we don’t limit creativity.\nReferences",
+    "crumbs": [
+      "Labs",
+      "09-Which fruits are the biggest? An ANOVA example"
+    ]
+  },
+  {
+    "objectID": "qmd/07-correlation.html",
+    "href": "qmd/07-correlation.html",
+    "title": "07-Correlation Between Water Quality Indicators",
+    "section": "",
+    "text": "Given are the following series of measurements from a polluted river (Ertel et al., 2012):\n\nStation &lt;- 1:17\nCOD   &lt;- c(9.6, 12.2, 13.2, 13.3, 37.4, 21.4, 16.1, 24.8, 24.2, 26.9,\n           29.2, 31.6, 18.2, 24.8, 13.7, 23.6, 24.2)\nO2    &lt;- c(9.8, 10, 8.3, 9.6, 1.5, 4.4, 6.3, 3, 3, 10, 9.4, 17.9, 9.7,\n           9.7, 8.2, 9.5, 11.3)\nNH4   &lt;- c(0.15, 0.1, 0.74, 0.29, 5.04, 2.26, 0.96, 3.37, 2.44, 0.27,\n          0.32, 0.68, 0.27, 0.32, 0.22, 0.58, 0.59)\nColor &lt;- c(0.59, 0.52, 0.6, 0.57, 1.34, 1.21, 1.17, 1.12, 1.1, 1.08,\n           1.24, 1.25, 1.29, 1.29, 1.06, 1.25, 1.16)\n\nwith COD, the chemical oxygen demand (in \\(\\mathrm{mg L^{-1}}\\)), \\(\\mathrm O_2\\) oxygen concentration (\\(\\mathrm{mg L^{-1}}\\)) and Color. The spectral absorption coefficient at 436nm (\\(\\mathrm m^{-1}\\)) is a measure of the color intensity of the filtered water. The data set is a subset from field measurements, that contained more samples from several measurement campaigns.\nThe question is whether Ammonium (NH4), Oxygen (O2) and Color depend on the organic load (COD).\n\n\n\nFor the dependency between Color and COD we can use Pearson correlation. In addition it is always a good idea to plot the data.\n\nplot(COD, Color)\ncor.test(COD, Color)\n\nWe see an almost linear dependency and get a highly significant correlation. Now, for the dependence between Ammonium on COD we can proceed with:\n\nplot(COD, NH4)\ncor.test(COD, NH4)\n\nWe find again significant correlation. However, the dependency is not very strict and it seems that there are two different data sets. This is in fact true because sampling sites 1–9 were before and the other sampling sites below a cooling reservoir of a power plant. In the following, we create first an empty plot(...., type = \"n\") and then add the station number as text labels:\n\nplot(COD, NH4, type = \"n\")\ntext(COD, NH4, labels = Station)\n\nWe now repeat the analysis with the first 9 data pairs from the stations upstream of the cooling reservoir (50.19N, 24.40E, Link to Google Maps):\n\nplot(COD[1:9], NH4[1:9])\ncor.test(COD[1:9], NH4[1:9])\n\n\n\n\nIs oxygen concentration (O2) directly related to organic pollution (COD)? Interpret the results, and discuss the potential mechanisms how the cooling reservoir may influence water quality. Compare your conclusions with the paper of Ertel et al. (2012). Does the assumption of independent residuals hold?\nRepeat the analysis with Spearman’s correlation, and compare the results with the Pearson correlation coefficients.",
+    "crumbs": [
+      "Labs",
+      "07-Correlation Between Water Quality Indicators"
+    ]
+  },
+  {
+    "objectID": "qmd/07-correlation.html#introduction",
+    "href": "qmd/07-correlation.html#introduction",
+    "title": "07-Correlation Between Water Quality Indicators",
+    "section": "",
+    "text": "Given are the following series of measurements from a polluted river (Ertel et al., 2012):\n\nStation &lt;- 1:17\nCOD   &lt;- c(9.6, 12.2, 13.2, 13.3, 37.4, 21.4, 16.1, 24.8, 24.2, 26.9,\n           29.2, 31.6, 18.2, 24.8, 13.7, 23.6, 24.2)\nO2    &lt;- c(9.8, 10, 8.3, 9.6, 1.5, 4.4, 6.3, 3, 3, 10, 9.4, 17.9, 9.7,\n           9.7, 8.2, 9.5, 11.3)\nNH4   &lt;- c(0.15, 0.1, 0.74, 0.29, 5.04, 2.26, 0.96, 3.37, 2.44, 0.27,\n          0.32, 0.68, 0.27, 0.32, 0.22, 0.58, 0.59)\nColor &lt;- c(0.59, 0.52, 0.6, 0.57, 1.34, 1.21, 1.17, 1.12, 1.1, 1.08,\n           1.24, 1.25, 1.29, 1.29, 1.06, 1.25, 1.16)\n\nwith COD, the chemical oxygen demand (in \\(\\mathrm{mg L^{-1}}\\)), \\(\\mathrm O_2\\) oxygen concentration (\\(\\mathrm{mg L^{-1}}\\)) and Color. The spectral absorption coefficient at 436nm (\\(\\mathrm m^{-1}\\)) is a measure of the color intensity of the filtered water. The data set is a subset from field measurements, that contained more samples from several measurement campaigns.\nThe question is whether Ammonium (NH4), Oxygen (O2) and Color depend on the organic load (COD).",
+    "crumbs": [
+      "Labs",
+      "07-Correlation Between Water Quality Indicators"
+    ]
+  },
+  {
+    "objectID": "qmd/07-correlation.html#data-analysis",
+    "href": "qmd/07-correlation.html#data-analysis",
+    "title": "07-Correlation Between Water Quality Indicators",
+    "section": "",
+    "text": "For the dependency between Color and COD we can use Pearson correlation. In addition it is always a good idea to plot the data.\n\nplot(COD, Color)\ncor.test(COD, Color)\n\nWe see an almost linear dependency and get a highly significant correlation. Now, for the dependence between Ammonium on COD we can proceed with:\n\nplot(COD, NH4)\ncor.test(COD, NH4)\n\nWe find again significant correlation. However, the dependency is not very strict and it seems that there are two different data sets. This is in fact true because sampling sites 1–9 were before and the other sampling sites below a cooling reservoir of a power plant. In the following, we create first an empty plot(...., type = \"n\") and then add the station number as text labels:\n\nplot(COD, NH4, type = \"n\")\ntext(COD, NH4, labels = Station)\n\nWe now repeat the analysis with the first 9 data pairs from the stations upstream of the cooling reservoir (50.19N, 24.40E, Link to Google Maps):\n\nplot(COD[1:9], NH4[1:9])\ncor.test(COD[1:9], NH4[1:9])",
+    "crumbs": [
+      "Labs",
+      "07-Correlation Between Water Quality Indicators"
+    ]
+  },
+  {
+    "objectID": "qmd/07-correlation.html#exercises-and-discussion",
+    "href": "qmd/07-correlation.html#exercises-and-discussion",
+    "title": "07-Correlation Between Water Quality Indicators",
+    "section": "",
+    "text": "Is oxygen concentration (O2) directly related to organic pollution (COD)? Interpret the results, and discuss the potential mechanisms how the cooling reservoir may influence water quality. Compare your conclusions with the paper of Ertel et al. (2012). Does the assumption of independent residuals hold?\nRepeat the analysis with Spearman’s correlation, and compare the results with the Pearson correlation coefficients.",
+    "crumbs": [
+      "Labs",
+      "07-Correlation Between Water Quality Indicators"
+    ]
+  },
+  {
+    "objectID": "qmd/07-correlation.html#introduction-1",
+    "href": "qmd/07-correlation.html#introduction-1",
+    "title": "07-Correlation Between Water Quality Indicators",
+    "section": "2.1 Introduction",
+    "text": "2.1 Introduction\nGiven is a number of students that passed an examination in statistics. The examination was written two times, one time before and one time after an additional series of lectures. The values represent the number of points approached during the examination. Check whether there is a dependency between the results before and after the test, i.e. if there is any dependency between the results of the final test and the basic knowledge before the course.",
+    "crumbs": [
+      "Labs",
+      "07-Correlation Between Water Quality Indicators"
+    ]
+  },
+  {
+    "objectID": "qmd/07-correlation.html#data-and-data-analysis",
+    "href": "qmd/07-correlation.html#data-and-data-analysis",
+    "title": "07-Correlation Between Water Quality Indicators",
+    "section": "2.2 Data and data analysis",
+    "text": "2.2 Data and data analysis\n\nx1 &lt;- c(69, 77, 35, 34, 87, 45, 95, 83)\nx2 &lt;- c(100, 97, 67, 42, 75, 73, 92, 97)\ncor.test(x1, x2)\n\nIf we plot this, we see a rather strange pattern, i.e. no clear linear relationship:\n\nplot(x1, x2)\n\nTherefore it may be a good idea to use the rank correlation:\n\ncor.test(x1, x2, method=\"spearman\")\n\nSometimes, we may get a warning that it “cannot compute exact p-values with ties”, then we can use another approach and compute the Spearman correlation via the Pearson correlation of ranks:\n\ncor.test(rank(x1), rank(x2))\n\nThis needs a little bit more effort (for the computer, not for us), but the interpretation is the same. To understand how this worked, it can be a good idea to create a scatterplot of the ranks of both variables.",
+    "crumbs": [
+      "Labs",
+      "07-Correlation Between Water Quality Indicators"
+    ]
+  },
+  {
+    "objectID": "qmd/07-correlation.html#exercise-and-discussion",
+    "href": "qmd/07-correlation.html#exercise-and-discussion",
+    "title": "07-Correlation Between Water Quality Indicators",
+    "section": "2.3 Exercise and Discussion",
+    "text": "2.3 Exercise and Discussion\nWhat do the results above tell us? Compare the results with a paired t-test of the same data set. Which test tells what?",
+    "crumbs": [
+      "Labs",
+      "07-Correlation Between Water Quality Indicators"
+    ]
+  },
+  {
+    "objectID": "qmd/05-distributions-fruits-tidyverse.html",
+    "href": "qmd/05-distributions-fruits-tidyverse.html",
+    "title": "05-Distribution and Confidence Intervals of Clementines",
+    "section": "",
+    "text": "The example aims to demonstrate estimation and interpretation of confidence intervals. At the end, the two samples are compared with respect to variance and mean values.\nThe experimental hypotheses was, that weight and size of two samples of Clementine fruits differ. The result is to be visualized with bar charts or box plots. We use only the weight as an example, analysis of the other statistical parameters is left as an optional exercise.\nWe can now derive the following statistical hypotheses about the variance:\n\n\\(H_0\\): The variance of both samples is the same.\n\\(H_a\\): The samples have different variance.\n\nand about the mean:\n\n\\(H_0\\): The mean of both samples is the same.\n\\(H_a\\): The mean values of the samples are different.",
+    "crumbs": [
+      "Labs",
+      "05-Distribution and Confidence Intervals of Clementines"
+    ]
+  },
+  {
+    "objectID": "qmd/05-distributions-fruits-tidyverse.html#prepare-and-inspect-data",
+    "href": "qmd/05-distributions-fruits-tidyverse.html#prepare-and-inspect-data",
+    "title": "05-Distribution and Confidence Intervals of Clementines",
     "section": "3.1 Prepare and inspect data",
-    "text": "3.1 Prepare and inspect data\nThe data set is available from your local learning management system (LMS)) (e.g. OPAL at TU Dresden) or publicly from https://raw.githubusercontent.com/tpetzoldt/datasets/main/data/leaves.csv.\n\nDownload the data set leaves.csv and use one of RStudio’s “Import Dataset” wizards.\nAlternative: use read.csv().\n\n\n#  ... do it\n\n\nplot everything, just for testing:\n\n\nplot(leaves)\n\n\nsplit table for HSE and MHYB:\n\n\nhyb &lt;- subset(leaves, group == \"HYB\")\nhse &lt;- subset(leaves, group == \"HSE\")\n\n\ncompare leaf width of both groups:\n\n\nboxplot(hse$width, hyb$width, names=c(\"HSE\", \"HYB\"))",
+    "text": "3.1 Prepare and inspect data\n\nDownload the data set fruits-2023-hse.csv and use one of RStudio’s “Import Dataset” wizards.\nA better alternative is to use read.csv().\nThe data set is available in OPAL1 or from: https://raw.githubusercontent.com/tpetzoldt/datasets/refs/heads/main/data/fruits-2023-hse.csv\n\n\n#  ... do it\n\n\nplot everything, just for testing:\n\n\nplot(fruits)\n\n\nsplit table for box1 and box2:\n\n\nbox1 &lt;- subset(fruits, brand == \"box1\")\nbox2 &lt;- subset(fruits, brand == \"box2\")\n\n\ncompare weight of both groups:\n\n\nboxplot(box1$weight, box2$weight, names=c(\"box1\", \"box2\"))\n\nNote: It is also possible to use boxplot with the model formula syntax. This is the preferred way, because it does not require to split the data set beforehand:\n\nboxplot(weight ~ brand, data = fruits)",
     "crumbs": [
       "Labs",
-      "04-Distribution and Confidence Intervals of Maple Leaf Samples"
+      "05-Distribution and Confidence Intervals of Clementines"
     ]
   },
   {
-    "objectID": "qmd/04-distributions-leaves.html#check-distribution",
-    "href": "qmd/04-distributions-leaves.html#check-distribution",
-    "title": "04-Distribution and Confidence Intervals of Maple Leaf Samples",
+    "objectID": "qmd/05-distributions-fruits-tidyverse.html#check-distribution",
+    "href": "qmd/05-distributions-fruits-tidyverse.html#check-distribution",
+    "title": "05-Distribution and Confidence Intervals of Clementines",
     "section": "3.2 Check distribution",
-    "text": "3.2 Check distribution\n\n# use `hist`, `qqnorm`, `qqline`\n# ...",
+    "text": "3.2 Check distribution\nWe can check the shape of distribution graphically. If mean values of the samples differ much, it has to be done separately for each sample.\n\n# use `hist`, `qqnorm`, `qqline`\n# ...",
     "crumbs": [
       "Labs",
-      "04-Distribution and Confidence Intervals of Maple Leaf Samples"
+      "05-Distribution and Confidence Intervals of Clementines"
     ]
   },
   {
-    "objectID": "qmd/04-distributions-leaves.html#sample-statistics",
-    "href": "qmd/04-distributions-leaves.html#sample-statistics",
-    "title": "04-Distribution and Confidence Intervals of Maple Leaf Samples",
+    "objectID": "qmd/05-distributions-fruits-tidyverse.html#sample-statistics",
+    "href": "qmd/05-distributions-fruits-tidyverse.html#sample-statistics",
+    "title": "05-Distribution and Confidence Intervals of Clementines",
     "section": "3.3 Sample statistics",
-    "text": "3.3 Sample statistics\nIf we assume normal distribution of the data, we can estimate an approximate prediction interval from the sample parameters, i.e. in which size range are 95% of the leaves SAMPLE of one group. We first calculate mean, sd, N and se for “hse” data set:\n\nhse.mean &lt;- mean(hse$width)\nhse.sd   &lt;- sd(hse$width)\nhse.N    &lt;- length(hse$width)\nhse.se   &lt;- hse.sd/sqrt(hse.N)\n\nThen we estimate the two-sided 95% prediction interval for the sample, assuming normal distribution:\n\nhse.95 &lt;- hse.mean + c(-1.96, 1.96) * hse.sd\nhse.95\n\nInstead of using 1.96, we could also use the quantile function of the normal distribution instead, e.g. qnorm(0.975)for the upper interval or qnorm(c(0.025, 0.975)) for the lower and upper.\nIf the data set is large enough, we can compare the prediction interval from above with the empirical quantiles, i.e. take it directly from the data. Here we do not assume a normal or any other distribution.\n\nquantile(hse$width, p = c(0.025, 0.975))\n\nNow we plot the data and indicate the 95% interval:\n\nplot(hse$width)\nabline(h = hse.95, col=\"red\")\n\n… and the same as histogram:\n\nhist(hse$width)\nabline(v = hse.95, col=\"red\")\nrug(hse$width, col=\"blue\")",
+    "text": "3.3 Sample statistics\nIf we assume normal distribution of the data, we can estimate an approximate prediction interval from the sample parameters, i.e. in which size range we find 95% of the weights within one group.\nWe first calculate mean, sd, N and se for “box1” data set:\n\nbox1.mean &lt;- mean(box1$weight)\nbox1.sd   &lt;- sd(box1$weight)\nbox1.N    &lt;- length(box1$weight)\nbox1.se   &lt;- box1.sd/sqrt(box1.N)\n\nThen we estimate the two-sided 95% prediction interval for the sample, assuming normal distribution:\n\nbox1.95 &lt;- box1.mean + c(-1.96, 1.96) * box1.sd\nbox1.95\n\nInstead of using 1.96, we could also use the quantile function of the normal distribution instead, e.g. qnorm(0.975)for the upper interval or qnorm(c(0.025, 0.975)) for the lower and upper.\nIf the data set is large enough, we can compare the prediction interval from above with the empirical quantiles, i.e. take it directly from the data. Here we do not assume a normal or any other distribution.\n\nquantile(box1$weight, p = c(0.025, 0.975))\n\nNow we plot the data and indicate the 95% interval:\n\nplot(box1$weight)\nabline(h = box1.95, col=\"red\")\n\n… and the same as histogram:\n\nhist(box1$weight)\nabline(v = box1.95, col=\"red\")\nrug(box1$weight, col=\"blue\")",
     "crumbs": [
       "Labs",
-      "04-Distribution and Confidence Intervals of Maple Leaf Samples"
+      "05-Distribution and Confidence Intervals of Clementines"
     ]
   },
   {
-    "objectID": "qmd/04-distributions-leaves.html#confidence-interval-of-the-mean",
-    "href": "qmd/04-distributions-leaves.html#confidence-interval-of-the-mean",
-    "title": "04-Distribution and Confidence Intervals of Maple Leaf Samples",
+    "objectID": "qmd/05-distributions-fruits-tidyverse.html#confidence-interval-of-the-mean",
+    "href": "qmd/05-distributions-fruits-tidyverse.html#confidence-interval-of-the-mean",
+    "title": "05-Distribution and Confidence Intervals of Clementines",
     "section": "3.4 Confidence interval of the mean",
-    "text": "3.4 Confidence interval of the mean\nThe confidence interval of the mean tells us how precise a mean value was estimated from data. If the sample size is “large enough”, the distribution of the raw data does not necessarily need to be normal, because then mean values tend to approximate a normal distribution due to the central limit theorem.\n\n3.4.1 Confidence interval of the mean for the “hse” data\n\nCalculate the confidence interval of the mean value of the “hse” data set,\nuse +/- 1.96 or (better) the quantile of the t-distribution:\n\n\nhse.ci &lt;- hse.mean + qt(p = c(0.025, 0.975), df = hse.N-1) * hse.se\n\nNow indicate the confidence interval of the mean in the histogram.\n\nabline(v = hse.ci, col=\"red\")\n\n\n\n3.4.2 Confidence interval for the mean of the “hyb” data\n\n#  Do the same for the \"hyb\" data, calculate mean, sd, N, se and ci.\n# ...\n\n\n\n3.4.3 Visualization\nInstead of a boxplot, we can also use a bar chart with confidence interval. This can be done with the add-on package gplots (not to be confused with ggplot) or with some creativity\nSolution A) with package gplots\n\nlibrary(\"gplots\")\nbarplot2(height = c(hyb.mean, hse.mean),\n         ci.l   = c(hyb.ci[1], hse.ci[1]),\n         ci.u   = c(hyb.ci[2], hse.ci[2]),\n         plot.ci = TRUE,\n         names.arg=c(\"Hyb\", \"HSE\")\n)\n\nSolution B) without add-on packages (optional)\nHere we use a standard bar chart, and line segments for the error bars. One small problem arises, because barplot creates an own x-scaling. The good news is, that barplot returns its x-scale. We can store it in a variable, e.g. x that can then be used in subsequent code.\n\nx &lt;- barplot(c(hyb.mean, hse.mean),\n  names.arg=c(\"HYB\", \"HSE\"), ylim=c(0, 150))\nsegments(x0=x[1], y0=hyb.ci[1], y1=hyb.ci[2], lwd=2)\nsegments(x0=x[2], y0=hse.ci[1], y1=hse.ci[2], lwd=2)",
+    "text": "3.4 Confidence interval of the mean\nThe confidence interval of the mean tells us how precise a mean value was estimated from data. If the sample size is “large enough”, the distribution of the raw data does not necessarily need to be normal distributed, because then mean values tend to approximate a normal distribution due to the central limit theorem.\n\n3.4.1 Confidence interval of the mean for the “box1” data\n\nCalculate the confidence interval of the mean value of the “box1” data set,\nuse +/- 1.96 or (better) the quantile of the t-distribution:\n\n\nbox1.ci &lt;- box1.mean + qt(p = c(0.025, 0.975), df = box1.N-1) * box1.se\n\nNow indicate the confidence interval of the mean in the histogram.\n\nabline(v = box1.ci, col=\"red\")\n\n\n\n3.4.2 Confidence interval for the mean of the “box2” data\nWe could now in principle do the same as above for the “box2” sample, but this would be rather cumbersome and boring. A more efficient method from package dplyr is shown below.",
     "crumbs": [
       "Labs",
-      "04-Distribution and Confidence Intervals of Maple Leaf Samples"
+      "05-Distribution and Confidence Intervals of Clementines"
     ]
   },
   {
-    "objectID": "qmd/04-distributions-leaves.html#compare-samples-with-t--and-f-test",
-    "href": "qmd/04-distributions-leaves.html#compare-samples-with-t--and-f-test",
-    "title": "04-Distribution and Confidence Intervals of Maple Leaf Samples",
-    "section": "3.5 Compare samples with t- and F-Test",
-    "text": "3.5 Compare samples with t- and F-Test\nHypotheses:\nNull: Both samples have the same mean width and variance.\nAlternative: The mean width (and possibly also the variance) differ because of more subjective sampling of HSE students. They may have prefered bigger or the nice small leaves.\n\nt.test(width ~ group, data = leaves)\n\nPerform also the classical t-test (var.equal=TRUE) and the F-test (var.test). Calculate absolute and relative effect size (mean differences) and interpret the results of all 3 tests.\n\n# var.test(...)\n# t.test(...)\n# ...",
+    "objectID": "qmd/05-distributions-fruits-tidyverse.html#calculation-of-summary-statistics-with-dplyr",
+    "href": "qmd/05-distributions-fruits-tidyverse.html#calculation-of-summary-statistics-with-dplyr",
+    "title": "05-Distribution and Confidence Intervals of Clementines",
+    "section": "5.1 Calculation of summary statistics with dplyr",
+    "text": "5.1 Calculation of summary statistics with dplyr\nSummarizing can be done with two functions, group_by that adds grouping information to a data frame and summarize to calculate summary statistics. In the following, we use the full data set with 4 groups.\n\nlibrary(\"dplyr\")\nfruits &lt;- read.csv(\"fruits-2023-hse.csv\")\n\nstats &lt;-\n  fruits |&gt;\n    group_by(brand) |&gt;\n    summarize(mean = mean(weight), sd=sd(weight), N=length(weight), se=sd/sqrt(N),\n              lwr = mean + qt(p = 0.025, df = N-1) * se,\n              upr = mean + qt(p = 0.975, df = N-1) * se\n             )\n\nstats",
     "crumbs": [
       "Labs",
-      "04-Distribution and Confidence Intervals of Maple Leaf Samples"
+      "05-Distribution and Confidence Intervals of Clementines"
     ]
   },
   {
-    "objectID": "qmd/04-distributions-leaves.html#calculation-of-summary-statistics-with-dplyr",
-    "href": "qmd/04-distributions-leaves.html#calculation-of-summary-statistics-with-dplyr",
-    "title": "04-Distribution and Confidence Intervals of Maple Leaf Samples",
-    "section": "4.1 Calculation of summary statistics with dplyr",
-    "text": "4.1 Calculation of summary statistics with dplyr\n\nlibrary(\"dplyr\")\nleaves &lt;- read.csv(\"leaves.csv\")\n\nstats &lt;-\n  leaves |&gt;\n    group_by(group) |&gt;\n    summarize(mean = mean(width), sd=sd(width), N=length(width), se=sd/sqrt(N),\n              lwr = mean + qt(p = 0.025, df = N-1) * se,\n              upr = mean + qt(p = 0.975, df = N-1) * se\n             )\n\nstats",
+    "objectID": "qmd/05-distributions-fruits-tidyverse.html#barchart-and-errorbars-with-ggplot2",
+    "href": "qmd/05-distributions-fruits-tidyverse.html#barchart-and-errorbars-with-ggplot2",
+    "title": "05-Distribution and Confidence Intervals of Clementines",
+    "section": "5.2 Barchart and errorbars with ggplot2",
+    "text": "5.2 Barchart and errorbars with ggplot2\nWe can then use the table of summary statistics directly for a bar chart.\n\nlibrary(\"ggplot2\")\nstats |&gt;\n  ggplot(aes(x=brand, y=mean, min=lwr, max=upr))  +\n    geom_col() + geom_errorbar()",
     "crumbs": [
       "Labs",
-      "04-Distribution and Confidence Intervals of Maple Leaf Samples"
+      "05-Distribution and Confidence Intervals of Clementines"
     ]
   },
   {
-    "objectID": "qmd/04-distributions-leaves.html#barchart-and-errorbars-with-ggplot2",
-    "href": "qmd/04-distributions-leaves.html#barchart-and-errorbars-with-ggplot2",
-    "title": "04-Distribution and Confidence Intervals of Maple Leaf Samples",
-    "section": "4.2 Barchart and errorbars with ggplot2",
-    "text": "4.2 Barchart and errorbars with ggplot2\n\nlibrary(\"ggplot2\")\nstats |&gt;\n  ggplot(aes(x=group, y=mean, min=lwr, max=upr))  +\n    geom_col() + geom_errorbar(width=0.2)",
+    "objectID": "qmd/05-distributions-fruits-tidyverse.html#additional-tasks",
+    "href": "qmd/05-distributions-fruits-tidyverse.html#additional-tasks",
+    "title": "05-Distribution and Confidence Intervals of Clementines",
+    "section": "5.3 Additional tasks",
+    "text": "5.3 Additional tasks\nRepeat the analysis with other properties of the fruits, e.g. width and height. Create box plots, analyse distribution, create bar charts.",
     "crumbs": [
       "Labs",
-      "04-Distribution and Confidence Intervals of Maple Leaf Samples"
+      "05-Distribution and Confidence Intervals of Clementines"
+    ]
+  },
+  {
+    "objectID": "qmd/05-distributions-fruits-tidyverse.html#footnotes",
+    "href": "qmd/05-distributions-fruits-tidyverse.html#footnotes",
+    "title": "05-Distribution and Confidence Intervals of Clementines",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nOPAL is the learning management system used at TU Dresden.↩︎",
+    "crumbs": [
+      "Labs",
+      "05-Distribution and Confidence Intervals of Clementines"
     ]
   },
   {
@@ -92,7 +455,7 @@
     "href": "qmd/03-discharge-elbe.html",
     "title": "03-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R",
     "section": "",
-    "text": "The following practical example demonstrates how data in “long format” can be analysed with R. It builds up on the previous exercise about date and time computation and pivot tables with LibreOffice.\n\n\nThe example assumes that recent versions of R and RStudio are installed, together with some add-on packages dplyr, tidyr, readr, lubridate and ggplot2. The packages should already be available in the computer pool of the university, otherwise install it over the “Packages” pane in RStudio or from the command line:\nIf all packages are installed, we need to load it to the active session with\n\nlibrary(readr)     # modernized functions to read rectangular data like csv\nlibrary(dplyr)     # the most essential tidyverse packages\nlibrary(tidyr)     # contains for example pivot tables\nlibrary(lubridate) # a tidyverse package for dates\nlibrary(ggplot2)   # high level plotting with the grammar of graphics\n\nThe examples were tested with R versions 4.2.1 – 4.4.2.\n\n\n\nThe data set consists of daily measurements for discharge of the Elbe River in Dresden (daily discharge sum in \\(\\mathrm{m^3 s^{-1}}\\)). The data were kindly provided by the German Federal Institute for Hydrology (BfG)1.\nPlease read the information file elbe_info.txt about data source and copyright before downloading the data file “data.csv”. The data set ist then available in the course folder or from https://github.com/tpetzoldt/datasets/blob/main/data/.\n\n\n\nWe first learn how to import data to R, then we will do date and time conversion and create some plots. After that we learn how to aggregate, analyse and reformat the data set. A final outlook gives an impression how to use pipelines and high level plotting with the ggplot package.",
+    "text": "The following practical example demonstrates how data in “long format” can be analysed with R. It builds up on the previous exercise about date and time computation and pivot tables with LibreOffice.\n\n\nThe example assumes that recent versions of R and RStudio are installed, together with some add-on packages dplyr, tidyr, readr, lubridate and ggplot2. The packages should already be available in the computer pool of the university, otherwise install it over the “Packages” pane in RStudio or from the command line:\nIf all packages are installed, we need to load it to the active session with\n\nlibrary(readr)     # modernized functions to read rectangular data like csv\nlibrary(dplyr)     # the most essential tidyverse packages\nlibrary(tidyr)     # contains for example pivot tables\nlibrary(lubridate) # a tidyverse package for dates\nlibrary(ggplot2)   # high level plotting with the grammar of graphics\n\nThe examples were tested with R versions 4.2.1 – 4.4.2.\n\n\n\nThe data set consists of daily measurements for discharge of the Elbe River in Dresden (daily discharge sum in \\(\\mathrm{m^3 s^{-1}}\\)). The data were kindly provided by the German Federal Institute for Hydrology (BfG)1.\nPlease read the information file elbe_info.txt about data source and copyright before downloading the data file “data.csv”. The data set is then available in the course folder or from https://tpetzoldt.github.io/datasets/.\n\n\n\nWe first learn how to import data to R, then we will do date and time conversion and create some plots. After that we learn how to aggregate, analyse and reformat the data set. A final outlook gives an impression how to use pipelines and high level plotting with the ggplot package.",
     "crumbs": [
       "Labs",
       "03-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R"
@@ -114,7 +477,7 @@
     "href": "qmd/03-discharge-elbe.html#the-data-set",
     "title": "03-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R",
     "section": "",
-    "text": "The data set consists of daily measurements for discharge of the Elbe River in Dresden (daily discharge sum in \\(\\mathrm{m^3 s^{-1}}\\)). The data were kindly provided by the German Federal Institute for Hydrology (BfG)1.\nPlease read the information file elbe_info.txt about data source and copyright before downloading the data file “data.csv”. The data set ist then available in the course folder or from https://github.com/tpetzoldt/datasets/blob/main/data/.",
+    "text": "The data set consists of daily measurements for discharge of the Elbe River in Dresden (daily discharge sum in \\(\\mathrm{m^3 s^{-1}}\\)). The data were kindly provided by the German Federal Institute for Hydrology (BfG)1.\nPlease read the information file elbe_info.txt about data source and copyright before downloading the data file “data.csv”. The data set is then available in the course folder or from https://tpetzoldt.github.io/datasets/.",
     "crumbs": [
       "Labs",
       "03-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R"
@@ -286,369 +649,6 @@
     ]
   },
   {
-    "objectID": "qmd/14-flood-risk.html",
-    "href": "qmd/14-flood-risk.html",
-    "title": "14-Extreme Value Estimation with Package FAmle",
-    "section": "",
-    "text": "Here, it is described how to fit distributions to a given hydrological data set. Our intention here is to provide an example how easy and powerful distribution fitting can be done in R. More information can be found in Rice(2003), Hogg(2004), Coles (2001) and in the help file of package FAmle (Aucoin, 2001). For the given example, a data set from the US Geological Survey (USGS, http://waterdata.usgs.gov/nwis will be employed. The dataset consists of annual maximum daily peakflows (ft3/s) that were observed at a hydrometric station located at River James (Columbia). First the packages and the data set is loaded, then it is tested for potential trends and autocorrelation\n\n## load required packages\nlibrary(\"FAmle\")\nlibrary(\"FAdist\")\nlibrary(\"MASS\")\nlibrary(\"zoo\")\nlibrary(\"readr\")\nlibrary(\"dplyr\")\nlibrary(\"lubridate\")\n\n\n## St James River, Columbia\njamesriver &lt;- read_csv(\"jamesriver.csv\", col_types = c(\"D\", \"n\"))\n\nflow &lt;- jamesriver$flow\n\npar(mfrow=c(1, 2))\nplot(jamesriver$date, jamesriver$flow, type=\"b\", cex=0.4, pch=19, cex.axis=0.75, xlab=\"Year\", ylab=\"Flow\",\nmain=\"James River\")\nlines(lowess(jamesriver), col=\"red\")\nacf(jamesriver$flow, main=\"\")\n\n\n\n\n\n\n\nFigure 1: Time series (left) and auto-correlation plot (right) the daily flow (in ft3/s data set. The red smoothed line corresponds to a lowess fit.",
-    "crumbs": [
-      "Labs",
-      "14-Extreme Value Estimation with Package FAmle"
-    ]
-  },
-  {
-    "objectID": "qmd/14-flood-risk.html#introduction",
-    "href": "qmd/14-flood-risk.html#introduction",
-    "title": "14-Extreme Value Estimation with Package FAmle",
-    "section": "",
-    "text": "Here, it is described how to fit distributions to a given hydrological data set. Our intention here is to provide an example how easy and powerful distribution fitting can be done in R. More information can be found in Rice(2003), Hogg(2004), Coles (2001) and in the help file of package FAmle (Aucoin, 2001). For the given example, a data set from the US Geological Survey (USGS, http://waterdata.usgs.gov/nwis will be employed. The dataset consists of annual maximum daily peakflows (ft3/s) that were observed at a hydrometric station located at River James (Columbia). First the packages and the data set is loaded, then it is tested for potential trends and autocorrelation\n\n## load required packages\nlibrary(\"FAmle\")\nlibrary(\"FAdist\")\nlibrary(\"MASS\")\nlibrary(\"zoo\")\nlibrary(\"readr\")\nlibrary(\"dplyr\")\nlibrary(\"lubridate\")\n\n\n## St James River, Columbia\njamesriver &lt;- read_csv(\"jamesriver.csv\", col_types = c(\"D\", \"n\"))\n\nflow &lt;- jamesriver$flow\n\npar(mfrow=c(1, 2))\nplot(jamesriver$date, jamesriver$flow, type=\"b\", cex=0.4, pch=19, cex.axis=0.75, xlab=\"Year\", ylab=\"Flow\",\nmain=\"James River\")\nlines(lowess(jamesriver), col=\"red\")\nacf(jamesriver$flow, main=\"\")\n\n\n\n\n\n\n\nFigure 1: Time series (left) and auto-correlation plot (right) the daily flow (in ft3/s data set. The red smoothed line corresponds to a lowess fit.",
-    "crumbs": [
-      "Labs",
-      "14-Extreme Value Estimation with Package FAmle"
-    ]
-  },
-  {
-    "objectID": "qmd/14-flood-risk.html#empirical-quantiles",
-    "href": "qmd/14-flood-risk.html#empirical-quantiles",
-    "title": "14-Extreme Value Estimation with Package FAmle",
-    "section": "2 Empirical Quantiles",
-    "text": "2 Empirical Quantiles\n\nhist(flow, probability=TRUE, xlab=\"flow (ft^3/s)\")\nrug(flow)\nlines(density(flow))\n\n\n\n\n\n\n\nFigure 2: Histogram and empirical density of peak discharge.\n\n\n\n\n\nIf the data series is long enough, one may be tempted to use empirical quantiles, i.e. model and parameter free extrapolation from the data. We use this value as a baseline for the comparison with the model derived quantiles:\n\nquantile(p=c(0.95, 0.99), flow)\n\n 95%  99% \n4589 6974",
-    "crumbs": [
-      "Labs",
-      "14-Extreme Value Estimation with Package FAmle"
-    ]
-  },
-  {
-    "objectID": "qmd/14-flood-risk.html#lognormal-distribution-with-2-parameters",
-    "href": "qmd/14-flood-risk.html#lognormal-distribution-with-2-parameters",
-    "title": "14-Extreme Value Estimation with Package FAmle",
-    "section": "3 Lognormal Distribution with 2 Parameters",
-    "text": "3 Lognormal Distribution with 2 Parameters\nThe Lognormal distribution is often regarded as a plausible model for this type of data. However, other distributions such as Weibull, Lognormal with three parameters, and Johnson distributions may provide better fitting results. We will try some of them. The parameters of the distribution are estimated using maximum likelihood by the mle function con tained in package “FAmle”, except for the Johnson distribution wich needs a different procedure. Parameters of the fitting can be obtained as follows. It is important to pay attention to goodness-of-fit parameters (log likelihood and AIC) which provide us information about how good the model explains the corresponding data set.\n\nfitLn2 &lt;- mle(x=flow, dist=\"lnorm\", start=c(0.1, 0.1))\nfitLn2\n\n-----------------------------------------\n       Maximum Likelihood Estimates\n-----------------------------------------\nData object:  flow \nDistribution:  lnorm \n\n--------- Parameter estimates -----------\n\n         meanlog.hat sdlog.hat\nEstimate       6.294    1.4878\nStd.err        0.186    0.1319\n\n---------- Goodness-of-Fit --------------\n\n log.like       aic        ad       rho \n-518.8617 1041.7234    0.9627    0.9884 \n-----------------------------------------\n\n\n\n## automatic diagnostic plots\nplot(x=fitLn2, ci=TRUE, alpha=0.05)\n\n## which probability has a flow &gt;= 3000\n##  --&gt; two functions to provide the same result:\n\n### standard R function\nplnorm(3000, meanlog=fitLn2$par.hat[1], sdlog=fitLn2$par.hat[2])\n\n[1] 0.8751862\n\n### function from the FAmle package\ndistr(x=3000, dist=\"lnorm\", param=c(fitLn2$par.hat[1], fitLn2$par.hat[2]), type=\"p\")\n\n[1] 0.8751862\n\n## same for quantile (flow &gt;= 95% quantile)\nqlnorm(p=0.95, meanlog=fitLn2$par.hat[1], sdlog=fitLn2$par.hat[2])\n\n[1] 6252.526\n\ndistr(x=0.95, dist=\"lnorm\", param=c(fitLn2$par.hat[1], fitLn2$par.hat[2]), type=\"q\")\n\n[1] 6252.526\n\n## empirical quantile\nquantile(p=0.95, flow)\n\n 95% \n4589 \n\n\n\n\n\n\n\n\nFigure 3: Plot of the mle object corresponding to the fitting James River data using a Lognormal distribution\n\n\n\n\n\nThe function mle() provides also some goodness-of-fit statistics. This function creates a special kind of object which can be used inside of the standard R functions, e.g., plot(). A function called plot.mle may be used to generate a series of four diagnosis plots (Figure 3) for the mle object. Diagnostic plots for the model fitted to the dataset. The dashed red lines correspond to the lower and upper confidence bounds (definded by alpha) of the approximated 95% confidence intervals derived using the observed Fisher’s information matrix in conjunction with the so-called delta method.\nOnce the function is fitted to a distribution, these parameters can be used to calculate different quan- tiles. In this way we can find, for example, the value of the flow which has a probability lower than 5% or which is the probability of a flooding event of a certain flow.\nNow repeat for the 99% quantile\n…\nAnd extreme floods: 1% quantile\n…\nThe probability of a peakflow of 3000 ft3/s is obtained by either function “plnorm” or “distr” like follows:\n\nplnorm(3000, meanlog=fitLn2$par.hat[1], sdlog=fitLn2$par.hat[2], lower.tail=TRUE)\n\n[1] 0.8751862\n\ndistr(x=3000, dist=\"lnorm\", param=fitLn2$par.hat, type=\"p\")\n\n[1] 0.8751862",
-    "crumbs": [
-      "Labs",
-      "14-Extreme Value Estimation with Package FAmle"
-    ]
-  },
-  {
-    "objectID": "qmd/14-flood-risk.html#lognormal-distribution-with-3-parameters",
-    "href": "qmd/14-flood-risk.html#lognormal-distribution-with-3-parameters",
-    "title": "14-Extreme Value Estimation with Package FAmle",
-    "section": "4 Lognormal Distribution with 3 Parameters",
-    "text": "4 Lognormal Distribution with 3 Parameters\nLet’s repeat the procedure for a Lognormal distribution with three parameters. In this case the package FAdist is required. Results are presented in ?@fig-mle-ln3\n\n## Fit a lognormal distribution with three parameters\nfitLn3 &lt;- mle(x=flow, dist=\"lnorm3\", start=c(0.5, 0.5, 0.5))\nfitLn3\n\n-----------------------------------------\n       Maximum Likelihood Estimates\n-----------------------------------------\nData object:  flow \nDistribution:  lnorm3 \n\n--------- Parameter estimates -----------\n\n         shape.hat scale.hat thres.hat\nEstimate    1.4640    6.3065    -1.369\nStd.err     0.1552    0.1874     5.165\n\n---------- Goodness-of-Fit --------------\n\n log.like       aic        ad       rho \n-518.5289 1043.0578    0.8941    0.9891 \n-----------------------------------------\n\n## diagnostic plots\nhist(flow, probability=TRUE)\nrug(flow)\nlines(density(flow))\nfunLn3 &lt;- function(flow) distr(x=flow, model=fitLn3, type=\"d\")\ncurve(funLn3, add=TRUE, col=\"red\")\n\nplot(x=fitLn3, ci=TRUE, alpha=0.05)\n\n## theroretical and empirical quantiles\nqlnorm3(p=0.95, shape=fitLn3$par.hat[1], scale=fitLn3$par.hat[2], thres=fitLn3$par.hat[3])\n\n[1] 6089.576\n\ndistr(x=0.95, dist=\"lnorm3\", param=c(fitLn3$par.hat[1], fitLn3$par.hat[2], fitLn3$par.hat[3]), type=\"q\")\n\n[1] 6089.576\n\nquantile(p=0.95, flow)\n\n 95% \n4589 \n\n## Fit Weibull distribution to the data\nhist(flow, probability=TRUE)\nfitW &lt;- mle(x=flow, dist=\"weibull\", start=c(0.1, 0.1))\nfitW\n\n-----------------------------------------\n       Maximum Likelihood Estimates\n-----------------------------------------\nData object:  flow \nDistribution:  weibull \n\n--------- Parameter estimates -----------\n\n         shape.hat scale.hat\nEstimate   0.82050      1070\nStd.err    0.07811       172\n\n---------- Goodness-of-Fit --------------\n\n log.like       aic        ad       rho \n-515.2496 1034.4993    0.3602    0.9681 \n-----------------------------------------\n\n## diagnostics\nfunW &lt;- function(flow) distr(x=flow, model=fitW, type=\"d\")\ncurve(funW, add=TRUE, col=\"blue\")\n\nplot(x=fitW, ci=TRUE, alpha=0.05)\n\n## quantiles\nqweibull(p=0.99, shape=fitW$par.hat[1], scale=fitW$par.hat[2])\n\n[1] 6884.165\n\ndistr(x=0.99, dist=\"weibull\", param=c(fitW$par.hat[1], fitW$par.hat[2]), type=\"q\")\n\n[1] 6884.165\n\nquantile(p=0.99, flow)\n\n 99% \n6974 \n\n## Which distribution is the best according to the AIC?\nfitLn2$aic\n\n[1] 1041.723\n\nfitLn3$aic\n\n[1] 1043.058\n\nfitW$aic\n\n[1] 1034.499\n\n\n\n\n\n\n\n\nFigure 4: Plot of the mle object corresponding to the fitting James River data using a LN3 distribution\n\n\n\n\n\n\n\n\n\n\n\nFigure 5: Plot of the mle object corresponding to the fitting James River data using a LN3 distribution\n\n\n\n\n\n\n\n\n\n\n\nFigure 6: Plot of the mle object corresponding to the fitting James River data using a LN3 distribution\n\n\n\n\n\n\n\n\n\n\n\nFigure 7: Plot of the mle object corresponding to the fitting James River data using a LN3 distribution",
-    "crumbs": [
-      "Labs",
-      "14-Extreme Value Estimation with Package FAmle"
-    ]
-  },
-  {
-    "objectID": "qmd/14-flood-risk.html#exercise-extreme-values-of-the-elbe-river",
-    "href": "qmd/14-flood-risk.html#exercise-extreme-values-of-the-elbe-river",
-    "title": "14-Extreme Value Estimation with Package FAmle",
-    "section": "5 Exercise: Extreme values of the Elbe river",
-    "text": "5 Exercise: Extreme values of the Elbe river\nNow load the Elbe River data from the beginning of the course and note that we need annual maximum values.\n\nelbe &lt;- read_csv(\"https://raw.githubusercontent.com/tpetzoldt/datasets/main/data/elbe.csv\", , col_types = c(\"D\", \"n\"))\n\n\n## annual maximum discharge\nelbe_annual &lt;-\n  mutate(elbe, year = year(date)) |&gt;\n  group_by(year) |&gt;\n  summarize(discharge = max(discharge))\n\nplot(discharge ~ year, data = elbe_annual)\n\n## check for trend and autocorrelation between years\nMannKendall(elbe_annual$discharge)\nacf(elbe_annual$discharge)\n\n\nfitLn3 &lt;- mle(x=elbe_annual$discharge, dist=\"lnorm3\", start=c(1, 5, 100))\nfitLn3\n\nflow &lt;- elbe_annual$discharge\n\nhist(flow, probability=TRUE, breaks = 10)\n\nrug(flow)\nlines(density(flow))\n\nxnew &lt;- seq(min(flow), max(flow), length = 100)\nfunLn3 &lt;- function(flow) distr(x=flow, model=fitLn3, type=\"d\")\nlines(xnew, funLn3(xnew), col=\"red\")\n\nImportant: The method described so far assumes stationarity of conditions, i.e. absence of meteorological and hydrological trends. Discuss, how climate warming already influences validity of the described method, and which methods need to be applied instead.",
-    "crumbs": [
-      "Labs",
-      "14-Extreme Value Estimation with Package FAmle"
-    ]
-  },
-  {
-    "objectID": "qmd/10-nonlinear-regression-solution.html",
-    "href": "qmd/10-nonlinear-regression-solution.html",
-    "title": "x10-Fit Nonlinear Models to Plankton Growth Data",
-    "section": "",
-    "text": "The growth rate of a population is a direct measure of fitness. Therefore, determination of growth rates is common in many disciplines of natural and human sciences, business and engineering: ecology, pharmacology, wastewater treatment, and economic growth. The following example gives a brief introduction, how growth models can be fitted wit R.",
-    "crumbs": [
-      "Solutions",
-      "x10-Fit Nonlinear Models to Plankton Growth Data"
-    ]
-  },
-  {
-    "objectID": "qmd/10-nonlinear-regression-solution.html#data-set",
-    "href": "qmd/10-nonlinear-regression-solution.html#data-set",
-    "title": "x10-Fit Nonlinear Models to Plankton Growth Data",
-    "section": "2.1 Data set",
-    "text": "2.1 Data set\nThe example data set was taken from a growth experiment in a batch culture with Microcystis aeruginosa, a cyanobacteria (blue green algae) species. Details of the experiment can be found in Jähnichen et al. (2001).\n\n## time (t)\nx &lt;- c(0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20)\n## Algae cell counts (per ml)\ny &lt;- c(0.88, 1.02, 1.43, 2.79, 4.61, 7.12,\n       6.47, 8.16, 7.28, 5.67, 6.91) * 1e6",
-    "crumbs": [
-      "Solutions",
-      "x10-Fit Nonlinear Models to Plankton Growth Data"
-    ]
-  },
-  {
-    "objectID": "qmd/10-nonlinear-regression-solution.html#methods",
-    "href": "qmd/10-nonlinear-regression-solution.html#methods",
-    "title": "x10-Fit Nonlinear Models to Plankton Growth Data",
-    "section": "2.2 Methods",
-    "text": "2.2 Methods\nParametric models are fitted using nonlinear regression according to the method of least squares. Data analysis is performed using the R software of statistical computing and graphics (R Core Team, 2021) and the nls function from package stats. An additional analysis is performed with packages growthrates (Petzoldt, 2020) and FME (Soetaert & Petzoldt, 2010).\nTo get a suitable curve, we need a model that fits the data and that has identifiable parameters. In the following, we use the logistic growth model (Verhulst, 1838):\n\\[\nN = \\frac{K \\cdot N_0}{(N_0 + (K - N_0) \\cdot \\exp(-r \\cdot x))}\n\\]\nand the Baranyi-Roberts model (Baranyi & Roberts, 1994), explained later.",
-    "crumbs": [
-      "Solutions",
-      "x10-Fit Nonlinear Models to Plankton Growth Data"
-    ]
-  },
-  {
-    "objectID": "qmd/10-nonlinear-regression-solution.html#nonlinear-regression-with-nls",
-    "href": "qmd/10-nonlinear-regression-solution.html#nonlinear-regression-with-nls",
-    "title": "x10-Fit Nonlinear Models to Plankton Growth Data",
-    "section": "3.1 Nonlinear regression with “nls”",
-    "text": "3.1 Nonlinear regression with “nls”\n\n3.1.1 Logistic Growth\nWe define now a used defined function for the logistic and this by plotting the function with the start values (blue line). Then we can use function nls (nonlinear least squares) to fit the model:\n\n## function definition\nf &lt;- function(x, r, K, N0) {K /(1 + (K/N0 - 1) * exp(-r *x))}\n\n## check of start values\nplot(x, yy, pch=16, xlab=\"time (days)\", ylab=\"algae (Mio cells)\")\nlines(x, f(x, r=r, K=max(yy), N0=yy[1]), col=\"blue\")\n\n## nonlinear regression\npstart &lt;- c(r=r, K=max(yy), N0=yy[1])\nfit_logistic   &lt;- nls(yy ~ f(x, r, K, N0), start = pstart, trace=FALSE)\n\nx1 &lt;- seq(0, 25, length = 100)\nlines(x1, predict(fit_logistic, data.frame(x = x1)), col = \"red\")\nlegend(\"topleft\",\n       legend = c(\"data\", \"start parameters\", \"fitted parameters\"),\n       col = c(\"black\", \"blue\", \"red\"),\n       lty = c(0, 1, 1),\n       pch = c(16, NA, NA))\n\n\n\n\n\n\n\nsummary(fit_logistic)\n\n\nFormula: yy ~ f(x, r, K, N0)\n\nParameters:\n   Estimate Std. Error t value Pr(&gt;|t|)    \nr    0.5682     0.1686   3.371  0.00978 ** \nK    7.0725     0.4033  17.535 1.14e-07 ***\nN0   0.1757     0.1861   0.944  0.37271    \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 0.8118 on 8 degrees of freedom\n\nNumber of iterations to convergence: 14 \nAchieved convergence tolerance: 4.018e-06\n\n(Rsquared &lt;- 1 - var(residuals(fit_logistic))/var(yy))\n\n[1] 0.931732\n\n\nWe see that the fit converged and the red line approximates the data, but we can also see that the model fit is far below the data at the beginning. This will be improved in the next section.\n\n\n3.1.2 Baranyi-Roberts model\nThe logistic function assumes, that growth starts exponentially from the beginning and then approaches more and more saturation. In reality, organisms need often some time to adapt to new conditions, and we can observe a delay at the beginnig. This delay is called lag-phase. Several models exist to describe such behavior, where the Baranyi-Roberts model (Baranyi & Roberts, 1994) is one of the most commonly used. Its parameters are similar to the logistic function with one additional parameter \\(h_0\\) for the lag. Following its mathematical equation (not shown here), we can implement it a suser-defined function in R:\n\nbaranyi &lt;- function(x, r, K, N0, h0) {\n  A &lt;- x + 1/r * log(exp(-r * x) + exp(-h0) - exp(-r * x - h0))\n  y &lt;- exp(log(N0) + r * A - log(1 + (exp(r * A) - 1)/exp(log(K) - log(N0))))\n  y\n}\n\nIf we assume a lag time \\(h_0 = 2\\), we can try to fit it and compare it with the logistic model\n\npstart &lt;- c(r=0.5, K=7, N0=1, h0=2)\nfit_baranyi   &lt;- nls(yy ~ baranyi(x, r, K, N0, h0), start = pstart, trace=FALSE)\n\nplot(x, yy, pch=16, xlab=\"time (days)\", ylab=\"algae (Mio cells)\")\nlines(x1, predict(fit_logistic, data.frame(x = x1)), col = \"red\")\nlines(x1, predict(fit_baranyi, data.frame(x = x1)), col = \"forestgreen\", lwd=2)\n\nlegend(\"topleft\",\n       legend = c(\"data\", \"logistic model\", \"Baranyi-Roberts model\"),\n       col = c(\"black\", \"red\", \"forestgreen\"),\n       lty = c(0, 1, 1),\n       pch = c(16, NA, NA))\n\n\n\n\n\n\n\n\nIt is obvious, that it fits much better.",
-    "crumbs": [
-      "Solutions",
-      "x10-Fit Nonlinear Models to Plankton Growth Data"
-    ]
-  },
-  {
-    "objectID": "qmd/10-nonlinear-regression-solution.html#growth-curve-fitting-with-r-package-growthrates",
-    "href": "qmd/10-nonlinear-regression-solution.html#growth-curve-fitting-with-r-package-growthrates",
-    "title": "x10-Fit Nonlinear Models to Plankton Growth Data",
-    "section": "3.2 Growth curve fitting with R package “growthrates”",
-    "text": "3.2 Growth curve fitting with R package “growthrates”\nAs growth curves are of fundamental importance in science and engineering, several R packages exist for this problem. Here we show one of these packages growthrates (Petzoldt, 2020). Details can be found in the package documentation.\n\n3.2.1 Maximum growth rate as steepest increase in log scale\nThe package contains a method “easy linear” to find the steepest linear increase. It is a fully automatic method employing linear regression and a search routine. Details of the algorithm are found in Hall et al. (2014).\nThe following shows the phase of steepest increase, the exponential phase, identified by linear regression using the data points with the steepest increase:\n\nlibrary(\"growthrates\")\npar(mfrow=c(1, 2))\nfit_easy &lt;- fit_easylinear(x, yy)\nplot(fit_easy, main=\"linear scale\")\nplot(fit_easy, log=\"y\", main=\"log scale\")\n\n\n\n\n\n\n\ncoef(fit_easy)\n\n       y0     y0_lm     mumax       lag \n0.8800000 0.5838576 0.2528382 1.6226381 \n\n\n\n\n3.2.2 Logistic growth\nNow we can take the start parameters from above and function fit_growthmodel using the grow_logistic function, that is pre-defined in the package. We can also use a specific plot function from the package\n\npstart &lt;- c(mumax=r, K=max(yy), y0=yy[1])\nfit_logistic2 &lt;- fit_growthmodel(grow_logistic, p=pstart, time=x, y=yy)\nplot(fit_logistic2)\n\n\n\n\n\n\n\n\n\n\n3.2.3 Baranyi-Roberts model\nWe see again that the model fits not very well at the beginning because of the lag phase. Therefore, we empoy again an extended model e.g. the Baranyi model.\nA start value for the lag phase parameter \\(h_0\\) can be approximated from the “easylinear” method:\n\ncoef(fit_easy)\n\n       y0     y0_lm     mumax       lag \n0.8800000 0.5838576 0.2528382 1.6226381 \n\nh0 &lt;- 0.25 * 1.66\n\npstart &lt;- c(mumax=0.5, K=max(yy), y0=yy[1], h0=h0)\nfit_baranyi2 &lt;- fit_growthmodel(grow_baranyi, p=pstart, time=x, y=yy)\nsummary(fit_baranyi2)\n\n\nParameters:\n      Estimate Std. Error t value Pr(&gt;|t|)    \nmumax   0.8477     0.3681   2.303   0.0547 .  \nK       6.9969     0.3499  19.999 1.96e-07 ***\ny0      0.9851     0.5250   1.876   0.1027    \nh0      4.1220     3.0894   1.334   0.2239    \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 0.7583 on 7 degrees of freedom\n\nParameter correlation:\n        mumax       K      y0      h0\nmumax  1.0000 -0.3607  0.4600  0.9635\nK     -0.3607  1.0000 -0.1030 -0.2959\ny0     0.4600 -0.1030  1.0000  0.6477\nh0     0.9635 -0.2959  0.6477  1.0000\n\n\nThe summary shows the parameter estimates, their standard error and a significance level. However, we should not take the significance stars too seriously here. If we would, for example, omit the “nonsignificant” parameters y0 and h0, or set it to zero, the models would not work anymore. We see that some parameters correlate, especially h0 and y0. This can, in principle, indicate identification problems, but this dod not happen here, fortunatly.\nFinally, we plot the results in both, linear and log scale:\n\npar(mfrow=c(1, 2))\nplot(fit_logistic2, ylim=c(0, 10), las=1)\nlines(fit_baranyi2, col=\"magenta\")\n\npoints(x, yy, pch=16, col=\"red\")\n\n## log scale\nplot(fit_logistic2, log=\"y\", ylim=c(0.2, 10), las=1)\npoints(x, yy, pch=16, col=\"red\")\nlines(fit_baranyi2, col=\"magenta\")\nlegend(\"bottomright\",\n       legend = c(\"data\", \"logistic model\", \"Baranyi model\"),\n       col = c(\"red\", \"blue\", \"magenta\"),\n       lty = c(0, 1, 1),\n       pch = c(16, NA, NA))",
-    "crumbs": [
-      "Solutions",
-      "x10-Fit Nonlinear Models to Plankton Growth Data"
-    ]
-  },
-  {
-    "objectID": "qmd/13-timeseries-breakpoints.html",
-    "href": "qmd/13-timeseries-breakpoints.html",
-    "title": "13-Identification of Breakpoints in Time Series",
-    "section": "",
-    "text": "The example is adapted from the help pages of R package strucchange, (Zeileis et al., 2002). The scientific question is to detect breakpoints where the hydrological regime of a river suddenly changed due to management changes, e.g. dam construction.",
-    "crumbs": [
-      "Labs",
-      "13-Identification of Breakpoints in Time Series"
-    ]
-  },
-  {
-    "objectID": "qmd/13-timeseries-breakpoints.html#dataset",
-    "href": "qmd/13-timeseries-breakpoints.html#dataset",
-    "title": "13-Identification of Breakpoints in Time Series",
-    "section": "2.1 Dataset",
-    "text": "2.1 Dataset\nThe dataset is a hydrological time series of the discharge of the river Nile measured at Aswan in 108 m3 a-1. The origin of the data is described in Cobb (1978). It is contained in the strucchange package and can be loaded with data(Nile).\n\nlibrary(\"strucchange\")\ndata(\"Nile\")\nplot(Nile)",
-    "crumbs": [
-      "Labs",
-      "13-Identification of Breakpoints in Time Series"
-    ]
-  },
-  {
-    "objectID": "qmd/13-timeseries-breakpoints.html#data-analysis",
-    "href": "qmd/13-timeseries-breakpoints.html#data-analysis",
-    "title": "13-Identification of Breakpoints in Time Series",
-    "section": "2.2 Data analysis",
-    "text": "2.2 Data analysis\nThe data analysis is carried out in several steps:\n\nStatistical test if the time series contains breakpoints\nIdentification of number and position of breakpoints\nVisualization of model results\nDiagnostic tests",
-    "crumbs": [
-      "Labs",
-      "13-Identification of Breakpoints in Time Series"
-    ]
-  },
-  {
-    "objectID": "qmd/13-timeseries-breakpoints.html#test-of-existence-of-breakpoints",
-    "href": "qmd/13-timeseries-breakpoints.html#test-of-existence-of-breakpoints",
-    "title": "13-Identification of Breakpoints in Time Series",
-    "section": "3.1 Test of existence of breakpoints",
-    "text": "3.1 Test of existence of breakpoints\nHere we use a so-called OLS-CUSUM test (ordinary least-squares regression, cumulative sums). The technical procedure is that we first define a null hypothesis for an empirical fluctuation process (efp). Here the model Nile ~ 1 means that we assume a constant mean value over time without trend. In case we allow for a linear trend, we could use Nile ~ time (Nile).\nThe ocus (OLS-CUSUM) object is then plotted and a structural change test (sctest) applied. The y-axis of the plot is scaled in units of standard deviations. The line shows the cumulative sum of deviations from the mean value. An monotonous increase of the line means that values are above the arithmetic mean, a decrease that they are below average. If the line exceeds the horizontal confidence bands, it indicates a structural change.\n\nocus &lt;- efp(Nile ~ 1, type = \"OLS-CUSUM\")\nplot(ocus)\n\n\n\n\n\n\n\nsctest(ocus)\n\n\n    OLS-based CUSUM test\n\ndata:  ocus\nS0 = 2.9518, p-value = 5.409e-08",
-    "crumbs": [
-      "Labs",
-      "13-Identification of Breakpoints in Time Series"
-    ]
-  },
-  {
-    "objectID": "qmd/13-timeseries-breakpoints.html#identification-of-structural-breaks",
-    "href": "qmd/13-timeseries-breakpoints.html#identification-of-structural-breaks",
-    "title": "13-Identification of Breakpoints in Time Series",
-    "section": "3.2 Identification of structural breaks",
-    "text": "3.2 Identification of structural breaks\nFunction breakpointsis the main workhorse of the package. It iteratively scans the time series for candidate breakpoints, that can be printed. The BIC values returned by summary or and that are visible in the plot are then used for model selection. We select the model with the minimum BIC. Here we use again a model without trend (Nile ~ 1).\n\nbp.nile &lt;- breakpoints(Nile ~ 1)\nsummary(bp.nile)\n\nplot(bp.nile)\n\nTask: find out how many breakpoints are necessary for an optimal model and at which time they occured.",
-    "crumbs": [
-      "Labs",
-      "13-Identification of Breakpoints in Time Series"
-    ]
-  },
-  {
-    "objectID": "qmd/13-timeseries-breakpoints.html#visualisation",
-    "href": "qmd/13-timeseries-breakpoints.html#visualisation",
-    "title": "13-Identification of Breakpoints in Time Series",
-    "section": "3.3 Visualisation",
-    "text": "3.3 Visualisation\nIn the following, we compare the model with N breakpoints with the null model fm0 without any breakpoint. In addition, we can also show indcate the confidence interval.\nTask: replace xxxwith the correct number of breakpoints. It is also possible, to try other numbers of breakpoints to understand the algorith. Finally set it back to the optimal value.\n\nfm0 &lt;- lm(Nile ~ 1)\nfm1 &lt;- lm(Nile ~ breakfactor(bp.nile,  breaks = xxx))\nplot(Nile)\nlines(ts(fitted(fm0),  start = 1871),  col = 3)\nlines(ts(fitted(fm1),  start = 1871),  col = 4)\nlines(bp.nile)\n\n## confidence interval\nci.nile &lt;- confint(bp.nile)\nci.nile\nlines(ci.nile)\n\nThe optional code uses a simpler and less fancy method for indicating the breakpoint(s).\n\nplot(Nile)\ndat &lt;- data.frame(time = time(Nile), Q = as.vector(Nile))\nabline(v = dat$time[bp.nile$breakpoints],  col = \"green\")\n\nIf we need a p-value, we can compare the two models with a likelihood ratio test:\n\n## ANOVA test whether the two models are significantly different\nanova(fm0, fm1)",
-    "crumbs": [
-      "Labs",
-      "13-Identification of Breakpoints in Time Series"
-    ]
-  },
-  {
-    "objectID": "qmd/13-timeseries-breakpoints.html#diagnostics",
-    "href": "qmd/13-timeseries-breakpoints.html#diagnostics",
-    "title": "13-Identification of Breakpoints in Time Series",
-    "section": "3.4 Diagnostics",
-    "text": "3.4 Diagnostics\nFinally let’s check autocorrelation and normality of residuals. In case the breakpoint model was appropriate, autocorrelations should vanish. As a counterexample, we plot also the autocorrelation function of the null model (fm1).\nFinally, we check residuals for approximate normality.\n\npar(mfrow=c(2, 2))\nacf(residuals(fm0))\nacf(residuals(fm1))\nqqnorm(residuals(fm0))\nqqnorm(residuals(fm1))",
-    "crumbs": [
-      "Labs",
-      "13-Identification of Breakpoints in Time Series"
-    ]
-  },
-  {
-    "objectID": "qmd/07-correlation.html",
-    "href": "qmd/07-correlation.html",
-    "title": "07-Correlation Between Water Quality Indicators",
-    "section": "",
-    "text": "Given are the following series of measurements from a polluted river (Ertel et al., 2012):\n\nStation &lt;- 1:17\nCOD   &lt;- c(9.6, 12.2, 13.2, 13.3, 37.4, 21.4, 16.1, 24.8, 24.2, 26.9,\n           29.2, 31.6, 18.2, 24.8, 13.7, 23.6, 24.2)\nO2    &lt;- c(9.8, 10, 8.3, 9.6, 1.5, 4.4, 6.3, 3, 3, 10, 9.4, 17.9, 9.7,\n           9.7, 8.2, 9.5, 11.3)\nNH4   &lt;- c(0.15, 0.1, 0.74, 0.29, 5.04, 2.26, 0.96, 3.37, 2.44, 0.27,\n          0.32, 0.68, 0.27, 0.32, 0.22, 0.58, 0.59)\nColor &lt;- c(0.59, 0.52, 0.6, 0.57, 1.34, 1.21, 1.17, 1.12, 1.1, 1.08,\n           1.24, 1.25, 1.29, 1.29, 1.06, 1.25, 1.16)\n\nwith COD, the chemical oxygen demand (in \\(\\mathrm{mg L^{-1}}\\)), \\(\\mathrm O_2\\) oxygen concentration (\\(\\mathrm{mg L^{-1}}\\)) and Color. The spectral absorption coefficient at 436nm (\\(\\mathrm m^{-1}\\)) is a measure of the color intensity of the filtered water. The data set is a subset from field measurements, that contained more samples from several measurement campaigns.\nThe question is whether Ammonium (NH4), Oxygen (O2) and Color depend on the organic load (COD).\n\n\n\nFor the dependency between Color and COD we can use Pearson correlation. In addition it is always a good idea to plot the data.\n\nplot(COD, Color)\ncor.test(COD, Color)\n\nWe see an almost linear dependency and get a highly significant correlation. Now, for the dependence between Ammonium on COD we can proceed with:\n\nplot(COD, NH4)\ncor.test(COD, NH4)\n\nWe find again significant correlation. However, the dependency is not very strict and it seems that there are two different data sets. This is in fact true because sampling sites 1–9 were before and the other sampling sites below a cooling reservoir of a power plant. In the following, we create first an empty plot(...., type = \"n\") and then add the station number as text labels:\n\nplot(COD, NH4, type = \"n\")\ntext(COD, NH4, labels = Station)\n\nWe now repeat the analysis with the first 9 data pairs from the stations upstream of the cooling reservoir (50.19N, 24.40E, Link to Google Maps):\n\nplot(COD[1:9], NH4[1:9])\ncor.test(COD[1:9], NH4[1:9])\n\n\n\n\nIs oxygen concentration (O2) directly related to organic pollution (COD)? Interpret the results, and discuss the potential mechanisms how the cooling reservoir may influence water quality. Compare your conclusions with the paper of Ertel et al. (2012). Does the assumption of independent residuals hold?\nRepeat the analysis with Spearman’s correlation, and compare the results with the Pearson correlation coefficients.",
-    "crumbs": [
-      "Labs",
-      "07-Correlation Between Water Quality Indicators"
-    ]
-  },
-  {
-    "objectID": "qmd/07-correlation.html#introduction",
-    "href": "qmd/07-correlation.html#introduction",
-    "title": "07-Correlation Between Water Quality Indicators",
-    "section": "",
-    "text": "Given are the following series of measurements from a polluted river (Ertel et al., 2012):\n\nStation &lt;- 1:17\nCOD   &lt;- c(9.6, 12.2, 13.2, 13.3, 37.4, 21.4, 16.1, 24.8, 24.2, 26.9,\n           29.2, 31.6, 18.2, 24.8, 13.7, 23.6, 24.2)\nO2    &lt;- c(9.8, 10, 8.3, 9.6, 1.5, 4.4, 6.3, 3, 3, 10, 9.4, 17.9, 9.7,\n           9.7, 8.2, 9.5, 11.3)\nNH4   &lt;- c(0.15, 0.1, 0.74, 0.29, 5.04, 2.26, 0.96, 3.37, 2.44, 0.27,\n          0.32, 0.68, 0.27, 0.32, 0.22, 0.58, 0.59)\nColor &lt;- c(0.59, 0.52, 0.6, 0.57, 1.34, 1.21, 1.17, 1.12, 1.1, 1.08,\n           1.24, 1.25, 1.29, 1.29, 1.06, 1.25, 1.16)\n\nwith COD, the chemical oxygen demand (in \\(\\mathrm{mg L^{-1}}\\)), \\(\\mathrm O_2\\) oxygen concentration (\\(\\mathrm{mg L^{-1}}\\)) and Color. The spectral absorption coefficient at 436nm (\\(\\mathrm m^{-1}\\)) is a measure of the color intensity of the filtered water. The data set is a subset from field measurements, that contained more samples from several measurement campaigns.\nThe question is whether Ammonium (NH4), Oxygen (O2) and Color depend on the organic load (COD).",
-    "crumbs": [
-      "Labs",
-      "07-Correlation Between Water Quality Indicators"
-    ]
-  },
-  {
-    "objectID": "qmd/07-correlation.html#data-analysis",
-    "href": "qmd/07-correlation.html#data-analysis",
-    "title": "07-Correlation Between Water Quality Indicators",
-    "section": "",
-    "text": "For the dependency between Color and COD we can use Pearson correlation. In addition it is always a good idea to plot the data.\n\nplot(COD, Color)\ncor.test(COD, Color)\n\nWe see an almost linear dependency and get a highly significant correlation. Now, for the dependence between Ammonium on COD we can proceed with:\n\nplot(COD, NH4)\ncor.test(COD, NH4)\n\nWe find again significant correlation. However, the dependency is not very strict and it seems that there are two different data sets. This is in fact true because sampling sites 1–9 were before and the other sampling sites below a cooling reservoir of a power plant. In the following, we create first an empty plot(...., type = \"n\") and then add the station number as text labels:\n\nplot(COD, NH4, type = \"n\")\ntext(COD, NH4, labels = Station)\n\nWe now repeat the analysis with the first 9 data pairs from the stations upstream of the cooling reservoir (50.19N, 24.40E, Link to Google Maps):\n\nplot(COD[1:9], NH4[1:9])\ncor.test(COD[1:9], NH4[1:9])",
-    "crumbs": [
-      "Labs",
-      "07-Correlation Between Water Quality Indicators"
-    ]
-  },
-  {
-    "objectID": "qmd/07-correlation.html#exercises-and-discussion",
-    "href": "qmd/07-correlation.html#exercises-and-discussion",
-    "title": "07-Correlation Between Water Quality Indicators",
-    "section": "",
-    "text": "Is oxygen concentration (O2) directly related to organic pollution (COD)? Interpret the results, and discuss the potential mechanisms how the cooling reservoir may influence water quality. Compare your conclusions with the paper of Ertel et al. (2012). Does the assumption of independent residuals hold?\nRepeat the analysis with Spearman’s correlation, and compare the results with the Pearson correlation coefficients.",
-    "crumbs": [
-      "Labs",
-      "07-Correlation Between Water Quality Indicators"
-    ]
-  },
-  {
-    "objectID": "qmd/07-correlation.html#introduction-1",
-    "href": "qmd/07-correlation.html#introduction-1",
-    "title": "07-Correlation Between Water Quality Indicators",
-    "section": "2.1 Introduction",
-    "text": "2.1 Introduction\nGiven is a number of students that passed an examination in statistics. The examination was written two times, one time before and one time after an additional series of lectures. The values represent the number of points approached during the examination. Check whether there is a dependency between the results before and after the test, i.e. if there is any dependency between the results of the final test and the basic knowledge before the course.",
-    "crumbs": [
-      "Labs",
-      "07-Correlation Between Water Quality Indicators"
-    ]
-  },
-  {
-    "objectID": "qmd/07-correlation.html#data-and-data-analysis",
-    "href": "qmd/07-correlation.html#data-and-data-analysis",
-    "title": "07-Correlation Between Water Quality Indicators",
-    "section": "2.2 Data and data analysis",
-    "text": "2.2 Data and data analysis\n\nx1 &lt;- c(69, 77, 35, 34, 87, 45, 95, 83)\nx2 &lt;- c(100, 97, 67, 42, 75, 73, 92, 97)\ncor.test(x1, x2)\n\nIf we plot this, we see a rather strange pattern, i.e. no clear linear relationship:\n\nplot(x1, x2)\n\nTherefore it may be a good idea to use the rank correlation:\n\ncor.test(x1, x2, method=\"spearman\")\n\nSometimes, we may get a warning that it “cannot compute exact p-values with ties”, then we can use another approach and compute the Spearman correlation via the Pearson correlation of ranks:\n\ncor.test(rank(x1), rank(x2))\n\nThis needs a little bit more effort (for the computer, not for us), but the interpretation is the same. To understand how this worked, it can be a good idea to create a scatterplot of the ranks of both variables.",
-    "crumbs": [
-      "Labs",
-      "07-Correlation Between Water Quality Indicators"
-    ]
-  },
-  {
-    "objectID": "qmd/07-correlation.html#exercise-and-discussion",
-    "href": "qmd/07-correlation.html#exercise-and-discussion",
-    "title": "07-Correlation Between Water Quality Indicators",
-    "section": "2.3 Exercise and Discussion",
-    "text": "2.3 Exercise and Discussion\nWhat do the results above tell us? Compare the results with a paired t-test of the same data set. Which test tells what?",
-    "crumbs": [
-      "Labs",
-      "07-Correlation Between Water Quality Indicators"
-    ]
-  },
-  {
-    "objectID": "qmd/09-clementines-anova.html",
-    "href": "qmd/09-clementines-anova.html",
-    "title": "09-Which fruits are the biggest? An ANOVA example",
-    "section": "",
-    "text": "Preface\nThe following template is intended as a starting point for a short report of an ANOVA. It is recommended to follow the general outline (Introduction, Methods, Results, Discussion), but to adapt the content to the specific needs of the analysis.\nIt is good practice to concentrate on the main findings and their discussion and to avoid unnecessary technical detail. The report should be illustrated with meaningful (and only the most important) tables and graphs.\nThe data set consists of different samples of clementine fruits from different brands and different shops. The data sets can be downloaded from\nhttps://tpetzoldt.github.io/datasets/.\nA description is found in the file clementines_info.txt.",
-    "crumbs": [
-      "Labs",
-      "09-Which fruits are the biggest? An ANOVA example"
-    ]
-  },
-  {
-    "objectID": "qmd/09-clementines-anova.html#data",
-    "href": "qmd/09-clementines-anova.html#data",
-    "title": "09-Which fruits are the biggest? An ANOVA example",
-    "section": "2.1 Data",
-    "text": "2.1 Data\n\nwrite something about the data\n\ndescribe the different samples and how they were obtained\nweight determination with a scale, length determination with a caliper (see below)\n\nread the data in:\n\n\nbrands &lt;- read.csv(\"clementines2022-brands.csv\")\nfruits &lt;- read.csv(\"clementines2022-fruits.csv\")\n\nShow the structure of the data. Use the data explorer of RStudio or the head-function, that shows the first lines of each data set. Please do not forget to report the sample size of your data!\n\ncat(\"sample size:\", nrow(fruits), \"\\n\")\nhead(fruits, n=3)\n\nLook also at the structure of brands.\nThen join the two tables and convert the brand column into a factor variable.\n\ndat &lt;- left_join(fruits, brands, by=\"brand\")\ndat$brand &lt;- factor(dat$brand)",
-    "crumbs": [
-      "Labs",
-      "09-Which fruits are the biggest? An ANOVA example"
-    ]
-  },
-  {
-    "objectID": "qmd/09-clementines-anova.html#data-analysis",
-    "href": "qmd/09-clementines-anova.html#data-analysis",
-    "title": "09-Which fruits are the biggest? An ANOVA example",
-    "section": "2.2 Data analysis",
-    "text": "2.2 Data analysis\nMention R (R Core Team, 2024) in a single sentence, cite special packages. Write that an ANOVA was performed and which methods were used in addition.",
-    "crumbs": [
-      "Labs",
-      "09-Which fruits are the biggest? An ANOVA example"
-    ]
-  },
-  {
-    "objectID": "qmd/09-clementines-anova.html#hypotheses",
-    "href": "qmd/09-clementines-anova.html#hypotheses",
-    "title": "09-Which fruits are the biggest? An ANOVA example",
-    "section": "5.1 Hypotheses",
-    "text": "5.1 Hypotheses\nIt is important to formulate clear hypotheses. Here are a few examples, related to the data set from 2019. Please think about it and define your own hypotheses, related to the current data set.\n\n\\(H_{0,1}\\): The mean weight of the fruits is the same in all samples.\n\\(H_{A,1}\\): The weight is different in any of the samples.\n\\(H_{A,2}\\): Which brand is the smallest? The mean weight of smallest sample is significantly smaller than of the 2nd samplest sample.\n\\(H_{A,3}\\): The fruits from the premium brands are bigger than corresponding basic brands.\n\nNote: Hypotheses \\(H_{A,2}\\) and \\(H_{A,3}\\) have their own, different \\(H_0\\).\nA hypothesis like \\(H_{A,3}\\) is more difficult and optional. It requires a two-way ANOVA and can only be applied to a subset of the data, where different brands from the same shops are available.",
-    "crumbs": [
-      "Labs",
-      "09-Which fruits are the biggest? An ANOVA example"
-    ]
-  },
-  {
-    "objectID": "qmd/09-clementines-anova.html#measurement-methods",
-    "href": "qmd/09-clementines-anova.html#measurement-methods",
-    "title": "09-Which fruits are the biggest? An ANOVA example",
-    "section": "5.2 Measurement methods",
-    "text": "5.2 Measurement methods\n\nWeight: was determined with a kitchen scale in gramm (g).\nHeight and Width: were measured with a caliper (Fig. 1)\n\n\n\n\n\nSize measurement with a digital caliper.",
-    "crumbs": [
-      "Labs",
-      "09-Which fruits are the biggest? An ANOVA example"
-    ]
-  },
-  {
-    "objectID": "qmd/09-clementines-anova.html#r-example-code",
-    "href": "qmd/09-clementines-anova.html#r-example-code",
-    "title": "09-Which fruits are the biggest? An ANOVA example",
-    "section": "5.3 R example code",
-    "text": "5.3 R example code\n\nThe following code is intended as a starting example. It is recommended to adapt the script to analyse the data from another year.\nDon’t forget that it is an exercise, not a serious analysis, so feel free to create your own story.\nDon’t make your report too technical, concentrate on your message.\n\n\nbrands &lt;- read.csv(\"https://tpetzoldt.github.io/datasets/data/clementines2019-brands.csv\")\nfruits &lt;- read.csv(\"https://tpetzoldt.github.io/datasets/data/clementines2019-fruits.csv\")\n\ndat &lt;- left_join(fruits, brands) # merge tables by their common colum 'Brand'\ndat$brand &lt;- factor(dat$brand)\n\nboxplot(weight ~ brand, data=dat)\n\n## the ANOVA\nm &lt;- lm(weight ~ brand, data=dat)\nanova(m)\n\n## posthoc test\nTukeyHSD(aov(m))\n\n## graphical display of Tukey's test\nplot(TukeyHSD(aov(m)), las=1, cex.axis=0.5)\n\n## graphical and numerical checks of variance homogeneity\nplot(m, which=1)\nfligner.test(weight ~ brand, data=dat)\n\n## approximate normality of residuals\nplot(m, which=2)\n\n## optional: special one-way anova alternative if variances are unequal\noneway.test(weight ~ brand, data=dat)",
-    "crumbs": [
-      "Labs",
-      "09-Which fruits are the biggest? An ANOVA example"
-    ]
-  },
-  {
-    "objectID": "qmd/09-clementines-anova.html#text-processing",
-    "href": "qmd/09-clementines-anova.html#text-processing",
-    "title": "09-Which fruits are the biggest? An ANOVA example",
-    "section": "5.4 Text processing",
-    "text": "5.4 Text processing\nThe report can, in principle, be written in any text processing software, e.g. Microsoft Word or LibreOffice Write, but I recommend to try Quarto. It needs only a little extra learning, but is an extremely efficient way to combine text and analysis with R in one document and write it directly in RStudio. A comprehensive documentation can be found on https://quarto.org/.",
-    "crumbs": [
-      "Labs",
-      "09-Which fruits are the biggest? An ANOVA example"
-    ]
-  },
-  {
-    "objectID": "qmd/09-clementines-anova.html#questions-and-literature-research",
-    "href": "qmd/09-clementines-anova.html#questions-and-literature-research",
-    "title": "09-Which fruits are the biggest? An ANOVA example",
-    "section": "5.5 Questions and literature research",
-    "text": "5.5 Questions and literature research\nPlease post questions, comments and ideas to the chat group. As the exercise is a toy example, it may be difficult to find relevant citeable literature. However, we don’t limit creativity.\nReferences",
-    "crumbs": [
-      "Labs",
-      "09-Which fruits are the biggest? An ANOVA example"
-    ]
-  },
-  {
     "objectID": "qmd/01-pivot-tables-with-libreoffice.html",
     "href": "qmd/01-pivot-tables-with-libreoffice.html",
     "title": "01-Discharge of River Elbe: Data Management with LibreOffice",
@@ -675,7 +675,7 @@
     "href": "qmd/01-pivot-tables-with-libreoffice.html#creation-of-categories",
     "title": "01-Discharge of River Elbe: Data Management with LibreOffice",
     "section": "3.2 Creation of categories",
-    "text": "3.2 Creation of categories\nIn the following, we intend to aggregate the discharge data according to certain criteria, e.g. year and month. This can be done with the “pivot table” tool, so before we can do this, we need to create additional columns with the categories.\n\n3.2.1 Date computations\nCreate the following categorical columns using formulas for date computation:\n\nyear:= YEAR(A2)\nmonth: = MONTH(A2)\nday: = DAY(A2)\nweekday: = WEEKDAY(A2)\ndoy: = A2 - DATE(YEAR(A2), 1, 1) + 1\n\nThe last formula computes thew “day of year” (doy), also called Julian day. Here DATE(YEAR(A2), 1, 1) creates a date for the first January of the respective year and then the difference (+1) between the respective day and the corresponding 1st January. The formula respects the different length of months automatically, including 29th February in leap years.\nThen fill the formulas down the column until the end of the data column.\nNote: The formulas above assume that you use LibreOffice with English user interface. If you use another language (e.g. German) or other program (e.g. Excel), then the keywords and delimiters (semi-colon instead of comma) of the formulas may be different and you have to look up for them in the function library.\n\n\n3.2.2 Pivot tables\nIn LibreOffice pivot tables are created like follows:\n\nSelect the data range for which the pivot table is to be created (including header!),\nIn the menu select Insert, Pivot Table\nSelect Source – Current selection – ok\nNow drag the appropriate items to the fields, e.g. “year” to the Column field, “month” to Row field and “discharge” to Data field.\nDouble click on “discharge” and change Function to “Average”.\nOK\n\nThat’s it, and you get the monthly average discharge values.\nTask: Repeat the same for individual years, and for all years to extract minimum and maximum discharge and find a way to show the results graphically.\n\n\n3.2.3 Average year and seasonality\nCreate a pivot table with “year” as Column fields, “doy” as Row fields and “Mean discharge” (i.e. Average) as Data fields.\nPlot all years as function of the day of year.\nThen create the some of following plots (you may need additional pivot tables):\n\na bar chart for annual discharge sums (y=annual discharge, x=year)\na bar chart with average discharge for the 12 months.\nXY (Scatter) chart for all years like example before, and in addition average discharge for all observed years as thick line. Note: here it may be necessary to copy the numbers only from the pivot table to a separate sheet (Paste special – numbers) to remove the pivot table automatism for the graphics.\nXY (Scatter) chart with confidence band. Calculate maximum, average and minimum per doy over all years 3 lines: y = discharge min / average / max, x = doy.\n\nNow interpret the results. What was 2002? Google for “Elbe river 2002”.\n\n\n3.2.4 Cumulative sum plot3\nCumulative sum plots of rainfall, discharge or temperature are useful for reservoir managers, or to classify years whether they are dry, wet, cold or warm.\nCreate a cumulative sum plot for each year by adding the discharge data (\\(Q\\)) as follows:\n\\[\\begin{align*}\nQ_{sum, 1} &= Q_1 \\\\\nQ_{sum, 2} &= Q_1 + Q_2\\\\\nQ_{sum, 3} &= Q_1 + Q_2 + Q_3\\\\\nQ_{sum, n} &= Q_1 + Q_2 + Q_3 + \\cdots + Q_n\\\\\n\\end{align*}\\]\nAnswer the following questions. Which year was:\n\nthe wettest,\nthe driest,\nhad a wet winter and a dry summer?\n\n\n\n3.2.5 Additional ideas\nThe following ideas are intended as a stimulus for own explorations of the data and creative work. Feel free just to play around with downloaded data or develop your own project.\n\nRepeat the analysis with an additional elbe.csv4 file with more years.\nDownload data from other measurement stations, e.g.\n\nfrom http://www.fgg-elbe.de/elbe-datenportal.html or\nU.S. Geological Survey http://waterdata.usgs.gov/\n\n\nand analyse the data.",
+    "text": "3.2 Creation of categories\nIn the following, we intend to aggregate the discharge data according to certain criteria, e.g. year and month. This can be done with the “pivot table” tool, so before we can do this, we need to create additional columns with the categories.\n\n3.2.1 Date computations\nCreate the following categorical columns using formulas for date computation:\n\nyear:= YEAR(A2)\nmonth: = MONTH(A2)\nday: = DAY(A2)\nweekday: = WEEKDAY(A2)\ndoy: = A2 - DATE(YEAR(A2), 1, 1) + 1\n\nThe last formula computes thew “day of year” (doy), also called Julian day. Here DATE(YEAR(A2), 1, 1) creates a date for the first January of the respective year and then the difference (+1) between the respective day and the corresponding 1st January. The formula respects the different length of months automatically, including 29th February in leap years.\nThen fill the formulas down the column until the end of the data column.\nNote: The formulas above assume that you use LibreOffice with English user interface. If you use another language (e.g. German) or other program (e.g. Excel), then the keywords and delimiters (semi-colon instead of comma) of the formulas may be different and you have to look up for them in the function library.\n\n\n3.2.2 Pivot tables\nIn LibreOffice pivot tables are created like follows:\n\nSelect the data range for which the pivot table is to be created (including header!),\nIn the menu select Insert, Pivot Table\nSelect Source – Current selection – ok\nNow drag the appropriate items to the fields, e.g. “year” to the Column field, “month” to Row field and “discharge” to Data field.\nDouble click on “discharge” and change Function to “Average”.\nOK\n\nThat’s it, and you get the monthly average discharge values.\nTask: Repeat the same for individual years, and for all years to extract minimum and maximum discharge and find a way to show the results graphically.\n\n\n3.2.3 Average year and seasonality\nCreate a pivot table with “year” as Column fields, “doy” as Row fields and “Mean discharge” (i.e. Average) as Data fields.\nPlot all years as function of the day of year.\nThen create the some of following plots (you may need additional pivot tables):\n\na bar chart for annual discharge sums (y=annual discharge, x=year)\na bar chart with average discharge for the 12 months.\nXY (Scatter) chart for all years like example before, and in addition average discharge for all observed years as thick line. Note: here it may be necessary to copy the numbers only from the pivot table to a separate sheet (Paste special – numbers) to remove the pivot table automatism for the graphics.\nXY (Scatter) chart with confidence band. Calculate maximum, average and minimum per doy over all years 3 lines: y = discharge min / average / max, x = doy.\n\nNow interpret the results. What was 2002? Google for “Elbe river 2002”.\n\n\n3.2.4 Cumulative sum plot3\nCumulative sum plots of rainfall, discharge or temperature are useful for reservoir managers, or to classify years whether they are dry, wet, cold or warm.\nCreate a cumulative sum plot for each year by adding the discharge data (\\(Q\\)) as follows:\n\\[\\begin{align*}\nQ_{sum, 1} &= Q_1 \\\\\nQ_{sum, 2} &= Q_1 + Q_2\\\\\nQ_{sum, 3} &= Q_1 + Q_2 + Q_3\\\\\nQ_{sum, n} &= Q_1 + Q_2 + Q_3 + \\cdots + Q_n\\\\\n\\end{align*}\\]\nAnswer the following questions. Which year was:\n\nthe wettest,\nthe driest,\nhad a wet winter and a dry summer?\n\n\n\n3.2.5 Additional ideas\nThe following ideas are intended as a stimulus for own explorations of the data and creative work. Feel free just to play around with downloaded data or develop your own project.\n\nRepeat the analysis with an additional elbe-1806.csv4 file with more years.\nDownload data from other measurement stations, e.g.\n\nfrom http://www.fgg-elbe.de/elbe-datenportal.html or\nU.S. Geological Survey http://waterdata.usgs.gov/\n\n\nand analyse the data.",
     "crumbs": [
       "Labs",
       "01-Discharge of River Elbe: Data Management with LibreOffice"
@@ -686,7 +686,7 @@
     "href": "qmd/01-pivot-tables-with-libreoffice.html#footnotes",
     "title": "01-Discharge of River Elbe: Data Management with LibreOffice",
     "section": "Footnotes",
-    "text": "Footnotes\n\n\nData Source: Federal Waterways and Shipping Administration (WSV), provided by the Federal Institute for Hydrology (BfG).↩︎\nFor details, see http://en.wikipedia.org/wiki/ISO_dates↩︎\noptional topic with higher difficulty↩︎\nhttps://github.com/tpetzoldt/datasets/blob/main/data/↩︎",
+    "text": "Footnotes\n\n\nData Source: Federal Waterways and Shipping Administration (WSV), provided by the Federal Institute for Hydrology (BfG).↩︎\nFor details, see http://en.wikipedia.org/wiki/ISO_dates↩︎\noptional topic with higher difficulty↩︎\nhttps://tpetzoldt.github.io/datasets/↩︎",
     "crumbs": [
       "Labs",
       "01-Discharge of River Elbe: Data Management with LibreOffice"
@@ -769,6 +769,94 @@
     "crumbs": [
       "Projects",
       "x03-Discharge of River Elbe: Homework Project"
+    ]
+  },
+  {
+    "objectID": "qmd/04-distributions-leaves.html",
+    "href": "qmd/04-distributions-leaves.html",
+    "title": "04-Distribution and Confidence Intervals of Maple Leaf Samples",
+    "section": "",
+    "text": "The example aims to demonstrate estimation and interpretation of confidence intervals. At the end, the two samples are compared with respect to variance and mean values.\nThe experimental hypotheses was, that the sampling strategy has an influence on the parameters of the distribution, i.e. that a sampling bias may occur. Here we leave it open, if the “subjective sampling” strategy prefers bigger or smaller leaves or if it has an influence on variance. The result is to be visualized with bar charts or box plots. We use only the leave width as an example, analysis of the other statistical parameters is left as an optional exercise.\nWe can now derive the following statistical hypotheses about the variance:\n\n\\(H_0\\): The variance of both samples is the same.\n\\(H_a\\): The samples have different variance.\n\nand about the mean:\n\n\\(H_0\\): The mean of both samples is the same.\n\\(H_a\\): The mean values of the samples are different.",
+    "crumbs": [
+      "Labs",
+      "04-Distribution and Confidence Intervals of Maple Leaf Samples"
+    ]
+  },
+  {
+    "objectID": "qmd/04-distributions-leaves.html#prepare-and-inspect-data",
+    "href": "qmd/04-distributions-leaves.html#prepare-and-inspect-data",
+    "title": "04-Distribution and Confidence Intervals of Maple Leaf Samples",
+    "section": "3.1 Prepare and inspect data",
+    "text": "3.1 Prepare and inspect data\nThe data set is available from your local learning management system (LMS)) (e.g. OPAL at TU Dresden) or publicly from https://raw.githubusercontent.com/tpetzoldt/datasets/main/data/leaves.csv.\n\nDownload the data set leaves.csv and use one of RStudio’s “Import Dataset” wizards.\nAlternative: use read.csv().\n\n\n#  ... do it\n\n\nplot everything, just for testing:\n\n\nplot(leaves)\n\n\nsplit table for HSE and MHYB:\n\n\nhyb &lt;- subset(leaves, group == \"HYB\")\nhse &lt;- subset(leaves, group == \"HSE\")\n\n\ncompare leaf width of both groups:\n\n\nboxplot(hse$width, hyb$width, names=c(\"HSE\", \"HYB\"))",
+    "crumbs": [
+      "Labs",
+      "04-Distribution and Confidence Intervals of Maple Leaf Samples"
+    ]
+  },
+  {
+    "objectID": "qmd/04-distributions-leaves.html#check-distribution",
+    "href": "qmd/04-distributions-leaves.html#check-distribution",
+    "title": "04-Distribution and Confidence Intervals of Maple Leaf Samples",
+    "section": "3.2 Check distribution",
+    "text": "3.2 Check distribution\n\n# use `hist`, `qqnorm`, `qqline`\n# ...",
+    "crumbs": [
+      "Labs",
+      "04-Distribution and Confidence Intervals of Maple Leaf Samples"
+    ]
+  },
+  {
+    "objectID": "qmd/04-distributions-leaves.html#sample-statistics",
+    "href": "qmd/04-distributions-leaves.html#sample-statistics",
+    "title": "04-Distribution and Confidence Intervals of Maple Leaf Samples",
+    "section": "3.3 Sample statistics",
+    "text": "3.3 Sample statistics\nIf we assume normal distribution of the data, we can estimate an approximate prediction interval from the sample parameters, i.e. in which size range are 95% of the leaves SAMPLE of one group. We first calculate mean, sd, N and se for “hse” data set:\n\nhse.mean &lt;- mean(hse$width)\nhse.sd   &lt;- sd(hse$width)\nhse.N    &lt;- length(hse$width)\nhse.se   &lt;- hse.sd/sqrt(hse.N)\n\nThen we estimate the two-sided 95% prediction interval for the sample, assuming normal distribution:\n\nhse.95 &lt;- hse.mean + c(-1.96, 1.96) * hse.sd\nhse.95\n\nInstead of using 1.96, we could also use the quantile function of the normal distribution instead, e.g. qnorm(0.975)for the upper interval or qnorm(c(0.025, 0.975)) for the lower and upper.\nIf the data set is large enough, we can compare the prediction interval from above with the empirical quantiles, i.e. take it directly from the data. Here we do not assume a normal or any other distribution.\n\nquantile(hse$width, p = c(0.025, 0.975))\n\nNow we plot the data and indicate the 95% interval:\n\nplot(hse$width)\nabline(h = hse.95, col=\"red\")\n\n… and the same as histogram:\n\nhist(hse$width)\nabline(v = hse.95, col=\"red\")\nrug(hse$width, col=\"blue\")",
+    "crumbs": [
+      "Labs",
+      "04-Distribution and Confidence Intervals of Maple Leaf Samples"
+    ]
+  },
+  {
+    "objectID": "qmd/04-distributions-leaves.html#confidence-interval-of-the-mean",
+    "href": "qmd/04-distributions-leaves.html#confidence-interval-of-the-mean",
+    "title": "04-Distribution and Confidence Intervals of Maple Leaf Samples",
+    "section": "3.4 Confidence interval of the mean",
+    "text": "3.4 Confidence interval of the mean\nThe confidence interval of the mean tells us how precise a mean value was estimated from data. If the sample size is “large enough”, the distribution of the raw data does not necessarily need to be normal, because then mean values tend to approximate a normal distribution due to the central limit theorem.\n\n3.4.1 Confidence interval of the mean for the “hse” data\n\nCalculate the confidence interval of the mean value of the “hse” data set,\nuse +/- 1.96 or (better) the quantile of the t-distribution:\n\n\nhse.ci &lt;- hse.mean + qt(p = c(0.025, 0.975), df = hse.N-1) * hse.se\n\nNow indicate the confidence interval of the mean in the histogram.\n\nabline(v = hse.ci, col=\"red\")\n\n\n\n3.4.2 Confidence interval for the mean of the “hyb” data\n\n#  Do the same for the \"hyb\" data, calculate mean, sd, N, se and ci.\n# ...\n\n\n\n3.4.3 Visualization\nInstead of a boxplot, we can also use a bar chart with confidence interval. This can be done with the add-on package gplots (not to be confused with ggplot) or with some creativity\nSolution A) with package gplots\n\nlibrary(\"gplots\")\nbarplot2(height = c(hyb.mean, hse.mean),\n         ci.l   = c(hyb.ci[1], hse.ci[1]),\n         ci.u   = c(hyb.ci[2], hse.ci[2]),\n         plot.ci = TRUE,\n         names.arg=c(\"Hyb\", \"HSE\")\n)\n\nSolution B) without add-on packages (optional)\nHere we use a standard bar chart, and line segments for the error bars. One small problem arises, because barplot creates an own x-scaling. The good news is, that barplot returns its x-scale. We can store it in a variable, e.g. x that can then be used in subsequent code.\n\nx &lt;- barplot(c(hyb.mean, hse.mean),\n  names.arg=c(\"HYB\", \"HSE\"), ylim=c(0, 150))\nsegments(x0=x[1], y0=hyb.ci[1], y1=hyb.ci[2], lwd=2)\nsegments(x0=x[2], y0=hse.ci[1], y1=hse.ci[2], lwd=2)",
+    "crumbs": [
+      "Labs",
+      "04-Distribution and Confidence Intervals of Maple Leaf Samples"
+    ]
+  },
+  {
+    "objectID": "qmd/04-distributions-leaves.html#compare-samples-with-t--and-f-test",
+    "href": "qmd/04-distributions-leaves.html#compare-samples-with-t--and-f-test",
+    "title": "04-Distribution and Confidence Intervals of Maple Leaf Samples",
+    "section": "3.5 Compare samples with t- and F-Test",
+    "text": "3.5 Compare samples with t- and F-Test\nHypotheses:\nNull: Both samples have the same mean width and variance.\nAlternative: The mean width (and possibly also the variance) differ because of more subjective sampling of HSE students. They may have prefered bigger or the nice small leaves.\n\nt.test(width ~ group, data = leaves)\n\nPerform also the classical t-test (var.equal=TRUE) and the F-test (var.test). Calculate absolute and relative effect size (mean differences) and interpret the results of all 3 tests.\n\n# var.test(...)\n# t.test(...)\n# ...",
+    "crumbs": [
+      "Labs",
+      "04-Distribution and Confidence Intervals of Maple Leaf Samples"
+    ]
+  },
+  {
+    "objectID": "qmd/04-distributions-leaves.html#calculation-of-summary-statistics-with-dplyr",
+    "href": "qmd/04-distributions-leaves.html#calculation-of-summary-statistics-with-dplyr",
+    "title": "04-Distribution and Confidence Intervals of Maple Leaf Samples",
+    "section": "4.1 Calculation of summary statistics with dplyr",
+    "text": "4.1 Calculation of summary statistics with dplyr\n\nlibrary(\"dplyr\")\nleaves &lt;- read.csv(\"leaves.csv\")\n\nstats &lt;-\n  leaves |&gt;\n    group_by(group) |&gt;\n    summarize(mean = mean(width), sd=sd(width), N=length(width), se=sd/sqrt(N),\n              lwr = mean + qt(p = 0.025, df = N-1) * se,\n              upr = mean + qt(p = 0.975, df = N-1) * se\n             )\n\nstats",
+    "crumbs": [
+      "Labs",
+      "04-Distribution and Confidence Intervals of Maple Leaf Samples"
+    ]
+  },
+  {
+    "objectID": "qmd/04-distributions-leaves.html#barchart-and-errorbars-with-ggplot2",
+    "href": "qmd/04-distributions-leaves.html#barchart-and-errorbars-with-ggplot2",
+    "title": "04-Distribution and Confidence Intervals of Maple Leaf Samples",
+    "section": "4.2 Barchart and errorbars with ggplot2",
+    "text": "4.2 Barchart and errorbars with ggplot2\n\nlibrary(\"ggplot2\")\nstats |&gt;\n  ggplot(aes(x=group, y=mean, min=lwr, max=upr))  +\n    geom_col() + geom_errorbar(width=0.2)",
+    "crumbs": [
+      "Labs",
+      "04-Distribution and Confidence Intervals of Maple Leaf Samples"
     ]
   },
   {
@@ -897,43 +985,10 @@
     "href": "qmd/06-classical-tests.html#footnotes",
     "title": "06-Classical Tests",
     "section": "Footnotes",
-    "text": "Footnotes\n\n\nfruits.csv available from: https://github.com/tpetzoldt/datasets/blob/main/data/fruits-2023-hse.csv↩︎",
+    "text": "Footnotes\n\n\nfruits.csv available from: https://tpetzoldt.github.io/datasets/data/fruits-2023-hse.csv↩︎",
     "crumbs": [
       "Labs",
       "06-Classical Tests"
-    ]
-  },
-  {
-    "objectID": "qmd/10-nonlinear-regression.html",
-    "href": "qmd/10-nonlinear-regression.html",
-    "title": "10-Nonlinear Regression",
-    "section": "",
-    "text": "The following examples demonstrate how to perform non-linear regression in R. This is quite different from linear regression, not only because the regression functions show a curve, but also due to the applied numerical techniques. While in the linear case, the coefficients of the regression line can be calculated directly (analytically) by solving a linear system of equations, iterative numerical optimization needs to be used instead.\nThis means that the coefficients are approximated step by step until convergence, beginning with start values specified by the user. There is no guarantee that an optimal solution can be found.\nThe following examples are intended as a starting point, the last example (logistic growth) is left as an exercise.\n\n\nThe first example shows an exponentially growing data set that is fitted by nonlinear least squares (nls). Here, the exponential function is given directly at the right hand side of the formula and the start values for the parameters are specified in pstart. An optional argument trace = TRUE is set to watch the progress of iteration.\nFunction predict can be used to create dense \\(x\\) and \\(y\\)-values (here: x1 and y1) for a smooth curve.\nThe statistical results of the regression are displayed with summary: parameters (\\(a\\), \\(b\\)) of the curve, standard errors and the correlation between \\(a\\) and \\(b\\). Note the optional correlation=TRUE argument. High correlations can indicate problems in model fitting, especially due to so called non-identifiablility of the parameter set.\nHere everything went through even with high correlation, because the data do not vary much around the exponential curve.\nFinally, the nonlinear coefficient of determination \\(R^2\\) can be calculated from the variances of the residuals and the original data:\n\nx &lt;- 1:10\ny &lt;- c(1.6, 1.8, 2.1, 2.8, 3.5, 4.1, 5.1, 5.8, 7.1, 9.0)\nplot(x, y)\n\npstart &lt;- c(a = 1, b = 1)\nmodel_fit &lt;- nls(y ~ a * exp(b * x), start = pstart, trace = TRUE)\nx1 &lt;- seq(1, 10, 0.1)\ny1 &lt;- predict(model_fit, data.frame(x = x1))\nlines(x1, y1, col = \"red\")\n\nsummary(model_fit, correlation = TRUE)\n\n## R squared\n1 - var(residuals(model_fit))/var(y)\n\n\n\n\nInstead of putting the regression model directly into nls it is also possible to use a user-defined function, that we call f here for example. This approach is especially useful for more complicated regression models:\n\nf &lt;- function(x, a, b) {a * exp(b * x)}\n\nplot(x, y)\n\npstart &lt;- c(a = 1, b = 1)\nmodel_fit &lt;- nls(y ~ f(x, a, b), start = pstart)\n\nx1 &lt;- seq(1, 10, 0.1)\ny1 &lt;- predict(model_fit, data.frame(x = x1))\nlines(x1, y1, col = \"red\")\nsummary(model_fit, correlation = TRUE)\n1 - var(residuals(model_fit))/var(y)",
-    "crumbs": [
-      "Labs",
-      "10-Nonlinear Regression"
-    ]
-  },
-  {
-    "objectID": "qmd/10-nonlinear-regression.html#exponential-growth",
-    "href": "qmd/10-nonlinear-regression.html#exponential-growth",
-    "title": "10-Nonlinear Regression",
-    "section": "",
-    "text": "The first example shows an exponentially growing data set that is fitted by nonlinear least squares (nls). Here, the exponential function is given directly at the right hand side of the formula and the start values for the parameters are specified in pstart. An optional argument trace = TRUE is set to watch the progress of iteration.\nFunction predict can be used to create dense \\(x\\) and \\(y\\)-values (here: x1 and y1) for a smooth curve.\nThe statistical results of the regression are displayed with summary: parameters (\\(a\\), \\(b\\)) of the curve, standard errors and the correlation between \\(a\\) and \\(b\\). Note the optional correlation=TRUE argument. High correlations can indicate problems in model fitting, especially due to so called non-identifiablility of the parameter set.\nHere everything went through even with high correlation, because the data do not vary much around the exponential curve.\nFinally, the nonlinear coefficient of determination \\(R^2\\) can be calculated from the variances of the residuals and the original data:\n\nx &lt;- 1:10\ny &lt;- c(1.6, 1.8, 2.1, 2.8, 3.5, 4.1, 5.1, 5.8, 7.1, 9.0)\nplot(x, y)\n\npstart &lt;- c(a = 1, b = 1)\nmodel_fit &lt;- nls(y ~ a * exp(b * x), start = pstart, trace = TRUE)\nx1 &lt;- seq(1, 10, 0.1)\ny1 &lt;- predict(model_fit, data.frame(x = x1))\nlines(x1, y1, col = \"red\")\n\nsummary(model_fit, correlation = TRUE)\n\n## R squared\n1 - var(residuals(model_fit))/var(y)",
-    "crumbs": [
-      "Labs",
-      "10-Nonlinear Regression"
-    ]
-  },
-  {
-    "objectID": "qmd/10-nonlinear-regression.html#regression-model-as-user-defined-function",
-    "href": "qmd/10-nonlinear-regression.html#regression-model-as-user-defined-function",
-    "title": "10-Nonlinear Regression",
-    "section": "",
-    "text": "Instead of putting the regression model directly into nls it is also possible to use a user-defined function, that we call f here for example. This approach is especially useful for more complicated regression models:\n\nf &lt;- function(x, a, b) {a * exp(b * x)}\n\nplot(x, y)\n\npstart &lt;- c(a = 1, b = 1)\nmodel_fit &lt;- nls(y ~ f(x, a, b), start = pstart)\n\nx1 &lt;- seq(1, 10, 0.1)\ny1 &lt;- predict(model_fit, data.frame(x = x1))\nlines(x1, y1, col = \"red\")\nsummary(model_fit, correlation = TRUE)\n1 - var(residuals(model_fit))/var(y)",
-    "crumbs": [
-      "Labs",
-      "10-Nonlinear Regression"
     ]
   },
   {
@@ -1047,6 +1102,61 @@
     ]
   },
   {
+    "objectID": "qmd/10-nonlinear-regression-solution.html",
+    "href": "qmd/10-nonlinear-regression-solution.html",
+    "title": "x10-Fit Nonlinear Models to Plankton Growth Data",
+    "section": "",
+    "text": "The growth rate of a population is a direct measure of fitness. Therefore, determination of growth rates is common in many disciplines of natural and human sciences, business and engineering: ecology, pharmacology, wastewater treatment, and economic growth. The following example gives a brief introduction, how growth models can be fitted wit R.",
+    "crumbs": [
+      "Solutions",
+      "x10-Fit Nonlinear Models to Plankton Growth Data"
+    ]
+  },
+  {
+    "objectID": "qmd/10-nonlinear-regression-solution.html#data-set",
+    "href": "qmd/10-nonlinear-regression-solution.html#data-set",
+    "title": "x10-Fit Nonlinear Models to Plankton Growth Data",
+    "section": "2.1 Data set",
+    "text": "2.1 Data set\nThe example data set was taken from a growth experiment in a batch culture with Microcystis aeruginosa, a cyanobacteria (blue green algae) species. Details of the experiment can be found in Jähnichen et al. (2001).\n\n## time (t)\nx &lt;- c(0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20)\n## Algae cell counts (per ml)\ny &lt;- c(0.88, 1.02, 1.43, 2.79, 4.61, 7.12,\n       6.47, 8.16, 7.28, 5.67, 6.91) * 1e6",
+    "crumbs": [
+      "Solutions",
+      "x10-Fit Nonlinear Models to Plankton Growth Data"
+    ]
+  },
+  {
+    "objectID": "qmd/10-nonlinear-regression-solution.html#methods",
+    "href": "qmd/10-nonlinear-regression-solution.html#methods",
+    "title": "x10-Fit Nonlinear Models to Plankton Growth Data",
+    "section": "2.2 Methods",
+    "text": "2.2 Methods\nParametric models are fitted using nonlinear regression according to the method of least squares. Data analysis is performed using the R software of statistical computing and graphics (R Core Team, 2021) and the nls function from package stats. An additional analysis is performed with packages growthrates (Petzoldt, 2020) and FME (Soetaert & Petzoldt, 2010).\nTo get a suitable curve, we need a model that fits the data and that has identifiable parameters. In the following, we use the logistic growth model (Verhulst, 1838):\n\\[\nN = \\frac{K \\cdot N_0}{(N_0 + (K - N_0) \\cdot \\exp(-r \\cdot x))}\n\\]\nand the Baranyi-Roberts model (Baranyi & Roberts, 1994), explained later.",
+    "crumbs": [
+      "Solutions",
+      "x10-Fit Nonlinear Models to Plankton Growth Data"
+    ]
+  },
+  {
+    "objectID": "qmd/10-nonlinear-regression-solution.html#nonlinear-regression-with-nls",
+    "href": "qmd/10-nonlinear-regression-solution.html#nonlinear-regression-with-nls",
+    "title": "x10-Fit Nonlinear Models to Plankton Growth Data",
+    "section": "3.1 Nonlinear regression with “nls”",
+    "text": "3.1 Nonlinear regression with “nls”\n\n3.1.1 Logistic Growth\nWe define now a used defined function for the logistic and this by plotting the function with the start values (blue line). Then we can use function nls (nonlinear least squares) to fit the model:\n\n## function definition\nf &lt;- function(x, r, K, N0) {K /(1 + (K/N0 - 1) * exp(-r *x))}\n\n## check of start values\nplot(x, yy, pch=16, xlab=\"time (days)\", ylab=\"algae (Mio cells)\")\nlines(x, f(x, r=r, K=max(yy), N0=yy[1]), col=\"blue\")\n\n## nonlinear regression\npstart &lt;- c(r=r, K=max(yy), N0=yy[1])\nfit_logistic   &lt;- nls(yy ~ f(x, r, K, N0), start = pstart, trace=FALSE)\n\nx1 &lt;- seq(0, 25, length = 100)\nlines(x1, predict(fit_logistic, data.frame(x = x1)), col = \"red\")\nlegend(\"topleft\",\n       legend = c(\"data\", \"start parameters\", \"fitted parameters\"),\n       col = c(\"black\", \"blue\", \"red\"),\n       lty = c(0, 1, 1),\n       pch = c(16, NA, NA))\n\n\n\n\n\n\n\nsummary(fit_logistic)\n\n\nFormula: yy ~ f(x, r, K, N0)\n\nParameters:\n   Estimate Std. Error t value Pr(&gt;|t|)    \nr    0.5682     0.1686   3.371  0.00978 ** \nK    7.0725     0.4033  17.535 1.14e-07 ***\nN0   0.1757     0.1861   0.944  0.37271    \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 0.8118 on 8 degrees of freedom\n\nNumber of iterations to convergence: 14 \nAchieved convergence tolerance: 4.018e-06\n\n(Rsquared &lt;- 1 - var(residuals(fit_logistic))/var(yy))\n\n[1] 0.931732\n\n\nWe see that the fit converged and the red line approximates the data, but we can also see that the model fit is far below the data at the beginning. This will be improved in the next section.\n\n\n3.1.2 Baranyi-Roberts model\nThe logistic function assumes, that growth starts exponentially from the beginning and then approaches more and more saturation. In reality, organisms need often some time to adapt to new conditions, and we can observe a delay at the beginnig. This delay is called lag-phase. Several models exist to describe such behavior, where the Baranyi-Roberts model (Baranyi & Roberts, 1994) is one of the most commonly used. Its parameters are similar to the logistic function with one additional parameter \\(h_0\\) for the lag. Following its mathematical equation (not shown here), we can implement it a suser-defined function in R:\n\nbaranyi &lt;- function(x, r, K, N0, h0) {\n  A &lt;- x + 1/r * log(exp(-r * x) + exp(-h0) - exp(-r * x - h0))\n  y &lt;- exp(log(N0) + r * A - log(1 + (exp(r * A) - 1)/exp(log(K) - log(N0))))\n  y\n}\n\nIf we assume a lag time \\(h_0 = 2\\), we can try to fit it and compare it with the logistic model\n\npstart &lt;- c(r=0.5, K=7, N0=1, h0=2)\nfit_baranyi   &lt;- nls(yy ~ baranyi(x, r, K, N0, h0), start = pstart, trace=FALSE)\n\nplot(x, yy, pch=16, xlab=\"time (days)\", ylab=\"algae (Mio cells)\")\nlines(x1, predict(fit_logistic, data.frame(x = x1)), col = \"red\")\nlines(x1, predict(fit_baranyi, data.frame(x = x1)), col = \"forestgreen\", lwd=2)\n\nlegend(\"topleft\",\n       legend = c(\"data\", \"logistic model\", \"Baranyi-Roberts model\"),\n       col = c(\"black\", \"red\", \"forestgreen\"),\n       lty = c(0, 1, 1),\n       pch = c(16, NA, NA))\n\n\n\n\n\n\n\n\nIt is obvious, that it fits much better.",
+    "crumbs": [
+      "Solutions",
+      "x10-Fit Nonlinear Models to Plankton Growth Data"
+    ]
+  },
+  {
+    "objectID": "qmd/10-nonlinear-regression-solution.html#growth-curve-fitting-with-r-package-growthrates",
+    "href": "qmd/10-nonlinear-regression-solution.html#growth-curve-fitting-with-r-package-growthrates",
+    "title": "x10-Fit Nonlinear Models to Plankton Growth Data",
+    "section": "3.2 Growth curve fitting with R package “growthrates”",
+    "text": "3.2 Growth curve fitting with R package “growthrates”\nAs growth curves are of fundamental importance in science and engineering, several R packages exist for this problem. Here we show one of these packages growthrates (Petzoldt, 2020). Details can be found in the package documentation.\n\n3.2.1 Maximum growth rate as steepest increase in log scale\nThe package contains a method “easy linear” to find the steepest linear increase. It is a fully automatic method employing linear regression and a search routine. Details of the algorithm are found in Hall et al. (2014).\nThe following shows the phase of steepest increase, the exponential phase, identified by linear regression using the data points with the steepest increase:\n\nlibrary(\"growthrates\")\npar(mfrow=c(1, 2))\nfit_easy &lt;- fit_easylinear(x, yy)\nplot(fit_easy, main=\"linear scale\")\nplot(fit_easy, log=\"y\", main=\"log scale\")\n\n\n\n\n\n\n\ncoef(fit_easy)\n\n       y0     y0_lm     mumax       lag \n0.8800000 0.5838576 0.2528382 1.6226381 \n\n\n\n\n3.2.2 Logistic growth\nNow we can take the start parameters from above and function fit_growthmodel using the grow_logistic function, that is pre-defined in the package. We can also use a specific plot function from the package\n\npstart &lt;- c(mumax=r, K=max(yy), y0=yy[1])\nfit_logistic2 &lt;- fit_growthmodel(grow_logistic, p=pstart, time=x, y=yy)\nplot(fit_logistic2)\n\n\n\n\n\n\n\n\n\n\n3.2.3 Baranyi-Roberts model\nWe see again that the model fits not very well at the beginning because of the lag phase. Therefore, we empoy again an extended model e.g. the Baranyi model.\nA start value for the lag phase parameter \\(h_0\\) can be approximated from the “easylinear” method:\n\ncoef(fit_easy)\n\n       y0     y0_lm     mumax       lag \n0.8800000 0.5838576 0.2528382 1.6226381 \n\nh0 &lt;- 0.25 * 1.66\n\npstart &lt;- c(mumax=0.5, K=max(yy), y0=yy[1], h0=h0)\nfit_baranyi2 &lt;- fit_growthmodel(grow_baranyi, p=pstart, time=x, y=yy)\nsummary(fit_baranyi2)\n\n\nParameters:\n      Estimate Std. Error t value Pr(&gt;|t|)    \nmumax   0.8477     0.3681   2.303   0.0547 .  \nK       6.9969     0.3499  19.999 1.96e-07 ***\ny0      0.9851     0.5250   1.876   0.1027    \nh0      4.1220     3.0894   1.334   0.2239    \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 0.7583 on 7 degrees of freedom\n\nParameter correlation:\n        mumax       K      y0      h0\nmumax  1.0000 -0.3607  0.4600  0.9635\nK     -0.3607  1.0000 -0.1030 -0.2959\ny0     0.4600 -0.1030  1.0000  0.6477\nh0     0.9635 -0.2959  0.6477  1.0000\n\n\nThe summary shows the parameter estimates, their standard error and a significance level. However, we should not take the significance stars too seriously here. If we would, for example, omit the “nonsignificant” parameters y0 and h0, or set it to zero, the models would not work anymore. We see that some parameters correlate, especially h0 and y0. This can, in principle, indicate identification problems, but this dod not happen here, fortunatly.\nFinally, we plot the results in both, linear and log scale:\n\npar(mfrow=c(1, 2))\nplot(fit_logistic2, ylim=c(0, 10), las=1)\nlines(fit_baranyi2, col=\"magenta\")\n\npoints(x, yy, pch=16, col=\"red\")\n\n## log scale\nplot(fit_logistic2, log=\"y\", ylim=c(0.2, 10), las=1)\npoints(x, yy, pch=16, col=\"red\")\nlines(fit_baranyi2, col=\"magenta\")\nlegend(\"bottomright\",\n       legend = c(\"data\", \"logistic model\", \"Baranyi model\"),\n       col = c(\"red\", \"blue\", \"magenta\"),\n       lty = c(0, 1, 1),\n       pch = c(16, NA, NA))",
+    "crumbs": [
+      "Solutions",
+      "x10-Fit Nonlinear Models to Plankton Growth Data"
+    ]
+  },
+  {
     "objectID": "qmd/12-timeseries-trends.html",
     "href": "qmd/12-timeseries-trends.html",
     "title": "12-An introductory time series example",
@@ -1124,179 +1234,69 @@
     ]
   },
   {
-    "objectID": "qmd/15-multivariate-small-streams.html",
-    "href": "qmd/15-multivariate-small-streams.html",
-    "title": "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
+    "objectID": "qmd/14-flood-risk.html",
+    "href": "qmd/14-flood-risk.html",
+    "title": "14-Extreme Value Estimation with Package FAmle",
     "section": "",
-    "text": "The aim of the following exercise is to demonstrate some important multivariate methods by example of a macrozoobenthos data set from two small streams. In some cases, several alternatives are presented, but for a real analysis one does not need to include everything. On the other hand, the methods offer further possibilities that cannot all be presented, see the online help and corresponding books and tutorials.\nThe data set used originates from a field experiment to investigate the influence of fish predation on the macrozoobenthos species composition. However, during the study period an extreme flood occurred in August and caused major morphological changes to the streams. This motivated the hypothesis that the species community has also changed.",
+    "text": "Here, it is described how to fit distributions to a given hydrological data set. Our intention here is to provide an example how easy and powerful distribution fitting can be done in R. More information can be found in Rice(2003), Hogg(2004), Coles (2001) and in the help file of package FAmle (Aucoin, 2001). For the given example, a data set from the US Geological Survey (USGS, http://waterdata.usgs.gov/nwis will be employed. The dataset consists of annual maximum daily peakflows (ft3/s) that were observed at a hydrometric station located at River James (Columbia). First the packages and the data set is loaded, then it is tested for potential trends and autocorrelation\n\n## load required packages\nlibrary(\"FAmle\")\nlibrary(\"FAdist\")\nlibrary(\"MASS\")\nlibrary(\"zoo\")\nlibrary(\"readr\")\nlibrary(\"dplyr\")\nlibrary(\"lubridate\")\n\n\n## St James River, Columbia\njamesriver &lt;- read_csv(\"jamesriver.csv\", col_types = c(\"D\", \"n\"))\n\nflow &lt;- jamesriver$flow\n\npar(mfrow=c(1, 2))\nplot(jamesriver$date, jamesriver$flow, type=\"b\", cex=0.4, pch=19, cex.axis=0.75, xlab=\"Year\", ylab=\"Flow\",\nmain=\"James River\")\nlines(lowess(jamesriver), col=\"red\")\nacf(jamesriver$flow, main=\"\")\n\n\n\n\n\n\n\nFigure 1: Time series (left) and auto-correlation plot (right) the daily flow (in ft3/s data set. The red smoothed line corresponds to a lowess fit.",
     "crumbs": [
       "Labs",
-      "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
+      "14-Extreme Value Estimation with Package FAmle"
     ]
   },
   {
-    "objectID": "qmd/15-multivariate-small-streams.html#nmds",
-    "href": "qmd/15-multivariate-small-streams.html#nmds",
-    "title": "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
-    "section": "3.1 NMDS",
-    "text": "3.1 NMDS\nWe start with an NMDS (nonmetric multidimensional scaling) of the bio-data using the Bray-Curtis dissimilarity measure. It is the default of metaMDS, but we specify it explicitly to make the selection of the dissimilarity measure clearly visible in the code. Automatic transformation is switched off. This can be changed, depending on the properties of the data, or enabled “manually” for example with wisconsin(sqrt(bio)).\nThe function metaMDS then runs the NMDS several times with different starting values to avoid local minima. For difficult data sets, it may be necessary to increase the metaparameters try and trymax, see helpfile for details.\nAfter that, we should have a look at the stress value and the stressplot.\n\nmds &lt;- metaMDS(bio, distance = \"bray\", autotransform = FALSE)\nmds\nstressplot(mds)\n\nWe can then plot the results of the NMDS-ordination.\n\nplot(mds, type = \"t\")\n\nIn order to show the influence of environmental variables, we can fit vectors or factors to the ordination. In addition to this, we can show the significance of the fitted vectors. For getting reliable p-values, I recommend to increase permu to 3999 or 9999.\n\n## fit environmental factors and perform a permutations-test\nefit &lt;- envfit(mds ~ Hochwasser + Bach + Habitat, env, permu = 999)\nefit\n\nNow, we can visualize the complete result. Grey dotted zero-lines are added to make interpretation easier.\n\nplot(mds, type = \"t\")\nplot(efit, add = TRUE)\nabline(h=0, col=\"grey\", lty=\"dotted\")\nabline(v=0, col=\"grey\", lty=\"dotted\")",
-    "crumbs": [
-      "Labs",
-      "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
-    ]
-  },
-  {
-    "objectID": "qmd/15-multivariate-small-streams.html#hierarchical-clustering",
-    "href": "qmd/15-multivariate-small-streams.html#hierarchical-clustering",
-    "title": "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
-    "section": "3.2 Hierarchical Clustering",
-    "text": "3.2 Hierarchical Clustering\nThe NMDS tries to project the distances as good as possible to a low number of dimensions, e.g. k=2 that is the default. To see the full picture of distances in multidimensional space, we may consider to apply hierarchical clustering. As agglomeration algorithm, complete, ward.D2 or ward.D can be a good choice. To improve understanding it can be a good idea to compare it with other agglomeration schemes, e.g. single.\n\nhc &lt;- hclust(vegdist(bio), method=\"ward.D\")\nplot(hc)\n\nIt is also possible, to colorize the clusters in the NMDS plot. Let’s assume we have 4 clusters, we can first indicate it in the hierarchical cluster tree with rect.hclust``, then cut the tree withcutree`.\n\nplot(hc)\nrect.hclust(hc, 4)\ngrp &lt;- cutree(hc, 4)  # assign observations to 4 groups\ngrp\n\nThe result is an assignment of the original observations to groups, that can be used to colorize the NMDS plot. It is possible to show the cluster tree directly in the nmds plot or to indicate it otherwise with, for example, ordispider, ordihull or ordiellipse\n\nplot(mds, type = \"n\")\ntext(mds$points, row.names(bio), col = grp)\n\n## optional: show cluster tree\n#ordicluster(mds, hc, col=\"blue\")\n\nExercises: Compare different agglomeration schemes, try different numbers of clusters in rect.hclust and cutree and add the fitted environmental variables in the final plot.",
-    "crumbs": [
-      "Labs",
-      "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
-    ]
-  },
-  {
-    "objectID": "qmd/15-multivariate-small-streams.html#canonical-correspondence-analysis",
-    "href": "qmd/15-multivariate-small-streams.html#canonical-correspondence-analysis",
-    "title": "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
-    "section": "3.3 Canonical Correspondence Analysis",
-    "text": "3.3 Canonical Correspondence Analysis\nAs an alternative to NMDS, we can also use CCA, that is a “constraied ordination method” and allows a more detailed numerical analysis (e.g. separatation of inertia), but is limited to \\(\\chi^2\\)-distance, while NMDS allows arbitrary distance measures, including Bray-Curtis.\n\ncc &lt;- cca(bio ~ Habitat + Bach + Hochwasser, data = env)\n#cc &lt;- cca(bio ~ ., data = env) # same. The . means all from env\ncc # print Eigenvalues\nplot(cc)\nordihull(cc, env$Habitat, col = \"blue\")   # or: ordispider, ordiellipse ...",
-    "crumbs": [
-      "Labs",
-      "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
-    ]
-  },
-  {
-    "objectID": "qmd/15-multivariate-small-streams.html#test-of-significance",
-    "href": "qmd/15-multivariate-small-streams.html#test-of-significance",
-    "title": "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
-    "section": "3.4 Test of significance",
-    "text": "3.4 Test of significance\nThe CCA supports also significance tests and model selection with ANOVA-like permutation tests.\n\n## Resampling-ANOVAs of the CCA\nanova(cc)\nanova(cc, by = \"terms\") # most useful\nanova(cc, by = \"axis\")\n\n## Model selection to find the optimal model\nstep(cc)\n\nSeveral other multivariate significance tests exist. The Adonis-Test is in particular popular, because it considers also interaction terms. It does not rely on an NMDS or CCA and works directly with a distance matrix. In order to increase its power, we may optionally consider strata. The following shows some examples.\nExercise: Try different model formulae and decide which one is most appropriate for the data set and the original hypothesis.\n\ndist &lt;- vegdist(bio, method = \"bray\")\n\nadonis2(dist ~ Hochwasser * Habitat * Bach, data = dat, by = \"terms\")\n\n## Comparison with and without strata\nadonis2(dist ~ Hochwasser * Bach, strata = env$Habitat, data = dat, by = \"terms\")\nadonis2(dist ~ Hochwasser * Bach, data = dat, by = \"terms\")",
-    "crumbs": [
-      "Labs",
-      "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
-    ]
-  },
-  {
-    "objectID": "qmd/15-multivariate-small-streams.html#dbrda-and-elimination-of-covariates",
-    "href": "qmd/15-multivariate-small-streams.html#dbrda-and-elimination-of-covariates",
-    "title": "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
-    "section": "3.5 dbRDA and elimination of covariates",
-    "text": "3.5 dbRDA and elimination of covariates\nThe following examples show further possibilities. Instead of a CCA (that uses \\(\\chi^2\\)) we can also use a so-called distance-based redundancy analysis (dbRDA), that supports arbitrary distance measures, e.g. Bray-Curtis.\nAnother option is a partial CCA or partial dbRDA where we can eliminate covariates (condtion = ...) that we are not much interested in, so that the ordination focuses on the variables we are interested in. This is the called a partial analysis (pCCA, p-dbRDA). We will then also get three kinds of eigenvalues and eigenvectors (components of the inertia).\n\n## =========================================================================\n## dbRDA, supports arbitrary dissimilarity measures\n## =========================================================================\n\ndbr &lt;- dbrda(dist ~ Habitat + Bach + Hochwasser, data = env, distance = \"bray\")\ndbr\nanova(dbr, by=\"terms\", permutations=3999)\n#summary(dbr)\nplot(dbr)\n\n## =========================================================================\n## partial CCA: elimination of covariates\n## =========================================================================\npcc &lt;- cca(bio ~ Hochwasser + Bach + Condition(Habitat), data = env)\npcc\nplot(pcc)\n\n\n## =========================================================================\n## partial dbRDA\n## =========================================================================\ndbrc &lt;- dbrda(bio ~ Hochwasser + Bach + Condition(Habitat), \n              data = env, distance = \"bray\")\ndbrc\nplot(dbrc)\n\nExercise: Apply a method that eliminates the differences between the streams and investigate whether pools and riffles behave differently.",
-    "crumbs": [
-      "Labs",
-      "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
-    ]
-  },
-  {
-    "objectID": "qmd/15-multivariate-small-streams.html#procrustes-test",
-    "href": "qmd/15-multivariate-small-streams.html#procrustes-test",
-    "title": "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
-    "section": "3.6 Procrustes test",
-    "text": "3.6 Procrustes test\nTo compare the ordinations, that we get with a different set of environmental variable and conditions, we can use the so-called Procrustes test.\n\ndbr  &lt;- dbrda(bio ~ Hochwasser + Bach + Habitat, \n              data = env, distance=\"bray\")\npdbr &lt;- dbrda(bio ~ Hochwasser + Bach + Condition(Habitat), \n              data = env, distance=\"bray\")\n\nproc &lt;- procrustes(dbr, pdbr)\nplot(proc, type = \"t\")\nprotest(dbr, pdbr)",
-    "crumbs": [
-      "Labs",
-      "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
-    ]
-  },
-  {
-    "objectID": "qmd/05-distributions-fruits-tidyverse.html",
-    "href": "qmd/05-distributions-fruits-tidyverse.html",
-    "title": "05-Distribution and Confidence Intervals of Clementines",
+    "objectID": "qmd/14-flood-risk.html#introduction",
+    "href": "qmd/14-flood-risk.html#introduction",
+    "title": "14-Extreme Value Estimation with Package FAmle",
     "section": "",
-    "text": "The example aims to demonstrate estimation and interpretation of confidence intervals. At the end, the two samples are compared with respect to variance and mean values.\nThe experimental hypotheses was, that weight and size of two samples of Clementine fruits differ. The result is to be visualized with bar charts or box plots. We use only the weight as an example, analysis of the other statistical parameters is left as an optional exercise.\nWe can now derive the following statistical hypotheses about the variance:\n\n\\(H_0\\): The variance of both samples is the same.\n\\(H_a\\): The samples have different variance.\n\nand about the mean:\n\n\\(H_0\\): The mean of both samples is the same.\n\\(H_a\\): The mean values of the samples are different.",
+    "text": "Here, it is described how to fit distributions to a given hydrological data set. Our intention here is to provide an example how easy and powerful distribution fitting can be done in R. More information can be found in Rice(2003), Hogg(2004), Coles (2001) and in the help file of package FAmle (Aucoin, 2001). For the given example, a data set from the US Geological Survey (USGS, http://waterdata.usgs.gov/nwis will be employed. The dataset consists of annual maximum daily peakflows (ft3/s) that were observed at a hydrometric station located at River James (Columbia). First the packages and the data set is loaded, then it is tested for potential trends and autocorrelation\n\n## load required packages\nlibrary(\"FAmle\")\nlibrary(\"FAdist\")\nlibrary(\"MASS\")\nlibrary(\"zoo\")\nlibrary(\"readr\")\nlibrary(\"dplyr\")\nlibrary(\"lubridate\")\n\n\n## St James River, Columbia\njamesriver &lt;- read_csv(\"jamesriver.csv\", col_types = c(\"D\", \"n\"))\n\nflow &lt;- jamesriver$flow\n\npar(mfrow=c(1, 2))\nplot(jamesriver$date, jamesriver$flow, type=\"b\", cex=0.4, pch=19, cex.axis=0.75, xlab=\"Year\", ylab=\"Flow\",\nmain=\"James River\")\nlines(lowess(jamesriver), col=\"red\")\nacf(jamesriver$flow, main=\"\")\n\n\n\n\n\n\n\nFigure 1: Time series (left) and auto-correlation plot (right) the daily flow (in ft3/s data set. The red smoothed line corresponds to a lowess fit.",
     "crumbs": [
       "Labs",
-      "05-Distribution and Confidence Intervals of Clementines"
+      "14-Extreme Value Estimation with Package FAmle"
     ]
   },
   {
-    "objectID": "qmd/05-distributions-fruits-tidyverse.html#prepare-and-inspect-data",
-    "href": "qmd/05-distributions-fruits-tidyverse.html#prepare-and-inspect-data",
-    "title": "05-Distribution and Confidence Intervals of Clementines",
-    "section": "3.1 Prepare and inspect data",
-    "text": "3.1 Prepare and inspect data\n\nDownload the data set fruits-2023-hse.csv and use one of RStudio’s “Import Dataset” wizards.\nA better alternative is to use read.csv().\nThe data set is available in OPAL1 or from: https://raw.githubusercontent.com/tpetzoldt/datasets/refs/heads/main/data/fruits-2023-hse.csv\n\n\n#  ... do it\n\n\nplot everything, just for testing:\n\n\nplot(fruits)\n\n\nsplit table for box1 and box2:\n\n\nbox1 &lt;- subset(fruits, brand == \"box1\")\nbox2 &lt;- subset(fruits, brand == \"box2\")\n\n\ncompare weight of both groups:\n\n\nboxplot(box1$weight, box2$weight, names=c(\"box1\", \"box2\"))\n\nNote: It is also possible to use boxplot with the model formula syntax. This is the preferred way, because it does not require to split the data set beforehand:\n\nboxplot(weight ~ brand, data = fruits)",
+    "objectID": "qmd/14-flood-risk.html#empirical-quantiles",
+    "href": "qmd/14-flood-risk.html#empirical-quantiles",
+    "title": "14-Extreme Value Estimation with Package FAmle",
+    "section": "2 Empirical Quantiles",
+    "text": "2 Empirical Quantiles\n\nhist(flow, probability=TRUE, xlab=\"flow (ft^3/s)\")\nrug(flow)\nlines(density(flow))\n\n\n\n\n\n\n\nFigure 2: Histogram and empirical density of peak discharge.\n\n\n\n\n\nIf the data series is long enough, one may be tempted to use empirical quantiles, i.e. model and parameter free extrapolation from the data. We use this value as a baseline for the comparison with the model derived quantiles:\n\nquantile(p=c(0.95, 0.99), flow)\n\n 95%  99% \n4589 6974",
     "crumbs": [
       "Labs",
-      "05-Distribution and Confidence Intervals of Clementines"
+      "14-Extreme Value Estimation with Package FAmle"
     ]
   },
   {
-    "objectID": "qmd/05-distributions-fruits-tidyverse.html#check-distribution",
-    "href": "qmd/05-distributions-fruits-tidyverse.html#check-distribution",
-    "title": "05-Distribution and Confidence Intervals of Clementines",
-    "section": "3.2 Check distribution",
-    "text": "3.2 Check distribution\nWe can check the shape of distribution graphically. If mean values of the samples differ much, it has to be done separately for each sample.\n\n# use `hist`, `qqnorm`, `qqline`\n# ...",
+    "objectID": "qmd/14-flood-risk.html#lognormal-distribution-with-2-parameters",
+    "href": "qmd/14-flood-risk.html#lognormal-distribution-with-2-parameters",
+    "title": "14-Extreme Value Estimation with Package FAmle",
+    "section": "3 Lognormal Distribution with 2 Parameters",
+    "text": "3 Lognormal Distribution with 2 Parameters\nThe Lognormal distribution is often regarded as a plausible model for this type of data. However, other distributions such as Weibull, Lognormal with three parameters, and Johnson distributions may provide better fitting results. We will try some of them. The parameters of the distribution are estimated using maximum likelihood by the mle function con tained in package “FAmle”, except for the Johnson distribution wich needs a different procedure. Parameters of the fitting can be obtained as follows. It is important to pay attention to goodness-of-fit parameters (log likelihood and AIC) which provide us information about how good the model explains the corresponding data set.\n\nfitLn2 &lt;- mle(x=flow, dist=\"lnorm\", start=c(0.1, 0.1))\nfitLn2\n\n-----------------------------------------\n       Maximum Likelihood Estimates\n-----------------------------------------\nData object:  flow \nDistribution:  lnorm \n\n--------- Parameter estimates -----------\n\n         meanlog.hat sdlog.hat\nEstimate       6.294    1.4878\nStd.err        0.186    0.1319\n\n---------- Goodness-of-Fit --------------\n\n log.like       aic        ad       rho \n-518.8617 1041.7234    0.9627    0.9884 \n-----------------------------------------\n\n\n\n## automatic diagnostic plots\nplot(x=fitLn2, ci=TRUE, alpha=0.05)\n\n## which probability has a flow &gt;= 3000\n##  --&gt; two functions to provide the same result:\n\n### standard R function\nplnorm(3000, meanlog=fitLn2$par.hat[1], sdlog=fitLn2$par.hat[2])\n\n[1] 0.8751862\n\n### function from the FAmle package\ndistr(x=3000, dist=\"lnorm\", param=c(fitLn2$par.hat[1], fitLn2$par.hat[2]), type=\"p\")\n\n[1] 0.8751862\n\n## same for quantile (flow &gt;= 95% quantile)\nqlnorm(p=0.95, meanlog=fitLn2$par.hat[1], sdlog=fitLn2$par.hat[2])\n\n[1] 6252.526\n\ndistr(x=0.95, dist=\"lnorm\", param=c(fitLn2$par.hat[1], fitLn2$par.hat[2]), type=\"q\")\n\n[1] 6252.526\n\n## empirical quantile\nquantile(p=0.95, flow)\n\n 95% \n4589 \n\n\n\n\n\n\n\n\nFigure 3: Plot of the mle object corresponding to the fitting James River data using a Lognormal distribution\n\n\n\n\n\nThe function mle() provides also some goodness-of-fit statistics. This function creates a special kind of object which can be used inside of the standard R functions, e.g., plot(). A function called plot.mle may be used to generate a series of four diagnosis plots (Figure 3) for the mle object. Diagnostic plots for the model fitted to the dataset. The dashed red lines correspond to the lower and upper confidence bounds (definded by alpha) of the approximated 95% confidence intervals derived using the observed Fisher’s information matrix in conjunction with the so-called delta method.\nOnce the function is fitted to a distribution, these parameters can be used to calculate different quan- tiles. In this way we can find, for example, the value of the flow which has a probability lower than 5% or which is the probability of a flooding event of a certain flow.\nNow repeat for the 99% quantile\n…\nAnd extreme floods: 1% quantile\n…\nThe probability of a peakflow of 3000 ft3/s is obtained by either function “plnorm” or “distr” like follows:\n\nplnorm(3000, meanlog=fitLn2$par.hat[1], sdlog=fitLn2$par.hat[2], lower.tail=TRUE)\n\n[1] 0.8751862\n\ndistr(x=3000, dist=\"lnorm\", param=fitLn2$par.hat, type=\"p\")\n\n[1] 0.8751862",
     "crumbs": [
       "Labs",
-      "05-Distribution and Confidence Intervals of Clementines"
+      "14-Extreme Value Estimation with Package FAmle"
     ]
   },
   {
-    "objectID": "qmd/05-distributions-fruits-tidyverse.html#sample-statistics",
-    "href": "qmd/05-distributions-fruits-tidyverse.html#sample-statistics",
-    "title": "05-Distribution and Confidence Intervals of Clementines",
-    "section": "3.3 Sample statistics",
-    "text": "3.3 Sample statistics\nIf we assume normal distribution of the data, we can estimate an approximate prediction interval from the sample parameters, i.e. in which size range we find 95% of the weights within one group.\nWe first calculate mean, sd, N and se for “box1” data set:\n\nbox1.mean &lt;- mean(box1$weight)\nbox1.sd   &lt;- sd(box1$weight)\nbox1.N    &lt;- length(box1$weight)\nbox1.se   &lt;- box1.sd/sqrt(box1.N)\n\nThen we estimate the two-sided 95% prediction interval for the sample, assuming normal distribution:\n\nbox1.95 &lt;- box1.mean + c(-1.96, 1.96) * box1.sd\nbox1.95\n\nInstead of using 1.96, we could also use the quantile function of the normal distribution instead, e.g. qnorm(0.975)for the upper interval or qnorm(c(0.025, 0.975)) for the lower and upper.\nIf the data set is large enough, we can compare the prediction interval from above with the empirical quantiles, i.e. take it directly from the data. Here we do not assume a normal or any other distribution.\n\nquantile(box1$weight, p = c(0.025, 0.975))\n\nNow we plot the data and indicate the 95% interval:\n\nplot(box1$weight)\nabline(h = box1.95, col=\"red\")\n\n… and the same as histogram:\n\nhist(box1$weight)\nabline(v = box1.95, col=\"red\")\nrug(box1$weight, col=\"blue\")",
+    "objectID": "qmd/14-flood-risk.html#lognormal-distribution-with-3-parameters",
+    "href": "qmd/14-flood-risk.html#lognormal-distribution-with-3-parameters",
+    "title": "14-Extreme Value Estimation with Package FAmle",
+    "section": "4 Lognormal Distribution with 3 Parameters",
+    "text": "4 Lognormal Distribution with 3 Parameters\nLet’s repeat the procedure for a Lognormal distribution with three parameters. In this case the package FAdist is required. Results are presented in ?@fig-mle-ln3\n\n## Fit a lognormal distribution with three parameters\nfitLn3 &lt;- mle(x=flow, dist=\"lnorm3\", start=c(0.5, 0.5, 0.5))\nfitLn3\n\n-----------------------------------------\n       Maximum Likelihood Estimates\n-----------------------------------------\nData object:  flow \nDistribution:  lnorm3 \n\n--------- Parameter estimates -----------\n\n         shape.hat scale.hat thres.hat\nEstimate    1.4640    6.3065    -1.369\nStd.err     0.1552    0.1874     5.165\n\n---------- Goodness-of-Fit --------------\n\n log.like       aic        ad       rho \n-518.5289 1043.0578    0.8941    0.9891 \n-----------------------------------------\n\n## diagnostic plots\nhist(flow, probability=TRUE)\nrug(flow)\nlines(density(flow))\nfunLn3 &lt;- function(flow) distr(x=flow, model=fitLn3, type=\"d\")\ncurve(funLn3, add=TRUE, col=\"red\")\n\nplot(x=fitLn3, ci=TRUE, alpha=0.05)\n\n## theroretical and empirical quantiles\nqlnorm3(p=0.95, shape=fitLn3$par.hat[1], scale=fitLn3$par.hat[2], thres=fitLn3$par.hat[3])\n\n[1] 6089.576\n\ndistr(x=0.95, dist=\"lnorm3\", param=c(fitLn3$par.hat[1], fitLn3$par.hat[2], fitLn3$par.hat[3]), type=\"q\")\n\n[1] 6089.576\n\nquantile(p=0.95, flow)\n\n 95% \n4589 \n\n## Fit Weibull distribution to the data\nhist(flow, probability=TRUE)\nfitW &lt;- mle(x=flow, dist=\"weibull\", start=c(0.1, 0.1))\nfitW\n\n-----------------------------------------\n       Maximum Likelihood Estimates\n-----------------------------------------\nData object:  flow \nDistribution:  weibull \n\n--------- Parameter estimates -----------\n\n         shape.hat scale.hat\nEstimate   0.82050      1070\nStd.err    0.07811       172\n\n---------- Goodness-of-Fit --------------\n\n log.like       aic        ad       rho \n-515.2496 1034.4993    0.3602    0.9681 \n-----------------------------------------\n\n## diagnostics\nfunW &lt;- function(flow) distr(x=flow, model=fitW, type=\"d\")\ncurve(funW, add=TRUE, col=\"blue\")\n\nplot(x=fitW, ci=TRUE, alpha=0.05)\n\n## quantiles\nqweibull(p=0.99, shape=fitW$par.hat[1], scale=fitW$par.hat[2])\n\n[1] 6884.165\n\ndistr(x=0.99, dist=\"weibull\", param=c(fitW$par.hat[1], fitW$par.hat[2]), type=\"q\")\n\n[1] 6884.165\n\nquantile(p=0.99, flow)\n\n 99% \n6974 \n\n## Which distribution is the best according to the AIC?\nfitLn2$aic\n\n[1] 1041.723\n\nfitLn3$aic\n\n[1] 1043.058\n\nfitW$aic\n\n[1] 1034.499\n\n\n\n\n\n\n\n\nFigure 4: Plot of the mle object corresponding to the fitting James River data using a LN3 distribution\n\n\n\n\n\n\n\n\n\n\n\nFigure 5: Plot of the mle object corresponding to the fitting James River data using a LN3 distribution\n\n\n\n\n\n\n\n\n\n\n\nFigure 6: Plot of the mle object corresponding to the fitting James River data using a LN3 distribution\n\n\n\n\n\n\n\n\n\n\n\nFigure 7: Plot of the mle object corresponding to the fitting James River data using a LN3 distribution",
     "crumbs": [
       "Labs",
-      "05-Distribution and Confidence Intervals of Clementines"
+      "14-Extreme Value Estimation with Package FAmle"
     ]
   },
   {
-    "objectID": "qmd/05-distributions-fruits-tidyverse.html#confidence-interval-of-the-mean",
-    "href": "qmd/05-distributions-fruits-tidyverse.html#confidence-interval-of-the-mean",
-    "title": "05-Distribution and Confidence Intervals of Clementines",
-    "section": "3.4 Confidence interval of the mean",
-    "text": "3.4 Confidence interval of the mean\nThe confidence interval of the mean tells us how precise a mean value was estimated from data. If the sample size is “large enough”, the distribution of the raw data does not necessarily need to be normal distributed, because then mean values tend to approximate a normal distribution due to the central limit theorem.\n\n3.4.1 Confidence interval of the mean for the “box1” data\n\nCalculate the confidence interval of the mean value of the “box1” data set,\nuse +/- 1.96 or (better) the quantile of the t-distribution:\n\n\nbox1.ci &lt;- box1.mean + qt(p = c(0.025, 0.975), df = box1.N-1) * box1.se\n\nNow indicate the confidence interval of the mean in the histogram.\n\nabline(v = box1.ci, col=\"red\")\n\n\n\n3.4.2 Confidence interval for the mean of the “box2” data\nWe could now in principle do the same as above for the “box2” sample, but this would be rather cumbersome and boring. A more efficient method from package dplyr is shown below.",
+    "objectID": "qmd/14-flood-risk.html#exercise-extreme-values-of-the-elbe-river",
+    "href": "qmd/14-flood-risk.html#exercise-extreme-values-of-the-elbe-river",
+    "title": "14-Extreme Value Estimation with Package FAmle",
+    "section": "5 Exercise: Extreme values of the Elbe river",
+    "text": "5 Exercise: Extreme values of the Elbe river\nNow load the Elbe River data from the beginning of the course and note that we need annual maximum values.\n\nelbe &lt;- read_csv(\"https://raw.githubusercontent.com/tpetzoldt/datasets/main/data/elbe.csv\", , col_types = c(\"D\", \"n\"))\n\n\n## annual maximum discharge\nelbe_annual &lt;-\n  mutate(elbe, year = year(date)) |&gt;\n  group_by(year) |&gt;\n  summarize(discharge = max(discharge))\n\nplot(discharge ~ year, data = elbe_annual)\n\n## check for trend and autocorrelation between years\nMannKendall(elbe_annual$discharge)\nacf(elbe_annual$discharge)\n\n\nfitLn3 &lt;- mle(x=elbe_annual$discharge, dist=\"lnorm3\", start=c(1, 5, 100))\nfitLn3\n\nflow &lt;- elbe_annual$discharge\n\nhist(flow, probability=TRUE, breaks = 10)\n\nrug(flow)\nlines(density(flow))\n\nxnew &lt;- seq(min(flow), max(flow), length = 100)\nfunLn3 &lt;- function(flow) distr(x=flow, model=fitLn3, type=\"d\")\nlines(xnew, funLn3(xnew), col=\"red\")\n\nImportant: The method described so far assumes stationarity of conditions, i.e. absence of meteorological and hydrological trends. Discuss, how climate warming already influences validity of the described method, and which methods need to be applied instead.",
     "crumbs": [
       "Labs",
-      "05-Distribution and Confidence Intervals of Clementines"
-    ]
-  },
-  {
-    "objectID": "qmd/05-distributions-fruits-tidyverse.html#calculation-of-summary-statistics-with-dplyr",
-    "href": "qmd/05-distributions-fruits-tidyverse.html#calculation-of-summary-statistics-with-dplyr",
-    "title": "05-Distribution and Confidence Intervals of Clementines",
-    "section": "5.1 Calculation of summary statistics with dplyr",
-    "text": "5.1 Calculation of summary statistics with dplyr\nSummarizing can be done with two functions, group_by that adds grouping information to a data frame and summarize to calculate summary statistics. In the following, we use the full data set with 4 groups.\n\nlibrary(\"dplyr\")\nfruits &lt;- read.csv(\"fruits-2023-hse.csv\")\n\nstats &lt;-\n  fruits |&gt;\n    group_by(brand) |&gt;\n    summarize(mean = mean(weight), sd=sd(weight), N=length(weight), se=sd/sqrt(N),\n              lwr = mean + qt(p = 0.025, df = N-1) * se,\n              upr = mean + qt(p = 0.975, df = N-1) * se\n             )\n\nstats",
-    "crumbs": [
-      "Labs",
-      "05-Distribution and Confidence Intervals of Clementines"
-    ]
-  },
-  {
-    "objectID": "qmd/05-distributions-fruits-tidyverse.html#barchart-and-errorbars-with-ggplot2",
-    "href": "qmd/05-distributions-fruits-tidyverse.html#barchart-and-errorbars-with-ggplot2",
-    "title": "05-Distribution and Confidence Intervals of Clementines",
-    "section": "5.2 Barchart and errorbars with ggplot2",
-    "text": "5.2 Barchart and errorbars with ggplot2\nWe can then use the table of summary statistics directly for a bar chart.\n\nlibrary(\"ggplot2\")\nstats |&gt;\n  ggplot(aes(x=brand, y=mean, min=lwr, max=upr))  +\n    geom_col() + geom_errorbar()",
-    "crumbs": [
-      "Labs",
-      "05-Distribution and Confidence Intervals of Clementines"
-    ]
-  },
-  {
-    "objectID": "qmd/05-distributions-fruits-tidyverse.html#additional-tasks",
-    "href": "qmd/05-distributions-fruits-tidyverse.html#additional-tasks",
-    "title": "05-Distribution and Confidence Intervals of Clementines",
-    "section": "5.3 Additional tasks",
-    "text": "5.3 Additional tasks\nRepeat the analysis with other properties of the fruits, e.g. width and height. Create box plots, analyse distribution, create bar charts.",
-    "crumbs": [
-      "Labs",
-      "05-Distribution and Confidence Intervals of Clementines"
-    ]
-  },
-  {
-    "objectID": "qmd/05-distributions-fruits-tidyverse.html#footnotes",
-    "href": "qmd/05-distributions-fruits-tidyverse.html#footnotes",
-    "title": "05-Distribution and Confidence Intervals of Clementines",
-    "section": "Footnotes",
-    "text": "Footnotes\n\n\nOPAL is the learning management system used at TU Dresden.↩︎",
-    "crumbs": [
-      "Labs",
-      "05-Distribution and Confidence Intervals of Clementines"
+      "14-Extreme Value Estimation with Package FAmle"
     ]
   }
 ]
