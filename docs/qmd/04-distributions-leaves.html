@@ -333,9 +333,9 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#confidence-interval-of-the-mean-for-the-hse-data" id="toc-confidence-interval-of-the-mean-for-the-hse-data" class="nav-link" data-scroll-target="#confidence-interval-of-the-mean-for-the-hse-data"><span class="header-section-number">3.4.1</span> Confidence interval of the mean for the “hse” data</a></li>
   <li><a href="#confidence-interval-for-the-mean-of-the-hyb-data" id="toc-confidence-interval-for-the-mean-of-the-hyb-data" class="nav-link" data-scroll-target="#confidence-interval-for-the-mean-of-the-hyb-data"><span class="header-section-number">3.4.2</span> Confidence interval for the mean of the “hyb” data</a></li>
-  <li><a href="#visualization" id="toc-visualization" class="nav-link" data-scroll-target="#visualization"><span class="header-section-number">3.4.3</span> Visualization</a></li>
   </ul></li>
-  <li><a href="#compare-samples-with-t--and-f-test" id="toc-compare-samples-with-t--and-f-test" class="nav-link" data-scroll-target="#compare-samples-with-t--and-f-test"><span class="header-section-number">3.5</span> Compare samples with t- and F-Test</a></li>
+  <li><a href="#comparison-of-the-samples" id="toc-comparison-of-the-samples" class="nav-link" data-scroll-target="#comparison-of-the-samples"><span class="header-section-number">3.5</span> Comparison of the samples</a></li>
+  <li><a href="#is-the-difference-between-the-samples-statistically-significant" id="toc-is-the-difference-between-the-samples-statistically-significant" class="nav-link" data-scroll-target="#is-the-difference-between-the-samples-statistically-significant"><span class="header-section-number">3.6</span> Is the difference between the samples statistically significant?</a></li>
   </ul></li>
   <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix"><span class="header-section-number">4</span> Appendix</a>
   <ul class="collapse">
@@ -380,7 +380,7 @@ leaves <- read.csv("https://raw.githubusercontent.com/tpetzoldt/datasets/main/da
 --->
 <section id="introduction" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
-<p>The example aims to demonstrate estimation and interpretation of confidence intervals. At the end, the two samples are compared with respect to variance and mean values.</p>
+<p>The example aims to demonstrate estimation and interpretation of prediction intervals and confidence intervals. At the end, the two samples are compared with respect to variance and mean values.</p>
 <p>The experimental hypotheses is, that the sampling strategy has an influence on the parameters of the distribution, i.e.&nbsp;that a sampling bias may occur. Here we leave it open, if the “subjective sampling” strategy prefers bigger or smaller leaves or if it has an influence on variance. The result is to be visualized with bar charts and box plots. We use the <strong>leave width</strong> as an example, an analysis of the other variables is left as an optional exercise.</p>
 <p>We can now derive the following statistical hypotheses <strong>about the variance:</strong></p>
 <ul>
@@ -507,6 +507,8 @@ PI = \bar{x} \pm z \cdot s
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> hse.ci, <span class="at">col=</span><span class="st">"magenta"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p><strong>Task: Comparison and interpretation</strong></p>
+<p>Explain the fundamental statistical reason why the 95% Prediction Interval (PI) for the leaf width is always significantly wider than the 95% Confidence Interval (CI) for the mean leaf width, even though both intervals are calculated from the same data set (hse).</p>
 </section>
 <section id="confidence-interval-for-the-mean-of-the-hyb-data" class="level3" data-number="3.4.2">
 <h3 data-number="3.4.2" class="anchored" data-anchor-id="confidence-interval-for-the-mean-of-the-hyb-data"><span class="header-section-number">3.4.2</span> Confidence interval for the mean of the “hyb” data</h3>
@@ -515,9 +517,10 @@ PI = \bar{x} \pm z \cdot s
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="visualization" class="level3" data-number="3.4.3">
-<h3 data-number="3.4.3" class="anchored" data-anchor-id="visualization"><span class="header-section-number">3.4.3</span> Visualization</h3>
-<p>Instead of a boxplot, we can also use a bar chart with confidence intervals.<br>
+</section>
+<section id="comparison-of-the-samples" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="comparison-of-the-samples"><span class="header-section-number">3.5</span> Comparison of the samples</h2>
+<p>To compare the two samples. we already created box plots at the beginning. Instead of a boxplot, we can also use a bar chart with confidence intervals.<br>
 This can be done with the add-on package <strong>gplots</strong> (not to be confused with <strong>ggplot</strong>):</p>
 <p><strong>Solution A) with package gplots</strong></p>
 <div class="cell">
@@ -538,12 +541,12 @@ This can be done with the add-on package <strong>gplots</strong> (not to be conf
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(<span class="at">x0=</span>x[<span class="dv">2</span>], <span class="at">y0=</span>hse.ci[<span class="dv">1</span>], <span class="at">y1=</span>hse.ci[<span class="dv">2</span>], <span class="at">lwd=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-</section>
-<section id="compare-samples-with-t--and-f-test" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="compare-samples-with-t--and-f-test"><span class="header-section-number">3.5</span> Compare samples with t- and F-Test</h2>
+<section id="is-the-difference-between-the-samples-statistically-significant" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="is-the-difference-between-the-samples-statistically-significant"><span class="header-section-number">3.6</span> Is the difference between the samples statistically significant?</h2>
+<p>In the following, we wat to compare the two samples with t- and F-Tests.</p>
 <p><strong>Hypotheses:</strong></p>
-<p><strong>Null</strong>: Both samples have the same mean width and variance.</p>
-<p><strong>Alternative:</strong> The mean width (and possibly also the variance) differ because of more subjective sampling of HSE students. They may have prefered bigger or the nice small leaves.</p>
+<p><strong><span class="math inline">\(H_0\)</span></strong>: Both samples have the same mean width and variance.</p>
+<p><strong><span class="math inline">\(H_A\)</span>:</strong> The mean width (and possibly also the variance) differ because of more subjective sampling of HSE students. They may have prefered bigger or the nice small leaves.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(width <span class="sc">~</span> group, <span class="at">data =</span> leaves)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -557,7 +560,7 @@ This can be done with the add-on package <strong>gplots</strong> (not to be conf
 </section>
 <section id="appendix" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Appendix</h1>
-<p>The following is purely optional for all who feel underchallenged or just want to learn more.</p>
+<p>The following is optional for all who feel underchallenged or just want to learn more.</p>
 <section id="calculation-of-summary-statistics-with-dplyr" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="calculation-of-summary-statistics-with-dplyr"><span class="header-section-number">4.1</span> Calculation of summary statistics with <strong>dplyr</strong></h2>
 <div class="cell">
@@ -567,12 +570,13 @@ This can be done with the add-on package <strong>gplots</strong> (not to be conf
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>stats <span class="ot">&lt;-</span></span>
 <span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  leaves <span class="sc">|&gt;</span></span>
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(group) <span class="sc">|&gt;</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(width), <span class="at">sd=</span><span class="fu">sd</span>(width), <span class="at">N=</span><span class="fu">length</span>(width), <span class="at">se=</span>sd<span class="sc">/</span><span class="fu">sqrt</span>(N),</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">lwr =</span> mean <span class="sc">+</span> <span class="fu">qt</span>(<span class="at">p =</span> <span class="fl">0.025</span>, <span class="at">df =</span> N<span class="dv">-1</span>) <span class="sc">*</span> se,</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">upr =</span> mean <span class="sc">+</span> <span class="fu">qt</span>(<span class="at">p =</span> <span class="fl">0.975</span>, <span class="at">df =</span> N<span class="dv">-1</span>) <span class="sc">*</span> se</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>             )</span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>stats</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(width), <span class="at">sd =</span> <span class="fu">sd</span>(width),</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">N =</span> <span class="fu">length</span>(width), <span class="at">se =</span> sd<span class="sc">/</span><span class="fu">sqrt</span>(N),</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">lwr =</span> mean <span class="sc">+</span> <span class="fu">qt</span>(<span class="at">p =</span> <span class="fl">0.025</span>, <span class="at">df =</span> N<span class="dv">-1</span>) <span class="sc">*</span> se,</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">upr =</span> mean <span class="sc">+</span> <span class="fu">qt</span>(<span class="at">p =</span> <span class="fl">0.975</span>, <span class="at">df =</span> N<span class="dv">-1</span>) <span class="sc">*</span> se</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>             )</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>stats</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="barchart-and-errorbars-with-ggplot2" class="level2" data-number="4.2">

@@ -21,20 +21,15 @@ library("ggplot2")
 
 # Introduction
 
-The example aims to demonstrate estimation and interpretation of confidence
-intervals. At the end, the two samples are compared with respect to variance and
-mean values.
+The example aims to demonstrate estimation and interpretation of prediction intervals and confidence intervals.
+At the end, the two samples are compared with respect to variance and mean values.
 
-The experimental hypotheses is, that the sampling strategy has an
-influence on the parameters of the distribution, i.e. that a sampling
-bias may occur.  Here we leave it open, if the "subjective sampling"
-strategy prefers bigger or smaller leaves or if it has an influence on
-variance. The result is to be visualized with bar charts and box
-plots. We use the **leave width** as an example, an analysis of the
-other variables is left as an optional exercise.
+The experimental hypotheses is, that the sampling strategy has an influence on the parameters of the distribution, i.e. that a sampling bias may occur.
+Here we leave it open, if the "subjective sampling" strategy prefers bigger or smaller leaves or if it has an influence on variance.
+The result is to be visualized with bar charts and box plots.
+We use the **leave width** as an example, an analysis of the other variables is left as an optional exercise.
 
-We can now derive the following statistical hypotheses **about the
-variance:**
+We can now derive the following statistical hypotheses **about the variance:**
 
 * $H_0$: The variance of both samples is the same.
 * $H_a$: The samples have different variance.
@@ -187,7 +182,9 @@ abline(v = hse.ci, col="magenta")
 ```
 
 
+**Task: Comparison and interpretation**
 
+Explain the fundamental statistical reason why the 95% Prediction Interval (PI) for the leaf width is always significantly wider than the 95% Confidence Interval (CI) for the mean leaf width, even though both intervals are calculated from the same data set (hse).
 
 
 ### Confidence interval for the mean of the "hyb" data
@@ -198,8 +195,9 @@ abline(v = hse.ci, col="magenta")
 # ...
 ```
 
-### Visualization
+## Comparison of the samples
 
+To compare the two samples. we already created box plots at the beginning.
 Instead of a boxplot, we can also use a bar chart with confidence intervals.  
 This can be done with the add-on package **gplots** (not to be confused with **ggplot**):
 
@@ -229,13 +227,16 @@ segments(x0=x[1], y0=hyb.ci[1], y1=hyb.ci[2], lwd=2)
 segments(x0=x[2], y0=hse.ci[1], y1=hse.ci[2], lwd=2)
 ```
 
-## Compare samples with t- and F-Test
+
+## Is the difference between the samples statistically significant?
+
+In the following, we wat to compare the two samples with t- and F-Tests.
 
 **Hypotheses:**
 
-**Null**: Both samples have the same mean width and variance.
+**$H_0$**: Both samples have the same mean width and variance.
 
-**Alternative:** The mean width (and possibly also the variance) differ because of more subjective sampling of HSE students.
+**$H_A$:** The mean width (and possibly also the variance) differ because of more subjective sampling of HSE students.
   They may have prefered bigger or the nice small leaves.
 
 ```{r }
@@ -253,7 +254,7 @@ Calculate absolute and relative effect size (mean differences) and interpret the
 
 # Appendix
 
-The following is purely optional for all who feel underchallenged or just want to learn more.
+The following is optional for all who feel underchallenged or just want to learn more.
 
 ## Calculation of summary statistics with **dplyr**
 
@@ -264,7 +265,8 @@ leaves <- read.csv("leaves.csv")
 stats <-
   leaves |>
     group_by(group) |>
-    summarize(mean = mean(width), sd=sd(width), N=length(width), se=sd/sqrt(N),
+    summarize(mean = mean(width), sd = sd(width),
+              N = length(width), se = sd/sqrt(N),
               lwr = mean + qt(p = 0.025, df = N-1) * se,
               upr = mean + qt(p = 0.975, df = N-1) * se
              )

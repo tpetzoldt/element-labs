@@ -693,39 +693,39 @@
     ]
   },
   {
-    "objectID": "00-index.html",
-    "href": "00-index.html",
+    "objectID": "index.html",
+    "href": "index.html",
     "title": "Elements of Applied Statistics – Lab Exercises",
     "section": "",
-    "text": "This website contains a collection of lab-exercises for introductory statistics courses with R. The aim is to provide insight in fundamental principles and a broad overview and enable students to select and understand particular books and online material to dig in deeper in the diverse and fascinating field of statistics.\nThe corresponding slides are found at https://tpetzoldt.github.io/elements/."
+    "text": "This website contains a collection of lab-exercises for introductory statistics courses with R. The aim is to provide insight in fundamental principles and a broad overview and to enable students to select and understand specific books and online material to dig in deeper in the diverse and fascinating field of statistics.\nThe corresponding slides are found at https://tpetzoldt.github.io/elements/."
   },
   {
-    "objectID": "00-index.html#introduction",
-    "href": "00-index.html#introduction",
+    "objectID": "index.html#introduction",
+    "href": "index.html#introduction",
     "title": "Elements of Applied Statistics – Lab Exercises",
     "section": "",
-    "text": "This website contains a collection of lab-exercises for introductory statistics courses with R. The aim is to provide insight in fundamental principles and a broad overview and enable students to select and understand particular books and online material to dig in deeper in the diverse and fascinating field of statistics.\nThe corresponding slides are found at https://tpetzoldt.github.io/elements/."
+    "text": "This website contains a collection of lab-exercises for introductory statistics courses with R. The aim is to provide insight in fundamental principles and a broad overview and to enable students to select and understand specific books and online material to dig in deeper in the diverse and fascinating field of statistics.\nThe corresponding slides are found at https://tpetzoldt.github.io/elements/."
   },
   {
-    "objectID": "00-index.html#status",
-    "href": "00-index.html#status",
+    "objectID": "index.html#status",
+    "href": "index.html#status",
     "title": "Elements of Applied Statistics – Lab Exercises",
     "section": "2 Status",
-    "text": "2 Status\nThe selection of material is work in progress. The material is updated and additional material will appear until end of January 2025. Feedback and comments are welcome."
+    "text": "2 Status\nThe selection of material is work in progress. The material will be regularly updated and improved. Feedback and comments are welcome."
   },
   {
-    "objectID": "00-index.html#related-pages",
-    "href": "00-index.html#related-pages",
+    "objectID": "index.html#related-pages",
+    "href": "index.html#related-pages",
     "title": "Elements of Applied Statistics – Lab Exercises",
     "section": "3 Related Pages",
     "text": "3 Related Pages\n\nLecture slides\nDatasets\nSource code of the exercises"
   },
   {
-    "objectID": "00-index.html#author",
-    "href": "00-index.html#author",
+    "objectID": "index.html#author",
+    "href": "index.html#author",
     "title": "Elements of Applied Statistics – Lab Exercises",
     "section": "4 Author",
-    "text": "4 Author\nhomepage +++ github\n2024-12-03"
+    "text": "4 Author\nhomepage +++ github\n2025-11-04"
   },
   {
     "objectID": "qmd/03-discharge-elbe-project.html",
@@ -776,7 +776,7 @@
     "href": "qmd/04-distributions-leaves.html",
     "title": "04-Distribution and Confidence Intervals of Maple Leaf Samples",
     "section": "",
-    "text": "The example aims to demonstrate estimation and interpretation of confidence intervals. At the end, the two samples are compared with respect to variance and mean values.\nThe experimental hypotheses is, that the sampling strategy has an influence on the parameters of the distribution, i.e. that a sampling bias may occur. Here we leave it open, if the “subjective sampling” strategy prefers bigger or smaller leaves or if it has an influence on variance. The result is to be visualized with bar charts and box plots. We use the leave width as an example, an analysis of the other variables is left as an optional exercise.\nWe can now derive the following statistical hypotheses about the variance:\n\n\\(H_0\\): The variance of both samples is the same.\n\\(H_a\\): The samples have different variance.\n\nand about the mean:\n\n\\(H_0\\): The mean of both samples is the same.\n\\(H_a\\): The mean values of the samples are different.",
+    "text": "The example aims to demonstrate estimation and interpretation of prediction intervals and confidence intervals. At the end, the two samples are compared with respect to variance and mean values.\nThe experimental hypotheses is, that the sampling strategy has an influence on the parameters of the distribution, i.e. that a sampling bias may occur. Here we leave it open, if the “subjective sampling” strategy prefers bigger or smaller leaves or if it has an influence on variance. The result is to be visualized with bar charts and box plots. We use the leave width as an example, an analysis of the other variables is left as an optional exercise.\nWe can now derive the following statistical hypotheses about the variance:\n\n\\(H_0\\): The variance of both samples is the same.\n\\(H_a\\): The samples have different variance.\n\nand about the mean:\n\n\\(H_0\\): The mean of both samples is the same.\n\\(H_a\\): The mean values of the samples are different.",
     "crumbs": [
       "Labs",
       "04-Distribution and Confidence Intervals of Maple Leaf Samples"
@@ -820,18 +820,29 @@
     "href": "qmd/04-distributions-leaves.html#confidence-interval-of-the-mean",
     "title": "04-Distribution and Confidence Intervals of Maple Leaf Samples",
     "section": "3.4 Confidence interval of the mean",
-    "text": "3.4 Confidence interval of the mean\nThe confidence interval (\\(CI\\)) of the mean tells us how precise a mean value was estimated from data. If the sample size is “large enough”, the distribution of the raw data does not necessarily need to be normal, because then mean values tend to approximate a normal distribution due to the central limit theorem.\nThe formula for the CI of the mean is: \\[CI = \\bar{x} \\pm t_{\\alpha/2, n-1} \\cdot \\frac{s}{\\sqrt{N}}\\]\n\n3.4.1 Confidence interval of the mean for the “hse” data\nTask: Calculate the confidence interval of the mean value of the “hse” data set using the quantile function (qt) of the t-distribution1:\n\nhse.ci &lt;- hse.mean + qt(p = c(0.025, 0.975), df = hse.N - 1) * hse.se\n\nNow indicate the confidence interval of the mean in the histogram.\n\nabline(v = hse.ci, col=\"magenta\")\n\n\n\n3.4.2 Confidence interval for the mean of the “hyb” data\n\n#  Do the same for the \"hyb\" data, calculate mean, sd, N, se and ci.\n# ...\n\n\n\n3.4.3 Visualization\nInstead of a boxplot, we can also use a bar chart with confidence intervals.\nThis can be done with the add-on package gplots (not to be confused with ggplot):\nSolution A) with package gplots\n\nlibrary(\"gplots\")\nbarplot2(height = c(hyb.mean, hse.mean),\n         ci.l   = c(hyb.ci[1], hse.ci[1]),\n         ci.u   = c(hyb.ci[2], hse.ci[2]),\n         plot.ci = TRUE,\n         names.arg=c(\"Hyb\", \"HSE\")\n)\n\nSolution B) without add-on packages (optional)\nHere we use a standard bar chart, and line segments for the error bars. One small problem arises, because barplot creates an own x-scaling. The good news is, that barplot returns its x-scale. We can store it in a variable, e.g. x that can then be used in subsequent code.\n\nx &lt;- barplot(c(hyb.mean, hse.mean),\n  names.arg=c(\"HYB\", \"HSE\"), ylim=c(0, 150))\nsegments(x0=x[1], y0=hyb.ci[1], y1=hyb.ci[2], lwd=2)\nsegments(x0=x[2], y0=hse.ci[1], y1=hse.ci[2], lwd=2)",
+    "text": "3.4 Confidence interval of the mean\nThe confidence interval (\\(CI\\)) of the mean tells us how precise a mean value was estimated from data. If the sample size is “large enough”, the distribution of the raw data does not necessarily need to be normal, because then mean values tend to approximate a normal distribution due to the central limit theorem.\nThe formula for the CI of the mean is: \\[CI = \\bar{x} \\pm t_{\\alpha/2, n-1} \\cdot \\frac{s}{\\sqrt{N}}\\]\n\n3.4.1 Confidence interval of the mean for the “hse” data\nTask: Calculate the confidence interval of the mean value of the “hse” data set using the quantile function (qt) of the t-distribution1:\n\nhse.ci &lt;- hse.mean + qt(p = c(0.025, 0.975), df = hse.N - 1) * hse.se\n\nNow indicate the confidence interval of the mean in the histogram.\n\nabline(v = hse.ci, col=\"magenta\")\n\nTask: Comparison and interpretation\nExplain the fundamental statistical reason why the 95% Prediction Interval (PI) for the leaf width is always significantly wider than the 95% Confidence Interval (CI) for the mean leaf width, even though both intervals are calculated from the same data set (hse).\n\n\n3.4.2 Confidence interval for the mean of the “hyb” data\n\n#  Do the same for the \"hyb\" data, calculate mean, sd, N, se and ci.\n# ...",
     "crumbs": [
       "Labs",
       "04-Distribution and Confidence Intervals of Maple Leaf Samples"
     ]
   },
   {
-    "objectID": "qmd/04-distributions-leaves.html#compare-samples-with-t--and-f-test",
-    "href": "qmd/04-distributions-leaves.html#compare-samples-with-t--and-f-test",
+    "objectID": "qmd/04-distributions-leaves.html#comparison-of-the-samples",
+    "href": "qmd/04-distributions-leaves.html#comparison-of-the-samples",
     "title": "04-Distribution and Confidence Intervals of Maple Leaf Samples",
-    "section": "3.5 Compare samples with t- and F-Test",
-    "text": "3.5 Compare samples with t- and F-Test\nHypotheses:\nNull: Both samples have the same mean width and variance.\nAlternative: The mean width (and possibly also the variance) differ because of more subjective sampling of HSE students. They may have prefered bigger or the nice small leaves.\n\nt.test(width ~ group, data = leaves)\n\nPerform also the classical t-test (var.equal=TRUE) and the F-test (var.test). Calculate absolute and relative effect size (mean differences) and interpret the results of all 3 tests.\n\n# var.test(...)\n# t.test(...)\n# ...",
+    "section": "3.5 Comparison of the samples",
+    "text": "3.5 Comparison of the samples\nTo compare the two samples. we already created box plots at the beginning. Instead of a boxplot, we can also use a bar chart with confidence intervals.\nThis can be done with the add-on package gplots (not to be confused with ggplot):\nSolution A) with package gplots\n\nlibrary(\"gplots\")\nbarplot2(height = c(hyb.mean, hse.mean),\n         ci.l   = c(hyb.ci[1], hse.ci[1]),\n         ci.u   = c(hyb.ci[2], hse.ci[2]),\n         plot.ci = TRUE,\n         names.arg=c(\"Hyb\", \"HSE\")\n)\n\nSolution B) without add-on packages (optional)\nHere we use a standard bar chart, and line segments for the error bars. One small problem arises, because barplot creates an own x-scaling. The good news is, that barplot returns its x-scale. We can store it in a variable, e.g. x that can then be used in subsequent code.\n\nx &lt;- barplot(c(hyb.mean, hse.mean),\n  names.arg=c(\"HYB\", \"HSE\"), ylim=c(0, 150))\nsegments(x0=x[1], y0=hyb.ci[1], y1=hyb.ci[2], lwd=2)\nsegments(x0=x[2], y0=hse.ci[1], y1=hse.ci[2], lwd=2)",
+    "crumbs": [
+      "Labs",
+      "04-Distribution and Confidence Intervals of Maple Leaf Samples"
+    ]
+  },
+  {
+    "objectID": "qmd/04-distributions-leaves.html#is-the-difference-between-the-samples-statistically-significant-comparision-with-t--and-f-test",
+    "href": "qmd/04-distributions-leaves.html#is-the-difference-between-the-samples-statistically-significant-comparision-with-t--and-f-test",
+    "title": "04-Distribution and Confidence Intervals of Maple Leaf Samples",
+    "section": "3.6 Is the difference between the samples statistically significant? Comparision with t- and F-Test",
+    "text": "3.6 Is the difference between the samples statistically significant? Comparision with t- and F-Test\nHypotheses:\nNull: Both samples have the same mean width and variance.\nAlternative: The mean width (and possibly also the variance) differ because of more subjective sampling of HSE students. They may have prefered bigger or the nice small leaves.\n\nt.test(width ~ group, data = leaves)\n\nPerform also the classical t-test (var.equal=TRUE) and the F-test (var.test). Calculate absolute and relative effect size (mean differences) and interpret the results of all 3 tests.\n\n# var.test(...)\n# t.test(...)\n# ...",
     "crumbs": [
       "Labs",
       "04-Distribution and Confidence Intervals of Maple Leaf Samples"
@@ -842,7 +853,7 @@
     "href": "qmd/04-distributions-leaves.html#calculation-of-summary-statistics-with-dplyr",
     "title": "04-Distribution and Confidence Intervals of Maple Leaf Samples",
     "section": "4.1 Calculation of summary statistics with dplyr",
-    "text": "4.1 Calculation of summary statistics with dplyr\n\nlibrary(\"dplyr\")\nleaves &lt;- read.csv(\"leaves.csv\")\n\nstats &lt;-\n  leaves |&gt;\n    group_by(group) |&gt;\n    summarize(mean = mean(width), sd=sd(width), N=length(width), se=sd/sqrt(N),\n              lwr = mean + qt(p = 0.025, df = N-1) * se,\n              upr = mean + qt(p = 0.975, df = N-1) * se\n             )\n\nstats",
+    "text": "4.1 Calculation of summary statistics with dplyr\n\nlibrary(\"dplyr\")\nleaves &lt;- read.csv(\"leaves.csv\")\n\nstats &lt;-\n  leaves |&gt;\n    group_by(group) |&gt;\n    summarize(mean = mean(width), sd = sd(width),\n              N = length(width), se = sd/sqrt(N),\n              lwr = mean + qt(p = 0.025, df = N-1) * se,\n              upr = mean + qt(p = 0.975, df = N-1) * se\n             )\n\nstats",
     "crumbs": [
       "Labs",
       "04-Distribution and Confidence Intervals of Maple Leaf Samples"
@@ -1319,6 +1330,17 @@
     "crumbs": [
       "Labs",
       "14-Extreme Value Estimation with Package FAmle"
+    ]
+  },
+  {
+    "objectID": "qmd/04-distributions-leaves.html#is-the-difference-between-the-samples-statistically-significant",
+    "href": "qmd/04-distributions-leaves.html#is-the-difference-between-the-samples-statistically-significant",
+    "title": "04-Distribution and Confidence Intervals of Maple Leaf Samples",
+    "section": "3.6 Is the difference between the samples statistically significant?",
+    "text": "3.6 Is the difference between the samples statistically significant?\nIn the following, we wat to compare the two samples with t- and F-Tests.\nHypotheses:\n\\(H_0\\): Both samples have the same mean width and variance.\n\\(H_A\\): The mean width (and possibly also the variance) differ because of more subjective sampling of HSE students. They may have prefered bigger or the nice small leaves.\n\nt.test(width ~ group, data = leaves)\n\nPerform also the classical t-test (var.equal=TRUE) and the F-test (var.test). Calculate absolute and relative effect size (mean differences) and interpret the results of all 3 tests.\n\n# var.test(...)\n# t.test(...)\n# ...",
+    "crumbs": [
+      "Labs",
+      "04-Distribution and Confidence Intervals of Maple Leaf Samples"
     ]
   }
 ]
