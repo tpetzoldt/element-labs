@@ -1,6 +1,6 @@
 ---
 title: "04-Distribution and Confidence Intervals of Maple Leaf Samples"
-date: '2024-10-29'
+date: '2025-11-04'
 ---
 
 ```{r setup, include=FALSE}
@@ -25,13 +25,13 @@ The example aims to demonstrate estimation and interpretation of confidence
 intervals. At the end, the two samples are compared with respect to variance and
 mean values.
 
-The experimental hypotheses was, that the sampling strategy has an
+The experimental hypotheses is, that the sampling strategy has an
 influence on the parameters of the distribution, i.e. that a sampling
 bias may occur.  Here we leave it open, if the "subjective sampling"
 strategy prefers bigger or smaller leaves or if it has an influence on
-variance. The result is to be visualized with bar charts or box
-plots. We use only the leave width as an example, analysis of the
-other statistical parameters is left as an optional exercise.
+variance. The result is to be visualized with bar charts and box
+plots. We use the **leave width** as an example, an analysis of the
+other variables is left as an optional exercise.
 
 We can now derive the following statistical hypotheses **about the
 variance:**
@@ -51,12 +51,12 @@ sampled in front of the institute building (Fig. 1).
 
 ![Fig 1.: Maple leaves in front of the institute](../img/leaves.jpg){width=50%}
 
-The two samples where collected with different sampling strategy:
+The two samples where collected with different sampling strategies:
 
  * HYB: hydrobiology group, got random sample from the supervisor
  * HSE: hydroscience group, had the freedom to collect their leaves themselves
 
-Then length, width and stalk length were measured in millimeter with a ruler 
+Then length, width and stalk length were measured in millimeters with a ruler 
 (Fig. 2) and the data collected in a spreadsheet table and a csv-file.
 
 ![Fig 2.: Sample measures of maple leaves. Note that the stalk length does not include length of the leaf blade.](../img/leaves_measures.png){width=25%}
@@ -69,12 +69,11 @@ computing and graphics [@RCore].
 
 ## Prepare and inspect data
 
-The data set is available from your local learning management system (LMS))
-(e.g. OPAL at TU Dresden) or publicly from
-[https://raw.githubusercontent.com/tpetzoldt/datasets/main/data/leaves.csv](https://raw.githubusercontent.com/tpetzoldt/datasets/main/data/leaves.csv).
+The data set is available from your local learning management system (LMS,
+e.g. OPAL at TU Dresden) or publicly from
+[https://tpetzoldt.github.io/datasets/data/leaves.csv](https://tpetzoldt.github.io/datasets/data/leaves.csv).
 
-* Download the data set `leaves.csv` and use one of RStudio's "Import
-  Dataset" wizards.
+* Download the data set `leaves.csv` and use one of RStudio's "Import Dataset" wizards.
 * Alternative: use `read.csv()`.
 
 
@@ -88,14 +87,14 @@ The data set is available from your local learning management system (LMS))
 plot(leaves)
 ```
 
-* split table for HSE and MHYB:
+First, let's apply a traditional approach and split `leaves` in two separate tables for the samples HSE and MHYB:
 
 ```{r }
 hyb <- subset(leaves, group == "HYB")
 hse <- subset(leaves, group == "HSE")
 ```
 
-* compare leaf **width** of both groups:
+* Then, compare leaf **width** of both groups graphically:
 
 ```{r }
 boxplot(hse$width, hyb$width, names=c("HSE", "HYB"))
@@ -108,11 +107,18 @@ boxplot(hse$width, hyb$width, names=c("HSE", "HYB"))
 # ...
 ```
 
-## Sample statistics
+## Sample statistics and prediction interval
 
-If we assume normal distribution of the data, we can estimate an
-approximate prediction interval from the sample parameters, i.e. in
-which size range are 95% of the leaves **SAMPLE** of one group.
+In a first analysis, we want to estimate the interval that covers 95% of leaves, defined by their width.
+As a first method, we take the **empirical quantiles** directly from the data. The method is also called "**nonparametric**," because we don't calculate mean and standard deviation and do not assume a normal or any other distribution.
+
+```{r }
+quantile(hse$width, p = c(0.025, 0.975))
+```
+
+Now, we compare this empirical result with a method that relies on a specific distribution.
+If our initial graphical visualization (e.g., the histogram) suggests the data is reasonably symmetric and bell-shaped, we can proceed with a parametric assumption.
+
 We first calculate mean, sd, N and se for "hse" data set:
 
 ```{r }
@@ -122,26 +128,25 @@ hse.N    <- length(hse$width)
 hse.se   <- hse.sd/sqrt(hse.N)
 ```
 
-Then we estimate the two-sided 95% prediction interval for the sample,
-assuming normal distribution:
+Then we estimate an approximate two-sided 95% **prediction interval** ($PI$) for the sample using a simplified approach based on the quantiles of the theoretical normal distribution ($z_{\alpha/2} \approx 1.96$) and the sample parameters mean $\bar{x}$ and standard deviation ($s$):
+
+$$
+PI = \bar{x} \pm z \cdot s
+$$
+
+This is the interval where we would predict a new single observation to fall with 95% confidence.
 
 ```{r }
 hse.95 <- hse.mean + c(-1.96, 1.96) * hse.sd
 hse.95
 ```
 
-Instead of using 1.96, we could also use the quantile function of the
-normal distribution instead, e.g. `qnorm(0.975)`for the upper interval
-or `qnorm(c(0.025, 0.975))` for the lower and upper.
+Instead of using 1.96, we could also use the quantile function `qnorm(0.975)` for the upper interval or `qnorm(c(0.025, 0.975))` for the lower and upper in parallel:
 
-
-If the data set is large enough, we can compare the prediction
-interval from above with the **empirical quantiles**, i.e. take it
-directly from the data. Here we do not assume a normal or any other
-distribution.
 
 ```{r }
-quantile(hse$width, p = c(0.025, 0.975))
+hse.95 <- hse.mean + qnorm(c(0.025, 0.975)) * hse.sd
+hse.95
 ```
 
 Now we plot the data and indicate the 95% interval:
@@ -159,28 +164,31 @@ abline(v = hse.95, col="red")
 rug(hse$width, col="blue")
 ```
 
+
 ## Confidence interval of the mean
 
-The **confidence interval** of the mean tells us how precise a mean
-value was estimated from data.  If the sample size is "large enough",
-the distribution of the raw data does not necessarily need to be
-normal, because then mean values tend to approximate a normal
-distribution due to the central limit theorem.
+The **confidence interval** ($CI$) of the mean tells us how precise a mean value was estimated from data.
+If the sample size is "large enough", the distribution of the raw data does not necessarily need to be normal, because then mean values tend to approximate a normal distribution due to the **central limit theorem**.
+
+The formula for the CI of the mean is: $$CI = \bar{x} \pm t_{\alpha/2, n-1} \cdot \frac{s}{\sqrt{N}}$$
 
 ### Confidence interval of the mean for the "hse" data
 
-* Calculate the confidence interval of the mean value of the "hse" data set,
-* use +/- 1.96 or (better) the quantile of the t-distribution:
+**Task:** Calculate the confidence interval of the mean value of the "hse" data set using the quantile function (`qt`) of the t-distribution^[as the sample size is not too small, you may also compare this with 1.96 or 2.0]:
 
 ```{r }
-hse.ci <- hse.mean + qt(p = c(0.025, 0.975), df = hse.N-1) * hse.se
+hse.ci <- hse.mean + qt(p = c(0.025, 0.975), df = hse.N - 1) * hse.se
 ```
 
 Now indicate the confidence interval of the mean in the histogram.
 
 ```{r eval=FALSE}
-abline(v = hse.ci, col="red")
+abline(v = hse.ci, col="magenta")
 ```
+
+
+
+
 
 ### Confidence interval for the mean of the "hyb" data
 
@@ -192,9 +200,8 @@ abline(v = hse.ci, col="red")
 
 ### Visualization
 
-Instead of a boxplot, we can also use a bar chart with confidence
-interval.  This can be done with the add-on package **gplots** (not to
-be confused with **ggplot**) or with some creativity
+Instead of a boxplot, we can also use a bar chart with confidence intervals.  
+This can be done with the add-on package **gplots** (not to be confused with **ggplot**):
 
 **Solution A) with package gplots**
 
@@ -210,10 +217,10 @@ barplot2(height = c(hyb.mean, hse.mean),
 
 **Solution B) without add-on packages (optional)**
 
-Here we use a standard bar chart, and line segments for the error bars. One small
-problem arises, because `barplot` creates an own x-scaling. The good news is,
-that `barplot` returns its x-scale. We can store it in a variable, e.g. `x` that
-can then be used in subsequent code.
+Here we use a standard bar chart, and line segments for the error bars.
+One small problem arises, because `barplot` creates an own x-scaling.
+The good news is, that `barplot` returns its x-scale.
+We can store it in a variable, e.g. `x` that can then be used in subsequent code.
 
 ```{r }
 x <- barplot(c(hyb.mean, hse.mean),
@@ -228,17 +235,15 @@ segments(x0=x[2], y0=hse.ci[1], y1=hse.ci[2], lwd=2)
 
 **Null**: Both samples have the same mean width and variance.
 
-**Alternative:** The mean width (and possibly also the variance)
-  differ because of more subjective sampling of HSE students. They may
-  have prefered bigger or the nice small leaves.
+**Alternative:** The mean width (and possibly also the variance) differ because of more subjective sampling of HSE students.
+  They may have prefered bigger or the nice small leaves.
 
 ```{r }
 t.test(width ~ group, data = leaves)
 ```
 
-Perform also the classical t-test (`var.equal=TRUE`) and the F-test
-(`var.test`).  Calculate absolute and relative effect size (mean
-differences) and interpret the results of all 3 tests.
+Perform also the classical t-test (`var.equal=TRUE`) and the F-test (`var.test`).
+Calculate absolute and relative effect size (mean differences) and interpret the results of all 3 tests.
 
 ```{r }
 # var.test(...)
@@ -246,10 +251,9 @@ differences) and interpret the results of all 3 tests.
 # ...
 ```
 
-# Appendix: Summary statistics and CI with **tidyverse**
+# Appendix
 
-The following is purely optional for all who feel underchallenged or
-just want to learn more.
+The following is purely optional for all who feel underchallenged or just want to learn more.
 
 ## Calculation of summary statistics with **dplyr**
 
@@ -276,6 +280,18 @@ stats |>
   ggplot(aes(x=group, y=mean, min=lwr, max=upr))  +
     geom_col() + geom_errorbar(width=0.2)
 ```
+
+##  A footnote about prediction intervals
+
+The simplified $\bar{x} \pm z \cdot s$ formula used above is an approximation. A statistically rigorous 95% prediction interval, especially for smaller samples, needs two corrections.
+
+First, we would use the **t-distribution** with the quantile $t_{\alpha/2, n-1}$ (or `qt(alpha/2, n-1)` in R) instead of the normal quantiles ($\pm 1.96$). Then we add a term $\sqrt{1+1/N}$ that corrects for the sample parameters. The full formula for a single future observation is then:
+
+$$\text{PI} = \bar{x} \pm t_{\alpha/2, n-1} \cdot s \cdot \sqrt{1 + \frac{1}{N}}$$
+
+The prediction interval is related to the so-called "tolerance interval". Both are the same if the population parameters $\mu, \sigma$ are known or the sample size is very big. However, there are theoretical and practical differences in case of small sample size.
+
+
 
 # References
 
