@@ -46,7 +46,7 @@ sampled in front of the institute building (Fig. 1).
 
 ![Fig 1.: Maple leaves in front of the institute](../img/leaves.jpg){width=50%}
 
-The two samples where collected with different sampling strategies:
+The two samples were collected with different sampling strategies:
 
  * HYB: hydrobiology group, got random sample from the supervisor
  * HSE: hydroscience group, had the freedom to collect their leaves themselves
@@ -82,7 +82,7 @@ e.g. OPAL at TU Dresden) or publicly from
 plot(leaves)
 ```
 
-First, let's apply a traditional approach and split `leaves` in two separate tables for the samples HSE and MHYB:
+* First, let's apply a traditional approach and split `leaves` in two separate tables for the samples HSE and MHYB:
 
 ```{r }
 hyb <- subset(leaves, group == "HYB")
@@ -181,12 +181,6 @@ Now indicate the confidence interval of the mean in the histogram.
 abline(v = hse.ci, col="magenta")
 ```
 
-
-**Task: Comparison and interpretation**
-
-Explain the fundamental statistical reason why the 95% Prediction Interval (PI) for the leaf width is always significantly wider than the 95% Confidence Interval (CI) for the mean leaf width, even though both intervals are calculated from the same data set (hse).
-
-
 ### Confidence interval for the mean of the "hyb" data
 
 
@@ -194,6 +188,11 @@ Explain the fundamental statistical reason why the 95% Prediction Interval (PI) 
 #  Do the same for the "hyb" data, calculate mean, sd, N, se and ci.
 # ...
 ```
+
+### Discussion: Comparison and interpretation
+
+Explain the fundamental statistical reason why the 95% Prediction Interval (PI) for the leaf width is always significantly wider than the 95% Confidence Interval (CI) for the mean leaf width, even though both intervals are calculated from the same data set (hse).
+
 
 ## Comparison of the samples
 
@@ -230,7 +229,7 @@ segments(x0=x[2], y0=hse.ci[1], y1=hse.ci[2], lwd=2)
 
 ## Is the difference between the samples statistically significant?
 
-In the following, we wat to compare the two samples with t- and F-Tests.
+In the following, we compare the two samples with t- and F-Tests.
 
 **Hypotheses:**
 

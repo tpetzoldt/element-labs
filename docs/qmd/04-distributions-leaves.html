@@ -333,6 +333,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#confidence-interval-of-the-mean-for-the-hse-data" id="toc-confidence-interval-of-the-mean-for-the-hse-data" class="nav-link" data-scroll-target="#confidence-interval-of-the-mean-for-the-hse-data"><span class="header-section-number">3.4.1</span> Confidence interval of the mean for the “hse” data</a></li>
   <li><a href="#confidence-interval-for-the-mean-of-the-hyb-data" id="toc-confidence-interval-for-the-mean-of-the-hyb-data" class="nav-link" data-scroll-target="#confidence-interval-for-the-mean-of-the-hyb-data"><span class="header-section-number">3.4.2</span> Confidence interval for the mean of the “hyb” data</a></li>
+  <li><a href="#discussion-comparison-and-interpretation" id="toc-discussion-comparison-and-interpretation" class="nav-link" data-scroll-target="#discussion-comparison-and-interpretation"><span class="header-section-number">3.4.3</span> Discussion: Comparison and interpretation</a></li>
   </ul></li>
   <li><a href="#comparison-of-the-samples" id="toc-comparison-of-the-samples" class="nav-link" data-scroll-target="#comparison-of-the-samples"><span class="header-section-number">3.5</span> Comparison of the samples</a></li>
   <li><a href="#is-the-difference-between-the-samples-statistically-significant" id="toc-is-the-difference-between-the-samples-statistically-significant" class="nav-link" data-scroll-target="#is-the-difference-between-the-samples-statistically-significant"><span class="header-section-number">3.6</span> Is the difference between the samples statistically significant?</a></li>
@@ -402,7 +403,7 @@ leaves <- read.csv("https://raw.githubusercontent.com/tpetzoldt/datasets/main/da
 <figcaption>Fig 1.: Maple leaves in front of the institute</figcaption>
 </figure>
 </div>
-<p>The two samples where collected with different sampling strategies:</p>
+<p>The two samples were collected with different sampling strategies:</p>
 <ul>
 <li>HYB: hydrobiology group, got random sample from the supervisor</li>
 <li>HSE: hydroscience group, had the freedom to collect their leaves themselves</li>
@@ -434,7 +435,9 @@ leaves <- read.csv("https://raw.githubusercontent.com/tpetzoldt/datasets/main/da
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(leaves)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>First, let’s apply a traditional approach and split <code>leaves</code> in two separate tables for the samples HSE and MHYB:</p>
+<ul>
+<li>First, let’s apply a traditional approach and split <code>leaves</code> in two separate tables for the samples HSE and MHYB:</li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>hyb <span class="ot">&lt;-</span> <span class="fu">subset</span>(leaves, group <span class="sc">==</span> <span class="st">"HYB"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>hse <span class="ot">&lt;-</span> <span class="fu">subset</span>(leaves, group <span class="sc">==</span> <span class="st">"HSE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -507,8 +510,6 @@ PI = \bar{x} \pm z \cdot s
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> hse.ci, <span class="at">col=</span><span class="st">"magenta"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><strong>Task: Comparison and interpretation</strong></p>
-<p>Explain the fundamental statistical reason why the 95% Prediction Interval (PI) for the leaf width is always significantly wider than the 95% Confidence Interval (CI) for the mean leaf width, even though both intervals are calculated from the same data set (hse).</p>
 </section>
 <section id="confidence-interval-for-the-mean-of-the-hyb-data" class="level3" data-number="3.4.2">
 <h3 data-number="3.4.2" class="anchored" data-anchor-id="confidence-interval-for-the-mean-of-the-hyb-data"><span class="header-section-number">3.4.2</span> Confidence interval for the mean of the “hyb” data</h3>
@@ -516,6 +517,10 @@ PI = \bar{x} \pm z \cdot s
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#  Do the same for the "hyb" data, calculate mean, sd, N, se and ci.</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="discussion-comparison-and-interpretation" class="level3" data-number="3.4.3">
+<h3 data-number="3.4.3" class="anchored" data-anchor-id="discussion-comparison-and-interpretation"><span class="header-section-number">3.4.3</span> Discussion: Comparison and interpretation</h3>
+<p>Explain the fundamental statistical reason why the 95% Prediction Interval (PI) for the leaf width is always significantly wider than the 95% Confidence Interval (CI) for the mean leaf width, even though both intervals are calculated from the same data set (hse).</p>
 </section>
 </section>
 <section id="comparison-of-the-samples" class="level2" data-number="3.5">
@@ -543,7 +548,7 @@ This can be done with the add-on package <strong>gplots</strong> (not to be conf
 </section>
 <section id="is-the-difference-between-the-samples-statistically-significant" class="level2" data-number="3.6">
 <h2 data-number="3.6" class="anchored" data-anchor-id="is-the-difference-between-the-samples-statistically-significant"><span class="header-section-number">3.6</span> Is the difference between the samples statistically significant?</h2>
-<p>In the following, we wat to compare the two samples with t- and F-Tests.</p>
+<p>In the following, we compare the two samples with t- and F-Tests.</p>
 <p><strong>Hypotheses:</strong></p>
 <p><strong><span class="math inline">\(H_0\)</span></strong>: Both samples have the same mean width and variance.</p>
 <p><strong><span class="math inline">\(H_A\)</span>:</strong> The mean width (and possibly also the variance) differ because of more subjective sampling of HSE students. They may have prefered bigger or the nice small leaves.</p>
