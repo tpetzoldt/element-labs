@@ -743,7 +743,7 @@
     "href": "qmd/03-discharge-elbe-project.html#communicate-in-your-team-with-other-teams-and-with-tutors",
     "title": "x03-Discharge of River Elbe: Homework Project",
     "section": "3.1 Communicate in your team, with other teams and with tutors",
-    "text": "3.1 Communicate in your team, with other teams and with tutors\nCommunicate results and ideas in your team and also with other teams and with the tutors. It is a good idea to speak (or email) with your collegues first, then collect material and create a first version (this is often longer as the 5 pages).\nThen discuss and improve the result, select the most important parts and create the final version.\nCommunication can be done in person or in the Matrix1 chat group. The idea of the chat group is that all (= “the community”) can learn from each other. Private communication channels for teamwork are of course allowed, just find an agreement what fits your needs best. If you want, it is also possible to create separate communication channels in OPAL2 or in the Matrix for your group.\nIf you ask in the forum or the Matrix, please formulate specific questions and not only “this is my result, is this correct”. Good examples will hopefully develop during the work. Please feel free to post questions and contribute to the answers.",
+    "text": "3.1 Communicate in your team, with other teams and with tutors\n\nPrimary Goal: Communication should promote community learning. Post approaches and specific questions in the Matrix chat group so everyone can benefit.\nTeamwork: Discuss ideas within your team and with other colleagues first. Private channels for teamwork are allowed.\n\n\n3.1.1 Workflow\n\nDraft: draft your report. The first draft is usually somewhat longer.\nRefine: Discuss and select only the most important parts, and create the final version adhering to the page limit.\nAsk questions:\n\nIn the chatroom, please formulate specific questions (e.g., “How to format the numbers on a log-transformed axis?”) and avoid asking only, “Is this correct?”\nContribute: Actively contribute to answering your classmates’ questions!",
     "crumbs": [
       "Projects",
       "x03-Discharge of River Elbe: Homework Project"
@@ -1341,6 +1341,61 @@
     "crumbs": [
       "Labs",
       "04-Distribution and Confidence Intervals of Maple Leaf Samples"
+    ]
+  },
+  {
+    "objectID": "qmd/03-discharge-elbe-project.html#report-formatting-instructions",
+    "href": "qmd/03-discharge-elbe-project.html#report-formatting-instructions",
+    "title": "x03-Discharge of River Elbe: Homework Project",
+    "section": "3.3 Report formatting instructions",
+    "text": "3.3 Report formatting instructions\nTo ensure clarity and efficiency, please adhere to the following strict page limits and formatting guidelines.\n\n3.3.1 Page limits and content focus\n\nCore Content Limit: The main body of the report (Introduction, Methods & Results, Discussion) must not exceed 4 A4 pages.\nThis limit forces you to distill the essential messages and choose only the most important figures.\nThe Title Page (Cover Sheet) and the List of References do not count towards the 4-page limit.\nQuality First: The goal is Quality instead of quantity! Use the limited space to focus on the interpretation and discussion of your findings.\n\n\n\n3.3.2 Text and visual balance\n\nThe report must have a good balance between explanatory text and supporting figures/tables.\nAvoid reports that are dominated by either large amounts of text or excessive, unexplained graphics.\nSelectivity: Only include figures and statistical output that are essential to support your claims in the text. Avoid “dumping” unnecessary output.\n\n\n\n3.3.3 Readability and citation standards\n\nUse a font size of 11 or 12 points.\nA line spacing of 1.2 lines is recommended to improve readability.\nFigures: font size of annotations must be well readable.\nCitation: Cite literature properly using the author-year style. Good examples can be found at the APA style web page.",
+    "crumbs": [
+      "Projects",
+      "x03-Discharge of River Elbe: Homework Project"
+    ]
+  },
+  {
+    "objectID": "qmd/03-discharge-elbe-project.html#workflow",
+    "href": "qmd/03-discharge-elbe-project.html#workflow",
+    "title": "x03-Discharge of River Elbe: Homework Project",
+    "section": "3.2 Workflow",
+    "text": "3.2 Workflow\n\nDraft: draft your report. The first draft is usually somewhat longer.\nRefine: Discuss and select only the most important parts, and create the final version adhering to the page limit.\n\nCommunicate in your team, with other teams and with tutors\n\nPrimary Goal: Communication should promote community learning. Post approaches and specific questions in the Matrix^Matrix chat group so everyone can benefit.\nTeamwork: Discuss ideas within your team and with other colleagues first. Private channels for teamwork are allowed.\nIn the chatroom, please formulate specific questions (e.g., “How to format the numbers on a log-transformed axis?”) and avoid asking only, “Is this correct?”\nContribute: Actively contribute to answering your classmates’ questions!",
+    "crumbs": [
+      "Projects",
+      "x03-Discharge of River Elbe: Homework Project"
+    ]
+  },
+  {
+    "objectID": "qmd/03-discharge-elbe-project.html#text-and-visual-balance",
+    "href": "qmd/03-discharge-elbe-project.html#text-and-visual-balance",
+    "title": "x03-Discharge of River Elbe: Homework Project",
+    "section": "3.4 Text and visual balance",
+    "text": "3.4 Text and visual balance\n\nThe report must have a good balance between explanatory text and supporting figures/tables.\nAvoid reports that are dominated by either large amounts of text or excessive, unexplained graphics.\nSelectivity: Only include figures and statistical output that are essential to support your claims in the text. Avoid “dumping” unnecessary output.\n\n\n3.4.1 Readability and citation standards\n\nUse a font size of 11 or 12 points.\nA line spacing of 1.2 lines is recommended to improve readability.\nFigures: font size of annotations must be well readable.\nCitation: Cite literature properly using the author-year style. Good examples can be found at the APA style web page.\n\n\n\n3.4.2 Submission\nYou will have 2.5 weeks time for the preparation of the report. Then upload it as PDF or HTML document and (optionally) your .R or Quarto (.qmd) scripts to the File folder of your group in the OPAL learning management system. Submissions after the deadline cannot be considered.",
+    "crumbs": [
+      "Projects",
+      "x03-Discharge of River Elbe: Homework Project"
+    ]
+  },
+  {
+    "objectID": "qmd/03-discharge-elbe-project.html#outline",
+    "href": "qmd/03-discharge-elbe-project.html#outline",
+    "title": "x03-Discharge of River Elbe: Homework Project",
+    "section": "3.1 Outline",
+    "text": "3.1 Outline\nCombine all tasks together and tell a story, using a standard scientific outline, the so-called IMRAD scheme:\n\nIntroduction\nMethods\nResults\nDiscussion\nReferences\n\nPlease consult Wikipedia for a detailed explanation.\nAs it is a tiny report, Methods and Results may be merged in this case. However, Introduction and Discussion must be separated. Use the internet and find about 2-3 literature references for the Discussion.",
+    "crumbs": [
+      "Projects",
+      "x03-Discharge of River Elbe: Homework Project"
+    ]
+  },
+  {
+    "objectID": "qmd/03-discharge-elbe-project.html#submission",
+    "href": "qmd/03-discharge-elbe-project.html#submission",
+    "title": "x03-Discharge of River Elbe: Homework Project",
+    "section": "3.4 Submission",
+    "text": "3.4 Submission\nYou will have 2.5 weeks time for the preparation of the report. Then upload it as PDF or HTML document and (optionally) your .R or Quarto (.qmd) scripts to the File folder of your group in the OPAL learning management system. Submissions after the deadline cannot be considered.",
+    "crumbs": [
+      "Projects",
+      "x03-Discharge of River Elbe: Homework Project"
     ]
   }
 ]

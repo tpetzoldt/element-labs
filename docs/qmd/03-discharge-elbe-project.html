@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2024-11-15">
+<meta name="dcterms.date" content="2025-11-18">
 
 <title>x03-Discharge of River Elbe: Homework Project – Elements of Data Analysis and Statistics - Lab Exercises</title>
 <style>
@@ -272,8 +272,15 @@ window.Quarto = {
   <li><a href="#task-2-dry-and-wet-years" id="toc-task-2-dry-and-wet-years" class="nav-link" data-scroll-target="#task-2-dry-and-wet-years"><span class="header-section-number">2</span> Task 2: Dry and wet years</a></li>
   <li><a href="#outline-and-formal-requirements" id="toc-outline-and-formal-requirements" class="nav-link" data-scroll-target="#outline-and-formal-requirements"><span class="header-section-number">3</span> Outline and formal requirements</a>
   <ul class="collapse">
-  <li><a href="#communicate-in-your-team-with-other-teams-and-with-tutors" id="toc-communicate-in-your-team-with-other-teams-and-with-tutors" class="nav-link" data-scroll-target="#communicate-in-your-team-with-other-teams-and-with-tutors"><span class="header-section-number">3.1</span> Communicate in your team, with other teams and with tutors</a></li>
-  <li><a href="#technical-recommendations" id="toc-technical-recommendations" class="nav-link" data-scroll-target="#technical-recommendations"><span class="header-section-number">3.2</span> Technical recommendations</a></li>
+  <li><a href="#outline" id="toc-outline" class="nav-link" data-scroll-target="#outline"><span class="header-section-number">3.1</span> Outline</a></li>
+  <li><a href="#workflow" id="toc-workflow" class="nav-link" data-scroll-target="#workflow"><span class="header-section-number">3.2</span> Workflow</a></li>
+  <li><a href="#report-formatting-instructions" id="toc-report-formatting-instructions" class="nav-link" data-scroll-target="#report-formatting-instructions"><span class="header-section-number">3.3</span> Report formatting instructions</a>
+  <ul class="collapse">
+  <li><a href="#page-limits-and-content-focus" id="toc-page-limits-and-content-focus" class="nav-link" data-scroll-target="#page-limits-and-content-focus"><span class="header-section-number">3.3.1</span> Page limits and content focus</a></li>
+  <li><a href="#text-and-visual-balance" id="toc-text-and-visual-balance" class="nav-link" data-scroll-target="#text-and-visual-balance"><span class="header-section-number">3.3.2</span> Text and visual balance</a></li>
+  <li><a href="#readability-and-citation-standards" id="toc-readability-and-citation-standards" class="nav-link" data-scroll-target="#readability-and-citation-standards"><span class="header-section-number">3.3.3</span> Readability and citation standards</a></li>
+  </ul></li>
+  <li><a href="#submission" id="toc-submission" class="nav-link" data-scroll-target="#submission"><span class="header-section-number">3.4</span> Submission</a></li>
   </ul></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="03-discharge-elbe-project.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
@@ -294,7 +301,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 15, 2024</p>
+      <p class="date">November 18, 2025</p>
     </div>
   </div>
   
@@ -309,8 +316,17 @@ window.Quarto = {
 <p>The project is related to the lab exercise “Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R”.</p>
 <section id="task-1-distribution-of-discharge" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Task 1: Distribution of discharge</h1>
-<p>Interpret the results of Sections 3.3 and 3.4. Discuss which of the plots best shows the shape of the <strong>distribution</strong> of discharge data. You can include up to 4 plots. Add a table with the statistical parameters (min, max, <span class="math inline">\(\bar{x}, s_x\)</span>, median, geometric mean and quartiles).</p>
+<p>Interpret the results of Sections 3.3 and 3.4. Discuss which of the plots best shows the shape of the <strong>distribution</strong> of discharge data. You can include up to 4 plots. Add a compact table with the statistical parameters for the observational period (min, max, <span class="math inline">\(\bar{x}, s_x\)</span>, median, geometric mean and quartiles).</p>
 <p>Then discuss all results (parameters and figures) in connection.</p>
+<p><strong>Compare Distribution Models</strong></p>
+<p>Analyze and discuss the different data transformations (no transformation, <span class="math inline">\(\ln(x)\)</span>, and <span class="math inline">\(\ln(x−b)\)</span>). Justify which transformation/model provides the best overall fit for the discharge data and explain why the others are less suitable.</p>
+<p><strong>Optional (+ 1 page):</strong> Estimate the 100 year flood by using the right one-sided 1% prediction interval. Choose a proper distribution model, derived from the results before. Compare it with the empirical quantiles.</p>
+<p><strong>Optional (+ 1 page):</strong> Extreme Value Analysis</p>
+<p>Estimate the 100-year flood by using the right one-sided 1% prediction interval.</p>
+<ul>
+<li>Choose a proper distribution model, derived from the results before. Compare the chosen model with the empirical quantiles. See lab manual “Distribution and Confidence Intervals of Maple Leaf Samples” as an example.</li>
+<li>Consider to use the Extended Data Set (starting from 1806) for this analysis to maximize the record length.</li>
+</ul>
 </section>
 <section id="task-2-dry-and-wet-years" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Task 2: Dry and wet years</h1>
@@ -319,6 +335,8 @@ window.Quarto = {
 </section>
 <section id="outline-and-formal-requirements" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Outline and formal requirements</h1>
+<section id="outline" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="outline"><span class="header-section-number">3.1</span> Outline</h2>
 <p>Combine all tasks together and tell a story, using a standard scientific outline, the so-called IMRAD scheme:</p>
 <ol type="1">
 <li>Introduction</li>
@@ -329,37 +347,60 @@ window.Quarto = {
 </ol>
 <p>Please consult <a href="https://en.wikipedia.org/wiki/IMRAD">Wikipedia</a> for a detailed explanation.</p>
 <p>As it is a tiny report, Methods and Results may be merged in this case. However, Introduction and Discussion must be separated. Use the internet and find about 2-3 literature references for the Discussion.</p>
-<section id="communicate-in-your-team-with-other-teams-and-with-tutors" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="communicate-in-your-team-with-other-teams-and-with-tutors"><span class="header-section-number">3.1</span> Communicate in your team, with other teams and with tutors</h2>
-<p>Communicate results and ideas in your team and also with other teams and with the tutors. It is a good idea to speak (or email) with your collegues first, then collect material and create a first version (this is often longer as the 5 pages).</p>
-<p>Then discuss and improve the result, select the most important parts and create the final version.</p>
-<p>Communication can be done in person or in the <a href="https://matrix.org">Matrix</a><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> chat group. The idea of the chat group is that all (= “the community”) can learn from each other. Private communication channels for teamwork are of course allowed, just find an agreement what fits your needs best. If you want, it is also possible to create separate communication channels in <a href="https://tud.de/opal">OPAL</a><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> or in the Matrix for your group.</p>
-<p>If you ask in the forum or the Matrix, please formulate specific questions and not only “this is my result, is this correct”. Good examples will hopefully develop during the work. Please feel free to post questions and contribute to the answers.</p>
 </section>
-<section id="technical-recommendations" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="technical-recommendations"><span class="header-section-number">3.2</span> Technical recommendations</h2>
-<p>The report should read nicely. Space needed for figures, tables and explanatory text should be in good balance.</p>
-<ul>
-<li>The report should have 5 pages A4 at maximum. Quality instead of quantity! Distill the essential messages.</li>
-<li>Font size of the text should be 11 or 12 points.</li>
-<li>A line spacing of 1.2 lines is recommended to improve readability.</li>
-<li>Figures (lines, font size of annotations) must be well readable.</li>
-<li>Literature must be properly cited. We encourage to use author-year style citations. Good examples can be found at the <a href="https://apastyle.apa.org/style-grammar-guidelines/references/examples">APA style web page</a>.</li>
-</ul>
-<p>You will have four weeks time for the preparation of the report. Then upload it as PDF od HTML document and (optionally) an .R or Quarto (.qmd) script to the <strong>File</strong> folder of your group in the OPAL learning management system. Submissions after the deadline cannot be considered.</p>
-
-
-</section>
-</section>
-
-
-<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
-
-<ol>
-<li id="fn1"><p>TU Dresden uses the <a href="https://doc.matrix.tu-dresden.de">Matrix</a> instant messenger.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p><a href="https://tud.de/opal">OPAL</a> is the learning managament platform used by TU Dresden.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<section id="workflow" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="workflow"><span class="header-section-number">3.2</span> Workflow</h2>
+<ol type="1">
+<li>Draft: draft your report. The first draft is usually somewhat longer.</li>
+<li>Refine: Discuss and select only the most important parts, and create the final version adhering to the page limit.</li>
 </ol>
-</section></div></main> <!-- /main -->
+<p><strong>Communicate in your team, with other teams and with tutors</strong></p>
+<ul>
+<li>Primary Goal: Communication should promote community learning. Post approaches and specific questions in the Matrix^Matrix chat group so everyone can benefit.</li>
+<li>Teamwork: Discuss ideas within your team and with other colleagues first. Private channels for teamwork are allowed.</li>
+<li>In the chatroom, please formulate specific questions (e.g., “How to format the numbers on a log-transformed axis?”) and avoid asking only, “Is this correct?”</li>
+<li>Contribute: Actively contribute to answering your classmates’ questions!</li>
+</ul>
+</section>
+<section id="report-formatting-instructions" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="report-formatting-instructions"><span class="header-section-number">3.3</span> Report formatting instructions</h2>
+<p>To ensure clarity and efficiency, please adhere to the following strict page limits and formatting guidelines.</p>
+<section id="page-limits-and-content-focus" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="page-limits-and-content-focus"><span class="header-section-number">3.3.1</span> Page limits and content focus</h3>
+<ul>
+<li>Core Content Limit: The main body of the report (Introduction, Methods &amp; Results, Discussion) must not exceed 4 A4 pages.</li>
+<li>This limit forces you to distill the essential messages and choose only the most important figures.</li>
+<li>The Title Page (Cover Sheet) and the List of References do not count towards the 4-page limit.</li>
+<li>Quality First: The goal is Quality instead of quantity! Use the limited space to focus on the interpretation and discussion of your findings.</li>
+</ul>
+</section>
+<section id="text-and-visual-balance" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="text-and-visual-balance"><span class="header-section-number">3.3.2</span> Text and visual balance</h3>
+<ul>
+<li>The report must have a good balance between explanatory text and supporting figures/tables.</li>
+<li>Avoid reports that are dominated by either large amounts of text or excessive, unexplained graphics.</li>
+<li>Selectivity: Only include figures and statistical output that are essential to support your claims in the text. Avoid “dumping” unnecessary output.</li>
+</ul>
+</section>
+<section id="readability-and-citation-standards" class="level3" data-number="3.3.3">
+<h3 data-number="3.3.3" class="anchored" data-anchor-id="readability-and-citation-standards"><span class="header-section-number">3.3.3</span> Readability and citation standards</h3>
+<ul>
+<li>Use a font size of 11 or 12 points.</li>
+<li>A line spacing of 1.2 lines is recommended to improve readability.</li>
+<li>Figures: <strong>font size</strong> of annotations must be well readable.</li>
+<li>Citation: Cite literature properly using the author-year style. Good examples can be found at the <a href="https://apastyle.apa.org/style-grammar-guidelines/references/examples">APA style web page</a>.</li>
+</ul>
+</section>
+</section>
+<section id="submission" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="submission"><span class="header-section-number">3.4</span> Submission</h2>
+<p>You will have 2.5 weeks time for the preparation of the report. Then upload it as PDF or HTML document and (optionally) your .R or Quarto (.qmd) scripts to the <strong>File</strong> folder of your group in the OPAL learning management system. Submissions after the deadline cannot be considered.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

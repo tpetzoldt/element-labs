@@ -1,25 +1,42 @@
 ---
 title: 'x03-Discharge of River Elbe: Homework Project'
-date: "2024-11-15"
+date: "2025-11-18"
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-The project is related to the lab exercise
-"Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R".
+The project is related to the lab exercise "Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R".
 
 
 # Task 1: Distribution of discharge
 
 Interpret the results of Sections 3.3 and 3.4. Discuss which of the
 plots best shows the shape of the **distribution** of discharge
-data. You can include up to 4 plots. Add a table with the statistical
-parameters (min, max, $\bar{x}, s_x$, median, geometric mean and
+data. You can include up to 4 plots. Add a compact table with the statistical
+parameters for the observational period (min, max, $\bar{x}, s_x$, median, geometric mean and
 quartiles).
 
 Then discuss all results (parameters and figures) in connection.
+
+**Compare Distribution Models** 
+
+Analyze and discuss the different data transformations (no transformation, $\ln(x)$, and $\ln(x−b)$). Justify which transformation/model provides the best overall fit for the discharge data and explain why the others are less suitable.
+
+**Optional (+ 1 page):** Estimate the 100 year flood by using the right one-sided 1% prediction interval.
+Choose a proper distribution model, derived from the results before. Compare it with the empirical quantiles. 
+
+
+**Optional (+ 1 page):** Extreme Value Analysis
+
+Estimate the 100-year flood by using the right one-sided 1% prediction interval.
+
+* Choose a proper distribution model, derived from the results before.
+  Compare the chosen model with the empirical quantiles.
+  See lab manual "Distribution and Confidence Intervals of Maple Leaf Samples" as an example.
+* Consider to use the Extended Data Set (starting from 1806) for this analysis to maximize the record length.
+
 
 # Task 2: Dry and wet years
 
@@ -34,6 +51,9 @@ histograms or own ideas are also possible (2-4 plots at maximum).
 
 # Outline and formal requirements
 
+
+## Outline
+
 Combine all tasks together and tell a story, using a standard scientific outline,
 the so-called IMRAD scheme:
 
@@ -45,48 +65,51 @@ the so-called IMRAD scheme:
 
 Please consult [Wikipedia](https://en.wikipedia.org/wiki/IMRAD) for a detailed explanation.
 
-As it is a tiny report, Methods and Results may be merged in this
-case. However, Introduction and Discussion must be separated. Use the
-internet and find about 2-3 literature references for the Discussion.
+As it is a tiny report, Methods and Results may be merged in this case.
+However, Introduction and Discussion must be separated.
+Use the internet and find about 2-3 literature references for the Discussion.
 
 
-## Communicate in your team, with other teams and with tutors
+## Workflow
 
-Communicate results and ideas in your team and also with other teams
-and with the tutors. It is a good idea to speak (or email) with your
-collegues first, then collect material and create a first version
-(this is often longer as the 5 pages).
 
-Then discuss and improve the result, select the most important parts
-and create the final version.
+1. Draft: draft your report. The first draft is usually somewhat longer.
+2. Refine: Discuss and select only the most important parts, and create the final version adhering to the page limit.
 
-Communication can be done in person or in the [Matrix](https://matrix.org)[^Matrix] chat group. 
-The idea of the chat group is that all (= "the community") can learn from each other. Private
-communication channels for teamwork are of course allowed, just find
-an agreement what fits your needs best. If you want, it is also
-possible to create separate communication channels in 
-[OPAL](https://tud.de/opal)[^OPAL]
-or in the Matrix for your group.
+**Communicate in your team, with other teams and with tutors**
 
-If you ask in the forum or the Matrix, please formulate specific 
-questions and not only "this is my result, is this correct". Good examples
-will hopefully develop during the work. Please feel free to post questions and
-contribute to the answers.
+* Primary Goal: Communication should promote community learning. Post approaches and specific questions in the Matrix^Matrix chat group so everyone can benefit.
+* Teamwork: Discuss ideas within your team and with other colleagues first. Private channels for teamwork are allowed.
+* In the chatroom, please formulate specific questions (e.g., "How to format the numbers on a log-transformed axis?") and avoid asking only, "Is this correct?"
+* Contribute: Actively contribute to answering your classmates' questions!
 
-## Technical recommendations
+## Report formatting instructions
 
-The report should read nicely. Space needed for figures, tables and 
-explanatory text should be in good balance.
+To ensure clarity and efficiency, please adhere to the following strict page limits and formatting guidelines.
 
-* The report should have 5 pages A4 at maximum. Quality instead of quantity! Distill the essential messages.
-* Font size of the text should be 11 or 12 points.
+### Page limits and content focus
+
+* Core Content Limit: The main body of the report (Introduction, Methods & Results, Discussion) must not exceed 4 A4 pages.
+* This limit forces you to distill the essential messages and choose only the most important figures.
+* The Title Page (Cover Sheet) and the List of References do not count towards the 4-page limit.
+* Quality First: The goal is Quality instead of quantity! Use the limited space to focus on the interpretation and discussion of your findings.
+
+### Text and visual balance
+
+* The report must have a good balance between explanatory text and supporting figures/tables.
+* Avoid reports that are dominated by either large amounts of text or excessive, unexplained graphics.
+* Selectivity: Only include figures and statistical output that are essential to support your claims in the text. Avoid "dumping" unnecessary output.
+
+### Readability and citation standards
+
+* Use a font size of 11 or 12 points.
 * A line spacing of 1.2 lines is recommended to improve readability.
-* Figures (lines, font size of annotations) must be well readable.
-* Literature must be properly cited. We encourage to use author-year style citations. Good examples can be found at the [APA style web page](https://apastyle.apa.org/style-grammar-guidelines/references/examples).
+* Figures: **font size** of annotations must be well readable.
+* Citation: Cite literature properly using the author-year style. Good examples can be found at the [APA style web page](https://apastyle.apa.org/style-grammar-guidelines/references/examples).
 
-You will have four weeks time for the preparation of the report. Then upload it as 
-PDF od HTML document and (optionally) an .R or Quarto (.qmd) script to the
-**File** folder of your group in the OPAL learning management system. 
+## Submission
+
+You will have 2.5 weeks time for the preparation of the report. Then upload it as  PDF or HTML document and (optionally) your .R or Quarto (.qmd) scripts to the **File** folder of your group in the OPAL learning management system. 
 Submissions after the deadline cannot be considered.
 
 [^OPAL]: [OPAL](https://tud.de/opal)  is the learning managament platform used by TU Dresden.
