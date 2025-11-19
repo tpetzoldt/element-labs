@@ -12,6 +12,8 @@ The project is related to the lab exercise "Discharge of River Elbe: Date and Ti
 
 # Task 1: Distribution of discharge
 
+## Compare distribution models
+
 Interpret the results of Sections 3.3 and 3.4. Discuss which of the
 plots best shows the shape of the **distribution** of discharge
 data. You can include up to 4 plots. Add a compact table with the statistical
@@ -20,12 +22,9 @@ quartiles).
 
 Then discuss all results (parameters and figures) in connection.
 
-## Compare Distribution Models
-
 Analyze and discuss the different data transformations (no transformation, $\ln(x)$, and $\ln(x−b)$). Justify which transformation/model provides the best overall fit for the discharge data and explain why the others are less suitable.
 
-
-## Extreme Value Analysis (Optional, + 1 page)
+## Extreme value analysis (optional, + 1 page)
 
 Estimate the 100-year flood by using the right one-sided 1% prediction interval.
 

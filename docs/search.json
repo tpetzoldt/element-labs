@@ -1403,7 +1403,7 @@
     "href": "qmd/03-discharge-elbe-project.html#compare-distribution-models",
     "title": "x03-Discharge of River Elbe: Homework Project",
     "section": "1.1 Compare Distribution Models",
-    "text": "1.1 Compare Distribution Models\nAnalyze and discuss the different data transformations (no transformation, \\(\\ln(x)\\), and \\(\\ln(x−b)\\)). Justify which transformation/model provides the best overall fit for the discharge data and explain why the others are less suitable.",
+    "text": "1.1 Compare Distribution Models\nInterpret the results of Sections 3.3 and 3.4. Discuss which of the plots best shows the shape of the distribution of discharge data. You can include up to 4 plots. Add a compact table with the statistical parameters for the observational period (min, max, \\(\\bar{x}, s_x\\), median, geometric mean and quartiles).\nThen discuss all results (parameters and figures) in connection.\nAnalyze and discuss the different data transformations (no transformation, \\(\\ln(x)\\), and \\(\\ln(x−b)\\)). Justify which transformation/model provides the best overall fit for the discharge data and explain why the others are less suitable.",
     "crumbs": [
       "Projects",
       "x03-Discharge of River Elbe: Homework Project"
