@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2025-11-18">
+<meta name="dcterms.date" content="2025-11-19">
 
 <title>x03-Discharge of River Elbe: Homework Project – Elements of Data Analysis and Statistics - Lab Exercises</title>
 <style>
@@ -270,8 +270,8 @@ window.Quarto = {
   <ul>
   <li><a href="#task-1-distribution-of-discharge" id="toc-task-1-distribution-of-discharge" class="nav-link active" data-scroll-target="#task-1-distribution-of-discharge"><span class="header-section-number">1</span> Task 1: Distribution of discharge</a>
   <ul class="collapse">
-  <li><a href="#compare-distribution-models" id="toc-compare-distribution-models" class="nav-link" data-scroll-target="#compare-distribution-models"><span class="header-section-number">1.1</span> Compare Distribution Models</a></li>
-  <li><a href="#extreme-value-analysis-optional-1-page" id="toc-extreme-value-analysis-optional-1-page" class="nav-link" data-scroll-target="#extreme-value-analysis-optional-1-page"><span class="header-section-number">1.2</span> Extreme Value Analysis (Optional, + 1 page)</a></li>
+  <li><a href="#compare-distribution-models" id="toc-compare-distribution-models" class="nav-link" data-scroll-target="#compare-distribution-models"><span class="header-section-number">1.1</span> Compare distribution models</a></li>
+  <li><a href="#extreme-value-analysis-optional-1-page" id="toc-extreme-value-analysis-optional-1-page" class="nav-link" data-scroll-target="#extreme-value-analysis-optional-1-page"><span class="header-section-number">1.2</span> Extreme value analysis (optional, + 1 page)</a></li>
   </ul></li>
   <li><a href="#task-2-dry-and-wet-years" id="toc-task-2-dry-and-wet-years" class="nav-link" data-scroll-target="#task-2-dry-and-wet-years"><span class="header-section-number">2</span> Task 2: Dry and wet years</a></li>
   <li><a href="#outline-and-formal-requirements" id="toc-outline-and-formal-requirements" class="nav-link" data-scroll-target="#outline-and-formal-requirements"><span class="header-section-number">3</span> Outline and formal requirements</a>
@@ -305,7 +305,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 18, 2025</p>
+      <p class="date">November 19, 2025</p>
     </div>
   </div>
   
@@ -321,17 +321,18 @@ window.Quarto = {
 <section id="task-1-distribution-of-discharge" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Task 1: Distribution of discharge</h1>
 <section id="compare-distribution-models" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="compare-distribution-models"><span class="header-section-number">1.1</span> Compare Distribution Models</h2>
+<h2 data-number="1.1" class="anchored" data-anchor-id="compare-distribution-models"><span class="header-section-number">1.1</span> Compare distribution models</h2>
 <p>Interpret the results of Sections 3.3 and 3.4. Discuss which of the plots best shows the shape of the <strong>distribution</strong> of discharge data. You can include up to 4 plots. Add a compact table with the statistical parameters for the observational period (min, max, <span class="math inline">\(\bar{x}, s_x\)</span>, median, geometric mean and quartiles).</p>
 <p>Then discuss all results (parameters and figures) in connection.</p>
 <p>Analyze and discuss the different data transformations (no transformation, <span class="math inline">\(\ln(x)\)</span>, and <span class="math inline">\(\ln(x−b)\)</span>). Justify which transformation/model provides the best overall fit for the discharge data and explain why the others are less suitable.</p>
 </section>
 <section id="extreme-value-analysis-optional-1-page" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="extreme-value-analysis-optional-1-page"><span class="header-section-number">1.2</span> Extreme Value Analysis (Optional, + 1 page)</h2>
+<h2 data-number="1.2" class="anchored" data-anchor-id="extreme-value-analysis-optional-1-page"><span class="header-section-number">1.2</span> Extreme value analysis (optional, + 1 page)</h2>
 <p>Estimate the 100-year flood by using the right one-sided 1% prediction interval.</p>
 <ul>
 <li>Aggregate the data to yearly extremes using functions like <code>group_by(year)</code> and <code>summarize(max_flow = max(discharge))</code>. This step is crucial for extreme value analysis, as it ensures the data reflects the largest event per year, which is the basis for estimating rare events like the 100- or 1000-year flood.</li>
-<li>Choose a proper distribution model, e.g.&nbsp;logarithmic transformation, similar to the results before. Compare the chosen model with the empirical quantiles. See lab manual “Distribution and Confidence Intervals of Maple Leaf Samples” as an example.</li>
+<li>Choose a transformation (e.g., log with or without shift parameter) to improve normality. Identify the parameters of the transformed model and compute a right one-sided 1% prediction interval.</li>
+<li>Back-transform to the original scale and compare with the empirical 99th percentile.</li>
 <li>Consider to use the Extended Data Set (starting from 1806) for this analysis to maximize the record length.</li>
 </ul>
 </section>

@@ -1402,8 +1402,8 @@
     "objectID": "qmd/03-discharge-elbe-project.html#compare-distribution-models",
     "href": "qmd/03-discharge-elbe-project.html#compare-distribution-models",
     "title": "x03-Discharge of River Elbe: Homework Project",
-    "section": "1.1 Compare Distribution Models",
-    "text": "1.1 Compare Distribution Models\nInterpret the results of Sections 3.3 and 3.4. Discuss which of the plots best shows the shape of the distribution of discharge data. You can include up to 4 plots. Add a compact table with the statistical parameters for the observational period (min, max, \\(\\bar{x}, s_x\\), median, geometric mean and quartiles).\nThen discuss all results (parameters and figures) in connection.\nAnalyze and discuss the different data transformations (no transformation, \\(\\ln(x)\\), and \\(\\ln(x−b)\\)). Justify which transformation/model provides the best overall fit for the discharge data and explain why the others are less suitable.",
+    "section": "1.1 Compare distribution models",
+    "text": "1.1 Compare distribution models\nInterpret the results of Sections 3.3 and 3.4. Discuss which of the plots best shows the shape of the distribution of discharge data. You can include up to 4 plots. Add a compact table with the statistical parameters for the observational period (min, max, \\(\\bar{x}, s_x\\), median, geometric mean and quartiles).\nThen discuss all results (parameters and figures) in connection.\nAnalyze and discuss the different data transformations (no transformation, \\(\\ln(x)\\), and \\(\\ln(x−b)\\)). Justify which transformation/model provides the best overall fit for the discharge data and explain why the others are less suitable.",
     "crumbs": [
       "Projects",
       "x03-Discharge of River Elbe: Homework Project"
@@ -1413,8 +1413,8 @@
     "objectID": "qmd/03-discharge-elbe-project.html#extreme-value-analysis-optional-1-page",
     "href": "qmd/03-discharge-elbe-project.html#extreme-value-analysis-optional-1-page",
     "title": "x03-Discharge of River Elbe: Homework Project",
-    "section": "1.2 Extreme Value Analysis (Optional, + 1 page)",
-    "text": "1.2 Extreme Value Analysis (Optional, + 1 page)\nEstimate the 100-year flood by using the right one-sided 1% prediction interval.\n\nAggregate the data to yearly extremes using functions like group_by(year) and summarize(max_flow = max(discharge)). This step is crucial for extreme value analysis, as it ensures the data reflects the largest event per year, which is the basis for estimating rare events like the 100- or 1000-year flood.\nChoose a proper distribution model, e.g. logarithmic transformation, similar to the results before. Compare the chosen model with the empirical quantiles. See lab manual “Distribution and Confidence Intervals of Maple Leaf Samples” as an example.\nConsider to use the Extended Data Set (starting from 1806) for this analysis to maximize the record length.",
+    "section": "1.2 Extreme value analysis (optional, + 1 page)",
+    "text": "1.2 Extreme value analysis (optional, + 1 page)\nEstimate the 100-year flood by using the right one-sided 1% prediction interval.\n\nAggregate the data to yearly extremes using functions like group_by(year) and summarize(max_flow = max(discharge)). This step is crucial for extreme value analysis, as it ensures the data reflects the largest event per year, which is the basis for estimating rare events like the 100- or 1000-year flood.\nChoose a transformation (e.g., log with or without shift parameter) to improve normality. Identify the parameters of the transformed model and compute a right one-sided 1% prediction interval.\nBack-transform to the original scale and compare with the empirical 99th percentile.\nConsider to use the Extended Data Set (starting from 1806) for this analysis to maximize the record length.",
     "crumbs": [
       "Projects",
       "x03-Discharge of River Elbe: Homework Project"

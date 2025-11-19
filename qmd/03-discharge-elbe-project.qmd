@@ -1,6 +1,6 @@
 ---
 title: 'x03-Discharge of River Elbe: Homework Project'
-date: "2025-11-18"
+date: "2025-11-19"
 ---
 
 ```{r setup, include=FALSE}
@@ -32,9 +32,9 @@ Estimate the 100-year flood by using the right one-sided 1% prediction interval.
   and `summarize(max_flow = max(discharge))`. This step is crucial for extreme
   value analysis, as it ensures the data reflects the largest event per year,
   which is the basis for estimating rare events like the 100- or 1000-year flood.
-* Choose a proper distribution model, e.g. logarithmic transformation, similar to the results before.
-  Compare the chosen model with the empirical quantiles.
-  See lab manual "Distribution and Confidence Intervals of Maple Leaf Samples" as an example.
+* Choose a transformation (e.g., log with or without shift parameter) to improve normality.
+  Identify the parameters of the transformed model and compute a right one-sided 1% prediction interval.
+* Back-transform to the original scale and compare with the empirical 99th percentile.
 * Consider to use the Extended Data Set (starting from 1806) for this analysis to maximize the record length.
 
 
