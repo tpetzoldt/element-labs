@@ -268,7 +268,11 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#task-1-distribution-of-discharge" id="toc-task-1-distribution-of-discharge" class="nav-link active" data-scroll-target="#task-1-distribution-of-discharge"><span class="header-section-number">1</span> Task 1: Distribution of discharge</a></li>
+  <li><a href="#task-1-distribution-of-discharge" id="toc-task-1-distribution-of-discharge" class="nav-link active" data-scroll-target="#task-1-distribution-of-discharge"><span class="header-section-number">1</span> Task 1: Distribution of discharge</a>
+  <ul class="collapse">
+  <li><a href="#compare-distribution-models" id="toc-compare-distribution-models" class="nav-link" data-scroll-target="#compare-distribution-models"><span class="header-section-number">1.1</span> Compare Distribution Models</a></li>
+  <li><a href="#extreme-value-analysis-optional-1-page" id="toc-extreme-value-analysis-optional-1-page" class="nav-link" data-scroll-target="#extreme-value-analysis-optional-1-page"><span class="header-section-number">1.2</span> Extreme Value Analysis (Optional, + 1 page)</a></li>
+  </ul></li>
   <li><a href="#task-2-dry-and-wet-years" id="toc-task-2-dry-and-wet-years" class="nav-link" data-scroll-target="#task-2-dry-and-wet-years"><span class="header-section-number">2</span> Task 2: Dry and wet years</a></li>
   <li><a href="#outline-and-formal-requirements" id="toc-outline-and-formal-requirements" class="nav-link" data-scroll-target="#outline-and-formal-requirements"><span class="header-section-number">3</span> Outline and formal requirements</a>
   <ul class="collapse">
@@ -318,15 +322,19 @@ window.Quarto = {
 <h1 data-number="1"><span class="header-section-number">1</span> Task 1: Distribution of discharge</h1>
 <p>Interpret the results of Sections 3.3 and 3.4. Discuss which of the plots best shows the shape of the <strong>distribution</strong> of discharge data. You can include up to 4 plots. Add a compact table with the statistical parameters for the observational period (min, max, <span class="math inline">\(\bar{x}, s_x\)</span>, median, geometric mean and quartiles).</p>
 <p>Then discuss all results (parameters and figures) in connection.</p>
-<p><strong>Compare Distribution Models</strong></p>
+<section id="compare-distribution-models" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="compare-distribution-models"><span class="header-section-number">1.1</span> Compare Distribution Models</h2>
 <p>Analyze and discuss the different data transformations (no transformation, <span class="math inline">\(\ln(x)\)</span>, and <span class="math inline">\(\ln(x−b)\)</span>). Justify which transformation/model provides the best overall fit for the discharge data and explain why the others are less suitable.</p>
-<p><strong>Optional (+ 1 page):</strong> Estimate the 100 year flood by using the right one-sided 1% prediction interval. Choose a proper distribution model, derived from the results before. Compare it with the empirical quantiles.</p>
-<p><strong>Optional (+ 1 page):</strong> Extreme Value Analysis</p>
+</section>
+<section id="extreme-value-analysis-optional-1-page" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="extreme-value-analysis-optional-1-page"><span class="header-section-number">1.2</span> Extreme Value Analysis (Optional, + 1 page)</h2>
 <p>Estimate the 100-year flood by using the right one-sided 1% prediction interval.</p>
 <ul>
-<li>Choose a proper distribution model, derived from the results before. Compare the chosen model with the empirical quantiles. See lab manual “Distribution and Confidence Intervals of Maple Leaf Samples” as an example.</li>
+<li>Aggregate the data to yearly extremes using functions like <code>group_by(year)</code> and <code>summarize(max_flow = max(discharge))</code>. This step is crucial for extreme value analysis, as it ensures the data reflects the largest event per year, which is the basis for estimating rare events like the 100- or 1000-year flood.</li>
+<li>Choose a proper distribution model, e.g.&nbsp;logarithmic transformation, similar to the results before. Compare the chosen model with the empirical quantiles. See lab manual “Distribution and Confidence Intervals of Maple Leaf Samples” as an example.</li>
 <li>Consider to use the Extended Data Set (starting from 1806) for this analysis to maximize the record length.</li>
 </ul>
+</section>
 </section>
 <section id="task-2-dry-and-wet-years" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Task 2: Dry and wet years</h1>
@@ -356,7 +364,7 @@ window.Quarto = {
 </ol>
 <p><strong>Communicate in your team, with other teams and with tutors</strong></p>
 <ul>
-<li>Primary Goal: Communication should promote community learning. Post approaches and specific questions in the Matrix^Matrix chat group so everyone can benefit.</li>
+<li>Primary Goal: Communication should promote community learning. Post approaches and specific questions in the Matrix<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> chat group so everyone can benefit.</li>
 <li>Teamwork: Discuss ideas within your team and with other colleagues first. Private channels for teamwork are allowed.</li>
 <li>In the chatroom, please formulate specific questions (e.g., “How to format the numbers on a log-transformed axis?”) and avoid asking only, “Is this correct?”</li>
 <li>Contribute: Actively contribute to answering your classmates’ questions!</li>
@@ -394,13 +402,20 @@ window.Quarto = {
 </section>
 <section id="submission" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="submission"><span class="header-section-number">3.4</span> Submission</h2>
-<p>You will have 2.5 weeks time for the preparation of the report. Then upload it as PDF or HTML document and (optionally) your .R or Quarto (.qmd) scripts to the <strong>File</strong> folder of your group in the OPAL learning management system. Submissions after the deadline cannot be considered.</p>
+<p>You will have 2.5 weeks time for the preparation of the report. Then upload it as PDF or HTML document and (optionally) your .R or Quarto (.qmd) scripts to the <strong>File</strong> folder of your group in the OPAL<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> learning management system. Submissions after the deadline cannot be considered.</p>
 
 
 </section>
 </section>
 
-</main> <!-- /main -->
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>TU Dresden uses the <a href="https://doc.matrix.tu-dresden.de">Matrix</a> instant messenger.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p><a href="https://tud.de/opal">OPAL</a> is the learning managament platform used by TU Dresden.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
