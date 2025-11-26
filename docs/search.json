@@ -356,7 +356,7 @@
     "href": "qmd/05-distributions-fruits-tidyverse.html",
     "title": "05-Distribution and Confidence Intervals of Clementines",
     "section": "",
-    "text": "The example aims to demonstrate estimation and interpretation of confidence intervals. At the end, the two samples are compared with respect to variance and mean values.\nThe experimental hypotheses was, that weight and size of two samples of Clementine fruits differ. The result is to be visualized with bar charts or box plots. We use only the weight as an example, analysis of the other statistical parameters is left as an optional exercise.\nWe can now derive the following statistical hypotheses about the variance:\n\n\\(H_0\\): The variance of both samples is the same.\n\\(H_a\\): The samples have different variance.\n\nand about the mean:\n\n\\(H_0\\): The mean of both samples is the same.\n\\(H_a\\): The mean values of the samples are different.",
+    "text": "A given data set consists of two samples of clementine fruits. The experimental hypotheses is, that weight and size of two samples of clementines differ. The result is to be visualized with bar charts or box plots. We use the weight as an example, analysis of the other statistical parameters is left as an optional exercise.\nThe example aims to demonstrate estimation and interpretation of prediction and confidence intervals. At the end, two samples are compared with respect to variance and mean values.\nWe can set up the following statistical hypotheses about the variance:\n\n\\(H_0\\): The variance of both samples is the same.\n\\(H_a\\): The samples have different variance.\n\nand about the mean:\n\n\\(H_0\\): The mean of both samples is the same.\n\\(H_a\\): The mean values of the samples are different.",
     "crumbs": [
       "Labs",
       "05-Distribution and Confidence Intervals of Clementines"
@@ -367,7 +367,7 @@
     "href": "qmd/05-distributions-fruits-tidyverse.html#prepare-and-inspect-data",
     "title": "05-Distribution and Confidence Intervals of Clementines",
     "section": "3.1 Prepare and inspect data",
-    "text": "3.1 Prepare and inspect data\n\nDownload the data set fruits-2023-hse.csv and use one of RStudio’s “Import Dataset” wizards.\nA better alternative is to use read.csv().\nThe data set is available in OPAL1 or from: https://raw.githubusercontent.com/tpetzoldt/datasets/refs/heads/main/data/fruits-2023-hse.csv\n\n\n#  ... do it\n\n\nplot everything, just for testing:\n\n\nplot(fruits)\n\n\nsplit table for box1 and box2:\n\n\nbox1 &lt;- subset(fruits, brand == \"box1\")\nbox2 &lt;- subset(fruits, brand == \"box2\")\n\n\ncompare weight of both groups:\n\n\nboxplot(box1$weight, box2$weight, names=c(\"box1\", \"box2\"))\n\nNote: It is also possible to use boxplot with the model formula syntax. This is the preferred way, because it does not require to split the data set beforehand:\n\nboxplot(weight ~ brand, data = fruits)",
+    "text": "3.1 Prepare and inspect data\n\nDownload the data set fruits-2022.csv and use one of RStudio’s “Import Dataset” wizards.\nA better alternative is to use read.csv().\nThe data set is available in OPAL1 or from: https://tpetzoldt.github.io/datasets/data/fruits-2022.csv\nThe data set contains several subsets.\n\n\n#  ... do it\n# fruits &lt;- ...\n# fruits &lt;- filter(brand %in% c(\"box1\", \"box2\"))\n\n\nplot everything, just for testing:\n\n\nplot(fruits)\n\nWe first split the overall data frame for box1 and box2 in two separate data frames, so we can analyse one after the other:\n\nbox1 &lt;- subset(fruits, brand == \"box1\")\nbox2 &lt;- subset(fruits, brand == \"box2\")\n\nFirst, let’s compare the weight of both groups:\n\nboxplot(box1$weight, box2$weight, names=c(\"box1\", \"box2\"))\n\nHere it is easier to use boxplot with the model formula syntax. This is the preferred way, because it does not require to split the data set beforehand:\n\nboxplot(weight ~ brand, data = fruits)\n\nA third option would be to use ggplot:\n\nfruits |&gt;\n  ggplot(aes(brand, weight)) + \n  geom_boxplot()",
     "crumbs": [
       "Labs",
       "05-Distribution and Confidence Intervals of Clementines"
@@ -378,7 +378,7 @@
     "href": "qmd/05-distributions-fruits-tidyverse.html#check-distribution",
     "title": "05-Distribution and Confidence Intervals of Clementines",
     "section": "3.2 Check distribution",
-    "text": "3.2 Check distribution\nWe can check the shape of distribution graphically. If mean values of the samples differ much, it has to be done separately for each sample.\n\n# use `hist`, `qqnorm`, `qqline`\n# ...",
+    "text": "3.2 Check distribution\nWe can check the shape of distribution graphically. We do it for now only for the “box1” subset, because it contains more data.\nHistogram\nhist(... ... ...)\nqqnorm(... ... ...)\nqqline(... ... ...)",
     "crumbs": [
       "Labs",
       "05-Distribution and Confidence Intervals of Clementines"
@@ -389,7 +389,7 @@
     "href": "qmd/05-distributions-fruits-tidyverse.html#sample-statistics",
     "title": "05-Distribution and Confidence Intervals of Clementines",
     "section": "3.3 Sample statistics",
-    "text": "3.3 Sample statistics\nIf we assume normal distribution of the data, we can estimate an approximate prediction interval from the sample parameters, i.e. in which size range we find 95% of the weights within one group.\nWe first calculate mean, sd, N and se for “box1” data set:\n\nbox1.mean &lt;- mean(box1$weight)\nbox1.sd   &lt;- sd(box1$weight)\nbox1.N    &lt;- length(box1$weight)\nbox1.se   &lt;- box1.sd/sqrt(box1.N)\n\nThen we estimate the two-sided 95% prediction interval for the sample, assuming normal distribution:\n\nbox1.95 &lt;- box1.mean + c(-1.96, 1.96) * box1.sd\nbox1.95\n\nInstead of using 1.96, we could also use the quantile function of the normal distribution instead, e.g. qnorm(0.975)for the upper interval or qnorm(c(0.025, 0.975)) for the lower and upper.\nIf the data set is large enough, we can compare the prediction interval from above with the empirical quantiles, i.e. take it directly from the data. Here we do not assume a normal or any other distribution.\n\nquantile(box1$weight, p = c(0.025, 0.975))\n\nNow we plot the data and indicate the 95% interval:\n\nplot(box1$weight)\nabline(h = box1.95, col=\"red\")\n\n… and the same as histogram:\n\nhist(box1$weight)\nabline(v = box1.95, col=\"red\")\nrug(box1$weight, col=\"blue\")",
+    "text": "3.3 Sample statistics\nIf we assume normal distribution of the data, we can estimate an approximate prediction interval from the sample parameters, i.e. in which size range we find 95% of the weights within one group.\nWe first calculate mean, sd, N and se for “box1” data set:\n\nbox1.mean &lt;- mean(box1$weight)\nbox1.sd   &lt;- sd(box1$weight)\nbox1.N    &lt;- length(box1$weight)\nbox1.se   &lt;- box1.sd/sqrt(box1.N)\n\nThen let’s estimate an approximate two-sided 95% prediction interval (\\(PI\\)) for the sample using a simplified approach based on the quantiles of the theoretical normal distribution (\\(z_{\\alpha/2} \\approx 1.96\\)) and the sample parameters mean \\(\\bar{x}\\) and standard deviation (\\(s\\)):\n\\[\nPI = \\bar{x} \\pm z \\cdot s\n\\]\nThis is the interval where we would predict a new single observation to fall with 95% confidence.\n\nbox1.pi &lt;- box1.mean + c(-1.96, 1.96) * box1.sd\nbox1.pi\n\nInstead of using 1.96, we could also use the quantile function qnorm(0.975) for the upper interval or qnorm(c(0.025, 0.975)) for the lower and upper in parallel:\n\nbox1.pi &lt;- box1.mean + qnorm(c(0.025, 0.975)) * box1.sd\nbox1.pi\n\nNow we plot the data and indicate the 95% interval:\n\nplot(box1$weight)\nabline(h = box1.pi, col=\"forestgreen\")\n\n… and the same as histogram:\n\nhist(box1$weight)\nabline(v = box1.pi, col=\"forestgreen\")\nrug(box1$weight, col=\"blue\")\n\nTask: Count the number of points in the scatterplot and the histogram that are outside of the lines. Which percentage would you expect?",
     "crumbs": [
       "Labs",
       "05-Distribution and Confidence Intervals of Clementines"
@@ -400,7 +400,7 @@
     "href": "qmd/05-distributions-fruits-tidyverse.html#confidence-interval-of-the-mean",
     "title": "05-Distribution and Confidence Intervals of Clementines",
     "section": "3.4 Confidence interval of the mean",
-    "text": "3.4 Confidence interval of the mean\nThe confidence interval of the mean tells us how precise a mean value was estimated from data. If the sample size is “large enough”, the distribution of the raw data does not necessarily need to be normal distributed, because then mean values tend to approximate a normal distribution due to the central limit theorem.\n\n3.4.1 Confidence interval of the mean for the “box1” data\n\nCalculate the confidence interval of the mean value of the “box1” data set,\nuse +/- 1.96 or (better) the quantile of the t-distribution:\n\n\nbox1.ci &lt;- box1.mean + qt(p = c(0.025, 0.975), df = box1.N-1) * box1.se\n\nNow indicate the confidence interval of the mean in the histogram.\n\nabline(v = box1.ci, col=\"red\")\n\n\n\n3.4.2 Confidence interval for the mean of the “box2” data\nWe could now in principle do the same as above for the “box2” sample, but this would be rather cumbersome and boring. A more efficient method from package dplyr is shown below.",
+    "text": "3.4 Confidence interval of the mean\nThe confidence interval (\\(CI\\)) of the mean tells us how precise a mean value was estimated from data. If the sample size is “large enough”, the distribution of the raw data does not necessarily need to be normal, because then mean values tend to approximate a normal distribution due to the central limit theorem.\nThe formula for the CI of the mean is: \\[CI = \\bar{x} \\pm t_{\\alpha/2, n-1} \\cdot \\frac{s}{\\sqrt{N}}\\]\n\n3.4.1 Confidence interval of the mean for the “box1” data\nTask: Calculate the confidence interval of the mean value of the “box1” data set using the quantile function (qt) of the t-distribution2:\n\nbox1.ci &lt;- box1.mean + qt(p = c(0.025, 0.975), df = box1.N - 1) * box1.se\n\nNow indicate the confidence interval of the mean in the histogram.\n\nabline(v = box1.ci, col=\"magenta\")\n\n\n\n3.4.2 Add density plots\n\nhist(box1$weight, probability = TRUE, ylim = c(0, 0.25))\nxnew &lt;- seq(50, 100, length = 500)\nlines(xnew, dnorm(xnew, box1.mean, box1.sd), col = \"forestgreen\")\nlines(xnew, dnorm(xnew, box1.mean, box1.se), col = \"magenta\")\nabline(v = box1.pi, col=\"forestgreen\")\nabline(v = box1.ci, col=\"magenta\")",
     "crumbs": [
       "Labs",
       "05-Distribution and Confidence Intervals of Clementines"
@@ -411,7 +411,7 @@
     "href": "qmd/05-distributions-fruits-tidyverse.html#calculation-of-summary-statistics-with-dplyr",
     "title": "05-Distribution and Confidence Intervals of Clementines",
     "section": "5.1 Calculation of summary statistics with dplyr",
-    "text": "5.1 Calculation of summary statistics with dplyr\nSummarizing can be done with two functions, group_by that adds grouping information to a data frame and summarize to calculate summary statistics. In the following, we use the full data set with 4 groups.\n\nlibrary(\"dplyr\")\nfruits &lt;- read.csv(\"fruits-2023-hse.csv\")\n\nstats &lt;-\n  fruits |&gt;\n    group_by(brand) |&gt;\n    summarize(mean = mean(weight), sd=sd(weight), N=length(weight), se=sd/sqrt(N),\n              lwr = mean + qt(p = 0.025, df = N-1) * se,\n              upr = mean + qt(p = 0.975, df = N-1) * se\n             )\n\nstats",
+    "text": "5.1 Calculation of summary statistics with dplyr\nSummarizing can be done with two functions, group_by that adds grouping information to a data frame and summarize to calculate summary statistics. In the following, we use the full data set with all groups.\n\nstats &lt;-\n  fruits |&gt;\n    group_by(brand) |&gt;\n    summarize(mean = mean(weight), sd = sd(weight), \n              N = length(weight),  se = sd/sqrt(N),\n              pi.lo = mean + qt(p = 0.025, df = N-1) * sd,\n              pi.up = mean + qt(p = 0.975, df = N-1) * sd,\n              ci.lo = mean + qt(p = 0.025, df = N-1) * se,\n              ci.up = mean + qt(p = 0.975, df = N-1) * se\n             )\n\nstats",
     "crumbs": [
       "Labs",
       "05-Distribution and Confidence Intervals of Clementines"
@@ -422,7 +422,7 @@
     "href": "qmd/05-distributions-fruits-tidyverse.html#barchart-and-errorbars-with-ggplot2",
     "title": "05-Distribution and Confidence Intervals of Clementines",
     "section": "5.2 Barchart and errorbars with ggplot2",
-    "text": "5.2 Barchart and errorbars with ggplot2\nWe can then use the table of summary statistics directly for a bar chart.\n\nlibrary(\"ggplot2\")\nstats |&gt;\n  ggplot(aes(x=brand, y=mean, min=lwr, max=upr))  +\n    geom_col() + geom_errorbar()",
+    "text": "5.2 Barchart and errorbars with ggplot2\nWe can then use the table of summary statistics directly for a bar chart.\n\nlibrary(\"ggplot2\")\nstats |&gt;\n  ggplot(aes(x = brand, y = mean, min = ci.lo, max = ci.up))  +\n  geom_col() + geom_errorbar()",
     "crumbs": [
       "Labs",
       "05-Distribution and Confidence Intervals of Clementines"
@@ -444,7 +444,7 @@
     "href": "qmd/05-distributions-fruits-tidyverse.html#footnotes",
     "title": "05-Distribution and Confidence Intervals of Clementines",
     "section": "Footnotes",
-    "text": "Footnotes\n\n\nOPAL is the learning management system used at TU Dresden.↩︎",
+    "text": "Footnotes\n\n\nOPAL is the learning management system used at TU Dresden.↩︎\nas the sample size is not too small, you may also compare this with 1.96 or 2.0↩︎",
     "crumbs": [
       "Labs",
       "05-Distribution and Confidence Intervals of Clementines"
@@ -1418,6 +1418,28 @@
     "crumbs": [
       "Projects",
       "x03-Discharge of River Elbe: Homework Project"
+    ]
+  },
+  {
+    "objectID": "qmd/05-distributions-fruits-tidyverse.html#remove-the-following-plot",
+    "href": "qmd/05-distributions-fruits-tidyverse.html#remove-the-following-plot",
+    "title": "05-Distribution and Confidence Intervals of Clementines",
+    "section": "3.3 Remove the following plot",
+    "text": "3.3 Remove the following plot\n\nhist(box1$weight, probability = TRUE)\nxnew &lt;- seq(50, 100, length = 100)\nlines(xnew, dnorm(xnew, mean(box1$weight), sd(box1$weight)), col = \"red\")\nrug(jitter(box1$weight), col=\"blue\")\n\n\n\n\n\n\n\n\nqqnorm(... ... ...)\nqqline(... ... ...)",
+    "crumbs": [
+      "Labs",
+      "05-Distribution and Confidence Intervals of Clementines"
+    ]
+  },
+  {
+    "objectID": "qmd/05-distributions-fruits-tidyverse.html#a-footnote-about-prediction-intervals",
+    "href": "qmd/05-distributions-fruits-tidyverse.html#a-footnote-about-prediction-intervals",
+    "title": "05-Distribution and Confidence Intervals of Clementines",
+    "section": "5.4 A footnote about prediction intervals",
+    "text": "5.4 A footnote about prediction intervals\nThe simplified \\(\\bar{x} \\pm z \\cdot s\\) formula used above is an approximation. A statistically rigorous 95% prediction interval, especially for smaller samples, needs two corrections.\nFirst, we would use the t-distribution with the quantile \\(t_{\\alpha/2, n-1}\\) (or qt(alpha/2, n-1) in R) instead of the normal quantiles (\\(\\pm 1.96\\)). Then we add a term \\(\\sqrt{1+1/N}\\) that corrects for the sample parameters. The full formula for a single future observation is then:\n\\[\\text{PI} = \\bar{x} \\pm t_{\\alpha/2, n-1} \\cdot s \\cdot \\sqrt{1 + \\frac{1}{N}}\\]\nThe prediction interval is related to the so-called “tolerance interval”. Both are the same if the population parameters \\(\\mu, \\sigma\\) are known or the sample size is very big. However, there are theoretical and practical differences in case of small sample size.",
+    "crumbs": [
+      "Labs",
+      "05-Distribution and Confidence Intervals of Clementines"
     ]
   }
 ]

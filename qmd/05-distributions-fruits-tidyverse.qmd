@@ -1,24 +1,26 @@
 ---
 title: "05-Distribution and Confidence Intervals of Clementines"
-date: '2023-11-14'
+date: '2025-11-22'
 ---
 
 ```{r include=FALSE, eval=TRUE}
 knitr::opts_chunk$set(eval = FALSE)
-library("gplots", quietly=TRUE, warn.conflicts = FALSE)
+#knitr::opts_chunk$set(eval = TRUE)
 library("dplyr")
 library("ggplot2")
 ```
 
 # Introduction
 
-The example aims to demonstrate estimation and interpretation of confidence
-intervals. At the end, the two samples are compared with respect to variance and
-mean values.
+A given data set consists of two samples of clementine fruits. 
+The experimental hypotheses is, that weight and size of two samples of clementines differ.
+The result is to be visualized with bar charts or box plots.
+We use the weight as an example, analysis of the other statistical parameters is left as an optional exercise.
 
-The experimental hypotheses was, that weight and size of two samples of Clementine fruits differ. The result is to be visualized with bar charts or box plots. We use only the weight as an example, analysis of the other statistical parameters is left as an optional exercise.
+The example aims to demonstrate estimation and interpretation of prediction and confidence intervals.
+At the end, two samples are compared with respect to variance and mean values.
 
-We can now derive the following statistical hypotheses **about the variance:**
+We can set up the following statistical hypotheses **about the variance:**
 
 * $H_0$: The variance of both samples is the same.
 * $H_a$: The samples have different variance.
@@ -30,15 +32,12 @@ We can now derive the following statistical hypotheses **about the variance:**
 
 # Material and Methods
 
-The data set consists of two samples of Clementines from the same shop. Weight, 
-width and height of the fruits were measured with a scale and a caliper.
+The data set consists of two samples of Clementines, either from different shops or different brands.
+Weight, width and height of the fruits were measured with a scale and a caliper.
 
-The statistical analysis is performed with the **R** software for statistical 
-computing and graphics [@RCore] and the following packages 
-[@Wickham2016; @Wickham2023; @Warnes2024]:
+The statistical analysis is performed with the **R** software for statistical computing and graphics [@RCore] and the packages **dplyr** [@Wickham2023] and **ggplot2** [@Wickham2016]:
 
 ```{r packages, eval=FALSE}
-library("gplots")  # contains barplot2 with error bars
 library("dplyr")   # for pipelines, group_by and summarize
 library("ggplot2") # modern plotting package "grammar of graphics"
 ```
@@ -48,16 +47,22 @@ library("ggplot2") # modern plotting package "grammar of graphics"
 
 ## Prepare and inspect data
 
-* Download the data set `fruits-2023-hse.csv` and use one of RStudio's "Import Dataset" wizards.
+* Download the data set `fruits-2022.csv` and use one of RStudio's "Import Dataset" wizards.
 * A better alternative is to use `read.csv()`.
-* The data set is available in OPAL[^OPAL] or from: [https://raw.githubusercontent.com/tpetzoldt/datasets/refs/heads/main/data/fruits-2023-hse.csv](https://raw.githubusercontent.com/tpetzoldt/datasets/refs/heads/main/data/fruits-2023-hse.csv)
+* The data set is available in OPAL[^OPAL] or from:<br>
+[https://tpetzoldt.github.io/datasets/data/fruits-2022.csv](https://tpetzoldt.github.io/datasets/data/fruits-2022.csv)
+* The data set contains several subsets. 
+
 
 ```{r, include=FALSE}
-fruits <- read.csv("fruits-2023-hse.csv")
+fruits <- read.csv("https://tpetzoldt.github.io/datasets/data/clementines2022-fruits.csv")
 ```
+
 
 ```{r eval=FALSE}
 #  ... do it
+# fruits <- ...
+# fruits <- filter(brand %in% c("box1", "box2"))
 ```
 
 * plot everything, just for testing:
@@ -66,43 +71,58 @@ fruits <- read.csv("fruits-2023-hse.csv")
 plot(fruits)
 ```
 
-* split table for box1 and box2:
+We first split the overall data frame for box1 and box2 in two separate data frames, so we can analyse one after the other:
 
 ```{r }
 box1 <- subset(fruits, brand == "box1")
 box2 <- subset(fruits, brand == "box2")
 ```
 
-* compare weight of both groups:
+First, let's compare the weight of both groups:
+
 
 ```{r }
 boxplot(box1$weight, box2$weight, names=c("box1", "box2"))
 ```
-**Note:** It is also possible to use `boxplot` with the model formula syntax. 
+Here it is easier to use `boxplot` with the model formula syntax. 
 This is the preferred way, because it does not require to split the data set beforehand:
 
 ```{r, eval=FALSE}
 boxplot(weight ~ brand, data = fruits)
-
 ```
 
 
+A third option would be to use **ggplot**:
+
+```{r }
+fruits |>
+  ggplot(aes(brand, weight)) + 
+  geom_boxplot()
+```
 
 ## Check distribution
 
-We can check the shape of distribution graphically. If mean values of the samples 
-differ much, it has to be done separately for each sample.
+We can check the shape of distribution graphically. We do it for now only for the "box1" subset, because it contains more data.
 
-```{r }
-# use `hist`, `qqnorm`, `qqline`
-# ...
+Histogram
+
+
 ```
+hist(... ... ...)
+```
+
+
+```
+qqnorm(... ... ...)
+qqline(... ... ...)
+```
+
 
 ## Sample statistics
 
 If we assume normal distribution of the data, we can estimate an approximate
- prediction interval from the sample parameters, i.e. in which size range
- we find 95% of the weights within one group.
+prediction interval from the sample parameters, i.e. in which size range
+we find 95% of the weights within one group.
  
 We first calculate mean, sd, N and se for "box1" data set:
 
@@ -113,78 +133,104 @@ box1.N    <- length(box1$weight)
 box1.se   <- box1.sd/sqrt(box1.N)
 ```
 
-Then we estimate the two-sided 95% prediction interval for the sample, assuming normal
-  distribution:
+Then let's estimate an approximate two-sided 95% **prediction interval** ($PI$) for the sample using a simplified approach based on the quantiles of the theoretical normal distribution ($z_{\alpha/2} \approx 1.96$) and the sample parameters mean $\bar{x}$ and standard deviation ($s$):
+
+$$
+PI = \bar{x} \pm z \cdot s
+$$
+
+This is the interval where we would predict a new single observation to fall with 95% confidence.
 
 ```{r }
-box1.95 <- box1.mean + c(-1.96, 1.96) * box1.sd
-box1.95
+box1.pi <- box1.mean + c(-1.96, 1.96) * box1.sd
+box1.pi
 ```
 
-Instead of using 1.96, we could also use the quantile function of the normal distribution instead, e.g. `qnorm(0.975)`for the upper interval or `qnorm(c(0.025, 0.975))` for the lower and upper.
+Instead of using 1.96, we could also use the quantile function `qnorm(0.975)` for the upper interval or `qnorm(c(0.025, 0.975))` for the lower and upper in parallel:
 
-
-If the data set is large enough, we can compare the prediction interval from above
-with the  **empirical quantiles**, i.e. take it directly from the data. Here we
-do not assume a normal or any other distribution.
 
 ```{r }
-quantile(box1$weight, p = c(0.025, 0.975))
+box1.pi <- box1.mean + qnorm(c(0.025, 0.975)) * box1.sd
+box1.pi
 ```
 
 Now we plot the data and indicate the 95% interval:
 
 ```{r }
 plot(box1$weight)
-abline(h = box1.95, col="red")
+abline(h = box1.pi, col="forestgreen")
 ```
 
 ... and the same as histogram:
 
 ```{r }
 hist(box1$weight)
-abline(v = box1.95, col="red")
+abline(v = box1.pi, col="forestgreen")
 rug(box1$weight, col="blue")
 ```
 
+**Task:** Count the number of points in the scatterplot and the histogram that 
+are outside of the lines. Which percentage would you expect?
+
+
 ## Confidence interval of the mean
 
-The **confidence interval** of the mean tells us how precise a mean value was 
-estimated from data.
-If the sample size is "large enough", the distribution of the raw data does not
-necessarily need to be normal distributed, because then mean values tend to approximate
-a normal distribution due to the central limit theorem.
+The **confidence interval** ($CI$) of the mean tells us how precise a mean value was estimated from data.
+If the sample size is "large enough", the distribution of the raw data does not necessarily need to be normal, because then mean values tend to approximate a normal distribution due to the **central limit theorem**.
+
+The formula for the CI of the mean is: $$CI = \bar{x} \pm t_{\alpha/2, n-1} \cdot \frac{s}{\sqrt{N}}$$
 
 ### Confidence interval of the mean for the "box1" data
 
-* Calculate the confidence interval of the mean value of the "box1" data set,
-* use +/- 1.96 or (better) the quantile of the t-distribution:
+**Task:** Calculate the confidence interval of the mean value of the "box1" data set using the quantile function (`qt`) of the t-distribution^[as the sample size is not too small, you may also compare this with 1.96 or 2.0]:
 
 ```{r }
-box1.ci <- box1.mean + qt(p = c(0.025, 0.975), df = box1.N-1) * box1.se
+box1.ci <- box1.mean + qt(p = c(0.025, 0.975), df = box1.N - 1) * box1.se
 ```
 
 Now indicate the confidence interval of the mean in the histogram.
 
 ```{r eval=FALSE}
-abline(v = box1.ci, col="red")
+abline(v = box1.ci, col="magenta")
 ```
 
-### Confidence interval for the mean of the "box2" data
 
-We could now in principle do the same as above for the "box2" sample, but this 
-would be rather cumbersome and boring. A more efficient method from package **dplyr** 
-is shown below.
+### Add density plots
+
+```{r eval = FALSE}
+hist(box1$weight, probability = TRUE, ylim = c(0, 0.25))
+xnew <- seq(50, 100, length = 500)
+lines(xnew, dnorm(xnew, box1.mean, box1.sd), col = "forestgreen")
+lines(xnew, dnorm(xnew, box1.mean, box1.se), col = "magenta")
+abline(v = box1.pi, col="forestgreen")
+abline(v = box1.ci, col="magenta")
+```
 
 
-# Compare samples with F- and t-Test
+# Compare samples with the t-Test
 
-**Null Hypothesis:** Both samples have the same mean weight and variance.
+**Null Hypothesis:** Both samples have the same mean weight.
 
-**Alternative:** The mean weight (and possibly also the variance) differs. The fruits bought on Friday and on Tuesday had a different price, so we expect a different quality and probably different size.
+**Alternative:** The mean weight differs. The fruits bought in different shops or at different days are expected to differ in quality and size.
+
+
+To supply the data to the `t.test`-function, we have again two options. One can either supply the two different groups directly:
+
+
+```{r}
+t.test(box1$weight, box2$weight)
+```
+
+or use a model formula (`weight ~ groups`). Here we have to make sure, that the data set contains only the two grous of interest:
+
+```{r}
+fruits2 <- filter(fruits, brand %in% c("box1", "box2"))
+```
+
+
 
 ```{r }
-t.test(weight ~ brand, data = fruits)
+t.test(weight ~ brand, data = fruits2)
 ```
 
 Perform also the classical t-test (`var.equal=TRUE`) and the F-test (`var.test`).
@@ -212,18 +258,18 @@ Some slides about the use of pipelines can be found under [https://tpetzoldt.git
 
 Summarizing can be done with two functions, `group_by` that adds grouping information 
 to a data frame and `summarize` to calculate summary statistics. In the following, we use the full
-data set with 4 groups.
+data set with all groups.
 
 ```{r }
-library("dplyr")
-fruits <- read.csv("fruits-2023-hse.csv")
-
 stats <-
   fruits |>
     group_by(brand) |>
-    summarize(mean = mean(weight), sd=sd(weight), N=length(weight), se=sd/sqrt(N),
-              lwr = mean + qt(p = 0.025, df = N-1) * se,
-              upr = mean + qt(p = 0.975, df = N-1) * se
+    summarize(mean = mean(weight), sd = sd(weight), 
+              N = length(weight),  se = sd/sqrt(N),
+              pi.lo = mean + qt(p = 0.025, df = N-1) * sd,
+              pi.up = mean + qt(p = 0.975, df = N-1) * sd,
+              ci.lo = mean + qt(p = 0.025, df = N-1) * se,
+              ci.up = mean + qt(p = 0.975, df = N-1) * se
              )
 
 stats
@@ -236,14 +282,25 @@ We can then use the table of summary statistics directly for a bar chart.
 ```{r }
 library("ggplot2")
 stats |>
-  ggplot(aes(x=brand, y=mean, min=lwr, max=upr))  +
-    geom_col() + geom_errorbar()
+  ggplot(aes(x = brand, y = mean, min = ci.lo, max = ci.up))  +
+  geom_col() + geom_errorbar()
 ``` 
 
 ## Additional tasks
 
 Repeat the analysis with other properties of the fruits, e.g. width and height. 
 Create box plots, analyse distribution, create bar charts.
+
+##  A footnote about prediction intervals
+
+The simplified $\bar{x} \pm z \cdot s$ formula used above is an approximation. A statistically rigorous 95% prediction interval, especially for smaller samples, needs two corrections.
+
+First, we would use the **t-distribution** with the quantile $t_{\alpha/2, n-1}$ (or `qt(alpha/2, n-1)` in R) instead of the normal quantiles ($\pm 1.96$). Then we add a term $\sqrt{1+1/N}$ that corrects for the sample parameters. The full formula for a single future observation is then:
+
+$$\text{PI} = \bar{x} \pm t_{\alpha/2, n-1} \cdot s \cdot \sqrt{1 + \frac{1}{N}}$$
+
+The prediction interval is related to the so-called "tolerance interval". Both are the same if the population parameters $\mu, \sigma$ are known or the sample size is very big. However, there are theoretical and practical differences in case of small sample size.
+
 
 
 # References

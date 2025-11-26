@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2023-11-14">
+<meta name="dcterms.date" content="2025-11-22">
 
 <title>05-Distribution and Confidence Intervals of Clementines – Elements of Data Analysis and Statistics - Lab Exercises</title>
 <style>
@@ -332,15 +332,16 @@ window.Quarto = {
   <li><a href="#confidence-interval-of-the-mean" id="toc-confidence-interval-of-the-mean" class="nav-link" data-scroll-target="#confidence-interval-of-the-mean"><span class="header-section-number">3.4</span> Confidence interval of the mean</a>
   <ul class="collapse">
   <li><a href="#confidence-interval-of-the-mean-for-the-box1-data" id="toc-confidence-interval-of-the-mean-for-the-box1-data" class="nav-link" data-scroll-target="#confidence-interval-of-the-mean-for-the-box1-data"><span class="header-section-number">3.4.1</span> Confidence interval of the mean for the “box1” data</a></li>
-  <li><a href="#confidence-interval-for-the-mean-of-the-box2-data" id="toc-confidence-interval-for-the-mean-of-the-box2-data" class="nav-link" data-scroll-target="#confidence-interval-for-the-mean-of-the-box2-data"><span class="header-section-number">3.4.2</span> Confidence interval for the mean of the “box2” data</a></li>
+  <li><a href="#add-density-plots" id="toc-add-density-plots" class="nav-link" data-scroll-target="#add-density-plots"><span class="header-section-number">3.4.2</span> Add density plots</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#compare-samples-with-f--and-t-test" id="toc-compare-samples-with-f--and-t-test" class="nav-link" data-scroll-target="#compare-samples-with-f--and-t-test"><span class="header-section-number">4</span> Compare samples with F- and t-Test</a></li>
+  <li><a href="#compare-samples-with-the-t-test" id="toc-compare-samples-with-the-t-test" class="nav-link" data-scroll-target="#compare-samples-with-the-t-test"><span class="header-section-number">4</span> Compare samples with the t-Test</a></li>
   <li><a href="#summary-statistics-and-ci-with-tidyverse" id="toc-summary-statistics-and-ci-with-tidyverse" class="nav-link" data-scroll-target="#summary-statistics-and-ci-with-tidyverse"><span class="header-section-number">5</span> Summary statistics and CI with <strong>tidyverse</strong></a>
   <ul class="collapse">
   <li><a href="#calculation-of-summary-statistics-with-dplyr" id="toc-calculation-of-summary-statistics-with-dplyr" class="nav-link" data-scroll-target="#calculation-of-summary-statistics-with-dplyr"><span class="header-section-number">5.1</span> Calculation of summary statistics with <strong>dplyr</strong></a></li>
   <li><a href="#barchart-and-errorbars-with-ggplot2" id="toc-barchart-and-errorbars-with-ggplot2" class="nav-link" data-scroll-target="#barchart-and-errorbars-with-ggplot2"><span class="header-section-number">5.2</span> Barchart and errorbars with <strong>ggplot2</strong></a></li>
   <li><a href="#additional-tasks" id="toc-additional-tasks" class="nav-link" data-scroll-target="#additional-tasks"><span class="header-section-number">5.3</span> Additional tasks</a></li>
+  <li><a href="#a-footnote-about-prediction-intervals" id="toc-a-footnote-about-prediction-intervals" class="nav-link" data-scroll-target="#a-footnote-about-prediction-intervals"><span class="header-section-number">5.4</span> A footnote about prediction intervals</a></li>
   </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">6</span> References</a></li>
   </ul>
@@ -362,7 +363,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 14, 2023</p>
+      <p class="date">November 22, 2025</p>
     </div>
   </div>
   
@@ -376,9 +377,9 @@ window.Quarto = {
 
 <section id="introduction" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
-<p>The example aims to demonstrate estimation and interpretation of confidence intervals. At the end, the two samples are compared with respect to variance and mean values.</p>
-<p>The experimental hypotheses was, that weight and size of two samples of Clementine fruits differ. The result is to be visualized with bar charts or box plots. We use only the weight as an example, analysis of the other statistical parameters is left as an optional exercise.</p>
-<p>We can now derive the following statistical hypotheses <strong>about the variance:</strong></p>
+<p>A given data set consists of two samples of clementine fruits. The experimental hypotheses is, that weight and size of two samples of clementines differ. The result is to be visualized with bar charts or box plots. We use the weight as an example, analysis of the other statistical parameters is left as an optional exercise.</p>
+<p>The example aims to demonstrate estimation and interpretation of prediction and confidence intervals. At the end, two samples are compared with respect to variance and mean values.</p>
+<p>We can set up the following statistical hypotheses <strong>about the variance:</strong></p>
 <ul>
 <li><span class="math inline">\(H_0\)</span>: The variance of both samples is the same.</li>
 <li><span class="math inline">\(H_a\)</span>: The samples have different variance.</li>
@@ -391,12 +392,11 @@ window.Quarto = {
 </section>
 <section id="material-and-methods" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Material and Methods</h1>
-<p>The data set consists of two samples of Clementines from the same shop. Weight, width and height of the fruits were measured with a scale and a caliper.</p>
-<p>The statistical analysis is performed with the <strong>R</strong> software for statistical computing and graphics <span class="citation" data-cites="RCore">(<a href="#ref-RCore" role="doc-biblioref">R Core Team, 2024</a>)</span> and the following packages <span class="citation" data-cites="Wickham2016 Wickham2023 Warnes2024">(<a href="#ref-Warnes2024" role="doc-biblioref">Warnes et al., 2024</a>; <a href="#ref-Wickham2016" role="doc-biblioref">Wickham, 2016</a>; <a href="#ref-Wickham2023" role="doc-biblioref">Wickham et al., 2023</a>)</span>:</p>
+<p>The data set consists of two samples of Clementines, either from different shops or different brands. Weight, width and height of the fruits were measured with a scale and a caliper.</p>
+<p>The statistical analysis is performed with the <strong>R</strong> software for statistical computing and graphics <span class="citation" data-cites="RCore">(<a href="#ref-RCore" role="doc-biblioref">R Core Team, 2024</a>)</span> and the packages <strong>dplyr</strong> <span class="citation" data-cites="Wickham2016">(<a href="#ref-Wickham2016" role="doc-biblioref">Wickham, 2016</a>)</span> and <strong>ggplot2</strong> <span class="citation" data-cites="Wickham2023">(<a href="#ref-Wickham2023" role="doc-biblioref">Wickham et al., 2023</a>)</span>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"gplots"</span>)  <span class="co"># contains barplot2 with error bars</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"dplyr"</span>)   <span class="co"># for pipelines, group_by and summarize</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggplot2"</span>) <span class="co"># modern plotting package "grammar of graphics"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"dplyr"</span>)   <span class="co"># for pipelines, group_by and summarize</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggplot2"</span>) <span class="co"># modern plotting package "grammar of graphics"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="data-analysis" class="level1" data-number="3">
@@ -404,12 +404,15 @@ window.Quarto = {
 <section id="prepare-and-inspect-data" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="prepare-and-inspect-data"><span class="header-section-number">3.1</span> Prepare and inspect data</h2>
 <ul>
-<li>Download the data set <code>fruits-2023-hse.csv</code> and use one of RStudio’s “Import Dataset” wizards.</li>
+<li>Download the data set <code>fruits-2022.csv</code> and use one of RStudio’s “Import Dataset” wizards.</li>
 <li>A better alternative is to use <code>read.csv()</code>.</li>
-<li>The data set is available in OPAL<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> or from: <a href="https://raw.githubusercontent.com/tpetzoldt/datasets/refs/heads/main/data/fruits-2023-hse.csv">https://raw.githubusercontent.com/tpetzoldt/datasets/refs/heads/main/data/fruits-2023-hse.csv</a></li>
+<li>The data set is available in OPAL<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> or from: <a href="https://tpetzoldt.github.io/datasets/data/fruits-2022.csv">https://tpetzoldt.github.io/datasets/data/fruits-2022.csv</a></li>
+<li>The data set contains several subsets.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#  ... do it</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#  ... do it</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># fruits &lt;- ...</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># fruits &lt;- filter(brand %in% c("box1", "box2"))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>plot everything, just for testing:</li>
@@ -417,99 +420,119 @@ window.Quarto = {
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fruits)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<ul>
-<li>split table for box1 and box2:</li>
-</ul>
+<p>We first split the overall data frame for box1 and box2 in two separate data frames, so we can analyse one after the other:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>box1 <span class="ot">&lt;-</span> <span class="fu">subset</span>(fruits, brand <span class="sc">==</span> <span class="st">"box1"</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>box2 <span class="ot">&lt;-</span> <span class="fu">subset</span>(fruits, brand <span class="sc">==</span> <span class="st">"box2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<ul>
-<li>compare weight of both groups:</li>
-</ul>
+<p>First, let’s compare the weight of both groups:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(box1<span class="sc">$</span>weight, box2<span class="sc">$</span>weight, <span class="at">names=</span><span class="fu">c</span>(<span class="st">"box1"</span>, <span class="st">"box2"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><strong>Note:</strong> It is also possible to use <code>boxplot</code> with the model formula syntax. This is the preferred way, because it does not require to split the data set beforehand:</p>
+<p>Here it is easier to use <code>boxplot</code> with the model formula syntax. This is the preferred way, because it does not require to split the data set beforehand:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(weight <span class="sc">~</span> brand, <span class="at">data =</span> fruits)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A third option would be to use <strong>ggplot</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fruits <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(brand, weight)) <span class="sc">+</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="check-distribution" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="check-distribution"><span class="header-section-number">3.2</span> Check distribution</h2>
-<p>We can check the shape of distribution graphically. If mean values of the samples differ much, it has to be done separately for each sample.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use `hist`, `qqnorm`, `qqline`</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>We can check the shape of distribution graphically. We do it for now only for the “box1” subset, because it contains more data.</p>
+<p>Histogram</p>
+<pre><code>hist(... ... ...)</code></pre>
+<pre><code>qqnorm(... ... ...)
+qqline(... ... ...)</code></pre>
 </section>
 <section id="sample-statistics" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="sample-statistics"><span class="header-section-number">3.3</span> Sample statistics</h2>
 <p>If we assume normal distribution of the data, we can estimate an approximate prediction interval from the sample parameters, i.e.&nbsp;in which size range we find 95% of the weights within one group.</p>
 <p>We first calculate mean, sd, N and se for “box1” data set:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>box1.mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(box1<span class="sc">$</span>weight)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>box1.sd   <span class="ot">&lt;-</span> <span class="fu">sd</span>(box1<span class="sc">$</span>weight)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>box1.N    <span class="ot">&lt;-</span> <span class="fu">length</span>(box1<span class="sc">$</span>weight)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>box1.se   <span class="ot">&lt;-</span> box1.sd<span class="sc">/</span><span class="fu">sqrt</span>(box1.N)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>box1.mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(box1<span class="sc">$</span>weight)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>box1.sd   <span class="ot">&lt;-</span> <span class="fu">sd</span>(box1<span class="sc">$</span>weight)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>box1.N    <span class="ot">&lt;-</span> <span class="fu">length</span>(box1<span class="sc">$</span>weight)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>box1.se   <span class="ot">&lt;-</span> box1.sd<span class="sc">/</span><span class="fu">sqrt</span>(box1.N)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Then we estimate the two-sided 95% prediction interval for the sample, assuming normal distribution:</p>
+<p>Then let’s estimate an approximate two-sided 95% <strong>prediction interval</strong> (<span class="math inline">\(PI\)</span>) for the sample using a simplified approach based on the quantiles of the theoretical normal distribution (<span class="math inline">\(z_{\alpha/2} \approx 1.96\)</span>) and the sample parameters mean <span class="math inline">\(\bar{x}\)</span> and standard deviation (<span class="math inline">\(s\)</span>):</p>
+<p><span class="math display">\[
+PI = \bar{x} \pm z \cdot s
+\]</span></p>
+<p>This is the interval where we would predict a new single observation to fall with 95% confidence.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>box1<span class="fl">.95</span> <span class="ot">&lt;-</span> box1.mean <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.96</span>, <span class="fl">1.96</span>) <span class="sc">*</span> box1.sd</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>box1<span class="fl">.95</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>box1.pi <span class="ot">&lt;-</span> box1.mean <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.96</span>, <span class="fl">1.96</span>) <span class="sc">*</span> box1.sd</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>box1.pi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Instead of using 1.96, we could also use the quantile function of the normal distribution instead, e.g.&nbsp;<code>qnorm(0.975)</code>for the upper interval or <code>qnorm(c(0.025, 0.975))</code> for the lower and upper.</p>
-<p>If the data set is large enough, we can compare the prediction interval from above with the <strong>empirical quantiles</strong>, i.e.&nbsp;take it directly from the data. Here we do not assume a normal or any other distribution.</p>
+<p>Instead of using 1.96, we could also use the quantile function <code>qnorm(0.975)</code> for the upper interval or <code>qnorm(c(0.025, 0.975))</code> for the lower and upper in parallel:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(box1<span class="sc">$</span>weight, <span class="at">p =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>box1.pi <span class="ot">&lt;-</span> box1.mean <span class="sc">+</span> <span class="fu">qnorm</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>)) <span class="sc">*</span> box1.sd</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>box1.pi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we plot the data and indicate the 95% interval:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(box1<span class="sc">$</span>weight)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> box1<span class="fl">.95</span>, <span class="at">col=</span><span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(box1<span class="sc">$</span>weight)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> box1.pi, <span class="at">col=</span><span class="st">"forestgreen"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>… and the same as histogram:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(box1<span class="sc">$</span>weight)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> box1<span class="fl">.95</span>, <span class="at">col=</span><span class="st">"red"</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rug</span>(box1<span class="sc">$</span>weight, <span class="at">col=</span><span class="st">"blue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(box1<span class="sc">$</span>weight)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> box1.pi, <span class="at">col=</span><span class="st">"forestgreen"</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rug</span>(box1<span class="sc">$</span>weight, <span class="at">col=</span><span class="st">"blue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p><strong>Task:</strong> Count the number of points in the scatterplot and the histogram that are outside of the lines. Which percentage would you expect?</p>
 </section>
 <section id="confidence-interval-of-the-mean" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="confidence-interval-of-the-mean"><span class="header-section-number">3.4</span> Confidence interval of the mean</h2>
-<p>The <strong>confidence interval</strong> of the mean tells us how precise a mean value was estimated from data. If the sample size is “large enough”, the distribution of the raw data does not necessarily need to be normal distributed, because then mean values tend to approximate a normal distribution due to the central limit theorem.</p>
+<p>The <strong>confidence interval</strong> (<span class="math inline">\(CI\)</span>) of the mean tells us how precise a mean value was estimated from data. If the sample size is “large enough”, the distribution of the raw data does not necessarily need to be normal, because then mean values tend to approximate a normal distribution due to the <strong>central limit theorem</strong>.</p>
+<p>The formula for the CI of the mean is: <span class="math display">\[CI = \bar{x} \pm t_{\alpha/2, n-1} \cdot \frac{s}{\sqrt{N}}\]</span></p>
 <section id="confidence-interval-of-the-mean-for-the-box1-data" class="level3" data-number="3.4.1">
 <h3 data-number="3.4.1" class="anchored" data-anchor-id="confidence-interval-of-the-mean-for-the-box1-data"><span class="header-section-number">3.4.1</span> Confidence interval of the mean for the “box1” data</h3>
-<ul>
-<li>Calculate the confidence interval of the mean value of the “box1” data set,</li>
-<li>use +/- 1.96 or (better) the quantile of the t-distribution:</li>
-</ul>
+<p><strong>Task:</strong> Calculate the confidence interval of the mean value of the “box1” data set using the quantile function (<code>qt</code>) of the t-distribution<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>box1.ci <span class="ot">&lt;-</span> box1.mean <span class="sc">+</span> <span class="fu">qt</span>(<span class="at">p =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), <span class="at">df =</span> box1.N<span class="dv">-1</span>) <span class="sc">*</span> box1.se</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>box1.ci <span class="ot">&lt;-</span> box1.mean <span class="sc">+</span> <span class="fu">qt</span>(<span class="at">p =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), <span class="at">df =</span> box1.N <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> box1.se</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now indicate the confidence interval of the mean in the histogram.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> box1.ci, <span class="at">col=</span><span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> box1.ci, <span class="at">col=</span><span class="st">"magenta"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="confidence-interval-for-the-mean-of-the-box2-data" class="level3" data-number="3.4.2">
-<h3 data-number="3.4.2" class="anchored" data-anchor-id="confidence-interval-for-the-mean-of-the-box2-data"><span class="header-section-number">3.4.2</span> Confidence interval for the mean of the “box2” data</h3>
-<p>We could now in principle do the same as above for the “box2” sample, but this would be rather cumbersome and boring. A more efficient method from package <strong>dplyr</strong> is shown below.</p>
-</section>
-</section>
-</section>
-<section id="compare-samples-with-f--and-t-test" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Compare samples with F- and t-Test</h1>
-<p><strong>Null Hypothesis:</strong> Both samples have the same mean weight and variance.</p>
-<p><strong>Alternative:</strong> The mean weight (and possibly also the variance) differs. The fruits bought on Friday and on Tuesday had a different price, so we expect a different quality and probably different size.</p>
+<section id="add-density-plots" class="level3" data-number="3.4.2">
+<h3 data-number="3.4.2" class="anchored" data-anchor-id="add-density-plots"><span class="header-section-number">3.4.2</span> Add density plots</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(weight <span class="sc">~</span> brand, <span class="at">data =</span> fruits)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(box1<span class="sc">$</span>weight, <span class="at">probability =</span> <span class="cn">TRUE</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.25</span>))</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>xnew <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">50</span>, <span class="dv">100</span>, <span class="at">length =</span> <span class="dv">500</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(xnew, <span class="fu">dnorm</span>(xnew, box1.mean, box1.sd), <span class="at">col =</span> <span class="st">"forestgreen"</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(xnew, <span class="fu">dnorm</span>(xnew, box1.mean, box1.se), <span class="at">col =</span> <span class="st">"magenta"</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> box1.pi, <span class="at">col=</span><span class="st">"forestgreen"</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> box1.ci, <span class="at">col=</span><span class="st">"magenta"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="compare-samples-with-the-t-test" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Compare samples with the t-Test</h1>
+<p><strong>Null Hypothesis:</strong> Both samples have the same mean weight.</p>
+<p><strong>Alternative:</strong> The mean weight differs. The fruits bought in different shops or at different days are expected to differ in quality and size.</p>
+<p>To supply the data to the <code>t.test</code>-function, we have again two options. One can either supply the two different groups directly:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(box1<span class="sc">$</span>weight, box2<span class="sc">$</span>weight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>or use a model formula (<code>weight ~ groups</code>). Here we have to make sure, that the data set contains only the two grous of interest:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>fruits2 <span class="ot">&lt;-</span> <span class="fu">filter</span>(fruits, brand <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"box1"</span>, <span class="st">"box2"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(weight <span class="sc">~</span> brand, <span class="at">data =</span> fruits2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Perform also the classical t-test (<code>var.equal=TRUE</code>) and the F-test (<code>var.test</code>). Calculate absolute and relative effect size (mean differences) and interpret the results of all 3 tests.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># var.test(...)</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># t.test(...)</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># var.test(...)</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co"># t.test(...)</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="summary-statistics-and-ci-with-tidyverse" class="level1" data-number="5">
@@ -519,35 +542,42 @@ window.Quarto = {
 <p>Some slides about the use of pipelines can be found under <a href="https://tpetzoldt.github.io/elements/">https://tpetzoldt.github.io/elements/</a></p>
 <section id="calculation-of-summary-statistics-with-dplyr" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="calculation-of-summary-statistics-with-dplyr"><span class="header-section-number">5.1</span> Calculation of summary statistics with <strong>dplyr</strong></h2>
-<p>Summarizing can be done with two functions, <code>group_by</code> that adds grouping information to a data frame and <code>summarize</code> to calculate summary statistics. In the following, we use the full data set with 4 groups.</p>
+<p>Summarizing can be done with two functions, <code>group_by</code> that adds grouping information to a data frame and <code>summarize</code> to calculate summary statistics. In the following, we use the full data set with all groups.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"dplyr"</span>)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>fruits <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"fruits-2023-hse.csv"</span>)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>stats <span class="ot">&lt;-</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  fruits <span class="sc">|&gt;</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(brand) <span class="sc">|&gt;</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(weight), <span class="at">sd=</span><span class="fu">sd</span>(weight), <span class="at">N=</span><span class="fu">length</span>(weight), <span class="at">se=</span>sd<span class="sc">/</span><span class="fu">sqrt</span>(N),</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">lwr =</span> mean <span class="sc">+</span> <span class="fu">qt</span>(<span class="at">p =</span> <span class="fl">0.025</span>, <span class="at">df =</span> N<span class="dv">-1</span>) <span class="sc">*</span> se,</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">upr =</span> mean <span class="sc">+</span> <span class="fu">qt</span>(<span class="at">p =</span> <span class="fl">0.975</span>, <span class="at">df =</span> N<span class="dv">-1</span>) <span class="sc">*</span> se</span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>             )</span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>stats</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>stats <span class="ot">&lt;-</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  fruits <span class="sc">|&gt;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(brand) <span class="sc">|&gt;</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(weight), <span class="at">sd =</span> <span class="fu">sd</span>(weight), </span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">N =</span> <span class="fu">length</span>(weight),  <span class="at">se =</span> sd<span class="sc">/</span><span class="fu">sqrt</span>(N),</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">pi.lo =</span> mean <span class="sc">+</span> <span class="fu">qt</span>(<span class="at">p =</span> <span class="fl">0.025</span>, <span class="at">df =</span> N<span class="dv">-1</span>) <span class="sc">*</span> sd,</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">pi.up =</span> mean <span class="sc">+</span> <span class="fu">qt</span>(<span class="at">p =</span> <span class="fl">0.975</span>, <span class="at">df =</span> N<span class="dv">-1</span>) <span class="sc">*</span> sd,</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">ci.lo =</span> mean <span class="sc">+</span> <span class="fu">qt</span>(<span class="at">p =</span> <span class="fl">0.025</span>, <span class="at">df =</span> N<span class="dv">-1</span>) <span class="sc">*</span> se,</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">ci.up =</span> mean <span class="sc">+</span> <span class="fu">qt</span>(<span class="at">p =</span> <span class="fl">0.975</span>, <span class="at">df =</span> N<span class="dv">-1</span>) <span class="sc">*</span> se</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>             )</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>stats</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="barchart-and-errorbars-with-ggplot2" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="barchart-and-errorbars-with-ggplot2"><span class="header-section-number">5.2</span> Barchart and errorbars with <strong>ggplot2</strong></h2>
 <p>We can then use the table of summary statistics directly for a bar chart.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggplot2"</span>)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>stats <span class="sc">|&gt;</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>brand, <span class="at">y=</span>mean, <span class="at">min=</span>lwr, <span class="at">max=</span>upr))  <span class="sc">+</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>() <span class="sc">+</span> <span class="fu">geom_errorbar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggplot2"</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>stats <span class="sc">|&gt;</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> brand, <span class="at">y =</span> mean, <span class="at">min =</span> ci.lo, <span class="at">max =</span> ci.up))  <span class="sc">+</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span> <span class="fu">geom_errorbar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="additional-tasks" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="additional-tasks"><span class="header-section-number">5.3</span> Additional tasks</h2>
 <p>Repeat the analysis with other properties of the fruits, e.g.&nbsp;width and height. Create box plots, analyse distribution, create bar charts.</p>
+</section>
+<section id="a-footnote-about-prediction-intervals" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="a-footnote-about-prediction-intervals"><span class="header-section-number">5.4</span> A footnote about prediction intervals</h2>
+<p>The simplified <span class="math inline">\(\bar{x} \pm z \cdot s\)</span> formula used above is an approximation. A statistically rigorous 95% prediction interval, especially for smaller samples, needs two corrections.</p>
+<p>First, we would use the <strong>t-distribution</strong> with the quantile <span class="math inline">\(t_{\alpha/2, n-1}\)</span> (or <code>qt(alpha/2, n-1)</code> in R) instead of the normal quantiles (<span class="math inline">\(\pm 1.96\)</span>). Then we add a term <span class="math inline">\(\sqrt{1+1/N}\)</span> that corrects for the sample parameters. The full formula for a single future observation is then:</p>
+<p><span class="math display">\[\text{PI} = \bar{x} \pm t_{\alpha/2, n-1} \cdot s \cdot \sqrt{1 + \frac{1}{N}}\]</span></p>
+<p>The prediction interval is related to the so-called “tolerance interval”. Both are the same if the population parameters <span class="math inline">\(\mu, \sigma\)</span> are known or the sample size is very big. However, there are theoretical and practical differences in case of small sample size.</p>
 </section>
 </section>
 <section id="references" class="level1" data-number="6">
@@ -562,9 +592,6 @@ window.Quarto = {
 <div id="ref-RCore" class="csl-entry" role="listitem">
 R Core Team. (2024). <em>R: A language and environment for statistical computing</em>. R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>
 </div>
-<div id="ref-Warnes2024" class="csl-entry" role="listitem">
-Warnes, G. R., Bolker, B., Bonebakker, L., Gentleman, R., Huber, W., Liaw, A., Lumley, T., Maechler, M., Magnusson, A., Moeller, S., Schwartz, M., Venables, B., &amp; Galili, T. (2024). <em>Gplots: Various r programming tools for plotting data</em>. <a href="https://CRAN.R-project.org/package=gplots">https://CRAN.R-project.org/package=gplots</a>
-</div>
 <div id="ref-Wickham2016" class="csl-entry" role="listitem">
 Wickham, H. (2016). <em>ggplot2: Elegant graphics for data analysis</em>. Springer-Verlag New York. <a href="https://ggplot2.tidyverse.org">https://ggplot2.tidyverse.org</a>
 </div>
@@ -578,6 +605,7 @@ Wickham, H., François, R., Henry, L., Müller, K., &amp; Vaughan, D. (2023). <e
 
 <ol>
 <li id="fn1"><p>OPAL is the learning management system used at TU Dresden.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>as the sample size is not too small, you may also compare this with 1.96 or 2.0<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
