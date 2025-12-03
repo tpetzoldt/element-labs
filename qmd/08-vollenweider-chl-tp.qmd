@@ -1,6 +1,6 @@
 ---
 title: "08-Linear Regression: Dependency of Chlorophyll on Phosphorus in Lakes"
-date: '2024-12-11'
+date: '2025-12-03'
 ---
 
 
@@ -76,7 +76,7 @@ plot the regression line (`abline`) or to extract regression
 statistics (`summary`):
 
 ```{r, eval=FALSE}
-plot(dat$TP, dat$CHL)
+plot(dat$TP, dat$CHLa)
 reg <- lm(dat$CHLa ~ dat$TP)
 abline(reg)
 summary(reg)
@@ -201,14 +201,14 @@ We can create a plot with different plotting symbols, by making the
 plotting character `pch` dependent on the limitation type
 
 ```{r,eval=FALSE}
-plot(dat$TP, dat$CHL, pch = dat$Limitation)
+plot(dat$TP, dat$CHLa, pch = dat$Limitation)
 ```
 
 Another method using plotting symbols employs conversion from
 character to a factor and then to a numeric:
 
 ```{r,eval=FALSE}
-plot(dat$TP, dat$CHL, pch = as.numeric(factor(dat$Limitation)))
+plot(dat$TP, dat$CHLa, pch = as.numeric(factor(dat$Limitation)))
 ```
 
 The following shows one approach for subsetting direcly in the
