@@ -1,6 +1,6 @@
 ---
 title: "05-Distribution and Confidence Intervals of Clementines"
-date: '2025-11-22'
+date: '2025-11-26'
 ---
 
 ```{r include=FALSE, eval=TRUE}
@@ -74,15 +74,15 @@ plot(fruits)
 We first split the overall data frame for box1 and box2 in two separate data frames, so we can analyse one after the other:
 
 ```{r }
-box1 <- subset(fruits, brand == "box1")
-box2 <- subset(fruits, brand == "box2")
+sample1 <- subset(fruits, brand == "box1")
+sample2 <- subset(fruits, brand == "box2")
 ```
 
 First, let's compare the weight of both groups:
 
 
 ```{r }
-boxplot(box1$weight, box2$weight, names=c("box1", "box2"))
+boxplot(sample1$weight, sample2$weight, names=c("sample1", "sample2"))
 ```
 Here it is easier to use `boxplot` with the model formula syntax. 
 This is the preferred way, because it does not require to split the data set beforehand:
@@ -102,7 +102,7 @@ fruits |>
 
 ## Check distribution
 
-We can check the shape of distribution graphically. We do it for now only for the "box1" subset, because it contains more data.
+We can check the shape of distribution graphically. We do it for now only for the "sample1" subset, because it contains more data.
 
 Histogram
 
@@ -124,13 +124,13 @@ If we assume normal distribution of the data, we can estimate an approximate
 prediction interval from the sample parameters, i.e. in which size range
 we find 95% of the weights within one group.
  
-We first calculate mean, sd, N and se for "box1" data set:
+We first calculate mean, sd, N and se for "sample1" data set:
 
 ```{r }
-box1.mean <- mean(box1$weight)
-box1.sd   <- sd(box1$weight)
-box1.N    <- length(box1$weight)
-box1.se   <- box1.sd/sqrt(box1.N)
+sample1.mean <- mean(sample1$weight)
+sample1.sd   <- sd(sample1$weight)
+sample1.N    <- length(sample1$weight)
+sample1.se   <- sample1.sd/sqrt(sample1.N)
 ```
 
 Then let's estimate an approximate two-sided 95% **prediction interval** ($PI$) for the sample using a simplified approach based on the quantiles of the theoretical normal distribution ($z_{\alpha/2} \approx 1.96$) and the sample parameters mean $\bar{x}$ and standard deviation ($s$):
@@ -142,31 +142,31 @@ $$
 This is the interval where we would predict a new single observation to fall with 95% confidence.
 
 ```{r }
-box1.pi <- box1.mean + c(-1.96, 1.96) * box1.sd
-box1.pi
+sample1.pi <- sample1.mean + c(-1.96, 1.96) * sample1.sd
+sample1.pi
 ```
 
 Instead of using 1.96, we could also use the quantile function `qnorm(0.975)` for the upper interval or `qnorm(c(0.025, 0.975))` for the lower and upper in parallel:
 
 
 ```{r }
-box1.pi <- box1.mean + qnorm(c(0.025, 0.975)) * box1.sd
-box1.pi
+sample1.pi <- sample1.mean + qnorm(c(0.025, 0.975)) * sample1.sd
+sample1.pi
 ```
 
 Now we plot the data and indicate the 95% interval:
 
 ```{r }
-plot(box1$weight)
-abline(h = box1.pi, col="forestgreen")
+plot(sample1$weight)
+abline(h = sample1.pi, col="forestgreen")
 ```
 
 ... and the same as histogram:
 
 ```{r }
-hist(box1$weight)
-abline(v = box1.pi, col="forestgreen")
-rug(box1$weight, col="blue")
+hist(sample1$weight)
+abline(v = sample1.pi, col="forestgreen")
+rug(sample1$weight, col="blue")
 ```
 
 **Task:** Count the number of points in the scatterplot and the histogram that 
@@ -180,30 +180,30 @@ If the sample size is "large enough", the distribution of the raw data does not 
 
 The formula for the CI of the mean is: $$CI = \bar{x} \pm t_{\alpha/2, n-1} \cdot \frac{s}{\sqrt{N}}$$
 
-### Confidence interval of the mean for the "box1" data
+### Confidence interval of the mean for the "sample1" data
 
-**Task:** Calculate the confidence interval of the mean value of the "box1" data set using the quantile function (`qt`) of the t-distribution^[as the sample size is not too small, you may also compare this with 1.96 or 2.0]:
+**Task:** Calculate the confidence interval of the mean value of the "sample1" data set using the quantile function (`qt`) of the t-distribution^[as the sample size is not too small, you may also compare this with 1.96 or 2.0]:
 
 ```{r }
-box1.ci <- box1.mean + qt(p = c(0.025, 0.975), df = box1.N - 1) * box1.se
+sample1.ci <- sample1.mean + qt(p = c(0.025, 0.975), df = sample1.N - 1) * sample1.se
 ```
 
 Now indicate the confidence interval of the mean in the histogram.
 
 ```{r eval=FALSE}
-abline(v = box1.ci, col="magenta")
+abline(v = sample1.ci, col="magenta")
 ```
 
 
 ### Add density plots
 
 ```{r eval = FALSE}
-hist(box1$weight, probability = TRUE, ylim = c(0, 0.25))
+hist(sample1$weight, probability = TRUE, ylim = c(0, 0.25))
 xnew <- seq(50, 100, length = 500)
-lines(xnew, dnorm(xnew, box1.mean, box1.sd), col = "forestgreen")
-lines(xnew, dnorm(xnew, box1.mean, box1.se), col = "magenta")
-abline(v = box1.pi, col="forestgreen")
-abline(v = box1.ci, col="magenta")
+lines(xnew, dnorm(xnew, sample1.mean, sample1.sd), col = "forestgreen")
+lines(xnew, dnorm(xnew, sample1.mean, sample1.se), col = "magenta")
+abline(v = sample1.pi, col="forestgreen")
+abline(v = sample1.ci, col="magenta")
 ```
 
 
@@ -218,13 +218,13 @@ To supply the data to the `t.test`-function, we have again two options. One can 
 
 
 ```{r}
-t.test(box1$weight, box2$weight)
+t.test(sample1$weight, sample2$weight)
 ```
 
 or use a model formula (`weight ~ groups`). Here we have to make sure, that the data set contains only the two grous of interest:
 
 ```{r}
-fruits2 <- filter(fruits, brand %in% c("box1", "box2"))
+fruits2 <- filter(fruits, brand %in% c("sample1", "sample2"))
 ```
 
 

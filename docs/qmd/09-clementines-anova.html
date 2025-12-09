@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2024-12-16">
+<meta name="dcterms.date" content="2025-12-09">
 
 <title>09-Which fruits are the biggest? An ANOVA example – Elements of Data Analysis and Statistics - Lab Exercises</title>
 <style>
@@ -357,7 +357,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">December 16, 2024</p>
+      <p class="date">December 9, 2025</p>
     </div>
   </div>
   
@@ -426,7 +426,7 @@ window.Quarto = {
 </ul></li>
 <li><p>give a short explanation of the ANOVA results and report effect sizes</p></li>
 </ul>
-<p><strong>Creative part:</strong> You can also be somewhat creative and analyse further properties of the data, e.g.&nbsp;length, width, weight, … Select appropriate test methods, e.g.&nbsp;t-tests, ANOVA, correlation or regression, etc. You may also use <strong>tidyverse</strong> methods (e.g.&nbsp;<code>group_by</code> and <code>summarize</code>) to summarize the data <span class="citation" data-cites="tidyverse2019">(<a href="#ref-tidyverse2019" role="doc-biblioref">Wickham et al., 2019</a>)</span>. It can also be possible to try a two-way ANOVA with a subset of the data. In that case, make sure to have a balanced data set or use <code>Anova</code> function (with capital letter “A”) from package <strong>car</strong>.</p>
+<p><strong>Creative part:</strong> You can also be somewhat creative and analyse further properties of the data, e.g.&nbsp;length, width, weight, … Select appropriate test methods, e.g.&nbsp;t-tests, ANOVA, correlation or regression, etc. You may also use <strong>tidyverse</strong> methods (e.g.&nbsp;<code>group_by</code> and <code>summarize</code>) to summarize the data <span class="citation" data-cites="tidyverse2019">(<a href="#ref-tidyverse2019" role="doc-biblioref">Wickham et al., 2019</a>)</span>. Another idea is a two-way ANOVA with a subset of the data. In that case, make sure to have a balanced data set or use the <code>Anova</code> function (with capital letter “A”) from package <strong>car</strong>.</p>
 </section>
 <section id="discussion-and-conclusions" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Discussion and Conclusions</h1>
@@ -462,13 +462,11 @@ window.Quarto = {
 <li><strong>Weight</strong>: was determined with a kitchen scale in gramm (g).</li>
 <li><strong>Height and Width</strong>: were measured with a <strong>caliper</strong> (Fig. 1)</li>
 </ul>
-<div data-align="center">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="../img/caliper.jpg" height="200" class="figure-img"></p>
 <figcaption>Size measurement with a digital caliper.</figcaption>
 </figure>
-</div>
 </div>
 </section>
 <section id="r-example-code" class="level2" data-number="5.3">
@@ -479,33 +477,35 @@ window.Quarto = {
 <li><p>Don’t make your report too technical, concentrate on your message.</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>brands <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"https://tpetzoldt.github.io/datasets/data/clementines2019-brands.csv"</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>fruits <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"https://tpetzoldt.github.io/datasets/data/clementines2019-fruits.csv"</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">left_join</span>(fruits, brands) <span class="co"># merge tables by their common colum 'Brand'</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>brand <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>brand)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(weight <span class="sc">~</span> brand, <span class="at">data=</span>dat)</span>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"dplyr"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>brands <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"https://tpetzoldt.github.io/datasets/data/clementines2019-brands.csv"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>fruits <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"https://tpetzoldt.github.io/datasets/data/clementines2019-fruits.csv"</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">left_join</span>(fruits, brands) <span class="co"># merge tables by their common colum 'Brand'</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>brand <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>brand)</span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="do">## the ANOVA</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">lm</span>(weight <span class="sc">~</span> brand, <span class="at">data=</span>dat)</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m)</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="do">## posthoc test</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(<span class="fu">aov</span>(m))</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="do">## graphical display of Tukey's test</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">TukeyHSD</span>(<span class="fu">aov</span>(m)), <span class="at">las=</span><span class="dv">1</span>, <span class="at">cex.axis=</span><span class="fl">0.5</span>)</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="do">## graphical and numerical checks of variance homogeneity</span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(m, <span class="at">which=</span><span class="dv">1</span>)</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="fu">fligner.test</span>(weight <span class="sc">~</span> brand, <span class="at">data=</span>dat)</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="do">## approximate normality of residuals</span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(m, <span class="at">which=</span><span class="dv">2</span>)</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="do">## optional: special one-way anova alternative if variances are unequal</span></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="fu">oneway.test</span>(weight <span class="sc">~</span> brand, <span class="at">data=</span>dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(weight <span class="sc">~</span> brand, <span class="at">data=</span>dat)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="do">## the ANOVA</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">lm</span>(weight <span class="sc">~</span> brand, <span class="at">data=</span>dat)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="do">## posthoc test</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(<span class="fu">aov</span>(m))</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="do">## graphical display of Tukey's test</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">TukeyHSD</span>(<span class="fu">aov</span>(m)), <span class="at">las=</span><span class="dv">1</span>, <span class="at">cex.axis=</span><span class="fl">0.5</span>)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="do">## graphical and numerical checks of variance homogeneity</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(m, <span class="at">which=</span><span class="dv">1</span>)</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="fu">fligner.test</span>(weight <span class="sc">~</span> brand, <span class="at">data=</span>dat)</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="do">## approximate normality of residuals</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(m, <span class="at">which=</span><span class="dv">2</span>)</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="do">## optional: special one-way anova alternative if variances are unequal</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="fu">oneway.test</span>(weight <span class="sc">~</span> brand, <span class="at">data=</span>dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="text-processing" class="level2" data-number="5.4">

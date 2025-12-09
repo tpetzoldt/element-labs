@@ -1,6 +1,6 @@
 ---
 title: '09-Which fruits are the biggest? An ANOVA example'
-date: '2024-12-16'
+date: '2025-12-09'
 ---
 
 ```{r setup, include=FALSE}
@@ -92,9 +92,9 @@ further properties of the data, e.g. length, width, weight, ... Select
 appropriate test methods, e.g. t-tests, ANOVA, correlation or
 regression, etc. You may also use **tidyverse** methods
 (e.g. `group_by` and `summarize`) to summarize the data
-[@tidyverse2019].  It can also be possible to try a two-way ANOVA with
+[@tidyverse2019].  Another idea is a two-way ANOVA with
 a subset of the data. In that case, make sure to have a balanced data
-set or use `Anova` function (with capital letter "A") from package
+set or use the `Anova` function (with capital letter "A") from package
 **car**.
 
 
@@ -142,9 +142,8 @@ data, where different brands from the same shops are available.
 * **Weight**: was determined with a kitchen scale in gramm (g).
 * **Height and Width**: were measured with a **caliper** (Fig. 1)
 
-<div align="center">
-![Size measurement with a digital caliper.](../img/caliper.jpg){height=200}
-</div>
+
+![Size measurement with a digital caliper.](../img/caliper.jpg){height=200 fig-align="center"}
 
 
 ## R example code
@@ -158,6 +157,8 @@ adapt the script to analyse the data from another year.
 * Don't make your report too technical, concentrate on your message.
 
 ```{R,eval=FALSE}
+library("dplyr")
+
 brands <- read.csv("https://tpetzoldt.github.io/datasets/data/clementines2019-brands.csv")
 fruits <- read.csv("https://tpetzoldt.github.io/datasets/data/clementines2019-fruits.csv")
 

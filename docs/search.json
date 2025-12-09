@@ -235,7 +235,7 @@
     "href": "qmd/09-clementines-anova.html#measurement-methods",
     "title": "09-Which fruits are the biggest? An ANOVA example",
     "section": "5.2 Measurement methods",
-    "text": "5.2 Measurement methods\n\nWeight: was determined with a kitchen scale in gramm (g).\nHeight and Width: were measured with a caliper (Fig. 1)\n\n\n\n\n\nSize measurement with a digital caliper.",
+    "text": "5.2 Measurement methods\n\nWeight: was determined with a kitchen scale in gramm (g).\nHeight and Width: were measured with a caliper (Fig. 1)\n\n\n\n\nSize measurement with a digital caliper.",
     "crumbs": [
       "Labs",
       "09-Which fruits are the biggest? An ANOVA example"
@@ -246,7 +246,7 @@
     "href": "qmd/09-clementines-anova.html#r-example-code",
     "title": "09-Which fruits are the biggest? An ANOVA example",
     "section": "5.3 R example code",
-    "text": "5.3 R example code\n\nThe following code is intended as a starting example. It is recommended to adapt the script to analyse the data from another year.\nDon’t forget that it is an exercise, not a serious analysis, so feel free to create your own story.\nDon’t make your report too technical, concentrate on your message.\n\n\nbrands &lt;- read.csv(\"https://tpetzoldt.github.io/datasets/data/clementines2019-brands.csv\")\nfruits &lt;- read.csv(\"https://tpetzoldt.github.io/datasets/data/clementines2019-fruits.csv\")\n\ndat &lt;- left_join(fruits, brands) # merge tables by their common colum 'Brand'\ndat$brand &lt;- factor(dat$brand)\n\nboxplot(weight ~ brand, data=dat)\n\n## the ANOVA\nm &lt;- lm(weight ~ brand, data=dat)\nanova(m)\n\n## posthoc test\nTukeyHSD(aov(m))\n\n## graphical display of Tukey's test\nplot(TukeyHSD(aov(m)), las=1, cex.axis=0.5)\n\n## graphical and numerical checks of variance homogeneity\nplot(m, which=1)\nfligner.test(weight ~ brand, data=dat)\n\n## approximate normality of residuals\nplot(m, which=2)\n\n## optional: special one-way anova alternative if variances are unequal\noneway.test(weight ~ brand, data=dat)",
+    "text": "5.3 R example code\n\nThe following code is intended as a starting example. It is recommended to adapt the script to analyse the data from another year.\nDon’t forget that it is an exercise, not a serious analysis, so feel free to create your own story.\nDon’t make your report too technical, concentrate on your message.\n\n\nlibrary(\"dplyr\")\n\nbrands &lt;- read.csv(\"https://tpetzoldt.github.io/datasets/data/clementines2019-brands.csv\")\nfruits &lt;- read.csv(\"https://tpetzoldt.github.io/datasets/data/clementines2019-fruits.csv\")\n\ndat &lt;- left_join(fruits, brands) # merge tables by their common colum 'Brand'\ndat$brand &lt;- factor(dat$brand)\n\nboxplot(weight ~ brand, data=dat)\n\n## the ANOVA\nm &lt;- lm(weight ~ brand, data=dat)\nanova(m)\n\n## posthoc test\nTukeyHSD(aov(m))\n\n## graphical display of Tukey's test\nplot(TukeyHSD(aov(m)), las=1, cex.axis=0.5)\n\n## graphical and numerical checks of variance homogeneity\nplot(m, which=1)\nfligner.test(weight ~ brand, data=dat)\n\n## approximate normality of residuals\nplot(m, which=2)\n\n## optional: special one-way anova alternative if variances are unequal\noneway.test(weight ~ brand, data=dat)",
     "crumbs": [
       "Labs",
       "09-Which fruits are the biggest? An ANOVA example"
