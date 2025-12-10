@@ -1,6 +1,6 @@
 ---
 title: '09-Which fruits are the biggest? An ANOVA example'
-date: '2025-12-09'
+date: '2025-12-10'
 ---
 
 ```{r setup, include=FALSE}
@@ -10,7 +10,7 @@ library(dplyr)
 
 **Preface**
 
-The following template is intended as a starting point for a short report of an ANOVA.
+The following template is intended as a starting point for a short report of an ANOVA with Quarto.
 It is recommended to follow the general outline (Introduction, Methods,
 Results, Discussion), but to adapt the content to the specific needs of the analysis. 
 
@@ -83,7 +83,6 @@ that an ANOVA was performed and which methods were used in addition.
     - the ANOVA
     - check variance homogeneity and approximate normality
     - perform a post-hoc test
-    
 
 * give a short explanation of the ANOVA results and report effect sizes
 
@@ -190,19 +189,11 @@ oneway.test(weight ~ brand, data=dat)
 
 ## Text processing
 
-The report can, in principle, be written in any text processing software,
-e.g. Microsoft Word or LibreOffice Write, but I recommend to try Quarto. 
-It needs only a little extra learning, but is an extremely efficient way to combine
-text and analysis with **R** in one document and write it directly in
-RStudio. A comprehensive documentation can be found on
+The report can be written with Quarto. It needs a little extra learning, 
+but is an extremely efficient way to combine text and analysis with **R** in one 
+document and write it directly in RStudio. A comprehensive documentation can be found on
 [https://quarto.org/](https://quarto.org/).
 
-
-## Questions and literature research
-
-Please post questions, comments and ideas to the chat group. 
-As the exercise is a toy example, it may be difficult to find relevant citeable 
-literature. However, we don't limit creativity.
 
 **References**
 

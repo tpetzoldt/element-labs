@@ -191,7 +191,7 @@
     "href": "qmd/09-clementines-anova.html",
     "title": "09-Which fruits are the biggest? An ANOVA example",
     "section": "",
-    "text": "Preface\nThe following template is intended as a starting point for a short report of an ANOVA. It is recommended to follow the general outline (Introduction, Methods, Results, Discussion), but to adapt the content to the specific needs of the analysis.\nIt is good practice to concentrate on the main findings and their discussion and to avoid unnecessary technical detail. The report should be illustrated with meaningful (and only the most important) tables and graphs.\nThe data set consists of different samples of clementine fruits from different brands and different shops. The data sets can be downloaded from\nhttps://tpetzoldt.github.io/datasets/.\nA description is found in the file clementines_info.txt.",
+    "text": "Preface\nThe following template is intended as a starting point for a short report of an ANOVA with Quarto. It is recommended to follow the general outline (Introduction, Methods, Results, Discussion), but to adapt the content to the specific needs of the analysis.\nIt is good practice to concentrate on the main findings and their discussion and to avoid unnecessary technical detail. The report should be illustrated with meaningful (and only the most important) tables and graphs.\nThe data set consists of different samples of clementine fruits from different brands and different shops. The data sets can be downloaded from\nhttps://tpetzoldt.github.io/datasets/.\nA description is found in the file clementines_info.txt.",
     "crumbs": [
       "Labs",
       "09-Which fruits are the biggest? An ANOVA example"
@@ -257,18 +257,7 @@
     "href": "qmd/09-clementines-anova.html#text-processing",
     "title": "09-Which fruits are the biggest? An ANOVA example",
     "section": "5.4 Text processing",
-    "text": "5.4 Text processing\nThe report can, in principle, be written in any text processing software, e.g. Microsoft Word or LibreOffice Write, but I recommend to try Quarto. It needs only a little extra learning, but is an extremely efficient way to combine text and analysis with R in one document and write it directly in RStudio. A comprehensive documentation can be found on https://quarto.org/.",
-    "crumbs": [
-      "Labs",
-      "09-Which fruits are the biggest? An ANOVA example"
-    ]
-  },
-  {
-    "objectID": "qmd/09-clementines-anova.html#questions-and-literature-research",
-    "href": "qmd/09-clementines-anova.html#questions-and-literature-research",
-    "title": "09-Which fruits are the biggest? An ANOVA example",
-    "section": "5.5 Questions and literature research",
-    "text": "5.5 Questions and literature research\nPlease post questions, comments and ideas to the chat group. As the exercise is a toy example, it may be difficult to find relevant citeable literature. However, we don’t limit creativity.\nReferences",
+    "text": "5.4 Text processing\nThe report can be written with Quarto. It needs a little extra learning, but is an extremely efficient way to combine text and analysis with R in one document and write it directly in RStudio. A comprehensive documentation can be found on https://quarto.org/.\nReferences",
     "crumbs": [
       "Labs",
       "09-Which fruits are the biggest? An ANOVA example"
@@ -367,7 +356,7 @@
     "href": "qmd/05-distributions-fruits-tidyverse.html#prepare-and-inspect-data",
     "title": "05-Distribution and Confidence Intervals of Clementines",
     "section": "3.1 Prepare and inspect data",
-    "text": "3.1 Prepare and inspect data\n\nDownload the data set fruits-2022.csv and use one of RStudio’s “Import Dataset” wizards.\nA better alternative is to use read.csv().\nThe data set is available in OPAL1 or from: https://tpetzoldt.github.io/datasets/data/fruits-2022.csv\nThe data set contains several subsets.\n\n\n#  ... do it\n# fruits &lt;- ...\n# fruits &lt;- filter(brand %in% c(\"box1\", \"box2\"))\n\n\nplot everything, just for testing:\n\n\nplot(fruits)\n\nWe first split the overall data frame for box1 and box2 in two separate data frames, so we can analyse one after the other:\n\nbox1 &lt;- subset(fruits, brand == \"box1\")\nbox2 &lt;- subset(fruits, brand == \"box2\")\n\nFirst, let’s compare the weight of both groups:\n\nboxplot(box1$weight, box2$weight, names=c(\"box1\", \"box2\"))\n\nHere it is easier to use boxplot with the model formula syntax. This is the preferred way, because it does not require to split the data set beforehand:\n\nboxplot(weight ~ brand, data = fruits)\n\nA third option would be to use ggplot:\n\nfruits |&gt;\n  ggplot(aes(brand, weight)) + \n  geom_boxplot()",
+    "text": "3.1 Prepare and inspect data\n\nDownload the data set fruits-2022.csv and use one of RStudio’s “Import Dataset” wizards.\nA better alternative is to use read.csv().\nThe data set is available in OPAL1 or from: https://tpetzoldt.github.io/datasets/data/fruits-2022.csv\nThe data set contains several subsets.\n\n\n#  ... do it\n# fruits &lt;- ...\n# fruits &lt;- filter(brand %in% c(\"box1\", \"box2\"))\n\n\nplot everything, just for testing:\n\n\nplot(fruits)\n\nWe first split the overall data frame for box1 and box2 in two separate data frames, so we can analyse one after the other:\n\nsample1 &lt;- subset(fruits, brand == \"box1\")\nsample2 &lt;- subset(fruits, brand == \"box2\")\n\nFirst, let’s compare the weight of both groups:\n\nboxplot(sample1$weight, sample2$weight, names=c(\"sample1\", \"sample2\"))\n\nHere it is easier to use boxplot with the model formula syntax. This is the preferred way, because it does not require to split the data set beforehand:\n\nboxplot(weight ~ brand, data = fruits)\n\nA third option would be to use ggplot:\n\nfruits |&gt;\n  ggplot(aes(brand, weight)) + \n  geom_boxplot()",
     "crumbs": [
       "Labs",
       "05-Distribution and Confidence Intervals of Clementines"
@@ -378,7 +367,7 @@
     "href": "qmd/05-distributions-fruits-tidyverse.html#check-distribution",
     "title": "05-Distribution and Confidence Intervals of Clementines",
     "section": "3.2 Check distribution",
-    "text": "3.2 Check distribution\nWe can check the shape of distribution graphically. We do it for now only for the “box1” subset, because it contains more data.\nHistogram\nhist(... ... ...)\nqqnorm(... ... ...)\nqqline(... ... ...)",
+    "text": "3.2 Check distribution\nWe can check the shape of distribution graphically. We do it for now only for the “sample1” subset, because it contains more data.\nHistogram\nhist(... ... ...)\nqqnorm(... ... ...)\nqqline(... ... ...)",
     "crumbs": [
       "Labs",
       "05-Distribution and Confidence Intervals of Clementines"
@@ -389,7 +378,7 @@
     "href": "qmd/05-distributions-fruits-tidyverse.html#sample-statistics",
     "title": "05-Distribution and Confidence Intervals of Clementines",
     "section": "3.3 Sample statistics",
-    "text": "3.3 Sample statistics\nIf we assume normal distribution of the data, we can estimate an approximate prediction interval from the sample parameters, i.e. in which size range we find 95% of the weights within one group.\nWe first calculate mean, sd, N and se for “box1” data set:\n\nbox1.mean &lt;- mean(box1$weight)\nbox1.sd   &lt;- sd(box1$weight)\nbox1.N    &lt;- length(box1$weight)\nbox1.se   &lt;- box1.sd/sqrt(box1.N)\n\nThen let’s estimate an approximate two-sided 95% prediction interval (\\(PI\\)) for the sample using a simplified approach based on the quantiles of the theoretical normal distribution (\\(z_{\\alpha/2} \\approx 1.96\\)) and the sample parameters mean \\(\\bar{x}\\) and standard deviation (\\(s\\)):\n\\[\nPI = \\bar{x} \\pm z \\cdot s\n\\]\nThis is the interval where we would predict a new single observation to fall with 95% confidence.\n\nbox1.pi &lt;- box1.mean + c(-1.96, 1.96) * box1.sd\nbox1.pi\n\nInstead of using 1.96, we could also use the quantile function qnorm(0.975) for the upper interval or qnorm(c(0.025, 0.975)) for the lower and upper in parallel:\n\nbox1.pi &lt;- box1.mean + qnorm(c(0.025, 0.975)) * box1.sd\nbox1.pi\n\nNow we plot the data and indicate the 95% interval:\n\nplot(box1$weight)\nabline(h = box1.pi, col=\"forestgreen\")\n\n… and the same as histogram:\n\nhist(box1$weight)\nabline(v = box1.pi, col=\"forestgreen\")\nrug(box1$weight, col=\"blue\")\n\nTask: Count the number of points in the scatterplot and the histogram that are outside of the lines. Which percentage would you expect?",
+    "text": "3.3 Sample statistics\nIf we assume normal distribution of the data, we can estimate an approximate prediction interval from the sample parameters, i.e. in which size range we find 95% of the weights within one group.\nWe first calculate mean, sd, N and se for “sample1” data set:\n\nsample1.mean &lt;- mean(sample1$weight)\nsample1.sd   &lt;- sd(sample1$weight)\nsample1.N    &lt;- length(sample1$weight)\nsample1.se   &lt;- sample1.sd/sqrt(sample1.N)\n\nThen let’s estimate an approximate two-sided 95% prediction interval (\\(PI\\)) for the sample using a simplified approach based on the quantiles of the theoretical normal distribution (\\(z_{\\alpha/2} \\approx 1.96\\)) and the sample parameters mean \\(\\bar{x}\\) and standard deviation (\\(s\\)):\n\\[\nPI = \\bar{x} \\pm z \\cdot s\n\\]\nThis is the interval where we would predict a new single observation to fall with 95% confidence.\n\nsample1.pi &lt;- sample1.mean + c(-1.96, 1.96) * sample1.sd\nsample1.pi\n\nInstead of using 1.96, we could also use the quantile function qnorm(0.975) for the upper interval or qnorm(c(0.025, 0.975)) for the lower and upper in parallel:\n\nsample1.pi &lt;- sample1.mean + qnorm(c(0.025, 0.975)) * sample1.sd\nsample1.pi\n\nNow we plot the data and indicate the 95% interval:\n\nplot(sample1$weight)\nabline(h = sample1.pi, col=\"forestgreen\")\n\n… and the same as histogram:\n\nhist(sample1$weight)\nabline(v = sample1.pi, col=\"forestgreen\")\nrug(sample1$weight, col=\"blue\")\n\nTask: Count the number of points in the scatterplot and the histogram that are outside of the lines. Which percentage would you expect?",
     "crumbs": [
       "Labs",
       "05-Distribution and Confidence Intervals of Clementines"
@@ -400,7 +389,7 @@
     "href": "qmd/05-distributions-fruits-tidyverse.html#confidence-interval-of-the-mean",
     "title": "05-Distribution and Confidence Intervals of Clementines",
     "section": "3.4 Confidence interval of the mean",
-    "text": "3.4 Confidence interval of the mean\nThe confidence interval (\\(CI\\)) of the mean tells us how precise a mean value was estimated from data. If the sample size is “large enough”, the distribution of the raw data does not necessarily need to be normal, because then mean values tend to approximate a normal distribution due to the central limit theorem.\nThe formula for the CI of the mean is: \\[CI = \\bar{x} \\pm t_{\\alpha/2, n-1} \\cdot \\frac{s}{\\sqrt{N}}\\]\n\n3.4.1 Confidence interval of the mean for the “box1” data\nTask: Calculate the confidence interval of the mean value of the “box1” data set using the quantile function (qt) of the t-distribution2:\n\nbox1.ci &lt;- box1.mean + qt(p = c(0.025, 0.975), df = box1.N - 1) * box1.se\n\nNow indicate the confidence interval of the mean in the histogram.\n\nabline(v = box1.ci, col=\"magenta\")\n\n\n\n3.4.2 Add density plots\n\nhist(box1$weight, probability = TRUE, ylim = c(0, 0.25))\nxnew &lt;- seq(50, 100, length = 500)\nlines(xnew, dnorm(xnew, box1.mean, box1.sd), col = \"forestgreen\")\nlines(xnew, dnorm(xnew, box1.mean, box1.se), col = \"magenta\")\nabline(v = box1.pi, col=\"forestgreen\")\nabline(v = box1.ci, col=\"magenta\")",
+    "text": "3.4 Confidence interval of the mean\nThe confidence interval (\\(CI\\)) of the mean tells us how precise a mean value was estimated from data. If the sample size is “large enough”, the distribution of the raw data does not necessarily need to be normal, because then mean values tend to approximate a normal distribution due to the central limit theorem.\nThe formula for the CI of the mean is: \\[CI = \\bar{x} \\pm t_{\\alpha/2, n-1} \\cdot \\frac{s}{\\sqrt{N}}\\]\n\n3.4.1 Confidence interval of the mean for the “sample1” data\nTask: Calculate the confidence interval of the mean value of the “sample1” data set using the quantile function (qt) of the t-distribution2:\n\nsample1.ci &lt;- sample1.mean + qt(p = c(0.025, 0.975), df = sample1.N - 1) * sample1.se\n\nNow indicate the confidence interval of the mean in the histogram.\n\nabline(v = sample1.ci, col=\"magenta\")\n\n\n\n3.4.2 Add density plots\n\nhist(sample1$weight, probability = TRUE, ylim = c(0, 0.25))\nxnew &lt;- seq(50, 100, length = 500)\nlines(xnew, dnorm(xnew, sample1.mean, sample1.sd), col = \"forestgreen\")\nlines(xnew, dnorm(xnew, sample1.mean, sample1.se), col = \"magenta\")\nabline(v = sample1.pi, col=\"forestgreen\")\nabline(v = sample1.ci, col=\"magenta\")",
     "crumbs": [
       "Labs",
       "05-Distribution and Confidence Intervals of Clementines"
@@ -440,6 +429,17 @@
     ]
   },
   {
+    "objectID": "qmd/05-distributions-fruits-tidyverse.html#a-footnote-about-prediction-intervals",
+    "href": "qmd/05-distributions-fruits-tidyverse.html#a-footnote-about-prediction-intervals",
+    "title": "05-Distribution and Confidence Intervals of Clementines",
+    "section": "5.4 A footnote about prediction intervals",
+    "text": "5.4 A footnote about prediction intervals\nThe simplified \\(\\bar{x} \\pm z \\cdot s\\) formula used above is an approximation. A statistically rigorous 95% prediction interval, especially for smaller samples, needs two corrections.\nFirst, we would use the t-distribution with the quantile \\(t_{\\alpha/2, n-1}\\) (or qt(alpha/2, n-1) in R) instead of the normal quantiles (\\(\\pm 1.96\\)). Then we add a term \\(\\sqrt{1+1/N}\\) that corrects for the sample parameters. The full formula for a single future observation is then:\n\\[\\text{PI} = \\bar{x} \\pm t_{\\alpha/2, n-1} \\cdot s \\cdot \\sqrt{1 + \\frac{1}{N}}\\]\nThe prediction interval is related to the so-called “tolerance interval”. Both are the same if the population parameters \\(\\mu, \\sigma\\) are known or the sample size is very big. However, there are theoretical and practical differences in case of small sample size.",
+    "crumbs": [
+      "Labs",
+      "05-Distribution and Confidence Intervals of Clementines"
+    ]
+  },
+  {
     "objectID": "qmd/05-distributions-fruits-tidyverse.html#footnotes",
     "href": "qmd/05-distributions-fruits-tidyverse.html#footnotes",
     "title": "05-Distribution and Confidence Intervals of Clementines",
@@ -455,7 +455,7 @@
     "href": "qmd/03-discharge-elbe.html",
     "title": "03-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R",
     "section": "",
-    "text": "The following practical example demonstrates how data in “long format” can be analysed with R. It builds up on the previous exercise about date and time computation and pivot tables with LibreOffice.\n\n\nThe example assumes that recent versions of R and RStudio are installed, together with some add-on packages dplyr, tidyr, readr, lubridate and ggplot2. The packages should already be available in the computer pool of the university, otherwise install it over the “Packages” pane in RStudio or from the command line:\nIf all packages are installed, we need to load it to the active session with\n\nlibrary(readr)     # modernized functions to read rectangular data like csv\nlibrary(dplyr)     # the most essential tidyverse packages\nlibrary(tidyr)     # contains for example pivot tables\nlibrary(lubridate) # a tidyverse package for dates\nlibrary(ggplot2)   # high level plotting with the grammar of graphics\n\nThe examples were tested with R versions 4.2.1 – 4.4.2.\n\n\n\nThe data set consists of daily measurements for discharge of the Elbe River in Dresden (daily discharge sum in \\(\\mathrm{m^3 s^{-1}}\\)). The data were kindly provided by the German Federal Institute for Hydrology (BfG)1.\nPlease read the information file elbe_info.txt about data source and copyright before downloading the data file “data.csv”. The data set is then available in the course folder or from https://tpetzoldt.github.io/datasets/.\n\n\n\nWe first learn how to import data to R, then we will do date and time conversion and create some plots. After that we learn how to aggregate, analyse and reformat the data set. A final outlook gives an impression how to use pipelines and high level plotting with the ggplot package.",
+    "text": "The following practical example demonstrates how data in “long format” can be analysed with R. It builds up on the previous exercise about date and time computation and pivot tables with LibreOffice.\n\n\nThe example assumes that recent versions of R and RStudio are installed, together with some add-on packages dplyr, tidyr, readr, lubridate and ggplot2. The packages should already be available in the computer pool of the university, otherwise install it over the “Packages” pane in RStudio or from the command line:\nIf all packages are installed, we need to load it to the active session with\n\nlibrary(readr)     # modernized functions to read rectangular data like csv\nlibrary(dplyr)     # the most essential tidyverse packages\nlibrary(tidyr)     # contains for example pivot tables\nlibrary(lubridate) # a tidyverse package for dates\nlibrary(ggplot2)   # high level plotting with the grammar of graphics\n\nThe examples were tested with R versions \\(\\ge\\) 4.2.1\n\n\n\nThe data set consists of daily measurements for discharge of the Elbe River in Dresden (daily discharge sum in \\(\\mathrm{m^3 s^{-1}}\\)). The data were kindly provided by the German Federal Institute for Hydrology (BfG)1.\nPlease read the information file elbe_info.txt about data source and copyright before downloading the data file “elbe.csv”. The data set is then available in the course folder or from https://tpetzoldt.github.io/datasets/.\n\n\n\nWe first learn how to import data to R, then we will do date and time conversion and create some plots. After that we learn how to aggregate, analyse and reformat the data set. A final outlook gives an impression how to use pipelines and high level plotting with the ggplot package.",
     "crumbs": [
       "Labs",
       "03-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R"
@@ -466,7 +466,7 @@
     "href": "qmd/03-discharge-elbe.html#software-prerequisites",
     "title": "03-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R",
     "section": "",
-    "text": "The example assumes that recent versions of R and RStudio are installed, together with some add-on packages dplyr, tidyr, readr, lubridate and ggplot2. The packages should already be available in the computer pool of the university, otherwise install it over the “Packages” pane in RStudio or from the command line:\nIf all packages are installed, we need to load it to the active session with\n\nlibrary(readr)     # modernized functions to read rectangular data like csv\nlibrary(dplyr)     # the most essential tidyverse packages\nlibrary(tidyr)     # contains for example pivot tables\nlibrary(lubridate) # a tidyverse package for dates\nlibrary(ggplot2)   # high level plotting with the grammar of graphics\n\nThe examples were tested with R versions 4.2.1 – 4.4.2.",
+    "text": "The example assumes that recent versions of R and RStudio are installed, together with some add-on packages dplyr, tidyr, readr, lubridate and ggplot2. The packages should already be available in the computer pool of the university, otherwise install it over the “Packages” pane in RStudio or from the command line:\nIf all packages are installed, we need to load it to the active session with\n\nlibrary(readr)     # modernized functions to read rectangular data like csv\nlibrary(dplyr)     # the most essential tidyverse packages\nlibrary(tidyr)     # contains for example pivot tables\nlibrary(lubridate) # a tidyverse package for dates\nlibrary(ggplot2)   # high level plotting with the grammar of graphics\n\nThe examples were tested with R versions \\(\\ge\\) 4.2.1",
     "crumbs": [
       "Labs",
       "03-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R"
@@ -477,7 +477,7 @@
     "href": "qmd/03-discharge-elbe.html#the-data-set",
     "title": "03-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R",
     "section": "",
-    "text": "The data set consists of daily measurements for discharge of the Elbe River in Dresden (daily discharge sum in \\(\\mathrm{m^3 s^{-1}}\\)). The data were kindly provided by the German Federal Institute for Hydrology (BfG)1.\nPlease read the information file elbe_info.txt about data source and copyright before downloading the data file “data.csv”. The data set is then available in the course folder or from https://tpetzoldt.github.io/datasets/.",
+    "text": "The data set consists of daily measurements for discharge of the Elbe River in Dresden (daily discharge sum in \\(\\mathrm{m^3 s^{-1}}\\)). The data were kindly provided by the German Federal Institute for Hydrology (BfG)1.\nPlease read the information file elbe_info.txt about data source and copyright before downloading the data file “elbe.csv”. The data set is then available in the course folder or from https://tpetzoldt.github.io/datasets/.",
     "crumbs": [
       "Labs",
       "03-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R"
@@ -499,7 +499,7 @@
     "href": "qmd/03-discharge-elbe.html#import-of-spreadsheet-and-text-files",
     "title": "03-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R",
     "section": "2.1 Import of spreadsheet and text files",
-    "text": "2.1 Import of spreadsheet and text files\nR can access spreadsheet tables and data bases directly using packages like readxl for Excel files. It can also read LibreOffice files and data bases.\nHere we want to make it simple and just read the data from a universal exchange format (.txt or .csv) that can be shared between all systems. In our example, we use a csv-file (comma separated values), where the first row is the table header of unique variable names. The variable names must start with a letter and should not contain special characters, spaces etc. Additional meta information (e.g. source of data) and measurement shold be documented separately, for example in a separate file README.txt.\nThe example file elbe.csv contains daily discharge of the Elbe River in \\(\\mathrm{m^3 s^{-1}}\\) from gauging station Dresden, river km 55.6 from the Federal Waterways and Shipping Administration (WSV) and where provided by the Federal Institute for Hydrology (BfG).\nThe third column “validated” indicates whether the values were finally approved by WSV and BfG. Data from the 19th century are particularly uncertain. Please consult the file elbe_info.txt for details.\n\n\n\nRStudio import assistant",
+    "text": "2.1 Import of spreadsheet and text files\nR can access spreadsheet tables and data bases directly using packages like readxl for Excel files. It can also read LibreOffice files and data bases.\nHere we want to make it simple and just read the data from a comma separated values file (.csv) that can be shared between different software systems. In our example, the first row contains a table header with unique variable names. Valid variable names must start with a letter and should not contain special characters, spaces etc. Additional meta information (e.g. source of data) and measurement cen be documented separately, for example in the separate file elbe_info.txt.\nThe example file elbe.csv contains daily discharge of the Elbe River in \\(\\mathrm{m^3 s^{-1}}\\) from gauging station Dresden, river km 55.6 from the Federal Waterways and Shipping Administration (WSV) and where provided by the Federal Institute for Hydrology (BfG).\nThe third column “validated” indicates whether the values were finally approved by WSV and BfG. Data from the 19th century are particularly uncertain. Please consult the file elbe_info.txt for details.\n\n\n\nRStudio import assistant",
     "crumbs": [
       "Labs",
       "03-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R"
@@ -510,7 +510,7 @@
     "href": "qmd/03-discharge-elbe.html#input-method-1-use-the-import-dataset-wizard-of-rstudio",
     "title": "03-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R",
     "section": "2.2 Input method 1: Use the import dataset wizard of RStudio",
-    "text": "2.2 Input method 1: Use the import dataset wizard of RStudio\n\nFirst, download the file elbe.csv and store it to your working directory.\nNow Open RStudio and Select: File – Import Dataset – From Text (readr).\nOpen the file and you will see the import dataset assistant. Select the correct settings for your file and choose an appropriate name (e.g. elbe) for the data frame in R.",
+    "text": "2.2 Input method 1: Use the import dataset wizard of RStudio\n\nFirst, download the file elbe.csv and store it to your working directory.\nNow Open RStudio and Select: File – Import Dataset – From Text (readr).\nOpen the file and you will see the import dataset wizard. Select the correct settings for your file and choose an appropriate name (e.g. elbe) for the data frame in R.",
     "crumbs": [
       "Labs",
       "03-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R"
@@ -543,7 +543,7 @@
     "href": "qmd/03-discharge-elbe.html#basic-plotting-with-rs-base-plot",
     "title": "03-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R",
     "section": "3.2 Basic plotting with R’s base plot",
-    "text": "3.2 Basic plotting with R’s base plot\nThe full time series can be plotted using the date as argument for the x-axis and discharge for the y-axis. The $ sign indicates from which column of the elbe-table data are taken. The \"l\" indicates line plots.\n\nplot(elbe$date, elbe$discharge, type=\"l\")\n\nThe same can be done with a so-called formula syntax. Here y and x are given in opposite order, separated with a ~ (tilde sign). It can be read as “y as a function of x”. The formula syntax allows to specify the data as a separate argument.\n\nplot(discharge ~ date, data=elbe, type=\"l\")\n\n\n\n\n\n\n\n\nThe formula syntax has additional benefits, for example a subset argument:\n\nplot(discharge ~ doy, data=elbe, subset = year==2002, col=\"blue\", type=\"l\")\nlines(discharge ~ doy, data=elbe, subset = year==2003, col=\"red\")\n\nExercise: Plot 4 years with 4 different colors, 2 wet and 2 dry years.",
+    "text": "3.2 Basic plotting with R’s base plot\nThe full time series can be plotted using the date as argument for the x-axis and discharge for the y-axis. The $ sign indicates from which column of the elbe-table data are taken. The \"l\" indicates line plots.\n\nplot(elbe$date, elbe$discharge, type=\"l\")\n\nThe same can be done with a so-called formula syntax. Here y and x are given in opposite order, separated with a ~ (tilde sign). It can be read as “y as a function of x”. The formula syntax allows to specify the data as a separate argument.\n\nplot(discharge ~ date, data=elbe, type=\"l\")\n\n\n\n\n\n\n\n\nThe formula syntax has additional benefits, for example a subset argument:\n\nplot(discharge ~ doy, data=elbe, subset = year==2002, col=\"blue\", type=\"l\")\nlines(discharge ~ doy, data=elbe, subset = year==2003, col=\"red\")\n\n\nExercise\nPlot 4 years with 4 different colors, 2 wet and 2 dry years.",
     "crumbs": [
       "Labs",
       "03-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R"
@@ -554,7 +554,7 @@
     "href": "qmd/03-discharge-elbe.html#histograms",
     "title": "03-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R",
     "section": "3.3 Histograms",
-    "text": "3.3 Histograms\nHistograms show the distribution of the data. Compare the shape of following three:\n\nHistogram with untransformed data\nHistogram with log-transformed data\nHistogram with log-transformed data, where a certain baseflow is subtracted before taking the log.\n\n\nhist(elbe$discharge)\nhist(log(elbe$discharge))\nhist(log(elbe$discharge - 0.9 * min(elbe$discharge)))\n\nExercises:\n\nDiscuss, which of the three histograms best describe discharge distribution.\nRepeat the plot with smaller classes, e.g. hist(elbe$discharge, breaks=50).",
+    "text": "3.3 Histograms\nHistograms show the distribution of the data. Compare the shape of following three:\n\nHistogram with untransformed data\nHistogram with log-transformed data\nHistogram with log-transformed data, where a certain baseflow is subtracted before taking the log.\n\n\nhist(elbe$discharge)\nhist(log(elbe$discharge))\nhist(log(elbe$discharge - 0.9 * min(elbe$discharge)))\n\n\nExercises\n\nDiscuss, which of the three histograms best describe discharge distribution.\nRepeat the plot with smaller classes, e.g. hist(elbe$discharge, breaks=50).",
     "crumbs": [
       "Labs",
       "03-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R"
@@ -565,7 +565,7 @@
     "href": "qmd/03-discharge-elbe.html#boxplots",
     "title": "03-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R",
     "section": "3.4 Boxplots",
-    "text": "3.4 Boxplots\nBoxplots are a very compact way to visualize the distribution of data:\n\nboxplot(elbe$discharge)\n\nExercise: Create boxplots for:\n\nlog-transformed discharge,\nlog-transformed value of discharge - baseflow.\nInterpret the results: What do the “middle line”, the box, the whiskers and the extreme values tell us?\nDiscuss the “outliers”: how many, at which side and if they are really “outliers”.",
+    "text": "3.4 Boxplots\nBoxplots are a very compact way to visualize the distribution of data:\n\nboxplot(elbe$discharge)\n\n\nExercises\nCreate boxplots for:\n\nlog-transformed discharge,\nlog-transformed value of discharge - baseflow.\nInterpret the results: What do the “middle line”, the box, the whiskers and the extreme values tell us?\nDiscuss the “outliers”: how many, at which side and if they are really “outliers”.",
     "crumbs": [
       "Labs",
       "03-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R"
@@ -587,7 +587,7 @@
     "href": "qmd/03-discharge-elbe.html#summaries-and-cross-tabulation",
     "title": "03-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R",
     "section": "4.1 Summaries and cross-tabulation",
-    "text": "4.1 Summaries and cross-tabulation\nHere we use the tidyverse method summarize, after grouping with group_by. It is, compared to the classical aggregate-function i R more powerful and much easier to use:\n\n## calculate annual mean, minimum, maximum\nelbe_grouped &lt;- group_by(elbe, year)\n\ntotals &lt;- summarize(elbe_grouped, \n            mean = mean(discharge), \n            min = min(discharge), \n            max = max(discharge))\ntotals\n\nExercise: Use the above method to compute annual total discharge sums and monthly average discharge values.",
+    "text": "4.1 Summaries and cross-tabulation\nHere we use the tidyverse method summarize, after grouping with group_by. It is, compared to the classical aggregate-function i R more powerful and much easier to use:\n\n## calculate annual mean, minimum, maximum\nelbe_grouped &lt;- group_by(elbe, year)\n\ntotals &lt;- summarize(elbe_grouped, \n            mean = mean(discharge), \n            min = min(discharge), \n            max = max(discharge))\ntotals\n\n\nExercise\nUse the above method to compute annual total discharge sums and monthly average discharge values.",
     "crumbs": [
       "Labs",
       "03-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R"
@@ -598,7 +598,7 @@
     "href": "qmd/03-discharge-elbe.html#a-standard-pivot-table",
     "title": "03-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R",
     "section": "4.2 A standard pivot table",
-    "text": "4.2 A standard pivot table\nTidyverse provides also tools for the conversion of data base tables (long data format) into cross-tables (wide data format) and vice versa. This functionality changed several times in the last years, so you may see functions like melt and cast or gather and spread doing more or less the same, but with different syntax. The most recent development suggests the two functions pivot_wider and pivot_longer for this purpose.\nIts first argument is a data base table, the other arguments define the structure of the desired crosstable.\nHere id_cols is the name of a column in a long table that will become the rows, names_from indicates where the names of the columns are taken from and values_from the column with the values for the cross table. If more than one value is possible for a row x column combination, an optional values_fn can be given.\n\nelbe_wide &lt;-  pivot_wider(elbe, \n                id_cols = doy, \n                names_from = year, \n                values_from = discharge, \n                #values_fn = mean\n              )\nelbe_wide\n\nExercise: Create a crosstable for monthly max. discharge over all years.",
+    "text": "4.2 A standard pivot table\nTidyverse provides also tools for the conversion of data base tables (long data format) into cross-tables (wide data format) and vice versa. This functionality changed several times in the last years, so you may see functions like melt and cast or gather and spread doing more or less the same, but with different syntax. The most recent development suggests the two functions pivot_wider and pivot_longer for this purpose.\nIts first argument is a data base table, the other arguments define the structure of the desired crosstable.\nHere id_cols is the name of a column in a long table that will become the rows, names_from indicates where the names of the columns are taken from and values_from the column with the values for the cross table. If more than one value is possible for a row x column combination, an optional values_fn can be given.\n\nelbe_wide &lt;-  pivot_wider(elbe, \n                id_cols = doy, \n                names_from = year, \n                values_from = discharge, \n                #values_fn = mean\n              )\nelbe_wide\n\n\nExercises\nCreate a crosstable for monthly maximum discharge over all years.",
     "crumbs": [
       "Labs",
       "03-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R"
@@ -631,7 +631,7 @@
     "href": "qmd/03-discharge-elbe.html#cumulative-sums-for-all-years",
     "title": "03-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R",
     "section": "5.2 Cumulative sums for all years",
-    "text": "5.2 Cumulative sums for all years\nCumulative sums are a standard tool used by hydrologists and reservoir managers. They allow to detect easily dry and wet years and periods.\nIf we just use cumsum, we get a cumulative sum over all years:\n\n\nelbe |&gt; \n  mutate(doy = yday(date), year = year(date)) |&gt;\n  #filter(year %in% 2000:2010) |&gt;\n  group_by(year = factor(year)) |&gt;\n  mutate(cum_discharge = cumsum(discharge) * 60*60*24) |&gt;\n  ggplot(aes(doy, cum_discharge, color = year)) + geom_line()\n\nExercises:\n\nWhich year was the wettest, which one the driest year in total? Find a year with dry spring and wet summer. Use the outcommented filter to reduce the number of simultanaeous lines.\nModify the commands so that the hydrological year is shown. The German hydrological year goes from 1st November to 31st October of the following year. Other countries have different regulations.",
+    "text": "5.2 Cumulative sums for all years\nCumulative sums are a standard tool used by hydrologists and reservoir managers. They allow to detect easily dry and wet years and periods.\nIf we just use cumsum, we get a cumulative sum over all years:\n\n\nelbe |&gt; \n  mutate(doy = yday(date), year = year(date)) |&gt;\n  #filter(year %in% 2000:2010) |&gt;\n  group_by(year = factor(year)) |&gt;\n  mutate(cum_discharge = cumsum(discharge) * 60*60*24) |&gt;\n  ggplot(aes(doy, cum_discharge, color = year)) + geom_line()\n\n\nExercises\n\nWhich year was the wettest, which one the driest year in total? Find a year with dry spring and wet summer. Use the outcommented filter to reduce the number of simultanaeous lines.\nModify the commands so that the hydrological year is shown. The German hydrological year goes from 1st November to 31st October of the following year. Other countries have different regulations.",
     "crumbs": [
       "Labs",
       "03-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R"
@@ -739,22 +739,66 @@
     ]
   },
   {
-    "objectID": "qmd/03-discharge-elbe-project.html#communicate-in-your-team-with-other-teams-and-with-tutors",
-    "href": "qmd/03-discharge-elbe-project.html#communicate-in-your-team-with-other-teams-and-with-tutors",
+    "objectID": "qmd/03-discharge-elbe-project.html#compare-distribution-models",
+    "href": "qmd/03-discharge-elbe-project.html#compare-distribution-models",
     "title": "x03-Discharge of River Elbe: Homework Project",
-    "section": "3.1 Communicate in your team, with other teams and with tutors",
-    "text": "3.1 Communicate in your team, with other teams and with tutors\n\nPrimary Goal: Communication should promote community learning. Post approaches and specific questions in the Matrix chat group so everyone can benefit.\nTeamwork: Discuss ideas within your team and with other colleagues first. Private channels for teamwork are allowed.\n\n\n3.1.1 Workflow\n\nDraft: draft your report. The first draft is usually somewhat longer.\nRefine: Discuss and select only the most important parts, and create the final version adhering to the page limit.\nAsk questions:\n\nIn the chatroom, please formulate specific questions (e.g., “How to format the numbers on a log-transformed axis?”) and avoid asking only, “Is this correct?”\nContribute: Actively contribute to answering your classmates’ questions!",
+    "section": "1.1 Compare distribution models",
+    "text": "1.1 Compare distribution models\nInterpret the results of Sections 3.3 and 3.4. Discuss which of the plots best shows the shape of the distribution of discharge data. You can include up to 4 plots. Add a compact table with the statistical parameters for the observational period (min, max, \\(\\bar{x}, s_x\\), median, geometric mean and quartiles).\nThen discuss all results (parameters and figures) in connection.\nAnalyze and discuss the different data transformations (no transformation, \\(\\ln(x)\\), and \\(\\ln(x−b)\\)). Justify which transformation/model provides the best overall fit for the discharge data and explain why the others are less suitable.",
     "crumbs": [
       "Projects",
       "x03-Discharge of River Elbe: Homework Project"
     ]
   },
   {
-    "objectID": "qmd/03-discharge-elbe-project.html#technical-recommendations",
-    "href": "qmd/03-discharge-elbe-project.html#technical-recommendations",
+    "objectID": "qmd/03-discharge-elbe-project.html#extreme-value-analysis-optional-1-page",
+    "href": "qmd/03-discharge-elbe-project.html#extreme-value-analysis-optional-1-page",
     "title": "x03-Discharge of River Elbe: Homework Project",
-    "section": "3.2 Technical recommendations",
-    "text": "3.2 Technical recommendations\nThe report should read nicely. Space needed for figures, tables and explanatory text should be in good balance.\n\nThe report should have 5 pages A4 at maximum. Quality instead of quantity! Distill the essential messages.\nFont size of the text should be 11 or 12 points.\nA line spacing of 1.2 lines is recommended to improve readability.\nFigures (lines, font size of annotations) must be well readable.\nLiterature must be properly cited. We encourage to use author-year style citations. Good examples can be found at the APA style web page.\n\nYou will have four weeks time for the preparation of the report. Then upload it as PDF od HTML document and (optionally) an .R or Quarto (.qmd) script to the File folder of your group in the OPAL learning management system. Submissions after the deadline cannot be considered.",
+    "section": "1.2 Extreme value analysis (optional, + 1 page)",
+    "text": "1.2 Extreme value analysis (optional, + 1 page)\nEstimate the 100-year flood by using the right one-sided 1% prediction interval.\n\nAggregate the data to yearly extremes using functions like group_by(year) and summarize(max_flow = max(discharge)). This step is crucial for extreme value analysis, as it ensures the data reflects the largest event per year, which is the basis for estimating rare events like the 100- or 1000-year flood.\nChoose a transformation (e.g., log with or without shift parameter) to improve normality. Identify the parameters of the transformed model and compute a right one-sided 1% prediction interval.\nBack-transform to the original scale and compare with the empirical 99th percentile.\nConsider to use the Extended Data Set (starting from 1806) for this analysis to maximize the record length.",
+    "crumbs": [
+      "Projects",
+      "x03-Discharge of River Elbe: Homework Project"
+    ]
+  },
+  {
+    "objectID": "qmd/03-discharge-elbe-project.html#outline",
+    "href": "qmd/03-discharge-elbe-project.html#outline",
+    "title": "x03-Discharge of River Elbe: Homework Project",
+    "section": "3.1 Outline",
+    "text": "3.1 Outline\nCombine all tasks together and tell a story, using a standard scientific outline, the so-called IMRAD scheme:\n\nIntroduction\nMethods\nResults\nDiscussion\nReferences\n\nPlease consult Wikipedia for a detailed explanation.\nAs it is a tiny report, Methods and Results may be merged in this case. However, Introduction and Discussion must be separated. Use the internet and find about 2-3 literature references for the Discussion.",
+    "crumbs": [
+      "Projects",
+      "x03-Discharge of River Elbe: Homework Project"
+    ]
+  },
+  {
+    "objectID": "qmd/03-discharge-elbe-project.html#workflow",
+    "href": "qmd/03-discharge-elbe-project.html#workflow",
+    "title": "x03-Discharge of River Elbe: Homework Project",
+    "section": "3.2 Workflow",
+    "text": "3.2 Workflow\n\nDraft: draft your report. The first draft is usually somewhat longer.\nRefine: Discuss and select only the most important parts, and create the final version adhering to the page limit.\n\nCommunicate in your team, with other teams and with tutors\n\nPrimary Goal: Communication should promote community learning. Post approaches and specific questions in the Matrix1 chat group so everyone can benefit.\nTeamwork: Discuss ideas within your team and with other colleagues first. Private channels for teamwork are allowed.\nIn the chatroom, please formulate specific questions (e.g., “How to format the numbers on a log-transformed axis?”) and avoid asking only, “Is this correct?”\nContribute: Actively contribute to answering your classmates’ questions!",
+    "crumbs": [
+      "Projects",
+      "x03-Discharge of River Elbe: Homework Project"
+    ]
+  },
+  {
+    "objectID": "qmd/03-discharge-elbe-project.html#report-formatting-instructions",
+    "href": "qmd/03-discharge-elbe-project.html#report-formatting-instructions",
+    "title": "x03-Discharge of River Elbe: Homework Project",
+    "section": "3.3 Report formatting instructions",
+    "text": "3.3 Report formatting instructions\nTo ensure clarity and efficiency, please adhere to the following strict page limits and formatting guidelines.\n\n3.3.1 Page limits and content focus\n\nCore Content Limit: The main body of the report (Introduction, Methods & Results, Discussion) must not exceed 4 A4 pages.\nThis limit forces you to distill the essential messages and choose only the most important figures.\nThe Title Page (Cover Sheet) and the List of References do not count towards the 4-page limit.\nQuality First: The goal is Quality instead of quantity! Use the limited space to focus on the interpretation and discussion of your findings.\n\n\n\n3.3.2 Text and visual balance\n\nThe report must have a good balance between explanatory text and supporting figures/tables.\nAvoid reports that are dominated by either large amounts of text or excessive, unexplained graphics.\nSelectivity: Only include figures and statistical output that are essential to support your claims in the text. Avoid “dumping” unnecessary output.\n\n\n\n3.3.3 Readability and citation standards\n\nUse a font size of 11 or 12 points.\nA line spacing of 1.2 lines is recommended to improve readability.\nFigures: font size of annotations must be well readable.\nCitation: Cite literature properly using the author-year style. Good examples can be found at the APA style web page.",
+    "crumbs": [
+      "Projects",
+      "x03-Discharge of River Elbe: Homework Project"
+    ]
+  },
+  {
+    "objectID": "qmd/03-discharge-elbe-project.html#submission",
+    "href": "qmd/03-discharge-elbe-project.html#submission",
+    "title": "x03-Discharge of River Elbe: Homework Project",
+    "section": "3.4 Submission",
+    "text": "3.4 Submission\nYou will have 2.5 weeks time for the preparation of the report. Then upload it as PDF or HTML document and (optionally) your .R or Quarto (.qmd) scripts to the File folder of your group in the OPAL2 learning management system. Submissions after the deadline cannot be considered.",
     "crumbs": [
       "Projects",
       "x03-Discharge of River Elbe: Homework Project"
@@ -838,11 +882,11 @@
     ]
   },
   {
-    "objectID": "qmd/04-distributions-leaves.html#is-the-difference-between-the-samples-statistically-significant-comparision-with-t--and-f-test",
-    "href": "qmd/04-distributions-leaves.html#is-the-difference-between-the-samples-statistically-significant-comparision-with-t--and-f-test",
+    "objectID": "qmd/04-distributions-leaves.html#is-the-difference-between-the-samples-statistically-significant",
+    "href": "qmd/04-distributions-leaves.html#is-the-difference-between-the-samples-statistically-significant",
     "title": "04-Distribution and Confidence Intervals of Maple Leaf Samples",
-    "section": "3.6 Is the difference between the samples statistically significant? Comparision with t- and F-Test",
-    "text": "3.6 Is the difference between the samples statistically significant? Comparision with t- and F-Test\nHypotheses:\nNull: Both samples have the same mean width and variance.\nAlternative: The mean width (and possibly also the variance) differ because of more subjective sampling of HSE students. They may have prefered bigger or the nice small leaves.\n\nt.test(width ~ group, data = leaves)\n\nPerform also the classical t-test (var.equal=TRUE) and the F-test (var.test). Calculate absolute and relative effect size (mean differences) and interpret the results of all 3 tests.\n\n# var.test(...)\n# t.test(...)\n# ...",
+    "section": "3.6 Is the difference between the samples statistically significant?",
+    "text": "3.6 Is the difference between the samples statistically significant?\nIn the following, we compare the two samples with t- and F-Tests.\nHypotheses:\n\\(H_0\\): Both samples have the same mean width and variance.\n\\(H_A\\): The mean width (and possibly also the variance) differ because of more subjective sampling of HSE students. They may have prefered bigger or the nice small leaves.\n\nt.test(width ~ group, data = leaves)\n\nPerform also the classical t-test (var.equal=TRUE) and the F-test (var.test). Calculate absolute and relative effect size (mean differences) and interpret the results of all 3 tests.\n\n# var.test(...)\n# t.test(...)\n# ...",
     "crumbs": [
       "Labs",
       "04-Distribution and Confidence Intervals of Maple Leaf Samples"
@@ -1084,7 +1128,7 @@
     "href": "qmd/08-vollenweider-chl-tp.html#confidence-intervals",
     "title": "08-Linear Regression: Dependency of Chlorophyll on Phosphorus in Lakes",
     "section": "2.2 Confidence intervals",
-    "text": "2.2 Confidence intervals\nConfidence and prediction intervals are useful to demonstrate uncertainty of the regression line and for predictions. The following code shows an example with test data.\n\nx &lt;- 1:10\ny &lt;- 2 + 3 * x + rnorm(10, sd=2)\nplot(x, y)\nreg &lt;- lm(y ~ x)\n\nnewdata &lt;- data.frame(x=seq(min(x), max(x), length=100))\nconflim &lt;- predict(reg, newdata=newdata, interval=\"confidence\")\npredlim &lt;- predict(reg, newdata=newdata, interval=\"prediction\")\nlines(newdata$x, conflim[,2], col=\"blue\", lty=\"dashed\") \nlines(newdata$x, conflim[,3], col=\"blue\", lty=\"dashed\")\nlines(newdata$x, predlim[,2], col=\"red\", lty=\"solid\") \nlines(newdata$x, predlim[,3], col=\"red\", lty=\"solid\")\n\nabline(reg)\n\n\n\n\n\n\n\n\nThe result of predict is a matrix with 3 columns:\n\n\n       fit      lwr      upr\n1 5.398310 2.392625 8.403994\n2 5.654311 2.691642 8.616979\n3 5.910312 2.990395 8.830228\n\n\n\nthe first column contains the fit,\nthe second and 3rd column the confidence resp. prediction intervals.\n\nYou can also find this out yourself by reading the documentation (?predict) or by inspecting conflim and predlim in the RStudio object explorer.\nThe data frame newdata contains \\(x\\) values for the prediction. Please note that the variable name (e.g. x or log_TP) must be exactly the same as in the lm-function!",
+    "text": "2.2 Confidence intervals\nConfidence and prediction intervals are useful to demonstrate uncertainty of the regression line and for predictions. The following code shows an example with test data.\n\nx &lt;- 1:10\ny &lt;- 2 + 3 * x + rnorm(10, sd=2)\nplot(x, y)\nreg &lt;- lm(y ~ x)\n\nnewdata &lt;- data.frame(x=seq(min(x), max(x), length=100))\nconflim &lt;- predict(reg, newdata=newdata, interval=\"confidence\")\npredlim &lt;- predict(reg, newdata=newdata, interval=\"prediction\")\nlines(newdata$x, conflim[,2], col=\"blue\", lty=\"dashed\") \nlines(newdata$x, conflim[,3], col=\"blue\", lty=\"dashed\")\nlines(newdata$x, predlim[,2], col=\"red\", lty=\"solid\") \nlines(newdata$x, predlim[,3], col=\"red\", lty=\"solid\")\n\nabline(reg)\n\n\n\n\n\n\n\n\nThe result of predict is a matrix with 3 columns:\n\n\n       fit      lwr      upr\n1 4.216592 2.498810 5.934375\n2 4.492701 2.799503 6.185899\n3 4.768810 3.100045 6.437575\n\n\n\nthe first column contains the fit,\nthe second and 3rd column the confidence resp. prediction intervals.\n\nYou can also find this out yourself by reading the documentation (?predict) or by inspecting conflim and predlim in the RStudio object explorer.\nThe data frame newdata contains \\(x\\) values for the prediction. Please note that the variable name (e.g. x or log_TP) must be exactly the same as in the lm-function!",
     "crumbs": [
       "Labs",
       "08-Linear Regression: Dependency of Chlorophyll on Phosphorus in Lakes"
@@ -1330,116 +1374,6 @@
     "crumbs": [
       "Labs",
       "14-Extreme Value Estimation with Package FAmle"
-    ]
-  },
-  {
-    "objectID": "qmd/04-distributions-leaves.html#is-the-difference-between-the-samples-statistically-significant",
-    "href": "qmd/04-distributions-leaves.html#is-the-difference-between-the-samples-statistically-significant",
-    "title": "04-Distribution and Confidence Intervals of Maple Leaf Samples",
-    "section": "3.6 Is the difference between the samples statistically significant?",
-    "text": "3.6 Is the difference between the samples statistically significant?\nIn the following, we compare the two samples with t- and F-Tests.\nHypotheses:\n\\(H_0\\): Both samples have the same mean width and variance.\n\\(H_A\\): The mean width (and possibly also the variance) differ because of more subjective sampling of HSE students. They may have prefered bigger or the nice small leaves.\n\nt.test(width ~ group, data = leaves)\n\nPerform also the classical t-test (var.equal=TRUE) and the F-test (var.test). Calculate absolute and relative effect size (mean differences) and interpret the results of all 3 tests.\n\n# var.test(...)\n# t.test(...)\n# ...",
-    "crumbs": [
-      "Labs",
-      "04-Distribution and Confidence Intervals of Maple Leaf Samples"
-    ]
-  },
-  {
-    "objectID": "qmd/03-discharge-elbe-project.html#report-formatting-instructions",
-    "href": "qmd/03-discharge-elbe-project.html#report-formatting-instructions",
-    "title": "x03-Discharge of River Elbe: Homework Project",
-    "section": "3.3 Report formatting instructions",
-    "text": "3.3 Report formatting instructions\nTo ensure clarity and efficiency, please adhere to the following strict page limits and formatting guidelines.\n\n3.3.1 Page limits and content focus\n\nCore Content Limit: The main body of the report (Introduction, Methods & Results, Discussion) must not exceed 4 A4 pages.\nThis limit forces you to distill the essential messages and choose only the most important figures.\nThe Title Page (Cover Sheet) and the List of References do not count towards the 4-page limit.\nQuality First: The goal is Quality instead of quantity! Use the limited space to focus on the interpretation and discussion of your findings.\n\n\n\n3.3.2 Text and visual balance\n\nThe report must have a good balance between explanatory text and supporting figures/tables.\nAvoid reports that are dominated by either large amounts of text or excessive, unexplained graphics.\nSelectivity: Only include figures and statistical output that are essential to support your claims in the text. Avoid “dumping” unnecessary output.\n\n\n\n3.3.3 Readability and citation standards\n\nUse a font size of 11 or 12 points.\nA line spacing of 1.2 lines is recommended to improve readability.\nFigures: font size of annotations must be well readable.\nCitation: Cite literature properly using the author-year style. Good examples can be found at the APA style web page.",
-    "crumbs": [
-      "Projects",
-      "x03-Discharge of River Elbe: Homework Project"
-    ]
-  },
-  {
-    "objectID": "qmd/03-discharge-elbe-project.html#workflow",
-    "href": "qmd/03-discharge-elbe-project.html#workflow",
-    "title": "x03-Discharge of River Elbe: Homework Project",
-    "section": "3.2 Workflow",
-    "text": "3.2 Workflow\n\nDraft: draft your report. The first draft is usually somewhat longer.\nRefine: Discuss and select only the most important parts, and create the final version adhering to the page limit.\n\nCommunicate in your team, with other teams and with tutors\n\nPrimary Goal: Communication should promote community learning. Post approaches and specific questions in the Matrix1 chat group so everyone can benefit.\nTeamwork: Discuss ideas within your team and with other colleagues first. Private channels for teamwork are allowed.\nIn the chatroom, please formulate specific questions (e.g., “How to format the numbers on a log-transformed axis?”) and avoid asking only, “Is this correct?”\nContribute: Actively contribute to answering your classmates’ questions!",
-    "crumbs": [
-      "Projects",
-      "x03-Discharge of River Elbe: Homework Project"
-    ]
-  },
-  {
-    "objectID": "qmd/03-discharge-elbe-project.html#text-and-visual-balance",
-    "href": "qmd/03-discharge-elbe-project.html#text-and-visual-balance",
-    "title": "x03-Discharge of River Elbe: Homework Project",
-    "section": "3.4 Text and visual balance",
-    "text": "3.4 Text and visual balance\n\nThe report must have a good balance between explanatory text and supporting figures/tables.\nAvoid reports that are dominated by either large amounts of text or excessive, unexplained graphics.\nSelectivity: Only include figures and statistical output that are essential to support your claims in the text. Avoid “dumping” unnecessary output.\n\n\n3.4.1 Readability and citation standards\n\nUse a font size of 11 or 12 points.\nA line spacing of 1.2 lines is recommended to improve readability.\nFigures: font size of annotations must be well readable.\nCitation: Cite literature properly using the author-year style. Good examples can be found at the APA style web page.\n\n\n\n3.4.2 Submission\nYou will have 2.5 weeks time for the preparation of the report. Then upload it as PDF or HTML document and (optionally) your .R or Quarto (.qmd) scripts to the File folder of your group in the OPAL learning management system. Submissions after the deadline cannot be considered.",
-    "crumbs": [
-      "Projects",
-      "x03-Discharge of River Elbe: Homework Project"
-    ]
-  },
-  {
-    "objectID": "qmd/03-discharge-elbe-project.html#outline",
-    "href": "qmd/03-discharge-elbe-project.html#outline",
-    "title": "x03-Discharge of River Elbe: Homework Project",
-    "section": "3.1 Outline",
-    "text": "3.1 Outline\nCombine all tasks together and tell a story, using a standard scientific outline, the so-called IMRAD scheme:\n\nIntroduction\nMethods\nResults\nDiscussion\nReferences\n\nPlease consult Wikipedia for a detailed explanation.\nAs it is a tiny report, Methods and Results may be merged in this case. However, Introduction and Discussion must be separated. Use the internet and find about 2-3 literature references for the Discussion.",
-    "crumbs": [
-      "Projects",
-      "x03-Discharge of River Elbe: Homework Project"
-    ]
-  },
-  {
-    "objectID": "qmd/03-discharge-elbe-project.html#submission",
-    "href": "qmd/03-discharge-elbe-project.html#submission",
-    "title": "x03-Discharge of River Elbe: Homework Project",
-    "section": "3.4 Submission",
-    "text": "3.4 Submission\nYou will have 2.5 weeks time for the preparation of the report. Then upload it as PDF or HTML document and (optionally) your .R or Quarto (.qmd) scripts to the File folder of your group in the OPAL2 learning management system. Submissions after the deadline cannot be considered.",
-    "crumbs": [
-      "Projects",
-      "x03-Discharge of River Elbe: Homework Project"
-    ]
-  },
-  {
-    "objectID": "qmd/03-discharge-elbe-project.html#compare-distribution-models",
-    "href": "qmd/03-discharge-elbe-project.html#compare-distribution-models",
-    "title": "x03-Discharge of River Elbe: Homework Project",
-    "section": "1.1 Compare distribution models",
-    "text": "1.1 Compare distribution models\nInterpret the results of Sections 3.3 and 3.4. Discuss which of the plots best shows the shape of the distribution of discharge data. You can include up to 4 plots. Add a compact table with the statistical parameters for the observational period (min, max, \\(\\bar{x}, s_x\\), median, geometric mean and quartiles).\nThen discuss all results (parameters and figures) in connection.\nAnalyze and discuss the different data transformations (no transformation, \\(\\ln(x)\\), and \\(\\ln(x−b)\\)). Justify which transformation/model provides the best overall fit for the discharge data and explain why the others are less suitable.",
-    "crumbs": [
-      "Projects",
-      "x03-Discharge of River Elbe: Homework Project"
-    ]
-  },
-  {
-    "objectID": "qmd/03-discharge-elbe-project.html#extreme-value-analysis-optional-1-page",
-    "href": "qmd/03-discharge-elbe-project.html#extreme-value-analysis-optional-1-page",
-    "title": "x03-Discharge of River Elbe: Homework Project",
-    "section": "1.2 Extreme value analysis (optional, + 1 page)",
-    "text": "1.2 Extreme value analysis (optional, + 1 page)\nEstimate the 100-year flood by using the right one-sided 1% prediction interval.\n\nAggregate the data to yearly extremes using functions like group_by(year) and summarize(max_flow = max(discharge)). This step is crucial for extreme value analysis, as it ensures the data reflects the largest event per year, which is the basis for estimating rare events like the 100- or 1000-year flood.\nChoose a transformation (e.g., log with or without shift parameter) to improve normality. Identify the parameters of the transformed model and compute a right one-sided 1% prediction interval.\nBack-transform to the original scale and compare with the empirical 99th percentile.\nConsider to use the Extended Data Set (starting from 1806) for this analysis to maximize the record length.",
-    "crumbs": [
-      "Projects",
-      "x03-Discharge of River Elbe: Homework Project"
-    ]
-  },
-  {
-    "objectID": "qmd/05-distributions-fruits-tidyverse.html#remove-the-following-plot",
-    "href": "qmd/05-distributions-fruits-tidyverse.html#remove-the-following-plot",
-    "title": "05-Distribution and Confidence Intervals of Clementines",
-    "section": "3.3 Remove the following plot",
-    "text": "3.3 Remove the following plot\n\nhist(box1$weight, probability = TRUE)\nxnew &lt;- seq(50, 100, length = 100)\nlines(xnew, dnorm(xnew, mean(box1$weight), sd(box1$weight)), col = \"red\")\nrug(jitter(box1$weight), col=\"blue\")\n\n\n\n\n\n\n\n\nqqnorm(... ... ...)\nqqline(... ... ...)",
-    "crumbs": [
-      "Labs",
-      "05-Distribution and Confidence Intervals of Clementines"
-    ]
-  },
-  {
-    "objectID": "qmd/05-distributions-fruits-tidyverse.html#a-footnote-about-prediction-intervals",
-    "href": "qmd/05-distributions-fruits-tidyverse.html#a-footnote-about-prediction-intervals",
-    "title": "05-Distribution and Confidence Intervals of Clementines",
-    "section": "5.4 A footnote about prediction intervals",
-    "text": "5.4 A footnote about prediction intervals\nThe simplified \\(\\bar{x} \\pm z \\cdot s\\) formula used above is an approximation. A statistically rigorous 95% prediction interval, especially for smaller samples, needs two corrections.\nFirst, we would use the t-distribution with the quantile \\(t_{\\alpha/2, n-1}\\) (or qt(alpha/2, n-1) in R) instead of the normal quantiles (\\(\\pm 1.96\\)). Then we add a term \\(\\sqrt{1+1/N}\\) that corrects for the sample parameters. The full formula for a single future observation is then:\n\\[\\text{PI} = \\bar{x} \\pm t_{\\alpha/2, n-1} \\cdot s \\cdot \\sqrt{1 + \\frac{1}{N}}\\]\nThe prediction interval is related to the so-called “tolerance interval”. Both are the same if the population parameters \\(\\mu, \\sigma\\) are known or the sample size is very big. However, there are theoretical and practical differences in case of small sample size.",
-    "crumbs": [
-      "Labs",
-      "05-Distribution and Confidence Intervals of Clementines"
     ]
   }
 ]

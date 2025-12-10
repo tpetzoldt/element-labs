@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2024-11-15">
+<meta name="dcterms.date" content="2025-11-07">
 
 <title>03-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R – Elements of Data Analysis and Statistics - Lab Exercises</title>
 <style>
@@ -317,21 +317,39 @@ window.Quarto = {
   <li><a href="#data-management-with-r-the-modern-way" id="toc-data-management-with-r-the-modern-way" class="nav-link" data-scroll-target="#data-management-with-r-the-modern-way"><span class="header-section-number">3</span> Data management with <strong>R</strong> – the modern way</a>
   <ul class="collapse">
   <li><a href="#date-and-time-conversion" id="toc-date-and-time-conversion" class="nav-link" data-scroll-target="#date-and-time-conversion"><span class="header-section-number">3.1</span> Date and time conversion</a></li>
-  <li><a href="#basic-plotting-with-rs-base-plot" id="toc-basic-plotting-with-rs-base-plot" class="nav-link" data-scroll-target="#basic-plotting-with-rs-base-plot"><span class="header-section-number">3.2</span> Basic plotting with R’s base plot</a></li>
-  <li><a href="#histograms" id="toc-histograms" class="nav-link" data-scroll-target="#histograms"><span class="header-section-number">3.3</span> Histograms</a></li>
-  <li><a href="#boxplots" id="toc-boxplots" class="nav-link" data-scroll-target="#boxplots"><span class="header-section-number">3.4</span> Boxplots</a></li>
+  <li><a href="#basic-plotting-with-rs-base-plot" id="toc-basic-plotting-with-rs-base-plot" class="nav-link" data-scroll-target="#basic-plotting-with-rs-base-plot"><span class="header-section-number">3.2</span> Basic plotting with R’s base plot</a>
+  <ul class="collapse">
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise">Exercise</a></li>
+  </ul></li>
+  <li><a href="#histograms" id="toc-histograms" class="nav-link" data-scroll-target="#histograms"><span class="header-section-number">3.3</span> Histograms</a>
+  <ul class="collapse">
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
+  </ul></li>
+  <li><a href="#boxplots" id="toc-boxplots" class="nav-link" data-scroll-target="#boxplots"><span class="header-section-number">3.4</span> Boxplots</a>
+  <ul class="collapse">
+  <li><a href="#exercises-1" id="toc-exercises-1" class="nav-link" data-scroll-target="#exercises-1">Exercises</a></li>
+  </ul></li>
   <li><a href="#cumulative-sums" id="toc-cumulative-sums" class="nav-link" data-scroll-target="#cumulative-sums"><span class="header-section-number">3.5</span> Cumulative sums</a></li>
   </ul></li>
   <li><a href="#summarizing-and-pivoting-data" id="toc-summarizing-and-pivoting-data" class="nav-link" data-scroll-target="#summarizing-and-pivoting-data"><span class="header-section-number">4</span> Summarizing and pivoting data</a>
   <ul class="collapse">
-  <li><a href="#summaries-and-cross-tabulation" id="toc-summaries-and-cross-tabulation" class="nav-link" data-scroll-target="#summaries-and-cross-tabulation"><span class="header-section-number">4.1</span> Summaries and cross-tabulation</a></li>
-  <li><a href="#a-standard-pivot-table" id="toc-a-standard-pivot-table" class="nav-link" data-scroll-target="#a-standard-pivot-table"><span class="header-section-number">4.2</span> A standard pivot table</a></li>
+  <li><a href="#summaries-and-cross-tabulation" id="toc-summaries-and-cross-tabulation" class="nav-link" data-scroll-target="#summaries-and-cross-tabulation"><span class="header-section-number">4.1</span> Summaries and cross-tabulation</a>
+  <ul class="collapse">
+  <li><a href="#exercise-1" id="toc-exercise-1" class="nav-link" data-scroll-target="#exercise-1">Exercise</a></li>
+  </ul></li>
+  <li><a href="#a-standard-pivot-table" id="toc-a-standard-pivot-table" class="nav-link" data-scroll-target="#a-standard-pivot-table"><span class="header-section-number">4.2</span> A standard pivot table</a>
+  <ul class="collapse">
+  <li><a href="#exercises-2" id="toc-exercises-2" class="nav-link" data-scroll-target="#exercises-2">Exercises</a></li>
+  </ul></li>
   <li><a href="#back-conversion-of-a-crosstable-into-a-data-base-table" id="toc-back-conversion-of-a-crosstable-into-a-data-base-table" class="nav-link" data-scroll-target="#back-conversion-of-a-crosstable-into-a-data-base-table"><span class="header-section-number">4.3</span> Back-conversion of a crosstable into a data base table</a></li>
   </ul></li>
   <li><a href="#outlook-pipelined-data-analysis-with-dplyr-and-ggplot" id="toc-outlook-pipelined-data-analysis-with-dplyr-and-ggplot" class="nav-link" data-scroll-target="#outlook-pipelined-data-analysis-with-dplyr-and-ggplot"><span class="header-section-number">5</span> Outlook: Pipelined data analysis with dplyr and ggplot</a>
   <ul class="collapse">
   <li><a href="#minimum-maximum-plot-with-summarize-and-ggplot2" id="toc-minimum-maximum-plot-with-summarize-and-ggplot2" class="nav-link" data-scroll-target="#minimum-maximum-plot-with-summarize-and-ggplot2"><span class="header-section-number">5.1</span> Minimum-maximum plot with summarize and ggplot2</a></li>
-  <li><a href="#cumulative-sums-for-all-years" id="toc-cumulative-sums-for-all-years" class="nav-link" data-scroll-target="#cumulative-sums-for-all-years"><span class="header-section-number">5.2</span> Cumulative sums for all years</a></li>
+  <li><a href="#cumulative-sums-for-all-years" id="toc-cumulative-sums-for-all-years" class="nav-link" data-scroll-target="#cumulative-sums-for-all-years"><span class="header-section-number">5.2</span> Cumulative sums for all years</a>
+  <ul class="collapse">
+  <li><a href="#exercises-3" id="toc-exercises-3" class="nav-link" data-scroll-target="#exercises-3">Exercises</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="03-discharge-elbe.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
@@ -352,7 +370,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 15, 2024</p>
+      <p class="date">November 7, 2025</p>
     </div>
   </div>
   
@@ -378,12 +396,12 @@ window.Quarto = {
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate) <span class="co"># a tidyverse package for dates</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)   <span class="co"># high level plotting with the grammar of graphics</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The examples were tested with <strong>R</strong> versions 4.2.1 – 4.4.2.</p>
+<p>The examples were tested with <strong>R</strong> versions <span class="math inline">\(\ge\)</span> 4.2.1</p>
 </section>
 <section id="the-data-set" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="the-data-set"><span class="header-section-number">1.2</span> The data set</h2>
 <p>The data set consists of daily measurements for discharge of the Elbe River in Dresden (daily discharge sum in <span class="math inline">\(\mathrm{m^3 s^{-1}}\)</span>). The data were kindly provided by the German Federal Institute for Hydrology (BfG)<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
-<p>Please read the information file <a href="https://tpetzoldt.github.io/datasets/data/elbe_info.txt">elbe_info.txt</a> about data source and copyright before downloading the data file “data.csv”. The data set is then available in the course folder or from <a href="https://tpetzoldt.github.io/datasets/">https://tpetzoldt.github.io/datasets/</a>.</p>
+<p>Please read the information file <a href="https://tpetzoldt.github.io/datasets/data/elbe_info.txt">elbe_info.txt</a> about data source and copyright before downloading the data file “elbe.csv”. The data set is then available in the course folder or from <a href="https://tpetzoldt.github.io/datasets/">https://tpetzoldt.github.io/datasets/</a>.</p>
 </section>
 <section id="overview" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="overview"><span class="header-section-number">1.3</span> Overview</h2>
@@ -395,8 +413,8 @@ window.Quarto = {
 <section id="import-of-spreadsheet-and-text-files" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="import-of-spreadsheet-and-text-files"><span class="header-section-number">2.1</span> Import of spreadsheet and text files</h2>
 <p><strong>R</strong> can access spreadsheet tables and data bases directly using packages like <strong>readxl</strong> for Excel files. It can also read LibreOffice files and data bases.</p>
-<p>Here we want to make it simple and just read the data from a <strong>universal exchange format</strong> (.txt or .csv) that can be shared between all systems. In our example, we use a csv-file (comma separated values), where the first row is the table header of unique variable names. The <strong>variable names</strong> must start with a letter and should not contain special characters, spaces etc. Additional meta information (e.g.&nbsp;source of data) and measurement shold be documented separately, for example in a separate file README.txt.</p>
-<p>The example file <strong>elbe.csv</strong> contains daily discharge of the Elbe River in <span class="math inline">\(\mathrm{m^3 s^{-1}}\)</span> from gauging station Dresden, river km 55.6 from the Federal Waterways and Shipping Administration (WSV) and where provided by the Federal Institute for Hydrology (BfG).</p>
+<p>Here we want to make it simple and just read the data from a <strong>comma separated values</strong> file (.csv) that can be shared between different software systems. In our example, the first row contains a table header with unique variable names. Valid <strong>variable names</strong> must start with a letter and should not contain special characters, spaces etc. Additional meta information (e.g.&nbsp;source of data) and measurement cen be documented separately, for example in the separate file <a href="https://tpetzoldt.github.io/datasets/data/elbe_info.txt"><code>elbe_info.txt</code></a>.</p>
+<p>The example file <a href="https://tpetzoldt.github.io/datasets/data/elbe.csv"><code>elbe.csv</code></a> contains daily discharge of the Elbe River in <span class="math inline">\(\mathrm{m^3 s^{-1}}\)</span> from gauging station Dresden, river km 55.6 from the Federal Waterways and Shipping Administration (WSV) and where provided by the Federal Institute for Hydrology (BfG).</p>
 <p>The third column “validated” indicates whether the values were finally approved by WSV and BfG. Data from the 19th century are particularly uncertain. Please consult the file <code>elbe_info.txt</code> for details.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -410,7 +428,7 @@ window.Quarto = {
 <ol type="1">
 <li><p>First, download the file <code>elbe.csv</code> and store it to your working directory.</p></li>
 <li><p>Now Open RStudio and Select: File – Import Dataset – From Text (readr).</p></li>
-<li><p>Open the file and you will see the import dataset assistant. Select the correct settings for your file and <strong>choose an appropriate name</strong> (e.g.&nbsp;<code>elbe</code>) for the data frame in <strong>R</strong>.</p></li>
+<li><p>Open the file and you will see the import dataset wizard. Select the correct settings for your file and <strong>choose an appropriate name</strong> (e.g.&nbsp;<code>elbe</code>) for the data frame in <strong>R</strong>.</p></li>
 </ol>
 </section>
 <section id="input-method-2-read-data-directly-from-r" class="level2" data-number="2.3">
@@ -431,10 +449,10 @@ window.Quarto = {
 </section>
 <section id="data-management-with-r-the-modern-way" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Data management with <strong>R</strong> – the modern way</h1>
-<p>In the last years, a new series of packages, called the “tidyverse” appeared, leading to a small revolution how to work with data. We start with the Elbe data set and date and some time computation. The <em>tidyverse</em> methods look intriguingly simple, so that many people like it. Often, there is also a classical way in “base R” that is sometimes still needed. Experts know both.</p>
+<p>In the last years, a new series of packages, called the “tidyverse” appeared, leading to a revolution how to work with data. We start with the Elbe data set and date and some time computation. The <em>tidyverse</em> methods look intriguingly simple, so that many people like it. Often, there is also a classical way in “base R” that is sometimes still needed. Experts know both.</p>
 <section id="date-and-time-conversion" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="date-and-time-conversion"><span class="header-section-number">3.1</span> Date and time conversion</h2>
-<p>In the following we extend the <strong>elbe</strong> data frame by adding information about the day, month, year and day of year. Here function <code>mutate</code> adds additional columns, or modifies existing if the column names exist.</p>
+<p>In the following we extend the <code>elbe</code> data frame by adding information about the day, month, year and day of year. Here function <code>mutate</code> adds additional columns, or modifies existing if the column names exist.</p>
 <p>Note also that the day of year function in the date and time package <strong>lubridate</strong> is named <code>yday</code>. Details about date and time conversion can be found in a cheatsheet available from <a href="https://rstudio.github.io/cheatsheets/lubridate.pdf">https://rstudio.github.io/cheatsheets/lubridate.pdf</a></p>
 <div class="cell" data-fig="false">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>elbe <span class="ot">&lt;-</span> <span class="fu">mutate</span>(elbe,</span>
@@ -468,7 +486,10 @@ window.Quarto = {
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(discharge <span class="sc">~</span> doy, <span class="at">data=</span>elbe, <span class="at">subset =</span> year<span class="sc">==</span><span class="dv">2002</span>, <span class="at">col=</span><span class="st">"blue"</span>, <span class="at">type=</span><span class="st">"l"</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(discharge <span class="sc">~</span> doy, <span class="at">data=</span>elbe, <span class="at">subset =</span> year<span class="sc">==</span><span class="dv">2003</span>, <span class="at">col=</span><span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><strong>Exercise:</strong> Plot 4 years with 4 different colors, 2 wet and 2 dry years.</p>
+<section id="exercise" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercise">Exercise</h3>
+<p>Plot 4 years with 4 different colors, 2 wet and 2 dry years.</p>
+</section>
 </section>
 <section id="histograms" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="histograms"><span class="header-section-number">3.3</span> Histograms</h2>
@@ -483,11 +504,13 @@ window.Quarto = {
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">log</span>(elbe<span class="sc">$</span>discharge))</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">log</span>(elbe<span class="sc">$</span>discharge <span class="sc">-</span> <span class="fl">0.9</span> <span class="sc">*</span> <span class="fu">min</span>(elbe<span class="sc">$</span>discharge)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><strong>Exercises:</strong></p>
+<section id="exercises" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercises">Exercises</h3>
 <ol type="1">
 <li>Discuss, which of the three histograms best describe discharge distribution.</li>
 <li>Repeat the plot with smaller classes, e.g.&nbsp;<code>hist(elbe$discharge, breaks=50)</code>.</li>
 </ol>
+</section>
 </section>
 <section id="boxplots" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="boxplots"><span class="header-section-number">3.4</span> Boxplots</h2>
@@ -495,13 +518,16 @@ window.Quarto = {
 <div class="cell" data-fig="false">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(elbe<span class="sc">$</span>discharge)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><strong>Exercise:</strong> Create boxplots for:</p>
+<section id="exercises-1" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercises-1">Exercises</h3>
+<p>Create boxplots for:</p>
 <ol type="1">
 <li>log-transformed discharge,</li>
 <li>log-transformed value of discharge - baseflow.</li>
 <li>Interpret the results: What do the “middle line”, the box, the whiskers and the extreme values tell us?</li>
 <li>Discuss the “outliers”: how many, at which side and if they are really “outliers”.</li>
 </ol>
+</section>
 </section>
 <section id="cumulative-sums" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="cumulative-sums"><span class="header-section-number">3.5</span> Cumulative sums</h2>
@@ -537,7 +563,10 @@ window.Quarto = {
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">max =</span> <span class="fu">max</span>(discharge))</span>
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>totals</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><strong>Exercise:</strong> Use the above method to compute annual total discharge <strong>sums</strong> and monthly average discharge values.</p>
+<section id="exercise-1" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercise-1">Exercise</h3>
+<p>Use the above method to compute annual total discharge <strong>sums</strong> and monthly average discharge values.</p>
+</section>
 </section>
 <section id="a-standard-pivot-table" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="a-standard-pivot-table"><span class="header-section-number">4.2</span> A standard pivot table</h2>
@@ -553,7 +582,9 @@ window.Quarto = {
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>              )</span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>elbe_wide</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><strong>Exercise:</strong> Create a crosstable for monthly max. discharge over all years.</p>
+<section id="exercises-2" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercises-2">Exercises</h3>
+<p>Create a crosstable for monthly maximum discharge over all years.</p>
 <!--
 pivot_wider(elbe, 
             id_cols = month, 
@@ -562,6 +593,7 @@ pivot_wider(elbe,
             values_fn = max)
 
 / -->
+</section>
 </section>
 <section id="back-conversion-of-a-crosstable-into-a-data-base-table" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="back-conversion-of-a-crosstable-into-a-data-base-table"><span class="header-section-number">4.3</span> Back-conversion of a crosstable into a data base table</h2>
@@ -620,13 +652,15 @@ pivot_wider(elbe,
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cum_discharge =</span> <span class="fu">cumsum</span>(discharge) <span class="sc">*</span> <span class="dv">60</span><span class="sc">*</span><span class="dv">60</span><span class="sc">*</span><span class="dv">24</span>) <span class="sc">|&gt;</span></span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(doy, cum_discharge, <span class="at">color =</span> year)) <span class="sc">+</span> <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><strong>Exercises:</strong></p>
+<section id="exercises-3" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercises-3">Exercises</h3>
 <ol type="1">
 <li><p>Which year was the wettest, which one the driest year in total? Find a year with dry spring and wet summer. Use the outcommented <code>filter</code> to reduce the number of simultanaeous lines.</p></li>
 <li><p>Modify the commands so that the hydrological year is shown. The German hydrological year goes from 1st November to 31st October of the following year. Other countries have different regulations.</p></li>
 </ol>
 
 
+</section>
 </section>
 </section>
 
