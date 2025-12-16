@@ -1,6 +1,6 @@
 ---
 title: "03-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R"
-date: "2024-11-15"
+date: "2025-11-07"
 ---
 
 ```{r setup, include=FALSE}
@@ -35,7 +35,7 @@ library(ggplot2)   # high level plotting with the grammar of graphics
 ```
 
 
-The examples were tested with **R** versions 4.2.1 -- 4.4.2.
+The examples were tested with **R** versions $\ge$ 4.2.1
 
 ## The data set
 
@@ -49,7 +49,7 @@ Administration (WSV), provided by the Federal Institute for Hydrology
 Please read the information file
 [elbe_info.txt](https://tpetzoldt.github.io/datasets/data/elbe_info.txt)
 about data source and copyright before downloading the data file
-"data.csv". The data set is then available in the course folder or
+"elbe.csv". The data set is then available in the course folder or
 from
 [https://tpetzoldt.github.io/datasets/](https://tpetzoldt.github.io/datasets/).
 
@@ -70,15 +70,16 @@ impression how to use pipelines and high level plotting with the
 **readxl** for Excel files. It can also read LibreOffice files and data bases.
 
 Here we want to make it simple and just read the data from a
-**universal exchange format** (.txt or .csv) that can be shared
-between all systems.  In our example, we use a csv-file (comma
-separated values), where the first row is the table header of unique
-variable names. The **variable names** must start with a letter and
+**comma separated values** file (.csv) that can be shared
+between different software systems.  In our example, the first row contains 
+a table header with unique variable names. 
+Valid **variable names** must start with a letter and
 should not contain special characters, spaces etc. Additional meta
-information (e.g. source of data) and measurement shold be documented
-separately, for example in a separate file README.txt.
+information (e.g. source of data) and measurement cen be documented
+separately, for example in the separate file [`elbe_info.txt`](https://tpetzoldt.github.io/datasets/data/elbe_info.txt).
 
-The example file **elbe.csv** contains daily discharge of the Elbe
+The example file [`elbe.csv`](https://tpetzoldt.github.io/datasets/data/elbe.csv) 
+contains daily discharge of the Elbe
 River in $\mathrm{m^3 s^{-1}}$ from gauging station Dresden, river km
 55.6 from the Federal Waterways and Shipping Administration (WSV) and
 where provided by the Federal Institute for Hydrology (BfG).
@@ -98,7 +99,7 @@ uncertain. Please consult the file `elbe_info.txt` for details.
 
 2. Now Open RStudio and Select: File -- Import Dataset -- From Text (readr).
 
-3. Open the file and you will see the import dataset assistant. Select the
+3. Open the file and you will see the import dataset wizard. Select the
   correct settings for your file and **choose an appropriate name**
   (e.g. `elbe`) for the data frame in **R**.
 
@@ -138,7 +139,7 @@ to be imported.
 # Data management with **R** -- the modern way
 
 In the last years, a new series of packages, called the "tidyverse"
-appeared, leading to a small revolution how to work with data.  We
+appeared, leading to a revolution how to work with data.  We
 start with the Elbe data set and date and some time computation. The
 *tidyverse* methods look intriguingly simple, so that many people like
 it. Often, there is also a classical way in "base R" that is sometimes
@@ -146,7 +147,7 @@ still needed. Experts know both.
 
 ## Date and time conversion
 
-In the following we extend the **elbe** data frame by adding
+In the following we extend the `elbe` data frame by adding
 information about the day, month, year and day of year. Here function
 `mutate` adds additional columns, or modifies existing if the column
 names exist.
@@ -197,7 +198,9 @@ plot(discharge ~ doy, data=elbe, subset = year==2002, col="blue", type="l")
 lines(discharge ~ doy, data=elbe, subset = year==2003, col="red")
 ```
 
-**Exercise:** Plot 4 years with 4 different colors, 2 wet and 2 dry years.
+### Exercise {.unnumbered} 
+
+Plot 4 years with 4 different colors, 2 wet and 2 dry years.
 
 
 ## Histograms
@@ -216,7 +219,7 @@ hist(log(elbe$discharge - 0.9 * min(elbe$discharge)))
 ```
 
 
-**Exercises:** 
+### Exercises {.unnumbered}
 
 1. Discuss, which of the three histograms best describe discharge distribution. 
 2. Repeat the plot with smaller classes, e.g. `hist(elbe$discharge, breaks=50)`.
@@ -230,7 +233,9 @@ Boxplots are a very compact way to visualize the distribution of data:
 boxplot(elbe$discharge)
 ```
 
-**Exercise:** Create boxplots for:
+### Exercises {.unnumbered}
+
+Create boxplots for:
 
 1. log-transformed discharge,
 2. log-transformed value of discharge - baseflow.
@@ -241,7 +246,8 @@ the extreme values tell us?
 ## Cumulative sums
 
 Annual cumulative sum plots are a hydrological standard tool used by 
-reservoir managers. We can use the **R** function `cumsum`, that by successive cumulation converts a sequence of:
+reservoir managers. We can use the **R** function `cumsum`, that by successive 
+cumulation converts a sequence of:
 
 $x_1, x_2, x_3, x_4, \dots$ into
 
@@ -291,7 +297,9 @@ totals <- summarize(elbe_grouped,
 totals
 ```
 
-**Exercise:** Use the above method to compute annual total discharge
+### Exercise {.unnumbered}
+
+Use the above method to compute annual total discharge
 **sums** and monthly average discharge values.
 
 
@@ -325,7 +333,9 @@ elbe_wide <-  pivot_wider(elbe,
 elbe_wide
 ```
 
-**Exercise:** Create a crosstable for monthly max. discharge over all years.
+### Exercises {.unnumbered}
+
+Create a crosstable for monthly maximum discharge over all years.
 
 <!--
 pivot_wider(elbe, 
@@ -415,7 +425,7 @@ elbe |>
   ggplot(aes(doy, cum_discharge, color = year)) + geom_line()
 ```
 
-**Exercises:**
+### Exercises {.unnumbered}
 
 1. Which year was the wettest, which one the driest year in total?
    Find a year with dry spring and wet summer.  Use the outcommented
@@ -425,10 +435,4 @@ elbe |>
    The German hydrological year goes from 1st November to 31st
    October of the following year. Other countries have different
    regulations.
-
-
-
-
-
-
 
