@@ -1,6 +1,6 @@
 ---
 title: "05-Distribution and Confidence Intervals of Clementines"
-date: '2025-11-26'
+date: '2025-12-16'
 ---
 
 ```{r include=FALSE, eval=TRUE}
@@ -67,7 +67,7 @@ fruits <- read.csv("https://tpetzoldt.github.io/datasets/data/clementines2022-fr
 
 * plot everything, just for testing:
 
-```{r }
+```{r eval=FALSE}
 plot(fruits)
 ```
 
@@ -81,7 +81,7 @@ sample2 <- subset(fruits, brand == "box2")
 First, let's compare the weight of both groups:
 
 
-```{r }
+```{r eval=FALSE}
 boxplot(sample1$weight, sample2$weight, names=c("sample1", "sample2"))
 ```
 Here it is easier to use `boxplot` with the model formula syntax. 

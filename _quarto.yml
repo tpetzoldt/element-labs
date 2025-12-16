@@ -27,6 +27,7 @@ website:
           - qmd/13-timeseries-breakpoints.qmd
           - qmd/14-flood-risk.qmd
           - qmd/15-multivariate-small-streams.qmd
+          - qmd/16-drawing-maps.qmd
       - section: Projects
         contents:
           - qmd/03-discharge-elbe-project.qmd

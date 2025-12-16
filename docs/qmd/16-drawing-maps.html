@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2025-12-15">
+
+<title>16-Working with Maps in R – Elements of Data Analysis and Statistics - Lab Exercises</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-b512256bc363577b27543e003c495f0c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../thpe.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../qmd/01-pivot-tables-with-libreoffice.html">Labs</a></li><li class="breadcrumb-item"><a href="../qmd/16-drawing-maps.html">16-Working with Maps in R</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Elements of Data Analysis and Statistics - Lab Exercises</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Labs</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/01-pivot-tables-with-libreoffice.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">01-Discharge of River Elbe: Data Management with LibreOffice</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/03-discharge-elbe.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">03-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/04-distributions-leaves.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">04-Distribution and Confidence Intervals of Maple Leaf Samples</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/05-distributions-fruits-tidyverse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">05-Distribution and Confidence Intervals of Clementines</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/06-classical-tests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">06-Classical Tests</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/07-correlation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">07-Correlation Between Water Quality Indicators</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/08-vollenweider-chl-tp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">08-Linear Regression: Dependency of Chlorophyll on Phosphorus in Lakes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/09-clementines-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">09-Which fruits are the biggest? An ANOVA example</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/10-nonlinear-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">10-Nonlinear Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/12-timeseries-trends.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">12-An introductory time series example</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/13-timeseries-breakpoints.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">13-Identification of Breakpoints in Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/14-flood-risk.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">14-Extreme Value Estimation with Package FAmle</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/15-multivariate-small-streams.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/16-drawing-maps.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">16-Working with Maps in R</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Projects</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/03-discharge-elbe-project.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">x03-Discharge of River Elbe: Homework Project</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Solutions</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/10-nonlinear-regression-solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">x10-Fit Nonlinear Models to Plankton Growth Data</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-traditional-way-with-package-maps" id="toc-the-traditional-way-with-package-maps" class="nav-link active" data-scroll-target="#the-traditional-way-with-package-maps"><span class="header-section-number">0.1</span> The traditional way with package <strong>maps</strong></a></li>
+  <li><a href="#plotting-of-countries" id="toc-plotting-of-countries" class="nav-link" data-scroll-target="#plotting-of-countries"><span class="header-section-number">0.2</span> Plotting of Countries</a></li>
+  <li><a href="#plotting-cities" id="toc-plotting-cities" class="nav-link" data-scroll-target="#plotting-cities"><span class="header-section-number">0.3</span> Plotting cities</a></li>
+  <li><a href="#a-world-map-of-course-participants" id="toc-a-world-map-of-course-participants" class="nav-link" data-scroll-target="#a-world-map-of-course-participants"><span class="header-section-number">1</span> A world map of course participants</a>
+  <ul class="collapse">
+  <li><a href="#a-standard-map" id="toc-a-standard-map" class="nav-link" data-scroll-target="#a-standard-map"><span class="header-section-number">1.1</span> A standard map</a></li>
+  <li><a href="#a-globe" id="toc-a-globe" class="nav-link" data-scroll-target="#a-globe"><span class="header-section-number">1.2</span> A globe</a></li>
+  <li><a href="#maps-with-the-leaflet-package" id="toc-maps-with-the-leaflet-package" class="nav-link" data-scroll-target="#maps-with-the-leaflet-package"><span class="header-section-number">1.3</span> Maps with the leaflet package</a></li>
+  <li><a href="#web-links-and-custom-map-symbols" id="toc-web-links-and-custom-map-symbols" class="nav-link" data-scroll-target="#web-links-and-custom-map-symbols"><span class="header-section-number">1.4</span> Web links and custom map symbols</a></li>
+  <li><a href="#alternative-map-providers" id="toc-alternative-map-providers" class="nav-link" data-scroll-target="#alternative-map-providers"><span class="header-section-number">1.5</span> Alternative map providers</a></li>
+  </ul></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">2</span> Exercises</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="16-drawing-maps.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../qmd/01-pivot-tables-with-libreoffice.html">Labs</a></li><li class="breadcrumb-item"><a href="../qmd/16-drawing-maps.html">16-Working with Maps in R</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">16-Working with Maps in R</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">December 15, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>R contains many packages for working with spatial data; an overview can be found in the ‘CRAN Task View: <a href="https://cran.r-project.org/web/views/Spatial.html">Analysis of Spatial Data</a>’, which can be found on the servers containing the R packages (Comprehensive R Archive Network): <a href="https://cran.r-project.org">https://cran.r-project.org</a>.</p>
+<p>The packages contain, among others:</p>
+<ul>
+<li>functions for reading, writing and handling spatial data,</li>
+<li>import and export from and to GIS systems (<a href="https://www.esri.com">ArcGIS</a>, <a href="https://www.qgis.org/">QGIS</a>)</li>
+<li>projections, transformation of coordinate systems (package <a href="https://CRAN.R-project.org/package=sf"><strong>sf</strong></a>)</li>
+<li>point pattern analysis, geostatistics and spatial interpolation</li>
+<li>accessing and plotting maps from Google Maps and OpenStreetmap, graphing data on maps (package <a href="https://cran.r-project.org/package=leaflet"><strong>leaflet</strong></a>)</li>
+</ul>
+<p>In the following, we will deal with a set of selected mapping functions. After exploring some basic methods, we will create a map showing the locations of all the people from HSE who are attending the exercise.</p>
+<section id="the-traditional-way-with-package-maps" class="level2" data-number="0.1">
+<h2 data-number="0.1" class="anchored" data-anchor-id="the-traditional-way-with-package-maps"><span class="header-section-number">0.1</span> The traditional way with package <strong>maps</strong></h2>
+<p>In the following, let’s use the packages <strong>maps</strong> for drawing geographical maps.</p>
+</section>
+<section id="plotting-of-countries" class="level2" data-number="0.2">
+<h2 data-number="0.2" class="anchored" data-anchor-id="plotting-of-countries"><span class="header-section-number">0.2</span> Plotting of Countries</h2>
+<p>Drawing a world map is as simple as:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maps)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(<span class="st">"world"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>and mapping a country can be done with:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(<span class="st">"world"</span>, <span class="st">"Germany"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>At time of writing, the world data base was updated in 2013. We may also consider to color the world. For this purpose, let’s use nicely designed color maps found on: <a href="http://colorbrewer2.org/">http://colorbrewer2.org/</a></p>
+<p>This web page allows to design color schemes and to use the codes in any software, e.g.&nbsp;Word or Powerpoint. For R, we can use a specific package:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>mycolors <span class="ot">&lt;-</span> <span class="fu">brewer.pal</span>(<span class="dv">12</span>, <span class="st">"Set3"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(<span class="st">'world'</span>, <span class="at">col=</span>mycolors, <span class="at">fill=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Of course, we can also use other colours according to our preferences.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(<span class="st">'world'</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(<span class="st">'world'</span>, <span class="st">"Germany"</span>, <span class="at">add=</span><span class="cn">TRUE</span>, <span class="at">col=</span><span class="st">"red"</span>, <span class="at">fill=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If you want to center the world to the pacific, use:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(<span class="st">"world"</span>,<span class="at">projection=</span><span class="st">"rectangular"</span>,<span class="at">parameter=</span><span class="dv">0</span>, </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">orientation=</span><span class="fu">c</span>(<span class="dv">90</span>,<span class="dv">0</span>,<span class="dv">180</span>), <span class="at">wrap=</span><span class="cn">TRUE</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(<span class="st">"world"</span>, <span class="st">"Indonesia"</span>, <span class="at">orientation=</span><span class="fu">c</span>(<span class="dv">90</span>,<span class="dv">0</span>,<span class="dv">180</span>), </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>   <span class="at">col=</span><span class="st">"red"</span>, <span class="at">fill=</span><span class="cn">TRUE</span>, <span class="at">add=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Country names are in English, but they can also be derived from the 2 or three letter ISO country code, see <a href="https://countrycode.org/">https://countrycode.org/</a>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">iso.expand</span>(<span class="st">"id"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">iso.expand</span>(<span class="st">"idn"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="plotting-cities" class="level2" data-number="0.3">
+<h2 data-number="0.3" class="anchored" data-anchor-id="plotting-cities"><span class="header-section-number">0.3</span> Plotting cities</h2>
+<p>R contains a data base of more 40,000 world cities, including the capital cities of all countries and their population size, see ?world.cities for details.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(world.cities)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(world.cities)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The following plots the Capital cities:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(<span class="st">"world"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">map.cities</span>(<span class="at">capitals=</span><span class="dv">1</span>, <span class="at">col=</span><span class="st">"red"</span>, <span class="at">pch=</span><span class="dv">16</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The following highlights the capital cities of China (1=country capital, 2=provincial, state, or regional capital, or 3=local capital)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(<span class="at">regions=</span><span class="st">"China"</span>, <span class="at">col=</span><span class="st">"lightgrey"</span>, <span class="at">fill=</span><span class="cn">TRUE</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">map.cities</span>(<span class="at">country=</span><span class="st">"China"</span>, <span class="at">minpop=</span><span class="fl">1e5</span>, <span class="at">col=</span><span class="st">"blue"</span>, <span class="at">pch=</span><span class="dv">16</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">map.cities</span>(<span class="at">country=</span><span class="st">"China"</span>, <span class="at">capitals=</span><span class="dv">1</span>, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span><span class="st">"red"</span>, <span class="at">cex=</span><span class="dv">2</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">map.cities</span>(<span class="at">country=</span><span class="st">"China"</span>, <span class="at">capitals=</span><span class="dv">2</span>, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span><span class="st">"orange"</span>, <span class="at">cex=</span><span class="fl">1.5</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">map.cities</span>(<span class="at">country=</span><span class="st">"China"</span>, <span class="at">capitals=</span><span class="dv">3</span>, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span><span class="st">"green"</span>, <span class="at">cex=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And now all cities of Germany with more than 400000 inhabitants (and also the main rivers):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"mapdata"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(<span class="st">"world"</span>, <span class="st">"Germany"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">map.cities</span>(<span class="at">country=</span><span class="st">"Germany"</span>, <span class="at">capitals=</span><span class="dv">1</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">map.cities</span>(<span class="at">country=</span><span class="st">"Germany"</span>, <span class="at">minpop =</span> <span class="dv">400000</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">map.axes</span>()</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(<span class="st">"rivers"</span>, <span class="at">add=</span><span class="cn">TRUE</span>, <span class="at">col=</span><span class="st">"blue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The data base can also be used to retrieve the GPS coordinates of a city:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>world.cities[world.cities<span class="sc">$</span>name<span class="sc">==</span><span class="st">"Dresden"</span>,]</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>world.cities[world.cities<span class="sc">$</span>name<span class="sc">==</span><span class="st">"Berlin"</span>,]</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>Berlin <span class="ot">&lt;-</span> <span class="fu">subset</span>(world.cities, name<span class="sc">==</span><span class="st">"Berlin"</span> <span class="sc">&amp;</span> country.etc <span class="sc">==</span> <span class="st">"Germany"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The circles can also represent the size of the city. Taking the square root ensures that it is the area of the circle, rather than the diameter, that is proportional to the population. Scaling the circles by 500,000 gives a reasonable size.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(<span class="st">"world"</span>, <span class="st">"Germany"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">map.cities</span>(<span class="at">country=</span><span class="st">"Germany"</span>, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span><span class="st">"blue"</span>, </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">cex=</span><span class="fu">sqrt</span>(world.cities<span class="sc">$</span>pop<span class="sc">/</span><span class="fl">5e5</span>))</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(Berlin<span class="sc">$</span>long, Berlin<span class="sc">$</span>lat, <span class="at">col=</span><span class="st">"red"</span>, <span class="at">pch=</span><span class="dv">16</span>, </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">cex=</span><span class="fu">sqrt</span>(Berlin<span class="sc">$</span>pop<span class="sc">/</span><span class="fl">5e5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="a-world-map-of-course-participants" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> A world map of course participants</h1>
+<section id="a-standard-map" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="a-standard-map"><span class="header-section-number">1.1</span> A standard map</h2>
+<ul>
+<li>Collect data of your home cities from all participants</li>
+<li>Draw a world map</li>
+<li>Highlight all your home cities in the world map</li>
+</ul>
+<p>Use the following example of German cities &gt; 40,0000 inhabitants as a template</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>cities.de <span class="ot">&lt;-</span> <span class="fu">subset</span>(world.cities, country.etc <span class="sc">==</span><span class="st">"Germany"</span> <span class="sc">&amp;</span> pop <span class="sc">&gt;</span> <span class="dv">400000</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>cities.de</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(<span class="st">"world"</span>, <span class="st">"Germany"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(cities.de<span class="sc">$</span>long, cities.de<span class="sc">$</span>lat, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span><span class="st">"red"</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(cities.de<span class="sc">$</span>long, cities.de<span class="sc">$</span>lat, cities.de<span class="sc">$</span>name, <span class="at">cex=</span><span class="fl">0.7</span>, <span class="at">pos=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="a-globe" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="a-globe"><span class="header-section-number">1.2</span> A globe</h2>
+<p>With the data collected above, it is now possible to create a web page with a globe to see how your fellow students came from. This globe can be embedded in an interactive web page. A live-example can be found <a href="https://wwwpub.zih.tu-dresden.de/~petzoldt/mhse01/globe-hse-2021.html">here</a>, together with the <a href="https://wwwpub.zih.tu-dresden.de/~petzoldt/mhse01/globe-hse-2021.Rmd">RMarkdown source code</a>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../img/globe.jpg" class="img-fluid figure-img" style="width:30.0%"></p>
+<figcaption>Origin of HSE Students in 2021</figcaption>
+</figure>
+</div>
+</section>
+<section id="maps-with-the-leaflet-package" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="maps-with-the-leaflet-package"><span class="header-section-number">1.3</span> Maps with the leaflet package</h2>
+<p><a href="https://leafletjs.com/">Leaflet</a> is an open source library for interactive maps. It is written in JavaScript and allows to download maps on the fly from data providers like <a href="https://www.openstreetmap.org">OpenStreatmap</a>. It can be used in <strong>R</strong> without JavaScript knowledge by employing the <a href="https://cran.r-project.org/package=leaflet"><strong>leaflet</strong></a> <strong>R</strong>-package.</p>
+<p>An extensive documentation is found at <a href="https://rstudio.github.io/leaflet/">https://rstudio.github.io/leaflet/</a>.</p>
+<p>The resulting image is then a web page rather than an ordinary R graphics, so it is easy to embed it in a HTML document generated by Quarto. It is also possible to embedded in PDF or Word files.</p>
+<p>The <strong>leaflet</strong> package is compatible to pipelines in tidyverse (<code>%&gt;%</code>) and to native <strong>R</strong> pipes (<code>|&gt;</code>).</p>
+<p>In the following, we set a range of coordinates for the university and add markers for two buildings. The function call then downloads the map from OpenStreetmap on the fly and adds two markers and a popup.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">|&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">|&gt;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setView</span>(<span class="at">lng =</span> <span class="fl">13.7254</span>, <span class="at">lat =</span> <span class="fl">51.0282</span>, <span class="at">zoom =</span> <span class="dv">15</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addPopups</span>(<span class="at">lng =</span> <span class="fl">13.7254</span>, <span class="at">lat =</span> <span class="fl">51.0282</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">popup =</span> <span class="st">"TU Dresden"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addMarkers</span>(<span class="at">lng =</span> <span class="fu">c</span>(<span class="fl">13.7228</span>, <span class="fl">13.73043</span>), </span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">lat =</span> <span class="fu">c</span>(<span class="fl">51.02556</span>, <span class="fl">51.0277</span>),</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">popup =</span> <span class="fu">c</span>(<span class="st">"APB"</span>, <span class="st">"CHE"</span>),</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">options =</span> <span class="fu">markerOptions</span>(<span class="at">title=</span><span class="fu">c</span>(<span class="st">"Computer Science Building"</span>, </span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>                                             <span class="st">"Chemistry and Hydro Science"</span>))</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Leaflet can also be used to plot polygons and filled areas. This is slightly more complex and will be left for you to experiment with later.</p>
+</section>
+<section id="web-links-and-custom-map-symbols" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="web-links-and-custom-map-symbols"><span class="header-section-number">1.4</span> Web links and custom map symbols</h2>
+<p>Package <strong>leaflet</strong> supports custom map markers from different icon libraries, for example from <a href="https://www.glyphicons.com/">https://www.glyphicons.com/</a>. In addition, marker popup texts may also contain web links. The map below shows the central TU Dresden campus with some of the cafeterias, as well as the Drudebau, the Hydrosciences and the Computer Science buildings. Click on one of the cutlery icons to access the Mensa menu.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>i_parking <span class="ot">&lt;-</span> <span class="fu">makeAwesomeIcon</span>(<span class="at">icon =</span> <span class="st">'P'</span>, <span class="at">markerColor =</span> <span class="st">'blue'</span>, </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">library=</span><span class="st">'glyphicon'</span>, <span class="at">fontFamily=</span><span class="st">"Open Sans"</span>, <span class="at">text=</span><span class="st">"P"</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>i_mensa   <span class="ot">&lt;-</span> <span class="fu">makeAwesomeIcon</span>(<span class="at">icon =</span> <span class="st">'cutlery'</span>, <span class="at">markerColor =</span> <span class="st">'red'</span>, </span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">library=</span><span class="st">'glyphicon'</span>)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>i_edu     <span class="ot">&lt;-</span> <span class="fu">makeAwesomeIcon</span>(<span class="at">icon =</span> <span class="st">'education'</span>, <span class="at">markerColor =</span> <span class="st">'darkblue'</span>, </span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">library=</span><span class="st">'glyphicon'</span>)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>i_home    <span class="ot">&lt;-</span> <span class="fu">makeAwesomeIcon</span>(<span class="at">icon =</span> <span class="st">'home'</span>, <span class="at">markerColor =</span> <span class="st">'darkblue'</span>, </span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">library=</span><span class="st">'glyphicon'</span>)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>lunch <span class="ot">&lt;-</span> <span class="st">"https://www.studentenwerk-dresden.de/mensen/speiseplan/"</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>()<span class="sc">|&gt;</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>()<span class="sc">|&gt;</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setView</span>(<span class="at">lng =</span> <span class="fl">13.735</span>, <span class="at">lat =</span> <span class="fl">51.034</span>, <span class="at">zoom =</span> <span class="dv">15</span>) <span class="sc">|&gt;</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addAwesomeMarkers</span>(<span class="at">lng =</span> <span class="fu">c</span>(<span class="fl">13.72292</span>, <span class="fl">13.73067</span>), <span class="at">lat =</span> <span class="fu">c</span>(<span class="fl">51.02559</span>, <span class="fl">51.02804</span>),</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>             <span class="at">popup =</span> <span class="fu">c</span>(<span class="st">"Pfitzmannbau"</span>,<span class="st">"Chemistry/Hydrosciences"</span>),</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>             <span class="at">icon =</span>  i_edu) <span class="sc">|&gt;</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addAwesomeMarkers</span>(</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">lng =</span> <span class="fu">c</span>(<span class="fl">13.72867</span>, <span class="fl">13.73868</span>, <span class="fl">13.72645</span>, <span class="fl">13.74902</span>, <span class="fl">13.73394</span>, <span class="fl">13.7293</span>),</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">lat =</span> <span class="fu">c</span>(<span class="fl">51.03146</span>, <span class="fl">51.02960</span>, <span class="fl">51.02708</span>, <span class="fl">51.030</span>, <span class="fl">51.03440</span>, <span class="fl">51.03028</span>),</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">popup =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">"&lt;a href="</span>, lunch, <span class="st">"&gt;Mensa&lt;/a&gt; Zeltschlösschen"</span>),</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>              <span class="fu">paste0</span>(<span class="st">"&lt;a href="</span>, lunch, <span class="st">"&gt;Mensa&lt;/a&gt; Siedepunkt"</span>),</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>              <span class="fu">paste0</span>(<span class="st">"&lt;a href="</span>, lunch, <span class="st">"&gt;Mensa&lt;/a&gt; Alte Mensa"</span>),</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>              <span class="fu">paste0</span>(<span class="st">"&lt;a href="</span>, lunch, <span class="st">"&gt;Mensa&lt;/a&gt; WuEins"</span>),</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>              <span class="fu">paste0</span>(<span class="st">"&lt;a href="</span>, lunch, <span class="st">"&gt;Mensa&lt;/a&gt; Reichenbachstraße"</span>),</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>              <span class="fu">paste0</span>(<span class="st">"&lt;a href="</span>, lunch, <span class="st">"&gt;Mensa&lt;/a&gt; U-Boot"</span>)), </span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">icon =</span> i_mensa) <span class="sc">|&gt;</span></span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addAwesomeMarkers</span>(<span class="at">lng =</span> <span class="fl">13.74780</span>, <span class="at">lat =</span> <span class="fl">51.02769</span>,</span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>             <span class="at">popup =</span> <span class="st">"Hydrobiologie</span><span class="sc">\n</span><span class="st">Drude-Bau"</span>, <span class="at">icon =</span> i_home)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="alternative-map-providers" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="alternative-map-providers"><span class="header-section-number">1.5</span> Alternative map providers</h2>
+<p>Now let’s plot a water body and annotate different sampling stations. Here we use <code>addCircleMarkers</code> with different colors. As an addtional option, let’s replace <code>addTiles()</code> with `addProviderTiles(“OpenTopoMap”) for an alternative base map:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">#addTiles() |&gt;                         # standard OpenStreetmap</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addProviderTiles</span>(<span class="st">"OpenTopoMap"</span>) <span class="sc">|&gt;</span>     <span class="co"># A topographical map</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setView</span>(<span class="fl">12.22</span>, <span class="fl">50.535</span>, <span class="at">zoom =</span> <span class="dv">12</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addMarkers</span>(<span class="fl">12.20296</span>, <span class="fl">50.54397</span>, <span class="at">label=</span><span class="st">"littoral station"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(<span class="fl">12.195</span>, <span class="fl">50.537</span>, <span class="at">radius=</span><span class="dv">5</span>, <span class="at">color=</span><span class="st">"red"</span>, <span class="at">label=</span><span class="st">"buoy 1"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(<span class="fl">12.19</span>, <span class="fl">50.542</span>, <span class="at">radius=</span><span class="dv">5</span>, <span class="at">color=</span><span class="st">"blue"</span>, <span class="at">opacity=</span><span class="dv">1</span>, </span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"buoy 2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A list of available map providers can be found at <a href="https://leaflet-extras.github.io/leaflet-providers/preview/">https://leaflet-extras.github.io/leaflet-providers/preview/</a>. Some maps can be used out of the box, some others need some experimentation.</p>
+<p>More about maps with R can be found in the package documentations and on several web pages, just use your favorite search engine.</p>
+</section>
+</section>
+<section id="exercises" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Exercises</h1>
+<ol type="1">
+<li>Experiment with the leaflet map tools. Select appropriate coordinates and suitable zoom levels.</li>
+<li>Create maps of your favorite locations in Dresden and in your hometown, e.g.&nbsp;your flat, the university, or your recreational area.</li>
+<li>Create a postcard and with this map and send it to your friends.</li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
