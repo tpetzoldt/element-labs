@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2025-01-08">
+
+<title>12-An introductory time series example – Elements of Data Analysis and Statistics - Lab Exercises</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-b512256bc363577b27543e003c495f0c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../thpe.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../qmd/01-pivot-tables-with-libreoffice.html">Labs</a></li><li class="breadcrumb-item"><a href="../qmd/12-timeseries-trends.html">12-An introductory time series example</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Elements of Data Analysis and Statistics - Lab Exercises</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Labs</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/01-pivot-tables-with-libreoffice.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">01-Discharge of River Elbe: Data Management with LibreOffice</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/03-discharge-elbe.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">03-Discharge of River Elbe: Date and Time Computation, Data Management and Plotting with R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/04-distributions-leaves.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">04-Distribution and Confidence Intervals of Maple Leaf Samples</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/05-distributions-fruits-tidyverse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">05-Distribution and Confidence Intervals of Clementines</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/06-classical-tests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">06-Classical Tests</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/07-correlation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">07-Correlation Between Water Quality Indicators</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/08-vollenweider-chl-tp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">08-Linear Regression: Dependency of Chlorophyll on Phosphorus in Lakes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/09-clementines-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">09-Which fruits are the biggest? An ANOVA example</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/10-nonlinear-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">10-Nonlinear Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/12-timeseries-trends.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">12-An introductory time series example</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/13-timeseries-breakpoints.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">13-Identification of Breakpoints in Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/14-flood-risk.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">14-Extreme Value Estimation with Package FAmle</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/15-multivariate-small-streams.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/16-drawing-maps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">16-Working with Maps in R</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Projects</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/03-discharge-elbe-project.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">x03-Discharge of River Elbe: Homework Project</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Solutions</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/10-nonlinear-regression-solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">x10-Fit Nonlinear Models to Plankton Growth Data</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
+  <li><a href="#demonstration-of-methods-artificial-data-set" id="toc-demonstration-of-methods-artificial-data-set" class="nav-link" data-scroll-target="#demonstration-of-methods-artificial-data-set"><span class="header-section-number">2</span> Demonstration of methods (artificial data set)</a>
+  <ul class="collapse">
+  <li><a href="#data-set" id="toc-data-set" class="nav-link" data-scroll-target="#data-set"><span class="header-section-number">2.1</span> Data set</a></li>
+  <li><a href="#autocorrelation-and-partial-autocorrelation" id="toc-autocorrelation-and-partial-autocorrelation" class="nav-link" data-scroll-target="#autocorrelation-and-partial-autocorrelation"><span class="header-section-number">2.2</span> Autocorrelation and partial autocorrelation</a></li>
+  <li><a href="#stationarity-test" id="toc-stationarity-test" class="nav-link" data-scroll-target="#stationarity-test"><span class="header-section-number">2.3</span> Stationarity test</a></li>
+  <li><a href="#mann-kendall-test-for-trends" id="toc-mann-kendall-test-for-trends" class="nav-link" data-scroll-target="#mann-kendall-test-for-trends"><span class="header-section-number">2.4</span> Mann-Kendall test for trends</a></li>
+  </ul></li>
+  <li><a href="#real-data-set-air-and-water-temperature" id="toc-real-data-set-air-and-water-temperature" class="nav-link" data-scroll-target="#real-data-set-air-and-water-temperature"><span class="header-section-number">3</span> Real data set: air and water temperature</a>
+  <ul class="collapse">
+  <li><a href="#trend-of-air-temperature" id="toc-trend-of-air-temperature" class="nav-link" data-scroll-target="#trend-of-air-temperature"><span class="header-section-number">3.1</span> Trend of air temperature</a></li>
+  <li><a href="#stationarity-and-trend-of-water-temperature" id="toc-stationarity-and-trend-of-water-temperature" class="nav-link" data-scroll-target="#stationarity-and-trend-of-water-temperature"><span class="header-section-number">3.2</span> Stationarity and trend of water temperature</a></li>
+  </ul></li>
+  <li><a href="#homework-project-2025" id="toc-homework-project-2025" class="nav-link" data-scroll-target="#homework-project-2025"><span class="header-section-number">4</span> Homework project 2025</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">5</span> References</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="12-timeseries-trends.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../qmd/01-pivot-tables-with-libreoffice.html">Labs</a></li><li class="breadcrumb-item"><a href="../qmd/12-timeseries-trends.html">12-An introductory time series example</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">12-An introductory time series example</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 8, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
+<p>The <strong>main scientific question of the following examples is the existence of a trend</strong>. However, most trend tests assume stationarity of the residuals, so the concept of stationarity is first introduced by means of two artificial data sets. Here we introduce the following concepts:</p>
+<ol type="1">
+<li>trend stationarity and difference stationarity</li>
+<li>autocorrelation and partial autocorrelation</li>
+<li>test for stationarity</li>
+<li>test for a monotonic trend</li>
+</ol>
+<p>The general procedure should then be applied to two real data sets as an exercise. Please keep in mind that the main objective here is trend analysis. The concepts of stationarity and autocorrelation and the related tests are only used as pre-tests to check if simple trend tests are possible. Please note also the importance of the <strong>effect size</strong>, e.g.&nbsp;the temperature increase pear year.</p>
+<p>The book of <span class="citation" data-cites="Kleiber2008">Kleiber &amp; Zeileis (<a href="#ref-Kleiber2008" role="doc-biblioref">2008</a>)</span> contains an excellent explanation of the methods described here and is strongly recommended for further reading.</p>
+</section>
+<section id="demonstration-of-methods-artificial-data-set" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Demonstration of methods (artificial data set)</h1>
+<section id="data-set" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="data-set"><span class="header-section-number">2.1</span> Data set</h2>
+<p>The data set “timeseries.txt” contains artificial data with specifically designed properties, similar to the <strong>TSP</strong> and <strong>DSP</strong> series in the tutorial <a href="https://tpetzoldt.github.io/elements/">https://tpetzoldt.github.io/elements/</a>.</p>
+<p>The data sets are available from <a href="https://tpetzoldt.github.io/datasets/">https://tpetzoldt.github.io/datasets/</a>. You can either download it locally or modify the code that the data are directly read from the web. Then convert it to time series objects (<code>ts</code>), to make their analysis easier.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"timeseries.csv"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>TSP <span class="ot">&lt;-</span> <span class="fu">ts</span>(dat<span class="sc">$</span>TSP)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>DSP <span class="ot">&lt;-</span> <span class="fu">ts</span>(dat<span class="sc">$</span>DSP)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>It is always a good idea to plot the data first.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(TSP)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(DSP)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="autocorrelation-and-partial-autocorrelation" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="autocorrelation-and-partial-autocorrelation"><span class="header-section-number">2.2</span> Autocorrelation and partial autocorrelation</h2>
+<p>First, plot the autocorrelation (<code>acf</code>) and partial autocorrelation (<code>pacf</code>) of the DSP series:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(DSP)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pacf</span>(DSP)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="12-timeseries-trends_files/figure-html/acf-plot-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>… and interpret the results.</p>
+<p>Then plot the <code>acf</code> for both series, together with the autocorrelation of the differenced and residual time series:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(TSP)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(<span class="fu">diff</span>(TSP))</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(<span class="fu">residuals</span>(<span class="fu">lm</span>(TSP<span class="sc">~</span><span class="fu">time</span>(TSP))))</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(DSP)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(<span class="fu">diff</span>(DSP))</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(<span class="fu">residuals</span>(<span class="fu">lm</span>(DSP<span class="sc">~</span><span class="fu">time</span>(DSP))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here, <code>diff</code> is used for differencing the time series i.e.&nbsp;to compute differences between consecutive values, while <code>lm</code> fits a linear regression from which <code>residuals</code> extracts the residuals.</p>
+<p>The autocorrelation function <code>acf</code> can be used to identify specific patterns. A series is considered as approximately stationary, if all autocorrelations (except for <span class="math inline">\(lag=0\)</span>) are “almost non-significant”.</p>
+<p><strong>Hint:</strong> Deconstruct the parenthetisized statements like <code>acf(residuals(lm(TSP~time(TSP))))</code> into 3 separate lines to understand better what they do. Plot the data and the trend.</p>
+</section>
+<section id="stationarity-test" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="stationarity-test"><span class="header-section-number">2.3</span> Stationarity test</h2>
+<p>The Kwiatkowski-Phillips-Schmidt-Shin test checks directly for stationarity, where <span class="math inline">\(H_0\)</span> may be either level stationarity or trend stationarity. <strong>Don’t get confused:</strong></p>
+<ul>
+<li><strong>level stationary</strong> is just the same as <strong>stationary</strong>, the additional “level” just makes it clearer.</li>
+<li>in contrast, <strong>trend stationary</strong> is essentially non-stationary, but can easily be made stationary by subtracting a trend, because the <strong>residuals</strong> are stationary.</li>
+<li>the warning message of the KPSS test is normal and not an “error”, its just an information that the true p-value is either smaller or greater than the printed value.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"tseries"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kpss.test</span>(TSP, <span class="at">null=</span><span class="st">"Level"</span>) <span class="co"># instationary</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">kpss.test</span>(TSP, <span class="at">null=</span><span class="st">"Trend"</span>) <span class="co"># stationary after trend removal</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">kpss.test</span>(DSP, <span class="at">null=</span><span class="st">"Level"</span>) <span class="co"># instationary</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">kpss.test</span>(DSP, <span class="at">null=</span><span class="st">"Trend"</span>) <span class="co"># still instationary</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">kpss.test</span>(<span class="fu">diff</span>(DSP), <span class="at">null=</span><span class="st">"Level"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<!--
+Instead of the KPSS test, also the 'adf.test' (the augmented Dickey-Fuller
+test,a so-called unit root test) can also be used for detecting instationarity.
+Interested students may have a look in the tutorial,
+but note the opposite formulation of $H_a$ and $H_0$!
+-->
+</section>
+<section id="mann-kendall-test-for-trends" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="mann-kendall-test-for-trends"><span class="header-section-number">2.4</span> Mann-Kendall test for trends</h2>
+<p>This is now finally the main test.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"Kendall"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">MannKendall</span>(TSP) <span class="co"># correct only for trend stationary time series</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">MannKendall</span>(DSP) <span class="co"># wrong, because time series was difference stationary</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="real-data-set-air-and-water-temperature" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Real data set: air and water temperature</h1>
+<p>Now, let’s try to find out if we can find linear trends in real data sets.</p>
+<p><strong>Scientific Hypothesis:</strong> The air temperature in Dresden and the water temperature of Saidenbach Reservoir increased during the last decades.</p>
+<p><strong>Data sets:</strong></p>
+<ul>
+<li><p><strong>mean April air temperature</strong> from the meteorological station Klotsche near Dresden (source: German Weather Service, DWD http://www.dwd.de) and</p></li>
+<li><p><strong>water temperature in May</strong> in 3m depth of the Saidenbach drinking water reservoir, source: Ecological station 19hain, unpublished data. Many thanks to Dr.&nbsp;René Sachse and Dr.&nbsp;Lothar Paul for giving permission.</p></li>
+</ul>
+<p>The data are available from <a href="https://tpetzoldt.github.io/datasets/">https://tpetzoldt.github.io/datasets/</a> and then converted to a time series object. Please note the <code>start</code> argument that sets the start year of that object:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dat1 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"airtemp_april.csv"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>dat2 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"watertemp_may.csv"</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>Tair <span class="ot">&lt;-</span> <span class="fu">ts</span>(dat1<span class="sc">$</span>T, <span class="at">start=</span><span class="dv">1967</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>Twat <span class="ot">&lt;-</span> <span class="fu">ts</span>(dat2<span class="sc">$</span>May, <span class="at">start=</span><span class="dv">1975</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="trend-of-air-temperature" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="trend-of-air-temperature"><span class="header-section-number">3.1</span> Trend of air temperature</h2>
+<p>The plot seems to show an increasing trend, especially since 1980.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Tair)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Test of stationarity</strong></p>
+<p>Test for stationarity for the original and the trend adjusted series graphically with <code>acf</code> and quantitatively with the KPSS test:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kpss.test</span>(Tair)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We see that <span class="math inline">\(p &lt; 0.01\)</span> so it is not “level stationary”!</p>
+<p>But if we allow for a trend:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kpss.test</span>(Tair, <span class="at">null=</span><span class="st">"Trend"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>… we get <span class="math inline">\(p &gt; 0.05\)</span> i.e.&nbsp;it is trend stationary (stationary after trend removal). Therefore, a trend test is possible.</p>
+<p><strong>Trend test</strong></p>
+<p>We use the Mann-Kendall test dirst, that tests for monotonous trends:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">MannKendall</span>(Tair)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we fit a linear model to find out how much the temperature increased per day during this time.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">lm</span>(Tair <span class="sc">~</span> <span class="fu">time</span>(Tair))</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Tair)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(m, <span class="at">col=</span><span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now test the assumptions. Firstly test that the residuals have no autocorrelation:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(<span class="fu">residuals</span>(m))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Optional Task:</strong> use additional diagnostics, e.g.&nbsp;plot residuals versus fitted or <code>qqnorm(residuals(m))</code> to test for normal distribution. Write the results down and evaluate what they can tell us.</p>
+<p>Questions:</p>
+<ul>
+<li>Is the trend significant?</li>
+<li>which of the used tests is the best to test for a trend?</li>
+<li>what does “monotonous” mean?</li>
+<li>What is the advantage of fitting a linear model?</li>
+<li>What is the purpose of checking autocorrelation of the residuals with <code>acf</code>?</li>
+</ul>
+</section>
+<section id="stationarity-and-trend-of-water-temperature" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="stationarity-and-trend-of-water-temperature"><span class="header-section-number">3.2</span> Stationarity and trend of water temperature</h2>
+<p>Now repeat the same for the water temperature data, interpret the results and write a short report. Read about limnology of stratified lakes in temperate climate zones and discuss reasons why the trend of water temperature is weaker or stronger than air temperature.</p>
+<p><strong>Scientific Questions</strong></p>
+<ol type="1">
+<li>Was there a significant trend in water and air temperature?</li>
+<li>How much Kelvin (degrees centigrade) did the water temperature increase on average during this time?</li>
+<li>Was the trend of water weaker or stronger than for air temperature? Which lake-physical processes are responsible for this effect?</li>
+</ol>
+</section>
+</section>
+<section id="homework-project-2025" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Homework project 2025</h1>
+<p>Find a publicly available data set about surface water or air temperature and analyse its trend (“own data set”). Compare your results with the data set from Dresden and / or Saidenbach reservoir (given data sets) or a second own data set:</p>
+<ol type="1">
+<li>Visualize the data sets.</li>
+<li>Do proper aggregation (e.g.&nbsp;monthly or annual mean) using <strong>tidyverse</strong> functions.</li>
+<li>Analyse it for trend and measure the effect size.</li>
+<li>Compare the trend graphically and numerically with the trend of the air temperature in Dresden-Klotzsche or the water temperature of Saidenbach reservoir.</li>
+<li>Find at least two publications to discuss your results in context.</li>
+</ol>
+<p>The “own data set” can be a data set from your home country, from a prominent location in the world, or another lake or measurement station in Germany. It should cover at least 20 years of regular mesurements, ideally with a daily or monthly resolution. The comparison between the “own data set” and one of the “given data sets” should make sense, e.g.&nbsp;air temperature from different stations in the same month or air and water temperature from stations nearby.</p>
+<p><strong>Communication:</strong> We expect a unique solution from every group, but teamwork and communication are allowed. Use the chat group to ask technical issues (e.g.&nbsp;where to get data sets or how to do data aggregation) and to share interpretation of the results.</p>
+<p><strong>Formatting and style:</strong> The page limit is 3-5 pages (plus references and an optional title page), font size should be 11 or 12 points, line spacing 1.1-1.3 lines, reasonable page margins (at least 2cm). The outline should stricly follow an IMRaD (Introduction, Methods Results and Discussion) structure. Figures and tables should be numbered and have a caption. Short code can be part of the text, longer code segments and purely technical tables should be avoided. The report can be written with any text processing software (e.g.&nbsp;Quarto or Word).</p>
+<p><strong>Submission date:</strong> 2025-01-19 to allow feedback before the examination period.</p>
+<!--
+# Terms of use and data sets
+
+This document is licensed according to the Creative Comons Attribution 4.0 
+International ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)) license.
+The data sets are available online from https://github.com/tpetzoldt/datasets . Please
+consult the info-files about terms of use and data licenses.
+
+The data analysis was performed with **R** [@RCore] and **Rstudio** [@RStudio], the text was written with Quarto [https://quarto.org](https://quarto.org). 
+-->
+</section>
+<section id="references" class="level1" data-number="5">
+
+<!-- references added from the data base -->
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">5 References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-Kleiber2008" class="csl-entry" role="listitem">
+Kleiber, C., &amp; Zeileis, A. (2008). <em>Applied <span>Econometrics</span> with <span>R</span></em>. <span>Springer Verlag</span>. <a href="https://link.springer.com/book/10.1007%2F978-0-387-77318-6">https://link.springer.com/book/10.1007%2F978-0-387-77318-6</a>
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
