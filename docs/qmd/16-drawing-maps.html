@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2025-12-15">
+<meta name="dcterms.date" content="2025-12-17">
 
 <title>16-Working with Maps in R – Elements of Data Analysis and Statistics - Lab Exercises</title>
 <style>
@@ -279,18 +279,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#the-traditional-way-with-package-maps" id="toc-the-traditional-way-with-package-maps" class="nav-link active" data-scroll-target="#the-traditional-way-with-package-maps"><span class="header-section-number">0.1</span> The traditional way with package <strong>maps</strong></a></li>
-  <li><a href="#plotting-of-countries" id="toc-plotting-of-countries" class="nav-link" data-scroll-target="#plotting-of-countries"><span class="header-section-number">0.2</span> Plotting of Countries</a></li>
-  <li><a href="#plotting-cities" id="toc-plotting-cities" class="nav-link" data-scroll-target="#plotting-cities"><span class="header-section-number">0.3</span> Plotting cities</a></li>
-  <li><a href="#a-world-map-of-course-participants" id="toc-a-world-map-of-course-participants" class="nav-link" data-scroll-target="#a-world-map-of-course-participants"><span class="header-section-number">1</span> A world map of course participants</a>
+  <li><a href="#the-traditional-way-with-package-maps" id="toc-the-traditional-way-with-package-maps" class="nav-link active" data-scroll-target="#the-traditional-way-with-package-maps"><span class="header-section-number">1</span> The traditional way with package <strong>maps</strong></a>
   <ul class="collapse">
-  <li><a href="#a-standard-map" id="toc-a-standard-map" class="nav-link" data-scroll-target="#a-standard-map"><span class="header-section-number">1.1</span> A standard map</a></li>
-  <li><a href="#a-globe" id="toc-a-globe" class="nav-link" data-scroll-target="#a-globe"><span class="header-section-number">1.2</span> A globe</a></li>
-  <li><a href="#maps-with-the-leaflet-package" id="toc-maps-with-the-leaflet-package" class="nav-link" data-scroll-target="#maps-with-the-leaflet-package"><span class="header-section-number">1.3</span> Maps with the leaflet package</a></li>
-  <li><a href="#web-links-and-custom-map-symbols" id="toc-web-links-and-custom-map-symbols" class="nav-link" data-scroll-target="#web-links-and-custom-map-symbols"><span class="header-section-number">1.4</span> Web links and custom map symbols</a></li>
-  <li><a href="#alternative-map-providers" id="toc-alternative-map-providers" class="nav-link" data-scroll-target="#alternative-map-providers"><span class="header-section-number">1.5</span> Alternative map providers</a></li>
+  <li><a href="#plotting-of-countries" id="toc-plotting-of-countries" class="nav-link" data-scroll-target="#plotting-of-countries"><span class="header-section-number">1.1</span> Plotting of Countries</a></li>
+  <li><a href="#plotting-cities" id="toc-plotting-cities" class="nav-link" data-scroll-target="#plotting-cities"><span class="header-section-number">1.2</span> Plotting cities</a></li>
   </ul></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">2</span> Exercises</a></li>
+  <li><a href="#a-world-map-of-course-participants" id="toc-a-world-map-of-course-participants" class="nav-link" data-scroll-target="#a-world-map-of-course-participants"><span class="header-section-number">2</span> A world map of course participants</a>
+  <ul class="collapse">
+  <li><a href="#a-standard-map" id="toc-a-standard-map" class="nav-link" data-scroll-target="#a-standard-map"><span class="header-section-number">2.1</span> A standard map</a></li>
+  <li><a href="#a-globe" id="toc-a-globe" class="nav-link" data-scroll-target="#a-globe"><span class="header-section-number">2.2</span> A globe</a></li>
+  </ul></li>
+  <li><a href="#maps-with-the-leaflet-package" id="toc-maps-with-the-leaflet-package" class="nav-link" data-scroll-target="#maps-with-the-leaflet-package"><span class="header-section-number">3</span> Maps with the leaflet package</a>
+  <ul class="collapse">
+  <li><a href="#web-links-and-custom-map-symbols" id="toc-web-links-and-custom-map-symbols" class="nav-link" data-scroll-target="#web-links-and-custom-map-symbols"><span class="header-section-number">3.1</span> Web links and custom map symbols</a></li>
+  <li><a href="#alternative-map-providers" id="toc-alternative-map-providers" class="nav-link" data-scroll-target="#alternative-map-providers"><span class="header-section-number">3.2</span> Alternative map providers</a></li>
+  </ul></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">4</span> Exercises</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="16-drawing-maps.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
     </div>
@@ -310,7 +314,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">December 15, 2025</p>
+      <p class="date">December 17, 2025</p>
     </div>
   </div>
   
@@ -332,12 +336,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>accessing and plotting maps from Google Maps and OpenStreetmap, graphing data on maps (package <a href="https://cran.r-project.org/package=leaflet"><strong>leaflet</strong></a>)</li>
 </ul>
 <p>In the following, we will deal with a set of selected mapping functions. After exploring some basic methods, we will create a map showing the locations of all the people from HSE who are attending the exercise.</p>
-<section id="the-traditional-way-with-package-maps" class="level2" data-number="0.1">
-<h2 data-number="0.1" class="anchored" data-anchor-id="the-traditional-way-with-package-maps"><span class="header-section-number">0.1</span> The traditional way with package <strong>maps</strong></h2>
+<section id="the-traditional-way-with-package-maps" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> The traditional way with package <strong>maps</strong></h1>
 <p>In the following, let’s use the packages <strong>maps</strong> for drawing geographical maps.</p>
-</section>
-<section id="plotting-of-countries" class="level2" data-number="0.2">
-<h2 data-number="0.2" class="anchored" data-anchor-id="plotting-of-countries"><span class="header-section-number">0.2</span> Plotting of Countries</h2>
+<section id="plotting-of-countries" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="plotting-of-countries"><span class="header-section-number">1.1</span> Plotting of Countries</h2>
 <p>Drawing a world map is as simple as:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maps)</span>
@@ -372,8 +375,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">iso.expand</span>(<span class="st">"idn"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="plotting-cities" class="level2" data-number="0.3">
-<h2 data-number="0.3" class="anchored" data-anchor-id="plotting-cities"><span class="header-section-number">0.3</span> Plotting cities</h2>
+<section id="plotting-cities" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="plotting-cities"><span class="header-section-number">1.2</span> Plotting cities</h2>
 <p>R contains a data base of more 40,000 world cities, including the capital cities of all countries and their population size, see ?world.cities for details.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(world.cities)</span>
@@ -416,10 +419,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">cex=</span><span class="fu">sqrt</span>(Berlin<span class="sc">$</span>pop<span class="sc">/</span><span class="fl">5e5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="a-world-map-of-course-participants" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> A world map of course participants</h1>
-<section id="a-standard-map" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="a-standard-map"><span class="header-section-number">1.1</span> A standard map</h2>
+</section>
+<section id="a-world-map-of-course-participants" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> A world map of course participants</h1>
+<section id="a-standard-map" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="a-standard-map"><span class="header-section-number">2.1</span> A standard map</h2>
 <ul>
 <li>Collect data of your home cities from all participants</li>
 <li>Draw a world map</li>
@@ -436,8 +440,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(cities.de<span class="sc">$</span>long, cities.de<span class="sc">$</span>lat, cities.de<span class="sc">$</span>name, <span class="at">cex=</span><span class="fl">0.7</span>, <span class="at">pos=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="a-globe" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="a-globe"><span class="header-section-number">1.2</span> A globe</h2>
+<section id="a-globe" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="a-globe"><span class="header-section-number">2.2</span> A globe</h2>
 <p>With the data collected above, it is now possible to create a web page with a globe to see how your fellow students came from. This globe can be embedded in an interactive web page. A live-example can be found <a href="https://wwwpub.zih.tu-dresden.de/~petzoldt/mhse01/globe-hse-2021.html">here</a>, together with the <a href="https://wwwpub.zih.tu-dresden.de/~petzoldt/mhse01/globe-hse-2021.Rmd">RMarkdown source code</a>.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -446,8 +450,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 </section>
-<section id="maps-with-the-leaflet-package" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="maps-with-the-leaflet-package"><span class="header-section-number">1.3</span> Maps with the leaflet package</h2>
+</section>
+<section id="maps-with-the-leaflet-package" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Maps with the leaflet package</h1>
 <p><a href="https://leafletjs.com/">Leaflet</a> is an open source library for interactive maps. It is written in JavaScript and allows to download maps on the fly from data providers like <a href="https://www.openstreetmap.org">OpenStreatmap</a>. It can be used in <strong>R</strong> without JavaScript knowledge by employing the <a href="https://cran.r-project.org/package=leaflet"><strong>leaflet</strong></a> <strong>R</strong>-package.</p>
 <p>An extensive documentation is found at <a href="https://rstudio.github.io/leaflet/">https://rstudio.github.io/leaflet/</a>.</p>
 <p>The resulting image is then a web page rather than an ordinary R graphics, so it is easy to embed it in a HTML document generated by Quarto. It is also possible to embedded in PDF or Word files.</p>
@@ -468,9 +473,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Leaflet can also be used to plot polygons and filled areas. This is slightly more complex and will be left for you to experiment with later.</p>
-</section>
-<section id="web-links-and-custom-map-symbols" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="web-links-and-custom-map-symbols"><span class="header-section-number">1.4</span> Web links and custom map symbols</h2>
+<section id="web-links-and-custom-map-symbols" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="web-links-and-custom-map-symbols"><span class="header-section-number">3.1</span> Web links and custom map symbols</h2>
 <p>Package <strong>leaflet</strong> supports custom map markers from different icon libraries, for example from <a href="https://www.glyphicons.com/">https://www.glyphicons.com/</a>. In addition, marker popup texts may also contain web links. The map below shows the central TU Dresden campus with some of the cafeterias, as well as the Drudebau, the Hydrosciences and the Computer Science buildings. Click on one of the cutlery icons to access the Mensa menu.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
@@ -506,8 +510,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>             <span class="at">popup =</span> <span class="st">"Hydrobiologie</span><span class="sc">\n</span><span class="st">Drude-Bau"</span>, <span class="at">icon =</span> i_home)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="alternative-map-providers" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="alternative-map-providers"><span class="header-section-number">1.5</span> Alternative map providers</h2>
+<section id="alternative-map-providers" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="alternative-map-providers"><span class="header-section-number">3.2</span> Alternative map providers</h2>
 <p>Now let’s plot a water body and annotate different sampling stations. Here we use <code>addCircleMarkers</code> with different colors. As an addtional option, let’s replace <code>addTiles()</code> with `addProviderTiles(“OpenTopoMap”) for an alternative base map:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">|&gt;</span> </span>
@@ -523,8 +527,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>More about maps with R can be found in the package documentations and on several web pages, just use your favorite search engine.</p>
 </section>
 </section>
-<section id="exercises" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Exercises</h1>
+<section id="exercises" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Exercises</h1>
 <ol type="1">
 <li>Experiment with the leaflet map tools. Select appropriate coordinates and suitable zoom levels.</li>
 <li>Create maps of your favorite locations in Dresden and in your hometown, e.g.&nbsp;your flat, the university, or your recreational area.</li>
