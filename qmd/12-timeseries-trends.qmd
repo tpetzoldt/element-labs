@@ -233,7 +233,7 @@ write a short report.  Read about limnology of stratified lakes in temperate cli
 2. How much Kelvin (degrees centigrade) did the water temperature increase on average during this time?
 3. Was the trend of water weaker or stronger than for air temperature? Which lake-physical processes are responsible for this effect?
 
-# Homework project 2025
+# Homework project 2026
 
 Find a publicly available data set about surface water or air temperature and analyse its trend ("own data set"). Compare your results with the data set from Dresden and / or Saidenbach reservoir (given data sets) or a second own data set:
 
@@ -248,9 +248,9 @@ The "own data set" can be a data set from your home country, from a prominent lo
 
 **Communication:** We expect a unique solution from every group, but teamwork and communication are allowed. Use the chat group to ask technical issues (e.g. where to get data sets or how to do data aggregation) and to share interpretation of the results.
 
-**Formatting and style:** The page limit is 3-5 pages (plus references and an optional title page), font size should be 11 or 12 points, line spacing 1.1-1.3 lines, reasonable page margins (at least 2cm). The outline should stricly follow an IMRaD (Introduction, Methods Results and Discussion) structure. Figures and tables should be numbered and have a caption. Short code can be part of the text, longer code segments and purely technical tables should be avoided. The report can be written with any text processing software (e.g. Quarto or Word).
+**Formatting and style:** The page limit is 3-5 pages (plus references and an optional title page), font size should be 11 or 12 points, line spacing 1.1-1.3 lines, reasonable page margins (at least 2cm). The outline should stricly follow an IMRaD (Introduction, Methods, Results and Discussion) structure. As the report is short and quite methodological, Methods and Results can be merged, but we expect a separate Discussion. Figures and tables should be numbered and have a caption. Short code can be part of the text, longer code segments and purely technical tables should be avoided. The report can be written with any text processing software (e.g. Quarto or Word).
 
-**Submission date:** 2025-01-19 to allow feedback before the examination period. 
+**Submission date:** 2026-01-24 to allow feedback before the examination period. 
 
 <!--
 # Terms of use and data sets
