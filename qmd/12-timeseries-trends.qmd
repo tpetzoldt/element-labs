@@ -141,7 +141,7 @@ Now, let's try to find out if we can find linear trends in real data sets.
 **Data sets:**
 
 * **mean April air temperature** from the meteorological station Klotsche near Dresden 
-(source: German Weather Service, DWD http://www.dwd.de) and
+(source: German Weather Service, DWD [https://www.dwd.de](https://www.dwd.de)) and
 
 * **water temperature in May** in 3m depth of the Saidenbach drinking water reservoir, 
  source: Ecological station 19hain, unpublished data. Many thanks to Dr. René Sachse 
@@ -216,8 +216,8 @@ acf(residuals(m))
 Questions: 
 
 * Is the trend significant?
-* which of the used tests is the best to test for a trend?
-* what does "monotonous" mean?
+* Which of the used tests is the best to test for a trend?
+* What does "monotonous" mean?
 * What is the advantage of fitting a linear model?
 * What is the purpose of checking autocorrelation of the residuals with `acf`?
 
