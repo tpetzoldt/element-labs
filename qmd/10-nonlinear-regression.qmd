@@ -156,8 +156,8 @@ plot(x, y)
 
 The growth is exponential in the beginning and then approaches a saturation. 
 The points show a sigmoid shape and the usual function applied for this type
-of growth is the ``logistic equation'', with two parameters $r$ (maximum growth rate)
-and $K$ (carrying capacity). This is the function after which the $r$ and $K$ strategiests are
+of growth is the "logistic equation", with two parameters $r$ (maximum growth rate)
+and $K$ (carrying capacity). This is the function after which the $r$ and $K$ strategists are
 named in ecology.
 
 The following example shows the general behavior of the logistic and the formula 
