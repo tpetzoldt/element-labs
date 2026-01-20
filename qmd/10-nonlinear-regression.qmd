@@ -1,6 +1,6 @@
 ---
 title: "10-Nonlinear Regression"
-date: '2024-01-24'
+date: '2026-01-20'
 ---
 
 ```{r setup, include=FALSE}
@@ -14,11 +14,11 @@ The following examples demonstrate how to perform non-linear regression in R.
 This is quite different from linear regression, not only because the regression functions
 show a curve, but also due to the applied numerical techniques. While in the
 linear case, the coefficients of the regression line can be calculated directly (analytically)
-by solving a linear system of equations, iterative numerical optimization needs to be used instead. 
+by solving a system of linear equations, iterative numerical optimization needs to be used instead. 
 
 This means that the coefficients are approximated step by step until convergence, 
 beginning with start values specified  by the user. There is no guarantee that 
-an optimal solution can be found.
+a globally optimal solution can be found.
 
 The following examples are intended as a starting point, the last example 
 (logistic growth) is left as an exercise.

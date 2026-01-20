@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2024-01-24">
+<meta name="dcterms.date" content="2026-01-20">
 
 <title>10-Nonlinear Regression – Elements of Data Analysis and Statistics - Lab Exercises</title>
 <style>
@@ -335,7 +335,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 24, 2024</p>
+      <p class="date">January 20, 2026</p>
     </div>
   </div>
   
@@ -349,8 +349,8 @@ window.Quarto = {
 
 <section id="introduction" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
-<p>The following examples demonstrate how to perform non-linear regression in R. This is quite different from linear regression, not only because the regression functions show a curve, but also due to the applied numerical techniques. While in the linear case, the coefficients of the regression line can be calculated directly (analytically) by solving a linear system of equations, iterative numerical optimization needs to be used instead.</p>
-<p>This means that the coefficients are approximated step by step until convergence, beginning with start values specified by the user. There is no guarantee that an optimal solution can be found.</p>
+<p>The following examples demonstrate how to perform non-linear regression in R. This is quite different from linear regression, not only because the regression functions show a curve, but also due to the applied numerical techniques. While in the linear case, the coefficients of the regression line can be calculated directly (analytically) by solving a system of linear equations, iterative numerical optimization needs to be used instead.</p>
+<p>This means that the coefficients are approximated step by step until convergence, beginning with start values specified by the user. There is no guarantee that a globally optimal solution can be found.</p>
 <p>The following examples are intended as a starting point, the last example (logistic growth) is left as an exercise.</p>
 <section id="exponential-growth" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="exponential-growth"><span class="header-section-number">1.1</span> Exponential growth</h2>
@@ -445,7 +445,7 @@ window.Quarto = {
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>       <span class="fl">6.47</span>, <span class="fl">8.16</span>, <span class="fl">7.28</span>, <span class="fl">5.67</span>, <span class="fl">6.91</span>) <span class="sc">*</span> <span class="fl">1e6</span></span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y)       </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The growth is exponential in the beginning and then approaches a saturation. The points show a sigmoid shape and the usual function applied for this type of growth is the ``logistic equation’’, with two parameters <span class="math inline">\(r\)</span> (maximum growth rate) and <span class="math inline">\(K\)</span> (carrying capacity). This is the function after which the <span class="math inline">\(r\)</span> and <span class="math inline">\(K\)</span> strategiests are named in ecology.</p>
+<p>The growth is exponential in the beginning and then approaches a saturation. The points show a sigmoid shape and the usual function applied for this type of growth is the “logistic equation”, with two parameters <span class="math inline">\(r\)</span> (maximum growth rate) and <span class="math inline">\(K\)</span> (carrying capacity). This is the function after which the <span class="math inline">\(r\)</span> and <span class="math inline">\(K\)</span> strategists are named in ecology.</p>
 <p>The following example shows the general behavior of the logistic and the formula in R notation:</p>
 <div class="cell" data-fig="false">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>N0 <span class="ot">&lt;-</span> <span class="dv">10</span></span>
