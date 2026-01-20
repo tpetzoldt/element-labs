@@ -175,6 +175,6 @@ plot(time, K /(1 + (K/N0 - 1) * exp(-r * time)), type="l")
 # Exercise
 
 Fit a logistic curve to the cell counts of the growth experiment. Note however, 
-that the large cell counts ($10^6$) can lead to numerical errors. Here it may be
+that the large cell counts (10^6^) can lead to numerical errors. Here it may be
 neccessary to adapt the `control` options of `nls` or, much simpler, to rescale
 the `y`-variable to more convenient values.
