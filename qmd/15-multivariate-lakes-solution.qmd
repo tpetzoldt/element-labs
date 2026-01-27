@@ -1,0 +1,175 @@
+---
+title: "X15-Multivariate Lake Data Example"
+date: "2026-01-27"
+date-format: "YYYY-MM-DD"
+format:
+  html:
+    toc: true
+    number-sections: true
+  pdf:
+    toc: false
+    number-sections: true
+    papersize: a4
+self-contained: true
+bibliography: ../bib.bib
+csl: ../apa.csl
+---
+
+```{r setup, include=FALSE}
+## this code chunk sets some technical details, it is not shown to the user
+library("readxl")
+library("vegan")
+#knitr::opts_chunk$set(echo = TRUE, eval=FALSE)
+knitr::opts_chunk$set(echo = TRUE, eval=TRUE)
+#setupKnitr(autoprint = TRUE)
+```
+
+## Introduction
+
+The following example demonstrates basic multivariate principles by means of a 
+teaching example. A detailed description of theory and applications is found in 
+excellent books of @Legendre1998 and @Borcard2018. Practical help is found in the
+tutorials of the **vegan** package [@Oksanen2020].
+
+## Data set and terms of use
+
+The lake data set originates from the public data repository of the German 
+Umweltbundesamt [@UBA2020]. The data set provided can be used freely according
+to the [terms and conditions](https://www.umweltbundesamt.de/datenschutz-haftung#c-urheber-und-kennzeichenrecht) 
+published at the [UBA web site](https://www.umweltbundesamt.de/), that refer to
+§ 12a EGovG with respect of the data, and to the [Creative Commons CC-BY ND International License 4.0 ](https://creativecommons.org/licenses/by-nd/4.0/deed.de)
+with respect to other objects directly created by UBA.
+
+The document and codes provided here can be shared according to [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.en).
+
+### Load the data
+
+Here we load the data set and add English column names and 
+abbreviated lake identifiers as row names to the table,
+that are useful for the multivariate plotting functions.
+
+```{r}
+library("readxl") # read Excel files directly
+library("vegan")  # multivariate statistics in ecology
+lakes <- as.data.frame(
+  read_excel("3_tab_kenndaten-ausgew-seen-d_2021-04-08.xlsx", sheet="Tabelle1", skip=3)
+)
+names(lakes) <- c("name", "state", "drainage", "population", "altitude", 
+                  "z_mean", "z_max", "t_ret", "volume", "area", "shore_length", 
+                  "shore_devel", "drain_ratio", "wfd_type")
+rownames(lakes) <- paste0(1:nrow(lakes), substr(lakes$name, 1, 4))
+```
+
+Text columns, e.g Federal State names and lake type are removed and rows with missing data 
+excluded. If population is not used, the analysis can be repeated with more lakes.
+
+```{r}
+valid_columns <- c("drainage", "population", "altitude", "z_mean",
+                   "z_max", "t_ret", "volume", "area", "shore_length", 
+                   "shore_devel", "drain_ratio")
+
+#valid_columns <- c("drainage", "altitude", "z_mean",
+#                   "z_max", "t_ret", "volume", "area", "shore_length", 
+#                   "shore_devel","drain_ratio")
+dat <- lakes[valid_columns]
+dat <- na.omit(dat)
+```
+
+### Data inspection
+
+It is always a good idea to plot the data first, either as a time series or as boxplots, depending on the type of data. Here, we use boxplots that we scale (z-transform) to a mean of zero and a standard deviation of one, in order to make the values comparable.
+
+As there are a number of extreme values, we also apply a square root transformation, which is less extreme than a log transformation and not sensitive to zero values. However, as altitude contains a negative value (below sea level), we replace this with zero. As this is a small value, it does not influence our analysis, but we should always document such workarounds carefully.
+
+```{r lakes-boxplot}
+par(mfrow = c(1, 1))
+par(mar = c(7, 4, 2, 1) + .1)
+boxplot(scale(dat), las = 2)
+dat$altitude <- ifelse(dat$altitude < 0, 0, dat$altitude)
+boxplot(scale(sqrt(dat)), las=2)
+```
+
+## Multivariate Analysis
+
+### Principal Components: PCA
+
+```{r lakes-pca1}
+pc <- prcomp(scale(dat))
+summary(pc)
+plot(pc)
+biplot(pc)
+```
+
+As the PCA with the untransformed data appears somewhat asymmetric, we repeat the process with square-transformed data. Additionally, the third PC is plotted.
+
+```{r lakes-pca2}
+dat2 <- sqrt(dat)
+pc2 <- prcomp(scale(dat2))
+summary(pc2)
+
+par(mfrow=c(1,2))
+par(mar=c(5, 4, 4, 2) + 0.1)
+biplot(pc2, cex=0.6)
+biplot(pc2, cex=0.6, choices=c(3, 2))
+```
+
+It is also possible to perform a PCA using the `rda` function of the **vegan** package. The syntax of the plot functions differs somewhat. Rather than using `biplot` as above, we can use `plot` directly. Further details can be found in the **vegan** documentation.
+
+```{r lakes-pca-rda}
+par(mfrow=c(1,1))
+pc3 <- rda(dat2, scale = TRUE)
+pc3
+#summary(pc3)
+plot(pc3)
+```
+
+### Nonmetric Multidimensional Scaling: NMDS
+
+Now, let's perform an NMDS on the data set. The function `metaMDS` runs a series of NMDS fits with different start values to avoid local minima. It also performs some automatic transformations and usually works with the Bray–Curtis dissimilarity, which is common for plant and animal species abundance data. As we are working with physical data here, we will set the distance measure to "euclidean".
+
+```{r lakes-nmds}
+md <- metaMDS(dat2, scale = TRUE, distance = "euclid")
+plot(md, type="text")
+abline(h=0, col="grey", lty="dotted")
+abline(v=0, col="grey", lty="dotted")
+```
+
+### Cluster analysis
+
+Here we apply a hierarchical cluster analysis with square root transformed data 
+and two different agglomeration schemes, "complete linkage" and "Ward's method".
+
+```{r lakes-hclust1, fig.height=10}
+par(mfrow=c(2,1))
+hc <- hclust(dist(scale(dat2)), method="complete") # the default
+plot(hc)
+
+hc2 <- hclust(dist(scale(dat2)), method="ward.D2")
+plot(hc2)
+```
+
+We can also use the clusters to indicate groups in the NMDS plot. Function 
+`rect.hclust` indicates a given number of clusters in the dendrogram, then we cut
+the tree with `cutree` and use the groups `grp` as color codes. **R** has 8 
+standard colors. If we need more, we can define an own palette.
+
+```{r lakes-hclust2}
+plot(hc, hang = -1)
+rect.hclust(hc, 5)
+grp <- cutree(hc, 5)
+# grp                  # can be used to show the groups
+plot(md, type = "n")
+text(md$points, row.names(dat2), col = grp)
+```
+
+
+Instead of hierarchical clustering, we can also use a non-hierarchical method,
+e.g. k-means clustering. This is an iterative method, and avoids the problem that 
+cluster assignment depends on the order of clustering and the agglomeration method.
+
+Depending on the question, it may be a disadvantage, that the number of clusters 
+needs to be specified beforehand (e.g. from hierarchical clustering) and that we
+do not get a tree diagramm.
+
+
+## References

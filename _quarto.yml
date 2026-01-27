@@ -26,14 +26,16 @@ website:
           - qmd/12-timeseries-trends.qmd
           - qmd/13-timeseries-breakpoints.qmd
           - qmd/14-flood-risk.qmd
-          - qmd/15-multivariate-small-streams.qmd
-          - qmd/16-drawing-maps.qmd
+          - qmd/15-multivariate-lakes.qmd
+          - qmd/16-multivariate-small-streams.qmd
+          - qmd/17-drawing-maps.qmd
       - section: Projects
         contents:
           - qmd/03-discharge-elbe-project.qmd
       - section: Solutions
         contents:
           - qmd/10-nonlinear-regression-solution.qmd
+          - qmd/15-multivariate-lakes-solution.qmd
           
 format:
   html:

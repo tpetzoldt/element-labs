@@ -1,5 +1,5 @@
 ---
-title: "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
+title: "16-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
 date: '2025-01-21'
 ---
 

@@ -272,14 +272,20 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../qmd/15-multivariate-small-streams.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams</span></a>
+  <a href="../qmd/15-multivariate-lakes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">15-Multivariate Analysis of Lake Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../qmd/16-drawing-maps.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">16-Working with Maps in R</span></a>
+  <a href="../qmd/16-multivariate-small-streams.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">16-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/17-drawing-maps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">17-Working with Maps in R</span></a>
   </div>
 </li>
       </ul>
@@ -314,6 +320,12 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../qmd/10-nonlinear-regression-solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">x10-Fit Nonlinear Models to Plankton Growth Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/15-multivariate-lakes-solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">X15-Multivariate Lake Data Example</span></a>
   </div>
 </li>
       </ul>
@@ -473,7 +485,7 @@ but note the opposite formulation of $H_a$ and $H_0$!
 <p><strong>Scientific Hypothesis:</strong> The air temperature in Dresden and the water temperature of Saidenbach Reservoir increased during the last decades.</p>
 <p><strong>Data sets:</strong></p>
 <ul>
-<li><p><strong>mean April air temperature</strong> from the meteorological station Klotsche near Dresden (source: German Weather Service, DWD http://www.dwd.de) and</p></li>
+<li><p><strong>mean April air temperature</strong> from the meteorological station Klotsche near Dresden (source: German Weather Service, DWD <a href="https://www.dwd.de">https://www.dwd.de</a>) and</p></li>
 <li><p><strong>water temperature in May</strong> in 3m depth of the Saidenbach drinking water reservoir, source: Ecological station 19hain, unpublished data. Many thanks to Dr.&nbsp;René Sachse and Dr.&nbsp;Lothar Paul for giving permission.</p></li>
 </ul>
 <p>The data are available from <a href="https://tpetzoldt.github.io/datasets/">https://tpetzoldt.github.io/datasets/</a> and then converted to a time series object. Please note the <code>start</code> argument that sets the start year of that object:</p>
@@ -521,8 +533,8 @@ but note the opposite formulation of $H_a$ and $H_0$!
 <p>Questions:</p>
 <ul>
 <li>Is the trend significant?</li>
-<li>which of the used tests is the best to test for a trend?</li>
-<li>what does “monotonous” mean?</li>
+<li>Which of the used tests is the best to test for a trend?</li>
+<li>What does “monotonous” mean?</li>
 <li>What is the advantage of fitting a linear model?</li>
 <li>What is the purpose of checking autocorrelation of the residuals with <code>acf</code>?</li>
 </ul>

@@ -1,101 +1,178 @@
 [
   {
-    "objectID": "qmd/16-drawing-maps.html",
-    "href": "qmd/16-drawing-maps.html",
-    "title": "16-Working with Maps in R",
+    "objectID": "qmd/17-drawing-maps.html",
+    "href": "qmd/17-drawing-maps.html",
+    "title": "17-Working with Maps in R",
     "section": "",
     "text": "R contains many packages for working with spatial data; an overview can be found in the ‘CRAN Task View: Analysis of Spatial Data’, which can be found on the servers containing the R packages (Comprehensive R Archive Network): https://cran.r-project.org.\nThe packages contain, among others:\nIn the following, we will deal with a set of selected mapping functions. After exploring some basic methods, we will create a map showing the locations of all the people from HSE who are attending the exercise.",
     "crumbs": [
       "Labs",
-      "16-Working with Maps in R"
+      "17-Working with Maps in R"
     ]
   },
   {
-    "objectID": "qmd/16-drawing-maps.html#the-traditional-way-with-package-maps",
-    "href": "qmd/16-drawing-maps.html#the-traditional-way-with-package-maps",
-    "title": "16-Working with Maps in R",
-    "section": "0.1 The traditional way with package maps",
-    "text": "0.1 The traditional way with package maps\nIn the following, let’s use the packages maps for drawing geographical maps.",
-    "crumbs": [
-      "Labs",
-      "16-Working with Maps in R"
-    ]
-  },
-  {
-    "objectID": "qmd/16-drawing-maps.html#plotting-of-countries",
-    "href": "qmd/16-drawing-maps.html#plotting-of-countries",
-    "title": "16-Working with Maps in R",
+    "objectID": "qmd/17-drawing-maps.html#plotting-of-countries",
+    "href": "qmd/17-drawing-maps.html#plotting-of-countries",
+    "title": "17-Working with Maps in R",
     "section": "1.1 Plotting of Countries",
     "text": "1.1 Plotting of Countries\nDrawing a world map is as simple as:\n\nlibrary(maps)\nmap(\"world\")\n\nand mapping a country can be done with:\n\nmap(\"world\", \"Germany\")\n\nAt time of writing, the world data base was updated in 2013. We may also consider to color the world. For this purpose, let’s use nicely designed color maps found on: http://colorbrewer2.org/\nThis web page allows to design color schemes and to use the codes in any software, e.g. Word or Powerpoint. For R, we can use a specific package:\n\nlibrary(RColorBrewer)\nmycolors &lt;- brewer.pal(12, \"Set3\")\nmap('world', col=mycolors, fill=TRUE)\n\nOf course, we can also use other colours according to our preferences.\n\nmap('world')\nmap('world', \"Germany\", add=TRUE, col=\"red\", fill=TRUE)\n\nIf you want to center the world to the pacific, use:\n\nmap(\"world\",projection=\"rectangular\",parameter=0, \n  orientation=c(90,0,180), wrap=TRUE)\nmap(\"world\", \"Indonesia\", orientation=c(90,0,180), \n   col=\"red\", fill=TRUE, add=TRUE)\n\nCountry names are in English, but they can also be derived from the 2 or three letter ISO country code, see https://countrycode.org/.\n\niso.expand(\"id\")\niso.expand(\"idn\")",
     "crumbs": [
       "Labs",
-      "16-Working with Maps in R"
+      "17-Working with Maps in R"
     ]
   },
   {
-    "objectID": "qmd/16-drawing-maps.html#plotting-cities",
-    "href": "qmd/16-drawing-maps.html#plotting-cities",
-    "title": "16-Working with Maps in R",
+    "objectID": "qmd/17-drawing-maps.html#plotting-cities",
+    "href": "qmd/17-drawing-maps.html#plotting-cities",
+    "title": "17-Working with Maps in R",
     "section": "1.2 Plotting cities",
     "text": "1.2 Plotting cities\nR contains a data base of more 40,000 world cities, including the capital cities of all countries and their population size, see ?world.cities for details.\n\ndata(world.cities)\nstr(world.cities)\n\nThe following plots the Capital cities:\n\nmap(\"world\")\nmap.cities(capitals=1, col=\"red\", pch=16)\n\nThe following highlights the capital cities of China (1=country capital, 2=provincial, state, or regional capital, or 3=local capital)\n\nmap(regions=\"China\", col=\"lightgrey\", fill=TRUE)\nmap.cities(country=\"China\", minpop=1e5, col=\"blue\", pch=16)\nmap.cities(country=\"China\", capitals=1, pch=16, col=\"red\", cex=2)\nmap.cities(country=\"China\", capitals=2, pch=16, col=\"orange\", cex=1.5)\nmap.cities(country=\"China\", capitals=3, pch=16, col=\"green\", cex=1)\n\nAnd now all cities of Germany with more than 400000 inhabitants (and also the main rivers):\n\nlibrary(\"mapdata\")\nmap(\"world\", \"Germany\")\nmap.cities(country=\"Germany\", capitals=1)\nmap.cities(country=\"Germany\", minpop = 400000)\nmap.axes()\nmap(\"rivers\", add=TRUE, col=\"blue\")\n\nThe data base can also be used to retrieve the GPS coordinates of a city:\n\nworld.cities[world.cities$name==\"Dresden\",]\nworld.cities[world.cities$name==\"Berlin\",]\nBerlin &lt;- subset(world.cities, name==\"Berlin\" & country.etc == \"Germany\")\n\nThe circles can also represent the size of the city. Taking the square root ensures that it is the area of the circle, rather than the diameter, that is proportional to the population. Scaling the circles by 500,000 gives a reasonable size.\n\nmap(\"world\", \"Germany\")\nmap.cities(country=\"Germany\", pch=16, col=\"blue\", \n       cex=sqrt(world.cities$pop/5e5))\npoints(Berlin$long, Berlin$lat, col=\"red\", pch=16, \n       cex=sqrt(Berlin$pop/5e5))",
     "crumbs": [
       "Labs",
-      "16-Working with Maps in R"
+      "17-Working with Maps in R"
     ]
   },
   {
-    "objectID": "qmd/16-drawing-maps.html#a-standard-map",
-    "href": "qmd/16-drawing-maps.html#a-standard-map",
-    "title": "16-Working with Maps in R",
+    "objectID": "qmd/17-drawing-maps.html#a-standard-map",
+    "href": "qmd/17-drawing-maps.html#a-standard-map",
+    "title": "17-Working with Maps in R",
     "section": "2.1 A standard map",
     "text": "2.1 A standard map\n\nCollect data of your home cities from all participants\nDraw a world map\nHighlight all your home cities in the world map\n\nUse the following example of German cities &gt; 40,0000 inhabitants as a template\n\ncities.de &lt;- subset(world.cities, country.etc ==\"Germany\" & pop &gt; 400000)\ncities.de\n\n\nmap(\"world\", \"Germany\")\npoints(cities.de$long, cities.de$lat, pch=16, col=\"red\")\ntext(cities.de$long, cities.de$lat, cities.de$name, cex=0.7, pos=1)",
     "crumbs": [
       "Labs",
-      "16-Working with Maps in R"
+      "17-Working with Maps in R"
     ]
   },
   {
-    "objectID": "qmd/16-drawing-maps.html#a-globe",
-    "href": "qmd/16-drawing-maps.html#a-globe",
-    "title": "16-Working with Maps in R",
+    "objectID": "qmd/17-drawing-maps.html#a-globe",
+    "href": "qmd/17-drawing-maps.html#a-globe",
+    "title": "17-Working with Maps in R",
     "section": "2.2 A globe",
     "text": "2.2 A globe\nWith the data collected above, it is now possible to create a web page with a globe to see how your fellow students came from. This globe can be embedded in an interactive web page. A live-example can be found here, together with the RMarkdown source code.\n\n\n\nOrigin of HSE Students in 2021",
     "crumbs": [
       "Labs",
-      "16-Working with Maps in R"
+      "17-Working with Maps in R"
     ]
   },
   {
-    "objectID": "qmd/16-drawing-maps.html#maps-with-the-leaflet-package",
-    "href": "qmd/16-drawing-maps.html#maps-with-the-leaflet-package",
-    "title": "16-Working with Maps in R",
-    "section": "1.3 Maps with the leaflet package",
-    "text": "1.3 Maps with the leaflet package\nLeaflet is an open source library for interactive maps. It is written in JavaScript and allows to download maps on the fly from data providers like OpenStreatmap. It can be used in R without JavaScript knowledge by employing the leaflet R-package.\nAn extensive documentation is found at https://rstudio.github.io/leaflet/.\nThe resulting image is then a web page rather than an ordinary R graphics, so it is easy to embed it in a HTML document generated by Quarto. It is also possible to embedded in PDF or Word files.\nThe leaflet package is compatible to pipelines in tidyverse (%&gt;%) and to native R pipes (|&gt;).\nIn the following, we set a range of coordinates for the university and add markers for two buildings. The function call then downloads the map from OpenStreetmap on the fly and adds two markers and a popup.\n\nlibrary(leaflet)\nleaflet() |&gt;\n  addTiles() |&gt;\n  setView(lng = 13.7254, lat = 51.0282, zoom = 15) |&gt;\n  addPopups(lng = 13.7254, lat = 51.0282,\n             popup = \"TU Dresden\") |&gt;\n  addMarkers(lng = c(13.7228, 13.73043), \n             lat = c(51.02556, 51.0277),\n             popup = c(\"APB\", \"CHE\"),\n             options = markerOptions(title=c(\"Computer Science Building\", \n                                             \"Chemistry and Hydro Science\"))\n  )\n\nLeaflet can also be used to plot polygons and filled areas. This is slightly more complex and will be left for you to experiment with later.",
-    "crumbs": [
-      "Labs",
-      "16-Working with Maps in R"
-    ]
-  },
-  {
-    "objectID": "qmd/16-drawing-maps.html#web-links-and-custom-map-symbols",
-    "href": "qmd/16-drawing-maps.html#web-links-and-custom-map-symbols",
-    "title": "16-Working with Maps in R",
+    "objectID": "qmd/17-drawing-maps.html#web-links-and-custom-map-symbols",
+    "href": "qmd/17-drawing-maps.html#web-links-and-custom-map-symbols",
+    "title": "17-Working with Maps in R",
     "section": "3.1 Web links and custom map symbols",
     "text": "3.1 Web links and custom map symbols\nPackage leaflet supports custom map markers from different icon libraries, for example from https://www.glyphicons.com/. In addition, marker popup texts may also contain web links. The map below shows the central TU Dresden campus with some of the cafeterias, as well as the Drudebau, the Hydrosciences and the Computer Science buildings. Click on one of the cutlery icons to access the Mensa menu.\n\nlibrary(leaflet)\n\ni_parking &lt;- makeAwesomeIcon(icon = 'P', markerColor = 'blue', \n               library='glyphicon', fontFamily=\"Open Sans\", text=\"P\")\ni_mensa   &lt;- makeAwesomeIcon(icon = 'cutlery', markerColor = 'red', \n               library='glyphicon')\ni_edu     &lt;- makeAwesomeIcon(icon = 'education', markerColor = 'darkblue', \n              library='glyphicon')\ni_home    &lt;- makeAwesomeIcon(icon = 'home', markerColor = 'darkblue', \n              library='glyphicon')\n\nlunch &lt;- \"https://www.studentenwerk-dresden.de/mensen/speiseplan/\"\n\nleaflet()|&gt;\n  addTiles()|&gt;\n  setView(lng = 13.735, lat = 51.034, zoom = 15) |&gt;\n  addAwesomeMarkers(lng = c(13.72292, 13.73067), lat = c(51.02559, 51.02804),\n             popup = c(\"Pfitzmannbau\",\"Chemistry/Hydrosciences\"),\n             icon =  i_edu) |&gt;\n  addAwesomeMarkers(\n    lng = c(13.72867, 13.73868, 13.72645, 13.74902, 13.73394, 13.7293),\n    lat = c(51.03146, 51.02960, 51.02708, 51.030, 51.03440, 51.03028),\n    popup = c(paste0(\"&lt;a href=\", lunch, \"&gt;Mensa&lt;/a&gt; Zeltschlösschen\"),\n              paste0(\"&lt;a href=\", lunch, \"&gt;Mensa&lt;/a&gt; Siedepunkt\"),\n              paste0(\"&lt;a href=\", lunch, \"&gt;Mensa&lt;/a&gt; Alte Mensa\"),\n              paste0(\"&lt;a href=\", lunch, \"&gt;Mensa&lt;/a&gt; WuEins\"),\n              paste0(\"&lt;a href=\", lunch, \"&gt;Mensa&lt;/a&gt; Reichenbachstraße\"),\n              paste0(\"&lt;a href=\", lunch, \"&gt;Mensa&lt;/a&gt; U-Boot\")), \n    icon = i_mensa) |&gt;\n  addAwesomeMarkers(lng = 13.74780, lat = 51.02769,\n             popup = \"Hydrobiologie\\nDrude-Bau\", icon = i_home)",
     "crumbs": [
       "Labs",
-      "16-Working with Maps in R"
+      "17-Working with Maps in R"
     ]
   },
   {
-    "objectID": "qmd/16-drawing-maps.html#alternative-map-providers",
-    "href": "qmd/16-drawing-maps.html#alternative-map-providers",
-    "title": "16-Working with Maps in R",
+    "objectID": "qmd/17-drawing-maps.html#alternative-map-providers",
+    "href": "qmd/17-drawing-maps.html#alternative-map-providers",
+    "title": "17-Working with Maps in R",
     "section": "3.2 Alternative map providers",
     "text": "3.2 Alternative map providers\nNow let’s plot a water body and annotate different sampling stations. Here we use addCircleMarkers with different colors. As an addtional option, let’s replace addTiles() with `addProviderTiles(“OpenTopoMap”) for an alternative base map:\n\nleaflet() |&gt; \n  #addTiles() |&gt;                         # standard OpenStreetmap\n  addProviderTiles(\"OpenTopoMap\") |&gt;     # A topographical map\n  setView(12.22, 50.535, zoom = 12) |&gt;\n  addMarkers(12.20296, 50.54397, label=\"littoral station\") |&gt;\n  addCircleMarkers(12.195, 50.537, radius=5, color=\"red\", label=\"buoy 1\") |&gt;\n  addCircleMarkers(12.19, 50.542, radius=5, color=\"blue\", opacity=1, \n    label = \"buoy 2\")\n\nA list of available map providers can be found at https://leaflet-extras.github.io/leaflet-providers/preview/. Some maps can be used out of the box, some others need some experimentation.\nMore about maps with R can be found in the package documentations and on several web pages, just use your favorite search engine.",
     "crumbs": [
       "Labs",
-      "16-Working with Maps in R"
+      "17-Working with Maps in R"
+    ]
+  },
+  {
+    "objectID": "qmd/15-multivariate-lakes.html",
+    "href": "qmd/15-multivariate-lakes.html",
+    "title": "15-Multivariate Analysis of Lake Data",
+    "section": "",
+    "text": "This exercise explores basic multivariate principles using a lake data set from the German Umweltbundesamt (Umweltbundesamt, 2021).\nGoal: You will perform an exploratory data analysis, followed by ordination (PCA, NMDS) and cluster analysis to identify patterns in lake characteristics.",
+    "crumbs": [
+      "Labs",
+      "15-Multivariate Analysis of Lake Data"
+    ]
+  },
+  {
+    "objectID": "qmd/15-multivariate-lakes.html#introduction",
+    "href": "qmd/15-multivariate-lakes.html#introduction",
+    "title": "15-Multivariate Analysis of Lake Data",
+    "section": "",
+    "text": "This exercise explores basic multivariate principles using a lake data set from the German Umweltbundesamt (Umweltbundesamt, 2021).\nGoal: You will perform an exploratory data analysis, followed by ordination (PCA, NMDS) and cluster analysis to identify patterns in lake characteristics.",
+    "crumbs": [
+      "Labs",
+      "15-Multivariate Analysis of Lake Data"
+    ]
+  },
+  {
+    "objectID": "qmd/15-multivariate-lakes.html#data-preparation",
+    "href": "qmd/15-multivariate-lakes.html#data-preparation",
+    "title": "15-Multivariate Analysis of Lake Data",
+    "section": "2 Data Preparation",
+    "text": "2 Data Preparation\n\n2.1 Data set and terms of use\nThe lake data set originates from the public data repository of the German Umweltbundesamt (Umweltbundesamt, 2021). The data set provided can be used freely according to the terms and conditions published at the UBA web site, that refer to § 12a EGovG with respect of the data, and to the Creative Commons CC-BY ND International License 4.0 with respect to other objects directly created by UBA.\nThe document and codes provided here can be shared according to more permissive CC BY 4.0.\n\n\n2.2 Loading the Data\nThe following code loads the data and prepares the column names. Ensure the Excel file is in your working directory or adjust the path.\n\nlibrary(\"readxl\") \nlibrary(\"vegan\")  \nlakes &lt;- as.data.frame(read_excel(\"3_tab_kenndaten-ausgew-seen-d_2021-04-08.xlsx\", \n                                  sheet=\"Tabelle1\", skip=3))\nnames(lakes) &lt;- c(\"name\", \"state\", \"drainage\", \"population\", \"altitude\", \n                  \"z_mean\", \"z_max\", \"t_ret\", \"volume\", \"area\", \"shore_length\", \n                  \"shore_devel\", \"drain_ratio\", \"wfd_type\")\n\n## create abbreviated lake identifiers\nrownames(lakes) &lt;- paste0(1:nrow(lakes), substr(lakes$name, 1, 4))\n\n\n\n2.3 Variable Selection and Cleaning\nWe need to filter the dataset to include only numerical physical variables and remove incomplete rows.\nTask\n\nCreate a subset of the data named dat.\nSelect the following columns: drainage, population, altitude, z_mean, z_max, t_ret, volume, area, shore_length, shore_devel, drain_ratio.\nRemove all rows containing missing values (NA).",
+    "crumbs": [
+      "Labs",
+      "15-Multivariate Analysis of Lake Data"
+    ]
+  },
+  {
+    "objectID": "qmd/15-multivariate-lakes.html#data-inspection-and-transformation",
+    "href": "qmd/15-multivariate-lakes.html#data-inspection-and-transformation",
+    "title": "15-Multivariate Analysis of Lake Data",
+    "section": "3 Data Inspection and Transformation",
+    "text": "3 Data Inspection and Transformation\nBefore running multivariate statistics, we must understand the distribution of our data.\nTask\n\nCreate boxplots of the dat dataframe.\nApply scale() to the data inside the boxplot function to make variables comparable.\nCreate aadditional boxplots using square-root and log transformed data .\n\nNote: The altitude variable contains some negative values (below sea level). Replace any values &lt; 0 with 0 before transforming.\nQuestion: Why is it necessary to scale (z-transform) the data before visualizing it in a single boxplot?\nQuestion: Compare the raw (scaled) boxplots with the square-root and log-transformed boxplots. Which transformation appears most suitable for this dataset and why?",
+    "crumbs": [
+      "Labs",
+      "15-Multivariate Analysis of Lake Data"
+    ]
+  },
+  {
+    "objectID": "qmd/15-multivariate-lakes.html#principal-components-analysis-pca",
+    "href": "qmd/15-multivariate-lakes.html#principal-components-analysis-pca",
+    "title": "15-Multivariate Analysis of Lake Data",
+    "section": "4 Principal Components Analysis (PCA)",
+    "text": "4 Principal Components Analysis (PCA)\nWe will now reduce the dimensionality of the data using PCA.\nTask\n\nPerform a PCA on the transformed data using prcomp(). Remember to scale the data within the function.\nPrint the summary of the PCA object.\nCreate a biplot of the result.\n\nQuestion: Look at the summary() output. How much of the total variance is explained by the first two principal components (PC1 and PC2) combined?\nQuestion: Interpret the biplot.\n\nWhich variables are strongly correlated with PC1 or PC2?\nWhich variables are correlated with each other?\nWhich variables are orthogonal?\nWhich lakes are characterized by which variables?\nAre there clusters?",
+    "crumbs": [
+      "Labs",
+      "15-Multivariate Analysis of Lake Data"
+    ]
+  },
+  {
+    "objectID": "qmd/15-multivariate-lakes.html#nonmetric-multidimensional-scaling-nmds",
+    "href": "qmd/15-multivariate-lakes.html#nonmetric-multidimensional-scaling-nmds",
+    "title": "15-Multivariate Analysis of Lake Data",
+    "section": "5 Nonmetric Multidimensional Scaling (NMDS)",
+    "text": "5 Nonmetric Multidimensional Scaling (NMDS)\nPCA assumes linear relationships. Lets try NMDS, which is based on rank orders of distances.\nTask\n\nUse the metaMDS function from the vegan package on the transformed data.\nSet distance = \"euclid\" (since these are physical variables, not species counts).\nPlot the result using type=\"text\" to see the lake names.\n\nQuestion: Compare the NMDS plot to the PCA biplot. Do you see similar patterns in how the lakes are grouped?",
+    "crumbs": [
+      "Labs",
+      "15-Multivariate Analysis of Lake Data"
+    ]
+  },
+  {
+    "objectID": "qmd/15-multivariate-lakes.html#cluster-analysis",
+    "href": "qmd/15-multivariate-lakes.html#cluster-analysis",
+    "title": "15-Multivariate Analysis of Lake Data",
+    "section": "6 Cluster Analysis",
+    "text": "6 Cluster Analysis\nFinally, we will classify the lakes into groups using hierarchical clustering.\nTask\n\nCompute a distance matrix of the scaled, transformed data.\nRun a hierarchical cluster analysis (hclust) using “Complete Linkage”, Ward’s method (method=\"ward.D2\"), and “Single Linkage”.\nPlot the dendrograms.\n\nQuestion: Which aggregation method is best suited for this data set?",
+    "crumbs": [
+      "Labs",
+      "15-Multivariate Analysis of Lake Data"
+    ]
+  },
+  {
+    "objectID": "qmd/15-multivariate-lakes.html#combining-clustering-and-ordination",
+    "href": "qmd/15-multivariate-lakes.html#combining-clustering-and-ordination",
+    "title": "15-Multivariate Analysis of Lake Data",
+    "section": "7 Combining Clustering and Ordination",
+    "text": "7 Combining Clustering and Ordination\nTo visualize the clusters better, we will project them onto the NMDS plot.\n\nRecreate the cluster object with the most suitable agglomeration scheme from the previous task.\nPlot the dendrogram.\nCut the dendrogram into, for example, 5 groups using cutree().\nPlot the NMDS ordination again (empty plot).\nAdd text labels to the NMDS plot, using the cluster groups to color the text.\n\nQuestion: Based on the colored NMDS plot, do the clusters correspond well to the geometric distances in the NMDS plot?",
+    "crumbs": [
+      "Labs",
+      "15-Multivariate Analysis of Lake Data"
+    ]
+  },
+  {
+    "objectID": "qmd/15-multivariate-lakes.html#discussion",
+    "href": "qmd/15-multivariate-lakes.html#discussion",
+    "title": "15-Multivariate Analysis of Lake Data",
+    "section": "8 Discussion",
+    "text": "8 Discussion\nDiscuss the results of the applied methods regarding the characterization of the lake data set and the technical advantages and disadvantages of the applied methods.\nRead essential parts of the the vegan documentation.\nInformation about the lakes can be found in Nixdorf et al. (2004). In addition to this, look for more recent information.",
+    "crumbs": [
+      "Labs",
+      "15-Multivariate Analysis of Lake Data"
     ]
   },
   {
@@ -224,7 +301,7 @@
     "href": "qmd/12-timeseries-trends.html#trend-of-air-temperature",
     "title": "12-An introductory time series example",
     "section": "3.1 Trend of air temperature",
-    "text": "3.1 Trend of air temperature\nThe plot seems to show an increasing trend, especially since 1980.\n\nplot(Tair)\n\nTest of stationarity\nTest for stationarity for the original and the trend adjusted series graphically with acf and quantitatively with the KPSS test:\n\nkpss.test(Tair)\n\nWe see that \\(p &lt; 0.01\\) so it is not “level stationary”!\nBut if we allow for a trend:\n\nkpss.test(Tair, null=\"Trend\")\n\n… we get \\(p &gt; 0.05\\) i.e. it is trend stationary (stationary after trend removal). Therefore, a trend test is possible.\nTrend test\nWe use the Mann-Kendall test dirst, that tests for monotonous trends:\n\nMannKendall(Tair)\n\nNow we fit a linear model to find out how much the temperature increased per day during this time.\n\nm &lt;- lm(Tair ~ time(Tair))\nsummary(m)\nplot(Tair)\nabline(m, col=\"red\")\n\nNow test the assumptions. Firstly test that the residuals have no autocorrelation:\n\nacf(residuals(m))\n\nOptional Task: use additional diagnostics, e.g. plot residuals versus fitted or qqnorm(residuals(m)) to test for normal distribution. Write the results down and evaluate what they can tell us.\nQuestions:\n\nIs the trend significant?\nwhich of the used tests is the best to test for a trend?\nwhat does “monotonous” mean?\nWhat is the advantage of fitting a linear model?\nWhat is the purpose of checking autocorrelation of the residuals with acf?",
+    "text": "3.1 Trend of air temperature\nThe plot seems to show an increasing trend, especially since 1980.\n\nplot(Tair)\n\nTest of stationarity\nTest for stationarity for the original and the trend adjusted series graphically with acf and quantitatively with the KPSS test:\n\nkpss.test(Tair)\n\nWe see that \\(p &lt; 0.01\\) so it is not “level stationary”!\nBut if we allow for a trend:\n\nkpss.test(Tair, null=\"Trend\")\n\n… we get \\(p &gt; 0.05\\) i.e. it is trend stationary (stationary after trend removal). Therefore, a trend test is possible.\nTrend test\nWe use the Mann-Kendall test dirst, that tests for monotonous trends:\n\nMannKendall(Tair)\n\nNow we fit a linear model to find out how much the temperature increased per day during this time.\n\nm &lt;- lm(Tair ~ time(Tair))\nsummary(m)\nplot(Tair)\nabline(m, col=\"red\")\n\nNow test the assumptions. Firstly test that the residuals have no autocorrelation:\n\nacf(residuals(m))\n\nOptional Task: use additional diagnostics, e.g. plot residuals versus fitted or qqnorm(residuals(m)) to test for normal distribution. Write the results down and evaluate what they can tell us.\nQuestions:\n\nIs the trend significant?\nWhich of the used tests is the best to test for a trend?\nWhat does “monotonous” mean?\nWhat is the advantage of fitting a linear model?\nWhat is the purpose of checking autocorrelation of the residuals with acf?",
     "crumbs": [
       "Labs",
       "12-An introductory time series example"
@@ -1399,80 +1476,124 @@
     ]
   },
   {
-    "objectID": "qmd/15-multivariate-small-streams.html",
-    "href": "qmd/15-multivariate-small-streams.html",
-    "title": "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
+    "objectID": "qmd/15-multivariate-lakes-solution.html",
+    "href": "qmd/15-multivariate-lakes-solution.html",
+    "title": "X15-Multivariate Lake Data Example",
+    "section": "",
+    "text": "The following example demonstrates basic multivariate principles by means of a teaching example. A detailed description of theory and applications is found in excellent books of Legendre & Legendre (1998) and Borcard et al. (2018). Practical help is found in the tutorials of the vegan package (Oksanen et al., 2020).",
+    "crumbs": [
+      "Solutions",
+      "X15-Multivariate Lake Data Example"
+    ]
+  },
+  {
+    "objectID": "qmd/15-multivariate-lakes-solution.html#introduction",
+    "href": "qmd/15-multivariate-lakes-solution.html#introduction",
+    "title": "X15-Multivariate Lake Data Example",
+    "section": "",
+    "text": "The following example demonstrates basic multivariate principles by means of a teaching example. A detailed description of theory and applications is found in excellent books of Legendre & Legendre (1998) and Borcard et al. (2018). Practical help is found in the tutorials of the vegan package (Oksanen et al., 2020).",
+    "crumbs": [
+      "Solutions",
+      "X15-Multivariate Lake Data Example"
+    ]
+  },
+  {
+    "objectID": "qmd/15-multivariate-lakes-solution.html#data-set-and-terms-of-use",
+    "href": "qmd/15-multivariate-lakes-solution.html#data-set-and-terms-of-use",
+    "title": "X15-Multivariate Lake Data Example",
+    "section": "2 Data set and terms of use",
+    "text": "2 Data set and terms of use\nThe lake data set originates from the public data repository of the German Umweltbundesamt (Umweltbundesamt, 2021). The data set provided can be used freely according to the terms and conditions published at the UBA web site, that refer to § 12a EGovG with respect of the data, and to the Creative Commons CC-BY ND International License 4.0 with respect to other objects directly created by UBA.\nThe document and codes provided here can be shared according to CC BY 4.0.\n\n2.1 Load the data\nHere we load the data set and add English column names and abbreviated lake identifiers as row names to the table, that are useful for the multivariate plotting functions.\n\nlibrary(\"readxl\") # read Excel files directly\nlibrary(\"vegan\")  # multivariate statistics in ecology\nlakes &lt;- as.data.frame(\n  read_excel(\"3_tab_kenndaten-ausgew-seen-d_2021-04-08.xlsx\", sheet=\"Tabelle1\", skip=3)\n)\nnames(lakes) &lt;- c(\"name\", \"state\", \"drainage\", \"population\", \"altitude\", \n                  \"z_mean\", \"z_max\", \"t_ret\", \"volume\", \"area\", \"shore_length\", \n                  \"shore_devel\", \"drain_ratio\", \"wfd_type\")\nrownames(lakes) &lt;- paste0(1:nrow(lakes), substr(lakes$name, 1, 4))\n\nText columns, e.g Federal State names and lake type are removed and rows with missing data excluded. If population is not used, the analysis can be repeated with more lakes.\n\nvalid_columns &lt;- c(\"drainage\", \"population\", \"altitude\", \"z_mean\",\n                   \"z_max\", \"t_ret\", \"volume\", \"area\", \"shore_length\", \n                   \"shore_devel\", \"drain_ratio\")\n\n#valid_columns &lt;- c(\"drainage\", \"altitude\", \"z_mean\",\n#                   \"z_max\", \"t_ret\", \"volume\", \"area\", \"shore_length\", \n#                   \"shore_devel\",\"drain_ratio\")\ndat &lt;- lakes[valid_columns]\ndat &lt;- na.omit(dat)\n\n\n\n2.2 Data inspection\nIt is always a good idea to plot the data first, either as a time series or as boxplots, depending on the type of data. Here, we use boxplots that we scale (z-transform) to a mean of zero and a standard deviation of one, in order to make the values comparable.\nAs there are a number of extreme values, we also apply a square root transformation, which is less extreme than a log transformation and not sensitive to zero values. However, as altitude contains a negative value (below sea level), we replace this with zero. As this is a small value, it does not influence our analysis, but we should always document such workarounds carefully.\n\npar(mfrow = c(1, 1))\npar(mar = c(7, 4, 2, 1) + .1)\nboxplot(scale(dat), las = 2)\n\n\n\n\n\n\n\ndat$altitude &lt;- ifelse(dat$altitude &lt; 0, 0, dat$altitude)\nboxplot(scale(sqrt(dat)), las=2)",
+    "crumbs": [
+      "Solutions",
+      "X15-Multivariate Lake Data Example"
+    ]
+  },
+  {
+    "objectID": "qmd/15-multivariate-lakes-solution.html#multivariate-analysis",
+    "href": "qmd/15-multivariate-lakes-solution.html#multivariate-analysis",
+    "title": "X15-Multivariate Lake Data Example",
+    "section": "3 Multivariate Analysis",
+    "text": "3 Multivariate Analysis\n\n3.1 Principal Components: PCA\n\npc &lt;- prcomp(scale(dat))\nsummary(pc)\n\nImportance of components:\n                         PC1    PC2    PC3    PC4     PC5     PC6     PC7\nStandard deviation     2.305 1.4737 1.1459 1.0686 0.84953 0.50024 0.24164\nProportion of Variance 0.483 0.1974 0.1194 0.1038 0.06561 0.02275 0.00531\nCumulative Proportion  0.483 0.6805 0.7998 0.9036 0.96925 0.99200 0.99731\n                           PC8     PC9    PC10    PC11\nStandard deviation     0.12590 0.08400 0.07563 0.03077\nProportion of Variance 0.00144 0.00064 0.00052 0.00009\nCumulative Proportion  0.99875 0.99939 0.99991 1.00000\n\nplot(pc)\n\n\n\n\n\n\n\nbiplot(pc)\n\n\n\n\n\n\n\n\nAs the PCA with the untransformed data appears somewhat asymmetric, we repeat the process with square-transformed data. Additionally, the third PC is plotted.\n\ndat2 &lt;- sqrt(dat)\npc2 &lt;- prcomp(scale(dat2))\nsummary(pc2)\n\nImportance of components:\n                          PC1    PC2    PC3    PC4     PC5     PC6     PC7\nStandard deviation     2.1886 1.5906 1.2499 1.0634 0.79782 0.44854 0.28572\nProportion of Variance 0.4354 0.2300 0.1420 0.1028 0.05786 0.01829 0.00742\nCumulative Proportion  0.4354 0.6654 0.8075 0.9103 0.96812 0.98641 0.99383\n                           PC8     PC9    PC10    PC11\nStandard deviation     0.17665 0.13833 0.12041 0.05528\nProportion of Variance 0.00284 0.00174 0.00132 0.00028\nCumulative Proportion  0.99666 0.99840 0.99972 1.00000\n\npar(mfrow=c(1,2))\npar(mar=c(5, 4, 4, 2) + 0.1)\nbiplot(pc2, cex=0.6)\nbiplot(pc2, cex=0.6, choices=c(3, 2))\n\n\n\n\n\n\n\n\nIt is also possible to perform a PCA using the rda function of the vegan package. The syntax of the plot functions differs somewhat. Rather than using biplot as above, we can use plot directly. Further details can be found in the vegan documentation.\n\npar(mfrow=c(1,1))\npc3 &lt;- rda(dat2, scale = TRUE)\npc3\n\n\nCall: rda(X = dat2, scale = TRUE)\n\n              Inertia Rank\nTotal              11     \nUnconstrained      11   11\n\nInertia is correlations\n\nEigenvalues for unconstrained axes:\n  PC1   PC2   PC3   PC4   PC5   PC6   PC7   PC8   PC9  PC10  PC11 \n4.790 2.530 1.562 1.131 0.637 0.201 0.082 0.031 0.019 0.014 0.003 \n\n#summary(pc3)\nplot(pc3)\n\n\n\n\n\n\n\n\n\n\n3.2 Nonmetric Multidimensional Scaling: NMDS\nNow, let’s perform an NMDS on the data set. The function metaMDS runs a series of NMDS fits with different start values to avoid local minima. It also performs some automatic transformations and usually works with the Bray–Curtis dissimilarity, which is common for plant and animal species abundance data. As we are working with physical data here, we will set the distance measure to “euclidean”.\n\nmd &lt;- metaMDS(dat2, scale = TRUE, distance = \"euclid\")\n\nSquare root transformation\nWisconsin double standardization\nRun 0 stress 0.1181117 \nRun 1 stress 0.173146 \nRun 2 stress 0.1188525 \nRun 3 stress 0.1208973 \nRun 4 stress 0.1181118 \n... Procrustes: rmse 0.0002917866  max resid 0.000865098 \n... Similar to previous best\nRun 5 stress 0.1230331 \nRun 6 stress 0.1230331 \nRun 7 stress 0.1768604 \nRun 8 stress 0.1208972 \nRun 9 stress 0.1207021 \nRun 10 stress 0.1230331 \nRun 11 stress 0.1230331 \nRun 12 stress 0.1208973 \nRun 13 stress 0.118853 \nRun 14 stress 0.1207019 \nRun 15 stress 0.1207021 \nRun 16 stress 0.2238472 \nRun 17 stress 0.1877813 \nRun 18 stress 0.1181116 \n... New best solution\n... Procrustes: rmse 0.0001094959  max resid 0.0003109935 \n... Similar to previous best\nRun 19 stress 0.1207022 \nRun 20 stress 0.1188566 \n*** Best solution repeated 1 times\n\nplot(md, type=\"text\")\nabline(h=0, col=\"grey\", lty=\"dotted\")\nabline(v=0, col=\"grey\", lty=\"dotted\")\n\n\n\n\n\n\n\n\n\n\n3.3 Cluster analysis\nHere we apply a hierarchical cluster analysis with square root transformed data and two different agglomeration schemes, “complete linkage” and “Ward’s method”.\n\npar(mfrow=c(2,1))\nhc &lt;- hclust(dist(scale(dat2)), method=\"complete\") # the default\nplot(hc)\n\nhc2 &lt;- hclust(dist(scale(dat2)), method=\"ward.D2\")\nplot(hc2)\n\n\n\n\n\n\n\n\nWe can also use the clusters to indicate groups in the NMDS plot. Function rect.hclust indicates a given number of clusters in the dendrogram, then we cut the tree with cutree and use the groups grp as color codes. R has 8 standard colors. If we need more, we can define an own palette.\n\nplot(hc, hang = -1)\nrect.hclust(hc, 5)\n\n\n\n\n\n\n\ngrp &lt;- cutree(hc, 5)\n# grp                  # can be used to show the groups\nplot(md, type = \"n\")\ntext(md$points, row.names(dat2), col = grp)\n\n\n\n\n\n\n\n\nInstead of hierarchical clustering, we can also use a non-hierarchical method, e.g. k-means clustering. This is an iterative method, and avoids the problem that cluster assignment depends on the order of clustering and the agglomeration method.\nDepending on the question, it may be a disadvantage, that the number of clusters needs to be specified beforehand (e.g. from hierarchical clustering) and that we do not get a tree diagramm.",
+    "crumbs": [
+      "Solutions",
+      "X15-Multivariate Lake Data Example"
+    ]
+  },
+  {
+    "objectID": "qmd/16-multivariate-small-streams.html",
+    "href": "qmd/16-multivariate-small-streams.html",
+    "title": "16-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
     "section": "",
     "text": "The aim of the following exercise is to demonstrate some important multivariate methods by example of a macrozoobenthos data set from two small streams. In some cases, several alternatives are presented, but for a real analysis one does not need to include everything. On the other hand, the methods offer further possibilities that cannot all be presented, see the online help and corresponding books and tutorials.\nThe data set used originates from a field experiment to investigate the influence of fish predation on the macrozoobenthos species composition. However, during the study period an extreme flood occurred in August and caused major morphological changes to the streams. This motivated the hypothesis that the species community has also changed.",
     "crumbs": [
       "Labs",
-      "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
+      "16-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
     ]
   },
   {
-    "objectID": "qmd/15-multivariate-small-streams.html#nmds",
-    "href": "qmd/15-multivariate-small-streams.html#nmds",
-    "title": "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
+    "objectID": "qmd/16-multivariate-small-streams.html#nmds",
+    "href": "qmd/16-multivariate-small-streams.html#nmds",
+    "title": "16-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
     "section": "3.1 NMDS",
     "text": "3.1 NMDS\nWe start with an NMDS (nonmetric multidimensional scaling) of the bio-data using the Bray-Curtis dissimilarity measure. It is the default of metaMDS, but we specify it explicitly to make the selection of the dissimilarity measure clearly visible in the code. Automatic transformation is switched off. This can be changed, depending on the properties of the data, or enabled “manually” for example with wisconsin(sqrt(bio)).\nThe function metaMDS then runs the NMDS several times with different starting values to avoid local minima. For difficult data sets, it may be necessary to increase the metaparameters try and trymax, see helpfile for details.\nAfter that, we should have a look at the stress value and the stressplot.\n\nmds &lt;- metaMDS(bio, distance = \"bray\", autotransform = FALSE)\nmds\nstressplot(mds)\n\nWe can then plot the results of the NMDS-ordination.\n\nplot(mds, type = \"t\")\n\nIn order to show the influence of environmental variables, we can fit vectors or factors to the ordination. In addition to this, we can show the significance of the fitted vectors. For getting reliable p-values, I recommend to increase permu to 3999 or 9999.\n\n## fit environmental factors and perform a permutations-test\nefit &lt;- envfit(mds ~ Hochwasser + Bach + Habitat, env, permu = 999)\nefit\n\nNow, we can visualize the complete result. Grey dotted zero-lines are added to make interpretation easier.\n\nplot(mds, type = \"t\")\nplot(efit, add = TRUE)\nabline(h=0, col=\"grey\", lty=\"dotted\")\nabline(v=0, col=\"grey\", lty=\"dotted\")",
     "crumbs": [
       "Labs",
-      "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
+      "16-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
     ]
   },
   {
-    "objectID": "qmd/15-multivariate-small-streams.html#hierarchical-clustering",
-    "href": "qmd/15-multivariate-small-streams.html#hierarchical-clustering",
-    "title": "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
+    "objectID": "qmd/16-multivariate-small-streams.html#hierarchical-clustering",
+    "href": "qmd/16-multivariate-small-streams.html#hierarchical-clustering",
+    "title": "16-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
     "section": "3.2 Hierarchical Clustering",
     "text": "3.2 Hierarchical Clustering\nThe NMDS tries to project the distances as good as possible to a low number of dimensions, e.g. k=2 that is the default. To see the full picture of distances in multidimensional space, we may consider to apply hierarchical clustering. As agglomeration algorithm, complete, ward.D2 or ward.D can be a good choice. To improve understanding it can be a good idea to compare it with other agglomeration schemes, e.g. single.\n\nhc &lt;- hclust(vegdist(bio), method=\"ward.D\")\nplot(hc)\n\nIt is also possible, to colorize the clusters in the NMDS plot. Let’s assume we have 4 clusters, we can first indicate it in the hierarchical cluster tree with rect.hclust``, then cut the tree withcutree`.\n\nplot(hc)\nrect.hclust(hc, 4)\ngrp &lt;- cutree(hc, 4)  # assign observations to 4 groups\ngrp\n\nThe result is an assignment of the original observations to groups, that can be used to colorize the NMDS plot. It is possible to show the cluster tree directly in the nmds plot or to indicate it otherwise with, for example, ordispider, ordihull or ordiellipse\n\nplot(mds, type = \"n\")\ntext(mds$points, row.names(bio), col = grp)\n\n## optional: show cluster tree\n#ordicluster(mds, hc, col=\"blue\")\n\nExercises: Compare different agglomeration schemes, try different numbers of clusters in rect.hclust and cutree and add the fitted environmental variables in the final plot.",
     "crumbs": [
       "Labs",
-      "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
+      "16-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
     ]
   },
   {
-    "objectID": "qmd/15-multivariate-small-streams.html#canonical-correspondence-analysis",
-    "href": "qmd/15-multivariate-small-streams.html#canonical-correspondence-analysis",
-    "title": "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
+    "objectID": "qmd/16-multivariate-small-streams.html#canonical-correspondence-analysis",
+    "href": "qmd/16-multivariate-small-streams.html#canonical-correspondence-analysis",
+    "title": "16-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
     "section": "3.3 Canonical Correspondence Analysis",
     "text": "3.3 Canonical Correspondence Analysis\nAs an alternative to NMDS, we can also use CCA, that is a “constraied ordination method” and allows a more detailed numerical analysis (e.g. separatation of inertia), but is limited to \\(\\chi^2\\)-distance, while NMDS allows arbitrary distance measures, including Bray-Curtis.\n\ncc &lt;- cca(bio ~ Habitat + Bach + Hochwasser, data = env)\n#cc &lt;- cca(bio ~ ., data = env) # same. The . means all from env\ncc # print Eigenvalues\nplot(cc)\nordihull(cc, env$Habitat, col = \"blue\")   # or: ordispider, ordiellipse ...",
     "crumbs": [
       "Labs",
-      "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
+      "16-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
     ]
   },
   {
-    "objectID": "qmd/15-multivariate-small-streams.html#test-of-significance",
-    "href": "qmd/15-multivariate-small-streams.html#test-of-significance",
-    "title": "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
+    "objectID": "qmd/16-multivariate-small-streams.html#test-of-significance",
+    "href": "qmd/16-multivariate-small-streams.html#test-of-significance",
+    "title": "16-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
     "section": "3.4 Test of significance",
     "text": "3.4 Test of significance\nThe CCA supports also significance tests and model selection with ANOVA-like permutation tests.\n\n## Resampling-ANOVAs of the CCA\nanova(cc)\nanova(cc, by = \"terms\") # most useful\nanova(cc, by = \"axis\")\n\n## Model selection to find the optimal model\nstep(cc)\n\nSeveral other multivariate significance tests exist. The Adonis-Test is in particular popular, because it considers also interaction terms. It does not rely on an NMDS or CCA and works directly with a distance matrix. In order to increase its power, we may optionally consider strata. The following shows some examples.\nExercise: Try different model formulae and decide which one is most appropriate for the data set and the original hypothesis.\n\ndist &lt;- vegdist(bio, method = \"bray\")\n\nadonis2(dist ~ Hochwasser * Habitat * Bach, data = dat, by = \"terms\")\n\n## Comparison with and without strata\nadonis2(dist ~ Hochwasser * Bach, strata = env$Habitat, data = dat, by = \"terms\")\nadonis2(dist ~ Hochwasser * Bach, data = dat, by = \"terms\")",
     "crumbs": [
       "Labs",
-      "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
+      "16-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
     ]
   },
   {
-    "objectID": "qmd/15-multivariate-small-streams.html#dbrda-and-elimination-of-covariates",
-    "href": "qmd/15-multivariate-small-streams.html#dbrda-and-elimination-of-covariates",
-    "title": "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
+    "objectID": "qmd/16-multivariate-small-streams.html#dbrda-and-elimination-of-covariates",
+    "href": "qmd/16-multivariate-small-streams.html#dbrda-and-elimination-of-covariates",
+    "title": "16-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
     "section": "3.5 dbRDA and elimination of covariates",
     "text": "3.5 dbRDA and elimination of covariates\nThe following examples show further possibilities. Instead of a CCA (that uses \\(\\chi^2\\)) we can also use a so-called distance-based redundancy analysis (dbRDA), that supports arbitrary distance measures, e.g. Bray-Curtis.\nAnother option is a partial CCA or partial dbRDA where we can eliminate covariates (condtion = ...) that we are not much interested in, so that the ordination focuses on the variables we are interested in. This is the called a partial analysis (pCCA, p-dbRDA). We will then also get three kinds of eigenvalues and eigenvectors (components of the inertia).\n\n## =========================================================================\n## dbRDA, supports arbitrary dissimilarity measures\n## =========================================================================\n\ndbr &lt;- dbrda(dist ~ Habitat + Bach + Hochwasser, data = env, distance = \"bray\")\ndbr\nanova(dbr, by=\"terms\", permutations=3999)\n#summary(dbr)\nplot(dbr)\n\n## =========================================================================\n## partial CCA: elimination of covariates\n## =========================================================================\npcc &lt;- cca(bio ~ Hochwasser + Bach + Condition(Habitat), data = env)\npcc\nplot(pcc)\n\n\n## =========================================================================\n## partial dbRDA\n## =========================================================================\ndbrc &lt;- dbrda(bio ~ Hochwasser + Bach + Condition(Habitat), \n              data = env, distance = \"bray\")\ndbrc\nplot(dbrc)\n\nExercise: Apply a method that eliminates the differences between the streams and investigate whether pools and riffles behave differently.",
     "crumbs": [
       "Labs",
-      "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
+      "16-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
     ]
   },
   {
-    "objectID": "qmd/15-multivariate-small-streams.html#procrustes-test",
-    "href": "qmd/15-multivariate-small-streams.html#procrustes-test",
-    "title": "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
+    "objectID": "qmd/16-multivariate-small-streams.html#procrustes-test",
+    "href": "qmd/16-multivariate-small-streams.html#procrustes-test",
+    "title": "16-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams",
     "section": "3.6 Procrustes test",
     "text": "3.6 Procrustes test\nTo compare the ordinations, that we get with a different set of environmental variable and conditions, we can use the so-called Procrustes test.\n\ndbr  &lt;- dbrda(bio ~ Hochwasser + Bach + Habitat, \n              data = env, distance=\"bray\")\npdbr &lt;- dbrda(bio ~ Hochwasser + Bach + Condition(Habitat), \n              data = env, distance=\"bray\")\n\nproc &lt;- procrustes(dbr, pdbr)\nplot(proc, type = \"t\")\nprotest(dbr, pdbr)",
     "crumbs": [
       "Labs",
-      "15-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
+      "16-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams"
     ]
   }
 ]
