@@ -864,7 +864,7 @@
     "href": "qmd/01-pivot-tables-with-libreoffice.html",
     "title": "01-Discharge of River Elbe: Data Management with LibreOffice",
     "section": "",
-    "text": "Planning and maintenance of waterways and rivers needs adequate measurements and data. However, raw time series can often be long and confusing, so a first step is aggregation and visualization.\nScientific aim: plot an average year and calculate monthly averages, minima and maxima of the discharge.",
+    "text": "Planning and maintenance of waterways and rivers needs adequate measurements and data. However, raw time series can often be long and confusing, so a first step is aggregation and visualization.\nScientific aim: In this exercise, we will explore long-term discharge data of a river to investigate its seasonal patterns and interannual variability. Using pivot tables and visualizations, we will identify monthly averages, minima and maxima, construct an average annual hydrograph, and classify years as wet or dry by means of cumulative sum plots. Finally, we will interpret the observed patterns in a hydrological context, including exceptional flood events.\nLearning objectives: We learn to derive categorical variables (year, month and day of year) from date columns using spreadsheet date functions, aggregate time series with pivot tables in spreadsheet software, and visualize and interpret the results with bar charts, scatter plots and cumulative sum plots .",
     "crumbs": [
       "Labs",
       "01-Discharge of River Elbe: Data Management with LibreOffice"

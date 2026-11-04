@@ -1,6 +1,6 @@
 ---
 title: "01-Discharge of River Elbe: Data Management with LibreOffice"
-date: "2024-10-16"
+date: "2026-11-04"
 ---
 
 ```{r setup, include=FALSE}
@@ -17,8 +17,17 @@ Planning and maintenance of waterways and rivers needs adequate
 measurements and data.  However, raw time series can often be long and
 confusing, so a first step is aggregation and visualization.
 
-**Scientific aim:** plot an average year and calculate monthly
-averages, minima and maxima of the discharge.
+**Scientific aim:** In this exercise, we will explore long-term discharge data 
+of a river to investigate its seasonal patterns and interannual variability. 
+Using pivot tables and visualizations, we will identify monthly averages, 
+minima and maxima, construct an average annual hydrograph, and classify years 
+as wet or dry by means of cumulative sum plots. Finally, we will interpret the 
+observed patterns in a hydrological context, including exceptional flood events.
+
+**Learning objectives:** We learn to derive categorical variables (year, month and 
+day of year) from date columns using spreadsheet date functions, aggregate time 
+series with pivot tables in spreadsheet software, and visualize and interpret 
+the results with bar charts, scatter plots and cumulative sum plots .
 
 
 # Methods
