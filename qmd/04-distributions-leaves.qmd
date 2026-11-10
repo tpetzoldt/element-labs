@@ -1,6 +1,6 @@
 ---
 title: "04-Distribution and Confidence Intervals of Maple Leaf Samples"
-date: '2025-11-04'
+date: '2026-11-10'
 ---
 
 ```{r setup, include=FALSE}
@@ -21,15 +21,19 @@ library("ggplot2")
 
 # Introduction
 
-The example aims to demonstrate estimation and interpretation of prediction intervals and confidence intervals.
-At the end, the two samples are compared with respect to variance and mean values.
+## Scientific aim
 
-The experimental hypotheses is, that the sampling strategy has an influence on the parameters of the distribution, i.e. that a sampling bias may occur.
-Here we leave it open, if the "subjective sampling" strategy prefers bigger or smaller leaves or if it has an influence on variance.
-The result is to be visualized with bar charts and box plots.
-We use the **leave width** as an example, an analysis of the other variables is left as an optional exercise.
+In this exercise, we will explore the distribution of leaf width in two samples of maple
+leaves (*Acer platanoides*) that were collected with different sampling strategies — one
+random and one subjective. We will identify the 95% prediction interval of individual
+observations and the 95% confidence interval of the mean, and compare the two samples
+with respect to variance and mean values using box plots, bar charts and classical
+statistical tests. Finally, we will interpret the results with respect to the experimental
+hypothesis that subjective sampling may introduce a sampling bias, leaving open whether
+it prefers bigger or smaller leaves or affects the variance. We use the **leaf width** as
+an example; an analysis of the other variables is left as an optional exercise.
 
-We can now derive the following statistical hypotheses **about the variance:**
+From this hypothesis, we derive the following statistical hypotheses **about the variance:**
 
 * $H_0$: The variance of both samples is the same.
 * $H_a$: The samples have different variance.
@@ -38,6 +42,15 @@ We can now derive the following statistical hypotheses **about the variance:**
 
 * $H_0$: The mean of both samples is the same.
 * $H_a$: The mean values of the samples are different.
+
+## Learning objectives
+
+After completing this tutorial, you will be able to (1) inspect and check the distribution
+of a sample using histograms and quantile-quantile plots, (2) calculate and distinguish
+prediction intervals and confidence intervals, both nonparametric (empirical quantiles) and
+parametric (normal and t-distribution), and (3) apply and interpret t-tests and F-tests,
+including the assessment of effect size.
+
 
 # Material and Methods
 
@@ -82,7 +95,7 @@ e.g. OPAL at TU Dresden) or publicly from
 plot(leaves)
 ```
 
-* First, let's apply a traditional approach and split `leaves` in two separate tables for the samples HSE and MHYB:
+* First, let's apply a traditional approach and split `leaves` in two separate tables for the samples HSE and HYB:
 
 ```{r }
 hyb <- subset(leaves, group == "HYB")
@@ -101,6 +114,8 @@ boxplot(hse$width, hyb$width, names=c("HSE", "HYB"))
 # use `hist`, `qqnorm`, `qqline`
 # ...
 ```
+
+Check if the distribution is roughly symmetric and bell-shaped and what would deviations imply for the tests.
 
 ## Sample statistics and prediction interval
 
@@ -191,12 +206,12 @@ abline(v = hse.ci, col="magenta")
 
 ### Discussion: Comparison and interpretation
 
-Explain the fundamental statistical reason why the 95% Prediction Interval (PI) for the leaf width is always significantly wider than the 95% Confidence Interval (CI) for the mean leaf width, even though both intervals are calculated from the same data set (hse).
+Explain the fundamental statistical reason why the 95% Prediction Interval (PI) for the leaf width is always wider than the 95% Confidence Interval (CI) for the mean leaf width, even though both intervals are calculated from the same data set (hse).
 
 
 ## Comparison of the samples
 
-To compare the two samples. we already created box plots at the beginning.
+To compare the two samples, we already created box plots at the beginning.
 Instead of a boxplot, we can also use a bar chart with confidence intervals.  
 This can be done with the add-on package **gplots** (not to be confused with **ggplot**):
 
@@ -229,14 +244,14 @@ segments(x0=x[2], y0=hse.ci[1], y1=hse.ci[2], lwd=2)
 
 ## Is the difference between the samples statistically significant?
 
-In the following, we compare the two samples with t- and F-Tests.
+In the following, we compare the two samples with t- and F-Tests. We use Welch's test as the default because it does not require equal variances; the classical t-test and F-test are shown for comparison.
+The F-test is additionally of interest in its own right, because it directly tests whether the two samples differ in variance
 
 **Hypotheses:**
 
 **$H_0$**: Both samples have the same mean width and variance.
 
-**$H_A$:** The mean width (and possibly also the variance) differ because of more subjective sampling of HSE students.
-  They may have prefered bigger or the nice small leaves.
+**$H_A$:** The mean width (and possibly also the variance) differ because of more subjective sampling of HSE students. They may have preferred bigger or the nice small leaves.
 
 ```{r }
 t.test(width ~ group, data = leaves)
