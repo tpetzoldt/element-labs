@@ -178,7 +178,7 @@ rug(hse$width, col="blue")
 ## Confidence interval of the mean
 
 The **confidence interval** ($CI$) of the mean tells us how precise a mean value was estimated from data.
-If the sample size is "large enough", the distribution of the raw data does not necessarily need to be normal, because then mean values tend to approximate a normal distribution due to the **central limit theorem**.
+If the sample size is "large enough", the distribution of the raw data does not necessarily need to be normal, because then mean values tend to approximate a normal distribution due to the **central limit theorem**[^skew].
 
 The formula for the CI of the mean is: $$CI = \bar{x} \pm t_{\alpha/2, n-1} \cdot \frac{s}{\sqrt{N}}$$
 
@@ -244,21 +244,20 @@ segments(x0=x[2], y0=hse.ci[1], y1=hse.ci[2], lwd=2)
 
 ## Is the difference between the samples statistically significant?
 
-In the following, we compare the two samples with t- and F-Tests. We use Welch's test as the default because it does not require equal variances; the classical t-test and F-test are shown for comparison.
+In the following, we compare the two samples with t- and F-tests. We use Welch's test as the default because it does not require equal variances; the classical t-test and F-test are shown for comparison.
 The F-test is additionally of interest in its own right, because it directly tests whether the two samples differ in variance
 
 **Hypotheses:**
 
-**$H_0$**: Both samples have the same mean width and variance.
-
-**$H_A$:** The mean width (and possibly also the variance) differ because of more subjective sampling of HSE students. They may have preferred bigger or the nice small leaves.
+As formulated in the Introduction, we test separately (i) whether their means differ (t-tests), and (ii) whether the variances of the two samples differ (F-test).
 
 ```{r }
 t.test(width ~ group, data = leaves)
 ```
 
-Perform also the classical t-test (`var.equal=TRUE`) and the F-test (`var.test`).
-Calculate absolute and relative effect size (mean differences) and interpret the results of all 3 tests.
+Perform also the classical t-test (`var.equal = TRUE`) and the F-test (`var.test`).
+Calculate absolute and relative effect size (mean differences) and interpret the results of all 3 tests. 
+If the Welch test and the classical t-test lead to different conclusions, report the Welch test.
 
 ```{r }
 # var.test(...)
@@ -307,7 +306,7 @@ $$\text{PI} = \bar{x} \pm t_{\alpha/2, n-1} \cdot s \cdot \sqrt{1 + \frac{1}{N}}
 
 The prediction interval is related to the so-called "tolerance interval". Both are the same if the population parameters $\mu, \sigma$ are known or the sample size is very big. However, there are theoretical and practical differences in case of small sample size.
 
-
+[^skew]: Note that for strongly skewed data — especially with small sample sizes — the confidence interval of the mean can be biased, because the sample mean and the sample variance are then correlated, so that the central limit theorem only applies slowly. In such cases it is recommended to transform the data (e.g., log-transform), calculate mean and CI on the transformed scale, and back-transform the results to the original scale afterwards.
 
 # References
 

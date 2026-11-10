@@ -527,11 +527,11 @@ PI = \bar{x} \pm z \cdot s
 </section>
 <section id="confidence-interval-of-the-mean" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="confidence-interval-of-the-mean"><span class="header-section-number">3.4</span> Confidence interval of the mean</h2>
-<p>The <strong>confidence interval</strong> (<span class="math inline">\(CI\)</span>) of the mean tells us how precise a mean value was estimated from data. If the sample size is “large enough”, the distribution of the raw data does not necessarily need to be normal, because then mean values tend to approximate a normal distribution due to the <strong>central limit theorem</strong>.</p>
+<p>The <strong>confidence interval</strong> (<span class="math inline">\(CI\)</span>) of the mean tells us how precise a mean value was estimated from data. If the sample size is “large enough”, the distribution of the raw data does not necessarily need to be normal, because then mean values tend to approximate a normal distribution due to the <strong>central limit theorem</strong><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
 <p>The formula for the CI of the mean is: <span class="math display">\[CI = \bar{x} \pm t_{\alpha/2, n-1} \cdot \frac{s}{\sqrt{N}}\]</span></p>
 <section id="confidence-interval-of-the-mean-for-the-hse-data" class="level3" data-number="3.4.1">
 <h3 data-number="3.4.1" class="anchored" data-anchor-id="confidence-interval-of-the-mean-for-the-hse-data"><span class="header-section-number">3.4.1</span> Confidence interval of the mean for the “hse” data</h3>
-<p><strong>Task:</strong> Calculate the confidence interval of the mean value of the “hse” data set using the quantile function (<code>qt</code>) of the t-distribution<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>:</p>
+<p><strong>Task:</strong> Calculate the confidence interval of the mean value of the “hse” data set using the quantile function (<code>qt</code>) of the t-distribution<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>hse.ci <span class="ot">&lt;-</span> hse.mean <span class="sc">+</span> <span class="fu">qt</span>(<span class="at">p =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), <span class="at">df =</span> hse.N <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> hse.se</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -577,14 +577,13 @@ This can be done with the add-on package <strong>gplots</strong> (not to be conf
 </section>
 <section id="is-the-difference-between-the-samples-statistically-significant" class="level2" data-number="3.6">
 <h2 data-number="3.6" class="anchored" data-anchor-id="is-the-difference-between-the-samples-statistically-significant"><span class="header-section-number">3.6</span> Is the difference between the samples statistically significant?</h2>
-<p>In the following, we compare the two samples with t- and F-Tests. We use Welch’s test as the default because it does not require equal variances; the classical t-test and F-test are shown for comparison. The F-test is additionally of interest in its own right, because it directly tests whether the two samples differ in variance</p>
+<p>In the following, we compare the two samples with t- and F-tests. We use Welch’s test as the default because it does not require equal variances; the classical t-test and F-test are shown for comparison. The F-test is additionally of interest in its own right, because it directly tests whether the two samples differ in variance</p>
 <p><strong>Hypotheses:</strong></p>
-<p><strong><span class="math inline">\(H_0\)</span></strong>: Both samples have the same mean width and variance.</p>
-<p><strong><span class="math inline">\(H_A\)</span>:</strong> The mean width (and possibly also the variance) differ because of more subjective sampling of HSE students. They may have preferred bigger or the nice small leaves.</p>
+<p>As formulated in the Introduction, we test separately (i) whether their means differ (t-tests), and (ii) whether the variances of the two samples differ (F-test).</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(width <span class="sc">~</span> group, <span class="at">data =</span> leaves)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Perform also the classical t-test (<code>var.equal=TRUE</code>) and the F-test (<code>var.test</code>). Calculate absolute and relative effect size (mean differences) and interpret the results of all 3 tests.</p>
+<p>Perform also the classical t-test (<code>var.equal = TRUE</code>) and the F-test (<code>var.test</code>). Calculate absolute and relative effect size (mean differences) and interpret the results of all 3 tests. If the Welch test and the classical t-test lead to different conclusions, report the Welch test.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># var.test(...)</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># t.test(...)</span></span>
@@ -645,7 +644,8 @@ R Core Team. (2024). <em>R: A language and environment for statistical computing
 </div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
-<li id="fn1"><p>as the sample size is not too small, you may also compare this with 1.96 or 2.0<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>Note that for strongly skewed data — especially with small sample sizes — the confidence interval of the mean can be biased, because the sample mean and the sample variance are then correlated, so that the central limit theorem only applies slowly. In such cases it is recommended to transform the data (e.g., log-transform), calculate mean and CI on the transformed scale, and back-transform the results to the original scale afterwards.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>as the sample size is not too small, you may also compare this with 1.96 or 2.0<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
