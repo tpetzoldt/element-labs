@@ -364,7 +364,6 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#calculation-of-summary-statistics-with-dplyr" id="toc-calculation-of-summary-statistics-with-dplyr" class="nav-link" data-scroll-target="#calculation-of-summary-statistics-with-dplyr"><span class="header-section-number">4.1</span> Calculation of summary statistics with <strong>dplyr</strong></a></li>
   <li><a href="#barchart-and-errorbars-with-ggplot2" id="toc-barchart-and-errorbars-with-ggplot2" class="nav-link" data-scroll-target="#barchart-and-errorbars-with-ggplot2"><span class="header-section-number">4.2</span> Barchart and errorbars with <strong>ggplot2</strong></a></li>
-  <li><a href="#a-footnote-about-prediction-intervals" id="toc-a-footnote-about-prediction-intervals" class="nav-link" data-scroll-target="#a-footnote-about-prediction-intervals"><span class="header-section-number">4.3</span> A footnote about prediction intervals</a></li>
   </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">5</span> References</a></li>
   </ul>
@@ -621,13 +620,6 @@ This can be done with the add-on package <strong>gplots</strong> (not to be conf
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>() <span class="sc">+</span> <span class="fu">geom_errorbar</span>(<span class="at">width=</span><span class="fl">0.2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="a-footnote-about-prediction-intervals" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="a-footnote-about-prediction-intervals"><span class="header-section-number">4.3</span> A footnote about prediction intervals</h2>
-<p>The simplified <span class="math inline">\(\bar{x} \pm z \cdot s\)</span> formula used above is an approximation. A statistically rigorous 95% prediction interval, especially for smaller samples, needs two corrections.</p>
-<p>First, we would use the <strong>t-distribution</strong> with the quantile <span class="math inline">\(t_{\alpha/2, n-1}\)</span> (or <code>qt(alpha/2, n-1)</code> in R) instead of the normal quantiles (<span class="math inline">\(\pm 1.96\)</span>). Then we add a term <span class="math inline">\(\sqrt{1+1/N}\)</span> that corrects for the sample parameters. The full formula for a single future observation is then:</p>
-<p><span class="math display">\[\text{PI} = \bar{x} \pm t_{\alpha/2, n-1} \cdot s \cdot \sqrt{1 + \frac{1}{N}}\]</span></p>
-<p>The prediction interval is related to the so-called “tolerance interval”. Both are the same if the population parameters <span class="math inline">\(\mu, \sigma\)</span> are known or the sample size is very big. However, there are theoretical and practical differences in case of small sample size.</p>
-</section>
 </section>
 <section id="references" class="level1" data-number="5">
 
@@ -644,8 +636,8 @@ R Core Team. (2024). <em>R: A language and environment for statistical computing
 </div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
-<li id="fn1"><p>Note that for strongly skewed data — especially with small sample sizes — the confidence interval of the mean can be biased, because the sample mean and the sample variance are then correlated, so that the central limit theorem only applies slowly. In such cases it is recommended to transform the data (e.g., log-transform), calculate mean and CI on the transformed scale, and back-transform the results to the original scale afterwards.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>as the sample size is not too small, you may also compare this with 1.96 or 2.0<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p><strong>Limitations of the CLT</strong> Note that for strongly skewed data — especially with small sample sizes — the confidence interval of the mean can be biased, because the sample mean and the sample variance are then correlated, so that the central limit theorem only applies slowly. In such cases it is recommended to transform the data (e.g., log-transform), calculate mean and CI on the transformed scale, and back-transform the results to the original scale afterwards.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p><strong>Two sigma rule:</strong> Compare the t-quantile <code>qt</code> with the normal quantile 1.96 or an approximate 2.0.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

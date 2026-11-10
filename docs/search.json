@@ -752,7 +752,7 @@
     "href": "qmd/04-distributions-leaves.html#footnotes",
     "title": "04-Distribution and Confidence Intervals of Maple Leaf Samples",
     "section": "Footnotes",
-    "text": "Footnotes\n\n\nNote that for strongly skewed data — especially with small sample sizes — the confidence interval of the mean can be biased, because the sample mean and the sample variance are then correlated, so that the central limit theorem only applies slowly. In such cases it is recommended to transform the data (e.g., log-transform), calculate mean and CI on the transformed scale, and back-transform the results to the original scale afterwards.↩︎\nas the sample size is not too small, you may also compare this with 1.96 or 2.0↩︎",
+    "text": "Footnotes\n\n\nLimitations of the CLT Note that for strongly skewed data — especially with small sample sizes — the confidence interval of the mean can be biased, because the sample mean and the sample variance are then correlated, so that the central limit theorem only applies slowly. In such cases it is recommended to transform the data (e.g., log-transform), calculate mean and CI on the transformed scale, and back-transform the results to the original scale afterwards.↩︎\nTwo sigma rule: Compare the t-quantile qt with the normal quantile 1.96 or an approximate 2.0.↩︎",
     "crumbs": [
       "Labs",
       "04-Distribution and Confidence Intervals of Maple Leaf Samples"
