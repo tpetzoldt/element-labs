@@ -1,6 +1,6 @@
 ---
 title: "04-Distribution and Confidence Intervals of Maple Leaf Samples"
-date: '2026-11-10'
+date: '2026-11-11'
 ---
 
 ```{r setup, include=FALSE}
@@ -138,7 +138,7 @@ hse.N    <- length(hse$width)
 hse.se   <- hse.sd/sqrt(hse.N)
 ```
 
-Then we estimate an approximate two-sided 95% **prediction interval** ($PI$) for the sample using a simplified approach based on the quantiles of the theoretical normal distribution ($z_{\alpha/2} \approx 1.96$) and the sample parameters mean $\bar{x}$ and standard deviation ($s$):
+Then we estimate an approximate[^pred] two-sided 95% **prediction interval** ($PI$) for the sample using a simplified approach based on the quantiles of the theoretical normal distribution ($z_{\alpha/2} \approx 1.96$) and the sample parameters mean $\bar{x}$ and standard deviation ($s$):
 
 $$
 PI = \bar{x} \pm z \cdot s
@@ -223,7 +223,7 @@ barplot2(height = c(hyb.mean, hse.mean),
          ci.l   = c(hyb.ci[1], hse.ci[1]),
          ci.u   = c(hyb.ci[2], hse.ci[2]),
          plot.ci = TRUE,
-         names.arg=c("Hyb", "HSE")
+         names.arg=c("HYB", "HSE")
 )
 ```
 
