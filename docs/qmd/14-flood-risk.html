@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2024-10-21">
+<meta name="dcterms.date" content="2026-11-23">
 
 <title>14-Extreme Value Estimation with Package FAmle – Elements of Data Analysis and Statistics - Lab Exercises</title>
 <style>
@@ -211,6 +211,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../qmd/10-nonlinear-regression-solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">x10-Fit Nonlinear Models to Plankton Growth Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../qmd/12-timeseries-trends.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">12-An introductory time series example</span></a>
   </div>
@@ -235,6 +241,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../qmd/15-multivariate-lakes-solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">X15-Multivariate Lake Data Example</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../qmd/16-multivariate-small-streams.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">16-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams</span></a>
   </div>
@@ -247,40 +259,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-2-label">Projects</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
-      </div>
-      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../qmd/03-discharge-elbe-project.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">x03-Discharge of River Elbe: Homework Project</span></a>
   </div>
 </li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-3-label">Solutions</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
-      </div>
-      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../qmd/10-nonlinear-regression-solution.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">x10-Fit Nonlinear Models to Plankton Growth Data</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../qmd/15-multivariate-lakes-solution.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">X15-Multivariate Lake Data Example</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
     </ul>
     </div>
 </nav>
@@ -315,7 +299,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 21, 2024</p>
+      <p class="date">November 23, 2026</p>
     </div>
   </div>
   
@@ -329,7 +313,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="introduction" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1</span> Introduction</h2>
-<p>Here, it is described how to fit distributions to a given hydrological data set. Our intention here is to provide an example how easy and powerful distribution fitting can be done in R. More information can be found in Rice(2003), Hogg(2004), Coles (2001) and in the help file of package FAmle (Aucoin, 2001). For the given example, a data set from the US Geological Survey (USGS, http://waterdata.usgs.gov/nwis will be employed. The dataset consists of annual maximum daily <strong>peakflows</strong> (ft3/s) that were observed at a hydrometric station located at River James (Columbia). First the packages and the data set is loaded, then it is tested for potential trends and autocorrelation</p>
+<p>Here, it is described how to fit distributions to a given hydrological data set. Our intention here is to provide an example how easy and powerful distribution fitting can be done in R. More information can be found in Rice(2003), Hogg(2004), Coles (2001) and in the help file of package FAmle (Aucoin, 2001). For the given example, a data set from the US Geological Survey (USGS, <a href="https://waterdata.usgs.gov/nwis" class="uri">https://waterdata.usgs.gov/nwis</a> will be employed. The dataset consists of annual maximum daily <strong>peakflows</strong> (ft3/s) that were observed at a hydrometric station located at River James (Columbia). First the packages and the data set is loaded, then it is tested for potential trends and autocorrelation</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## load required packages</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"FAmle"</span>)</span>
@@ -338,7 +322,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"zoo"</span>)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"readr"</span>)</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"dplyr"</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"lubridate"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"lubridate"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"Kendall"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## St James River, Columbia</span></span>
@@ -641,7 +626,7 @@ Figure&nbsp;7: Plot of the mle object corresponding to the fitting James River d
 <h2 data-number="5" class="anchored" data-anchor-id="exercise-extreme-values-of-the-elbe-river"><span class="header-section-number">5</span> Exercise: Extreme values of the Elbe river</h2>
 <p>Now load the Elbe River data from the beginning of the course and note that we need annual maximum values.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>elbe <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/tpetzoldt/datasets/main/data/elbe.csv"</span>, , <span class="at">col_types =</span> <span class="fu">c</span>(<span class="st">"D"</span>, <span class="st">"n"</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>elbe <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://tpetzoldt.github.io/datasets/data/elbe.csv"</span>, , <span class="at">col_types =</span> <span class="fu">c</span>(<span class="st">"D"</span>, <span class="st">"n"</span>))</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="do">## annual maximum discharge</span></span>

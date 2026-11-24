@@ -1,16 +1,16 @@
 ---
 title: '14-Extreme Value Estimation with Package FAmle'
-date: "2024-10-21"
+date: "2026-11-23"
 ---
 
 ## Introduction
 
 Here, it is described how to fit distributions to a given hydrological data set. 
-Our intention here is to provide an example how easy and powerful distribution fitting can be done in R. More information can be found in
-Rice(2003), Hogg(2004), Coles (2001) and in the help file of package FAmle (Aucoin, 2001). For the
-given example, a data set from the US Geological Survey (USGS, http://waterdata.usgs.gov/nwis will
-be employed. The dataset consists of annual maximum daily **peakflows** (ft3/s) that were observed at a
-hydrometric station located at River James (Columbia). First the packages and the data set is loaded, then it is tested for potential trends and autocorrelation
+Our intention here is to provide an example how easy and powerful distribution fitting can be done in R. More information can be found in Rice(2003), Hogg(2004), Coles (2001) and in the help file of package FAmle (Aucoin, 2001).
+For the given example, a data set from the US Geological Survey (USGS, <https://waterdata.usgs.gov/nwis> will be employed. 
+The dataset consists of annual maximum daily **peakflows** (ft3/s) that were observed at a
+hydrometric station located at River James (Columbia).
+First the packages and the data set is loaded, then it is tested for potential trends and autocorrelation
 
 ```{r echo=FALSE, include=FALSE}
 ## load packages silently
@@ -21,6 +21,7 @@ library("zoo")
 library("readr")
 library("dplyr")
 library("lubridate")
+library("Kendall")
 ```
 
 ```{r}
@@ -32,6 +33,7 @@ library("zoo")
 library("readr")
 library("dplyr")
 library("lubridate")
+library("Kendall")
 ```
 
 
@@ -206,7 +208,7 @@ Now load the Elbe River data from the beginning of the course and note that we n
 
 
 ```{r, eval = FALSE}
-elbe <- read_csv("https://raw.githubusercontent.com/tpetzoldt/datasets/main/data/elbe.csv", , col_types = c("D", "n"))
+elbe <- read_csv("https://tpetzoldt.github.io/datasets/data/elbe.csv", , col_types = c("D", "n"))
 
 
 ## annual maximum discharge

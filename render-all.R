@@ -1,4 +1,4 @@
-#library(future)
+library(future)
 library(future.apply)
 plan(multisession, workers=16)
 

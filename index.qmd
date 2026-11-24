@@ -1,5 +1,5 @@
 ---
-title: "Elements of Applied Statistics -- Lab Exercises"
+title: "Elements of Data Analysis and Statistics - Lab Exercises"
 subtitle: "Teaching material"
 ---
 
@@ -28,4 +28,4 @@ updated and improved. Feedback and comments are welcome.
 
 [homepage](https://tu-dresden.de/Members/thomas.petzoldt) +++ [github](https://github.com/tpetzoldt)
 
-2025-11-04
+2026-11-24

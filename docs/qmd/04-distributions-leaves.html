@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2026-11-10">
+<meta name="dcterms.date" content="2026-11-11">
 
 <title>04-Distribution and Confidence Intervals of Maple Leaf Samples – Elements of Data Analysis and Statistics - Lab Exercises</title>
 <style>
@@ -260,6 +260,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../qmd/10-nonlinear-regression-solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">x10-Fit Nonlinear Models to Plankton Growth Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../qmd/12-timeseries-trends.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">12-An introductory time series example</span></a>
   </div>
@@ -284,6 +290,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../qmd/15-multivariate-lakes-solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">X15-Multivariate Lake Data Example</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../qmd/16-multivariate-small-streams.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">16-Multivariate Analysis of Macrozoobenthos Samples from Two Small Streams</span></a>
   </div>
@@ -296,40 +308,12 @@ window.Quarto = {
 </li>
       </ul>
   </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-2-label">Projects</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
-      </div>
-      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../qmd/03-discharge-elbe-project.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">x03-Discharge of River Elbe: Homework Project</span></a>
   </div>
 </li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-3-label">Solutions</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
-      </div>
-      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../qmd/10-nonlinear-regression-solution.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">x10-Fit Nonlinear Models to Plankton Growth Data</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../qmd/15-multivariate-lakes-solution.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">X15-Multivariate Lake Data Example</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
     </ul>
     </div>
 </nav>
@@ -385,7 +369,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 10, 2026</p>
+      <p class="date">November 11, 2026</p>
     </div>
   </div>
   
@@ -498,7 +482,7 @@ leaves <- read.csv("https://raw.githubusercontent.com/tpetzoldt/datasets/main/da
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>hse.N    <span class="ot">&lt;-</span> <span class="fu">length</span>(hse<span class="sc">$</span>width)</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>hse.se   <span class="ot">&lt;-</span> hse.sd<span class="sc">/</span><span class="fu">sqrt</span>(hse.N)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Then we estimate an approximate two-sided 95% <strong>prediction interval</strong> (<span class="math inline">\(PI\)</span>) for the sample using a simplified approach based on the quantiles of the theoretical normal distribution (<span class="math inline">\(z_{\alpha/2} \approx 1.96\)</span>) and the sample parameters mean <span class="math inline">\(\bar{x}\)</span> and standard deviation (<span class="math inline">\(s\)</span>):</p>
+<p>Then we estimate an approximate<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> two-sided 95% <strong>prediction interval</strong> (<span class="math inline">\(PI\)</span>) for the sample using a simplified approach based on the quantiles of the theoretical normal distribution (<span class="math inline">\(z_{\alpha/2} \approx 1.96\)</span>) and the sample parameters mean <span class="math inline">\(\bar{x}\)</span> and standard deviation (<span class="math inline">\(s\)</span>):</p>
 <p><span class="math display">\[
 PI = \bar{x} \pm z \cdot s
 \]</span></p>
@@ -526,11 +510,11 @@ PI = \bar{x} \pm z \cdot s
 </section>
 <section id="confidence-interval-of-the-mean" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="confidence-interval-of-the-mean"><span class="header-section-number">3.4</span> Confidence interval of the mean</h2>
-<p>The <strong>confidence interval</strong> (<span class="math inline">\(CI\)</span>) of the mean tells us how precise a mean value was estimated from data. If the sample size is “large enough”, the distribution of the raw data does not necessarily need to be normal, because then mean values tend to approximate a normal distribution due to the <strong>central limit theorem</strong><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<p>The <strong>confidence interval</strong> (<span class="math inline">\(CI\)</span>) of the mean tells us how precise a mean value was estimated from data. If the sample size is “large enough”, the distribution of the raw data does not necessarily need to be normal, because then mean values tend to approximate a normal distribution due to the <strong>central limit theorem</strong><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
 <p>The formula for the CI of the mean is: <span class="math display">\[CI = \bar{x} \pm t_{\alpha/2, n-1} \cdot \frac{s}{\sqrt{N}}\]</span></p>
 <section id="confidence-interval-of-the-mean-for-the-hse-data" class="level3" data-number="3.4.1">
 <h3 data-number="3.4.1" class="anchored" data-anchor-id="confidence-interval-of-the-mean-for-the-hse-data"><span class="header-section-number">3.4.1</span> Confidence interval of the mean for the “hse” data</h3>
-<p><strong>Task:</strong> Calculate the confidence interval of the mean value of the “hse” data set using the quantile function (<code>qt</code>) of the t-distribution<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>:</p>
+<p><strong>Task:</strong> Calculate the confidence interval of the mean value of the “hse” data set using the quantile function (<code>qt</code>) of the t-distribution<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>hse.ci <span class="ot">&lt;-</span> hse.mean <span class="sc">+</span> <span class="fu">qt</span>(<span class="at">p =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), <span class="at">df =</span> hse.N <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> hse.se</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -562,7 +546,7 @@ This can be done with the add-on package <strong>gplots</strong> (not to be conf
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">ci.l   =</span> <span class="fu">c</span>(hyb.ci[<span class="dv">1</span>], hse.ci[<span class="dv">1</span>]),</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">ci.u   =</span> <span class="fu">c</span>(hyb.ci[<span class="dv">2</span>], hse.ci[<span class="dv">2</span>]),</span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">plot.ci =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">names.arg=</span><span class="fu">c</span>(<span class="st">"Hyb"</span>, <span class="st">"HSE"</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">names.arg=</span><span class="fu">c</span>(<span class="st">"HYB"</span>, <span class="st">"HSE"</span>)</span>
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>Solution B) without add-on packages (optional)</strong></p>
@@ -636,8 +620,12 @@ R Core Team. (2024). <em>R: A language and environment for statistical computing
 </div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
-<li id="fn1"><p><strong>Limitations of the CLT</strong> Note that for strongly skewed data — especially with small sample sizes — the confidence interval of the mean can be biased, because the sample mean and the sample variance are then correlated, so that the central limit theorem only applies slowly. In such cases it is recommended to transform the data (e.g., log-transform), calculate mean and CI on the transformed scale, and back-transform the results to the original scale afterwards.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p><strong>Two sigma rule:</strong> Compare the t-quantile <code>qt</code> with the normal quantile 1.96 or an approximate 2.0.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p><strong>Approximate prediction intervals:</strong> The simplified <span class="math inline">\(\bar{x} \pm z \cdot s\)</span> formula used above is an approximation. A statistically rigorous 95% prediction interval, especially for smaller samples, needs two corrections.</p>
+<p>First, we would use the <strong>t-distribution</strong> with the quantile <span class="math inline">\(t_{\alpha/2, n-1}\)</span> (or <code>qt(alpha/2, n-1)</code> in R) instead of the normal quantiles (<span class="math inline">\(\pm 1.96\)</span>). Then we add a term <span class="math inline">\(\sqrt{1+1/N}\)</span> that corrects for the sample parameters. The full formula for a single future observation is then:</p>
+<p><span class="math display">\[\text{PI} = \bar{x} \pm t_{\alpha/2, n-1} \cdot s \cdot \sqrt{1 + \frac{1}{N}}\]</span></p>
+<p>The prediction interval is related to the so-called “tolerance interval”. Both are the same if the population parameters <span class="math inline">\(\mu, \sigma\)</span> are known or the sample size is very big. However, there are theoretical and practical differences in case of small sample size.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p><strong>Limitations of the CLT</strong> Note that for strongly skewed data — especially with small sample sizes — the confidence interval of the mean can be biased, because the sample mean and the sample variance are then correlated, so that the central limit theorem only applies slowly. In such cases it is recommended to transform the data (e.g., log-transform), calculate mean and CI on the transformed scale, and back-transform the results to the original scale afterwards.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p><strong>Two sigma rule:</strong> Compare the t-quantile <code>qt</code> with the normal quantile 1.96 or an approximate 2.0.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

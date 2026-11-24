@@ -11,7 +11,7 @@ The lab exercises are found on: https://tpetzoldt.github.io/element-labs/ and th
 
 ## Status
 
-The selection of material is work in progress. Additional material will appear until end of January 2025. Then it will be decided about the most suitable creative common license. Feedback and comments are welcome.
+The selection of material is work in progress and will be updated regularly. A creative common license will be applied to the material. Feedback and comments are welcome.
 
 
 ## Author
@@ -20,4 +20,4 @@ https://tu-dresden.de/Members/thomas.petzoldt
 
 https://github.com/tpetzoldt
 
-2024-10-21
+2026-11-24

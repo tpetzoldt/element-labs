@@ -5,7 +5,6 @@ project:
     - "*.qmd"
     - "qmd/*.qmd"
   
-
 website:
   title: "Elements of Data Analysis and Statistics - Lab Exercises"
   sidebar:
@@ -23,20 +22,16 @@ website:
           - qmd/08-vollenweider-chl-tp.qmd
           - qmd/09-clementines-anova.qmd
           - qmd/10-nonlinear-regression.qmd
+          - qmd/10-nonlinear-regression-solution.qmd
           - qmd/12-timeseries-trends.qmd
           - qmd/13-timeseries-breakpoints.qmd
           - qmd/14-flood-risk.qmd
           - qmd/15-multivariate-lakes.qmd
+          - qmd/15-multivariate-lakes-solution.qmd
           - qmd/16-multivariate-small-streams.qmd
           - qmd/17-drawing-maps.qmd
-      - section: Projects
-        contents:
-          - qmd/03-discharge-elbe-project.qmd
-      - section: Solutions
-        contents:
-          - qmd/10-nonlinear-regression-solution.qmd
-          - qmd/15-multivariate-lakes-solution.qmd
-          
+      - qmd/03-discharge-elbe-project.qmd
+
 format:
   html:
     theme: cosmo
